@@ -16,7 +16,7 @@
             <link rel="icon" href="{{ Vite::asset('resources/images/favicons/favicon.ico') }}" sizes="48x48" >
             <link rel="icon" href="{{ Vite::asset('resources/images/kolonia_icon.svg') }}" sizes="any" type="image/svg+xml">
             <link rel="apple-touch-icon" href="{{ Vite::asset('resources/images/favicons/apple-icon-180x180.png') }}">
-            <link rel="manifest" href="{{ Vite::asset('resources/images/favicons/manifest.json') }}">
+{{--            <link rel="manifest" href="{{ Vite::asset('resources/images/favicons/manifest.json') }}">--}}
 
 
         @else
