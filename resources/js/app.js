@@ -1,5 +1,6 @@
 import './bootstrap';
 
 import.meta.glob([
-    '../images/**'
+    '../images/**',
+    '../images/favicons/**',
 ])
