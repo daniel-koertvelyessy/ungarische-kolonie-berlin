@@ -32,53 +32,64 @@
     >
     {{--            <link rel="manifest" href="{{ Vite::asset('resources/images/favicons/manifest.json') }}">--}}
 
-
+    @fluxStyles
 </head>
 <body class="font-sans antialiased">
 <div class="bg-zinc-50 text-black/50 dark:bg-black dark:text-white/50">
     <div class="relative min-h-screen flex flex-col items-center justify-between selection:bg-[#FF2D20] selection:text-white">
         <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl pt-3 lg:pt-6">
+            <header class="flex justify-between items-center mb-6">
+                <div>
+                    <x-application-logo class="size-52" />
+
+                </div>
+
+                <img src="{{ Vite::asset('resources/images/magyar_cim.svg') }}"
+                     class="h-48"
+                     alt=""
+                >
+            </header>
             {{ $slot }}
         </div>
         <footer class="py-16 text-center text-sm text-black dark:text-white/70">
-            <a href="/"
-               class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-            >Start
-            </a>
-            <a href="{{ route('impressum') }}"
-               class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-            >Impressum
-            </a>
-            @if (Route::has('login'))
 
-                @auth
-                    <a
-                        href="{{ url('/dashboard') }}"
-                        class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-                    >
-                        Dashboard
-                    </a>
-                @else
-                    <a
-                        href="{{ route('login') }}"
-                        class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-                    >
-                        Log in
-                    </a>
+            <flux:navbar>
+                <flux:navbar.item wire:navigate href="/">{{__('app.home')}}</flux:navbar.item>
+                <flux:navbar.item wire:navigate href="{{ route('impressum') }}">{{__('app.imprint')}}</flux:navbar.item>
 
-                    {{--                                    @if (Route::has('register'))--}}
-                    {{--                                        <a--}}
-                    {{--                                            href="{{ route('register') }}"--}}
-                    {{--                                            class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"--}}
-                    {{--                                        >--}}
-                    {{--                                            Register--}}
-                    {{--                                        </a>--}}
-                    {{--                                    @endif--}}
-                @endauth
+                <flux:dropdown>
+                    <flux:navbar.item icon-trailing="chevron-down">{{__('app.locale')}}</flux:navbar.item>
 
-            @endif
-            <x-lang-selector />
+                    <flux:navmenu>
+                        @foreach (\App\Enums\Locale::toArray() as $locale)
+                            <flux:navmenu.item wire:navigate href="{{url('/lang/'.$locale)}}">{{ strtoupper($locale) }}</flux:navmenu.item>
+                        @endforeach
+
+                    </flux:navmenu>
+
+
+                </flux:dropdown>
+                @if (Route::has('login'))
+
+                    @auth
+                        <flux:navbar.item wire:navigate href="{{ url('/dashboard') }}">{{__('app.dashboard')}}</flux:navbar.item>
+                    @else
+                        <flux:navbar.item wire:navigate href="{{ route('login') }}">{{__('app.gotologin')}}</flux:navbar.item>
+
+
+                        {{--                                    @if (Route::has('register'))--}}
+                        {{--                                        <a--}}
+                        {{--                                            href="{{ route('register') }}"--}}
+                        {{--                                            class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"--}}
+                        {{--                                        >--}}
+                        {{--                                            Register--}}
+                        {{--                                        </a>--}}
+                        {{--                                    @endif--}}
+                    @endauth
+
+                @endif
+            </flux:navbar>
         </footer>
-        @livewireScripts
+        @fluxScripts
     </body>
 </html>

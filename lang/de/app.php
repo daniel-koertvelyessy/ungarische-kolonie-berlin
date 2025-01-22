@@ -2,5 +2,10 @@
 
 return [
     "welcome" => "Willkommen",
-    "locale" => "Sprache"
+    "locale" => "Sprache",
+    "home" => "Startseite",
+    "imprint" => "Impressum",
+    "dashboard" => "Übersicht",
+    "gotologin" => "Anmeldung",
+
 ];
