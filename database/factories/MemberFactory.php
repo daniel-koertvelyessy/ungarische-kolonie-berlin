@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Enums\Gender;
+use App\Enums\MemberType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,8 +18,25 @@ class MemberFactory extends Factory
      */
     public function definition(): array
     {
+
+        $gen= Gender::ma;
         return [
-            //
+            'entered_at' => fake()->dateTimeBetween('-55 years','now')->format('Y-m-d'),
+            'left_at' => null,
+            'is_discounted' => false,
+            'birth_date' => fake()->dateTimeBetween('-50 years', '-18 years')->format('Y-m-d'),
+            'name' => fake()->name($gen),
+            'first_name' => fake()->firstName($gen),
+            'email' => fake()->safeEmail,
+            'phone' => null,
+            'mobile' => fake()->phoneNumber,
+            'address' => fake()->streetAddress,
+            'city' => fake()->city,
+            'country' => fake()->country,
+            'gender' => $gen,
+            'type' => MemberType::ST,
+            'user_id' => null,
+
         ];
     }
 }

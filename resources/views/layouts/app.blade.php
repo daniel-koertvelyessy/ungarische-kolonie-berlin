@@ -50,11 +50,11 @@
         <flux:input as="button" variant="filled" placeholder="Search..." icon="magnifying-glass" />
 
         <flux:navlist variant="outline">
-            <flux:navlist.item icon="home" href="{{ route('dashboard') }}">{{ __('nav.dashboard') }}</flux:navlist.item>
-            <flux:navlist.item icon="users" badge="12" href="{{ #  }}">{{ __('nav.members') }}</flux:navlist.item>
-            <flux:navlist.item icon="newspaper" href="#">{{ __('nav.blogs') }}</flux:navlist.item>
-            <flux:navlist.item icon="calendar-days" href="#">{{ __('nav.events') }}</flux:navlist.item>
-            <flux:navlist.item icon="currency-euro" href="#">{{ __('nav.kasse') }}</flux:navlist.item>
+            <flux:navlist.item wire:navigate icon="home" href="{{ route('dashboard') }}">{{ __('nav.dashboard') }}</flux:navlist.item>
+            <flux:navlist.item wire:navigate icon="users" badge="12" href="{{ route('members')  }}">{{ __('nav.members') }}</flux:navlist.item>
+            <flux:navlist.item wire:navigate icon="newspaper" href="#">{{ __('nav.blogs') }}</flux:navlist.item>
+            <flux:navlist.item wire:navigate icon="calendar-days" href="#">{{ __('nav.events') }}</flux:navlist.item>
+            <flux:navlist.item wire:navigate icon="currency-euro" href="#">{{ __('nav.kasse') }}</flux:navlist.item>
         </flux:navlist>
 
         <flux:spacer />
@@ -70,11 +70,11 @@
             />
 
             <flux:menu>
-                <flux:menu.item icon="envelope">{{ __('nav.notifications') }}</flux:menu.item>
-                <flux:menu.item icon="user"
+                <flux:menu.item wire:navigate icon="envelope">{{ __('nav.notifications') }}</flux:menu.item>
+                <flux:menu.item wire:navigate icon="user"
                                 href="{{ route('profile.show') }}"
                 >{{ Auth::user()->first_name. ' '. Auth::user()->name }}</flux:menu.item>
-                <flux:menu.item icon="key" href="{{ route('api-tokens.index') }}">{{ __('nav.profile.api') }}</flux:menu.item>
+                <flux:menu.item wire:navigate icon="key" href="{{ route('api-tokens.index') }}">{{ __('nav.profile.api') }}</flux:menu.item>
 
 
                 <flux:menu.separator/>
@@ -84,7 +84,7 @@
                 >
                     @csrf
 
-                    <flux:button type="submit" icon="arrow-right-start-on-rectangle">{{ __('nav.logout') }}</flux:button>
+                    <flux:button type="submit" variant="ghost" icon="arrow-right-start-on-rectangle">{{ __('nav.logout') }}</flux:button>
                 </form>
 
 

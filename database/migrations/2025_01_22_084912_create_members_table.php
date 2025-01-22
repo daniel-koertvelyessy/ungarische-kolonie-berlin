@@ -14,6 +14,21 @@ return new class extends Migration
         Schema::create('members', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->date('entered_at')->nullable();
+            $table->date('left_at')->nullable();
+            $table->boolean('is_discounted')->default(false);
+            $table->dateTime('birth_date')->nullable();
+            $table->string('name');
+            $table->string('first_name')->nullable();
+            $table->string('email')->unique()->nullable();
+            $table->string('phone')->nullable();
+            $table->string('mobile')->nullable();
+            $table->string('address')->nullable();
+            $table->string('city')->nullable();
+            $table->string('country')->nullable();
+            $table->enum('gender',\App\Enums\Gender::toArray())->nullable()->default(\App\Enums\Gender::ma);
+            $table->enum('type',\App\Enums\MemberType::toArray())->default(\App\Enums\MemberType::ST);
+            $table->foreignIdFor(\App\Models\User::class)->nullable()->constrained()->nullOnDelete();
         });
     }
 
