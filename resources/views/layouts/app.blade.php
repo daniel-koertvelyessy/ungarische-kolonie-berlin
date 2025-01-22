@@ -5,7 +5,31 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>{{$title??'Magyar Kolónia Berlin e.V.'}}</title>
+
+        <!-- Fonts -->
+        <link rel="preconnect"
+              href="https://fonts.bunny.net"
+        >
+        <link href="https://fonts.bunny.net/css?family=inter:400,500,600&display=swap"
+              rel="stylesheet"
+        />
+
+        <!-- Styles / Scripts -->
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <link rel="icon"
+              href="{{ Vite::asset('resources/images/favicons/favicon.ico') }}"
+              sizes="48x48"
+        >
+        <link rel="icon"
+              href="{{ Vite::asset('resources/images/kolonia_icon.svg') }}"
+              sizes="any"
+              type="image/svg+xml"
+        >
+        <link rel="apple-touch-icon"
+              href="{{ Vite::asset('resources/images/favicons/apple-icon-180x180.png') }}"
+        >
+        {{--            <link rel="manifest" href="{{ Vite::asset('resources/images/favicons/manifest.json') }}">--}}
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -39,7 +63,6 @@
         </div>
 
         @stack('modals')
-
         @livewireScripts
     </body>
 </html>

@@ -7,9 +7,17 @@ use Illuminate\View\View;
 
 class AppLayout extends Component
 {
-    /**
-     * Get the view / contents that represents the component.
-     */
+    public string $title = 'Magyar Kolónia Berlin e.V.';
+
+    public function __construct(?string $title)
+    {
+        if ($title) {
+            $this->title = $title . ' | Magyar Kolónia Berlin e.V.';
+        } else {
+            $this->title = 'Magyar Kolónia Berlin e.V.';
+        }
+
+    }
     public function render(): View
     {
         return view('layouts.app');

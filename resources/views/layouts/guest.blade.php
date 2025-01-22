@@ -77,6 +77,7 @@
                 @endauth
 
             @endif
+            <x-lang-selector />
         </footer>
         @livewireScripts
     </body>

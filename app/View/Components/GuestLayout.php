@@ -12,7 +12,11 @@ class GuestLayout extends Component
 
     public function __construct(string $title)
     {
-        $this->title = $title . ' | Magyar Kolónia Berlin e.V.';
+        if ($title) {
+            $this->title = $title . ' | Magyar Kolónia Berlin e.V.';
+        } else {
+            $this->title = 'Magyar Kolónia Berlin e.V.';
+        }
     }
 
     public function render(): View
