@@ -1,7 +1,7 @@
-<x-guest-layout>
+<x-guest-layout title="Anmeldung für Mitglieder">
     <x-authentication-card>
         <x-slot name="logo">
-            <x-authentication-card-logo />
+            <x-application-logo class="size-36" />
         </x-slot>
 
         <x-validation-errors class="mb-4" />

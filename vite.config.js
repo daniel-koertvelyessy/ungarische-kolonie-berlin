@@ -11,8 +11,5 @@ export default defineConfig({
             refresh: true,
         }),
     ],
-    // server: {
-    //     hmr: 'ungarische-kolonie-berlin.test', // set to whatever your host is
-    //     origin: 'http://ungarische-kolonie-berlin.test',  // set to whatever your host is
-    // },
+
 });
