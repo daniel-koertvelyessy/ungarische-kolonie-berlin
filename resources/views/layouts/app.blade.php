@@ -40,6 +40,7 @@
 
         <!-- Styles -->
         @fluxStyles
+        @livewireStyles
     </head>
     <body class="font-sans antialiased min-h-screen bg-white dark:bg-zinc-800">
     <flux:sidebar sticky stashable class="bg-zinc-50 dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-700">
@@ -51,7 +52,7 @@
 
         <flux:navlist variant="outline">
             <flux:navlist.item wire:navigate icon="home" href="{{ route('dashboard') }}">{{ __('nav.dashboard') }}</flux:navlist.item>
-            <flux:navlist.item wire:navigate icon="users" badge="12" href="{{ route('members')  }}">{{ __('nav.members') }}</flux:navlist.item>
+            <flux:navlist.item wire:navigate icon="users" badge="{{$counter??0}}" href="{{ route('members')  }}">{{ __('nav.members') }}</flux:navlist.item>
             <flux:navlist.item wire:navigate icon="newspaper" href="#">{{ __('nav.blogs') }}</flux:navlist.item>
             <flux:navlist.item wire:navigate icon="calendar-days" href="#">{{ __('nav.events') }}</flux:navlist.item>
             <flux:navlist.item wire:navigate icon="currency-euro" href="#">{{ __('nav.kasse') }}</flux:navlist.item>
@@ -130,6 +131,7 @@
     </flux:main>
 
     @fluxScripts
+    @livewireScripts
 
     </body>
 </html>

@@ -41,7 +41,13 @@
                     <flux:cell class=" hidden sm:table-cell" variant="strong">{{ $member->birth_date }}</flux:cell>
 
                     <flux:cell>
-                        <flux:button variant="ghost" size="sm" icon="ellipsis-horizontal" inset="top bottom"></flux:button>
+                        <flux:dropdown :key="$member->id">
+                            <flux:button variant="ghost" size="sm" icon="ellipsis-horizontal" inset="top bottom"></flux:button>
+
+                            <flux:menu>
+                                <flux:menu.item icon="plus">New post</flux:menu.item>
+                            </flux:menu>
+                        </flux:dropdown>
                     </flux:cell>
                 </flux:row>
             @endforeach
