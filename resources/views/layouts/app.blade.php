@@ -39,30 +39,97 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
         <!-- Styles -->
-        @livewireStyles
+        @fluxStyles
     </head>
-    <body class="font-sans antialiased">
-        <x-banner />
+    <body class="font-sans antialiased min-h-screen bg-white dark:bg-zinc-800">
+    <flux:sidebar sticky stashable class="bg-zinc-50 dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-700">
+        <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
 
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-            @livewire('navigation-menu')
+        <flux:brand href="/" logo="{{ Vite::asset('resources/images/kolonia_icon.svg') }}" name="Kolonia" class="px-2" />
 
-            <!-- Page Heading -->
-            @if (isset($header))
-                <header class="bg-white dark:bg-gray-800 shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endif
+        <flux:input as="button" variant="filled" placeholder="Search..." icon="magnifying-glass" />
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
-        </div>
+        <flux:navlist variant="outline">
+            <flux:navlist.item icon="home" href="{{ route('dashboard') }}">{{ __('nav.dashboard') }}</flux:navlist.item>
+            <flux:navlist.item icon="users" badge="12" href="{{ #  }}">{{ __('nav.members') }}</flux:navlist.item>
+            <flux:navlist.item icon="newspaper" href="#">{{ __('nav.blogs') }}</flux:navlist.item>
+            <flux:navlist.item icon="calendar-days" href="#">{{ __('nav.events') }}</flux:navlist.item>
+            <flux:navlist.item icon="currency-euro" href="#">{{ __('nav.kasse') }}</flux:navlist.item>
+        </flux:navlist>
 
-        @stack('modals')
-        @livewireScripts
+        <flux:spacer />
+
+
+
+        <flux:dropdown position="top"
+                       align="start"
+                       class="max-lg:hidden"
+        >
+            <flux:profile avatar="{{ Auth::user()->profile_photo_url }}"
+                          name="{{ Auth::user()->username }}"
+            />
+
+            <flux:menu>
+                <flux:menu.item icon="envelope">{{ __('nav.notifications') }}</flux:menu.item>
+                <flux:menu.item icon="user"
+                                href="{{ route('profile.show') }}"
+                >{{ Auth::user()->first_name. ' '. Auth::user()->name }}</flux:menu.item>
+                <flux:menu.item icon="key" href="{{ route('api-tokens.index') }}">{{ __('nav.profile.api') }}</flux:menu.item>
+
+
+                <flux:menu.separator/>
+
+                <form method="POST"
+                      action="{{ route('logout') }}"
+                >
+                    @csrf
+
+                    <flux:button type="submit" icon="arrow-right-start-on-rectangle">{{ __('nav.logout') }}</flux:button>
+                </form>
+
+
+            </flux:menu>
+        </flux:dropdown>
+    </flux:sidebar>
+
+    <flux:header class="lg:hidden">
+        <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
+
+        <flux:spacer />
+
+        <flux:dropdown position="top" alignt="start">
+            <flux:profile avatar="{{ Auth::user()->profile_photo_url }}"
+                          name="{{ Auth::user()->username }}"
+            />
+
+            <flux:menu>
+                <flux:menu.item icon="envelope">{{ __('nav.notifications') }}</flux:menu.item>
+                <flux:menu.item icon="user"
+                                href="{{ route('profile.show') }}"
+                >{{ Auth::user()->first_name. ' '. Auth::user()->name }}</flux:menu.item>
+                <flux:menu.item icon="key" href="{{ route('api-tokens.index') }}">{{ __('nav.profile.api') }}</flux:menu.item>
+
+
+                <flux:menu.separator/>
+
+                <form method="POST"
+                      action="{{ route('logout') }}"
+                >
+                    @csrf
+
+                    <flux:button type="submit" icon="arrow-right-start-on-rectangle">{{ __('nav.logout') }}</flux:button>
+                </form>
+
+
+            </flux:menu>
+        </flux:dropdown>
+    </flux:header>
+
+    <flux:main>
+    {{ $slot }}
+    </flux:main>
+
+    @fluxScripts
+
     </body>
 </html>

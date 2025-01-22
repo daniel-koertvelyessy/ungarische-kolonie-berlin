@@ -12,4 +12,14 @@ enum Locale:string
     {
         return array_column(Locale::cases(), 'value');
     }
+
+    public static function value(string $value): string{
+
+        return match ($value) {
+            'de' => __('app.locale.de'),
+            'hu' => __('app.locale.hu'),
+//          'diverse' => __('app.diverse'),
+        };
+
+    }
 }

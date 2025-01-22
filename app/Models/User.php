@@ -27,6 +27,11 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'first_name',
+        'gender',
+        'username',
+        'phone',
+        'mobile',
         'email',
         'password',
     ];
@@ -41,6 +46,7 @@ class User extends Authenticatable
         'remember_token',
         'two_factor_recovery_codes',
         'two_factor_secret',
+        'is_admin'
     ];
 
     /**
@@ -62,6 +68,12 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_admin' => 'boolean',
         ];
+    }
+
+    protected function defaultProfilePhotoUrl(): string
+    {
+        return 'https://ui-avatars.com/api/?name=' . urlencode($this->first_name. ' ' . $this->name) . '&color=7F9CF5&background=EBF4FF';
     }
 }

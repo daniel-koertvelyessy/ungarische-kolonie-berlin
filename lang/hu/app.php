@@ -3,6 +3,8 @@
 return [
     "welcome" => "Üdvözöljük",
     "locale" => "Nyelv",
+    "locale.de" => "Német",
+    "locale.hu" => "Magyar",
     "home" => "Kezdőlap",
     "imprint" => "Impresszum",
     "dashboard" => "Áttekintés",

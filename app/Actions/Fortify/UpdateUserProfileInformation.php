@@ -19,6 +19,12 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
     {
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
+            'first_name' => ['nullable', 'string', 'max:255'],
+            'username' => ['nullable', 'string', 'max:255'],
+            'phone' => ['nullable', 'string', 'max:255'],
+            'mobile' => ['nullable', 'string', 'max:255'],
+            'gender' => ['nullable', 'string', 'max:20'],
+            'locale' => ['nullable', 'string', 'max:2'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
         ])->validateWithBag('updateProfileInformation');
@@ -31,9 +37,17 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             $user instanceof MustVerifyEmail) {
             $this->updateVerifiedUser($user, $input);
         } else {
+            app()->setLocale($input['locale']);
+            session()->put('locale', $input['locale']);
             $user->forceFill([
                 'name' => $input['name'],
                 'email' => $input['email'],
+                'first_name' => $input['first_name'],
+                'username' => $input['username'],
+                'phone' => $input['phone'],
+                'mobile' => $input['mobile'],
+                'gender' => $input['gender'],
+                'locale' => $input['locale'],
             ])->save();
         }
     }

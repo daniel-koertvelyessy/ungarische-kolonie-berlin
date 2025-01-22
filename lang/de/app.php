@@ -2,7 +2,11 @@
 
 return [
     "welcome" => "Willkommen",
+    "male" => "Mann",
+    "female" => "Frau",
     "locale" => "Sprache",
+    "locale.de" => "Deutsch",
+    "locale.hu" => "Ungarisch",
     "home" => "Startseite",
     "imprint" => "Impressum",
     "dashboard" => "Übersicht",
