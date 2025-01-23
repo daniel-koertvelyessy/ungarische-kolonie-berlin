@@ -26,6 +26,7 @@ Route::middleware([
 
 
     Route::get('/members', \App\Livewire\Member\Index\Page::class)->name('members');
+    Route::get('/members/{member}', \App\Livewire\Member\Show\Page::class)->name('members.show');
 
 
     Route::get('/dashboard', function () {

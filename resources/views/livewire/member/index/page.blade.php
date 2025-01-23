@@ -1,28 +1,13 @@
-<div>
+<div class="space-y-6">
 
-    entered_at
-    left_at
-    is_discounted
-    birth_date
-    name
-    first_name
-    email
-    phone
-    mobile
-    address
-    city
-    country
-    gender
-    type
-    User
-
-    <flux:heading size="xl">Übersicht der Mitglieder</flux:heading>
+    <flux:heading size="xl">{{ __('members.title') }}</flux:heading>
+    <flux:text>{{ __('members.header') }}</flux:text>
     <flux:table :paginate="$this->members">
         <flux:columns>
-            <flux:column sortable :sorted="$sortBy === 'name'" :direction="$sortDirection" wire:click="sort('name')">Name</flux:column>
-            <flux:column sortable :sorted="$sortBy === 'mobile'" :direction="$sortDirection" wire:click="sort('mobile')" class="hidden sm:table-cell">Mobil</flux:column>
-            <flux:column sortable :sorted="$sortBy === 'status'" :direction="$sortDirection" wire:click="sort('status')" class="hidden sm:table-cell">Status</flux:column>
-            <flux:column sortable :sorted="$sortBy === 'birth_date'" :direction="$sortDirection" wire:click="sort('birth_date')" class="hidden sm:table-cell">Geburtstag</flux:column>
+            <flux:column sortable :sorted="$sortBy === 'name'" :direction="$sortDirection" wire:click="sort('name')">{{ __('members.table.header.name') }}</flux:column>
+            <flux:column sortable :sorted="$sortBy === 'mobile'" :direction="$sortDirection" wire:click="sort('mobile')" class="hidden sm:table-cell">{{ __('members.table.header.phone') }}</flux:column>
+            <flux:column sortable :sorted="$sortBy === 'status'" :direction="$sortDirection" wire:click="sort('status')" class="hidden sm:table-cell">{{ __('members.table.header.birthday') }}</flux:column>
+            <flux:column sortable :sorted="$sortBy === 'birth_date'" :direction="$sortDirection" wire:click="sort('birth_date')" class="hidden sm:table-cell">{{ __('members.table.header.status') }}</flux:column>
         </flux:columns>
 
         <flux:rows>
@@ -45,7 +30,9 @@
                             <flux:button variant="ghost" size="sm" icon="ellipsis-horizontal" inset="top bottom"></flux:button>
 
                             <flux:menu>
-                                <flux:menu.item icon="plus">New post</flux:menu.item>
+                                <flux:menu.item href="{{ route('members.show',$member) }}" icon="pencil">{{ __('members.con.men.edit') }}</flux:menu.item>
+                                <flux:menu.item icon="currency-euro">{{ __('members.con.men.payment') }}</flux:menu.item>
+                                <flux:menu.item icon="trash">{{ __('members.con.men.delete') }}</flux:menu.item>
                             </flux:menu>
                         </flux:dropdown>
                     </flux:cell>

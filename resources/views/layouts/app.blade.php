@@ -40,7 +40,6 @@
 
         <!-- Styles -->
         @fluxStyles
-        @livewireStyles
     </head>
     <body class="font-sans antialiased min-h-screen bg-white dark:bg-zinc-800">
     <flux:sidebar sticky stashable class="bg-zinc-50 dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-700">
@@ -52,10 +51,10 @@
 
         <flux:navlist variant="outline">
             <flux:navlist.item wire:navigate icon="home" href="{{ route('dashboard') }}">{{ __('nav.dashboard') }}</flux:navlist.item>
-            <flux:navlist.item wire:navigate icon="users" badge="{{$counter??0}}" href="{{ route('members')  }}">{{ __('nav.members') }}</flux:navlist.item>
-            <flux:navlist.item wire:navigate icon="newspaper" href="#">{{ __('nav.blogs') }}</flux:navlist.item>
-            <flux:navlist.item wire:navigate icon="calendar-days" href="#">{{ __('nav.events') }}</flux:navlist.item>
-            <flux:navlist.item wire:navigate icon="currency-euro" href="#">{{ __('nav.kasse') }}</flux:navlist.item>
+            <flux:navlist.item wire:navigate icon="users" badge="{{$counter??0}}" href="{{ route('members')  }}" :current="request()->is('members*')">{{ __('nav.members') }}</flux:navlist.item>
+            <flux:navlist.item wire:navigate icon="newspaper" href="#" :current="request()->is('blogs*')">{{ __('nav.blogs') }}</flux:navlist.item>
+            <flux:navlist.item wire:navigate icon="calendar-days" href="#" :current="request()->is('events*')">{{ __('nav.events') }}</flux:navlist.item>
+            <flux:navlist.item wire:navigate icon="currency-euro" href="#" :current="request()->is('kasse*')">{{ __('nav.kasse') }}</flux:navlist.item>
         </flux:navlist>
 
         <flux:spacer />
@@ -129,9 +128,6 @@
     <flux:main>
     {{ $slot }}
     </flux:main>
-
     @fluxScripts
-    @livewireScripts
-
     </body>
 </html>
