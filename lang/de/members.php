@@ -15,5 +15,12 @@ return [
     "show.title" => "Übersicht Mitglied: :name",
     "show.heading" => "",
 
-    "" => '',
+    "show.attached.success.head" => 'Erfolg!',
+    "show.attached.success.msg" => 'Der Benutzer :name wurde erfolgreich verknüpft.',
+    "show.detached.success.head" => 'Erfolg!',
+    "show.detached.success.msg" => 'Die Verknüpfung zum Benutzer :name wurde erfolgreich entfernt.',
+
+    "show.attached.placeholder" => 'Benutzer auswählen',
+    "show.attached.failed.head" => 'Fehler!',
+    "show.attached.failed.msg" => 'Der Benutzer konnte nicht verknüpft werden',
 ];

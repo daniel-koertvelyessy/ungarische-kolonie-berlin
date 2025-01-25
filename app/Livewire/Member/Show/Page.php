@@ -3,13 +3,18 @@
 namespace App\Livewire\Member\Show;
 
 use App\Models\Member;
+use App\Models\User;
+use Flux\Flux;
 use Livewire\Component;
 
 class Page extends Component
 {
 
+    public $users;
+    public int $newUser = 0;
     public Member $member;
     public int $member_id;
+
 
     public $entered_at;
     public $left_at;
@@ -29,13 +34,15 @@ class Page extends Component
 
     public function mount(Member $member):void
     {
+
         $this->member = $member;
         $this->populate();
+
+        $this->users = User::select('id','name')->get();
 
     }
 
     protected function populate(): void{
-
         $this->entered_at = $this->member->entered_at;
         $this->left_at = $this->member->left_at;
         $this->is_discounted = $this->member->is_discounted;
@@ -53,11 +60,47 @@ class Page extends Component
 
     }
 
-    public function detachUser(int $user_id): void
+    public function detachUser(int $userid): void
     {
-        if ($this->user_id === $user_id) {
+
+        if ($this->user_id === $userid) {
+            $this->member->user_id = null;
             $this->user_id = null;
+            if ($this->member->save()){
+                Flux::toast(
+                    heading: __('members.show.detached.success.head'),
+                    text: __('members.show.detached.success.msg', ['name' => $this->member->name]),
+                    variant: 'success',
+                );
+            }
         }
+    }
+
+    public function attachUser(): void
+    {
+
+        if($this->newUser > 0) {
+            $getUser = User::find($this->newUser);
+            if ($getUser->id === $this->newUser) {
+                $this->member->user_id = $this->newUser;
+                if($this->member->save()){
+                    Flux::toast(
+                        heading: __('members.show.attached.success.head'),
+                        text: __('members.show.attached.success.msg', ['name' => $getUser->name]),
+                        variant: 'success',
+                    );
+                    $this->user_id = $this->newUser;
+                }
+            } else {
+                Flux::toast(
+                    heading: __('members.show.attached.failed.head'),
+                    text: __('members.show.attached.failed.msg'),
+                    variant: 'danger',
+                );
+            }
+        }
+
+
     }
 
     public function render()

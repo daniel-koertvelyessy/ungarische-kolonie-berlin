@@ -3,7 +3,7 @@
     <flux:heading size="xl">{{ __('members.show.title',['name' => $member->first_name . ' ' . $member->name]) }}</flux:heading>
     <flux:text size="sm">Erstellt am: {{ $member->created_at }} | Zuletzt bearbeitet am: {{ $member->updated_at }}</flux:text>
 
-
+{{ $this->member }}
     <flux:tab.group>
         <flux:tabs>
             <flux:tab name="profile"
@@ -54,18 +54,25 @@
                     <flux:input wire:model="mobile"
                                 label="Mobil"
                     />
-
                     @if($user_id)
-                        <flux:label>verknüft mit Benutzer {{ \App\Models\User::find($user_id)->username }}</flux:label>
-                        <flux:button size="sm" square wire:click="detachUser($user_id)">
+                        <flux:label>verknüft mit Benutzer {{ \App\Models\User::find($user_id)->name }}</flux:label>
+                        <flux:button size="sm" square wire:click="detachUser({{$user_id}})">
                             <flux:icon.trash variant="micro" class="text-red-500 dark:text-red-300" />
                         </flux:button>
                     @else
+                        <flux:select variant="listbox" wire:model="newUser" searchable placeholder="{{ __('members.show.attached.placeholder') }}">
+                            <flux:option wire:key="0" value="0">Benutzer wählen</flux:option>
+                        @forelse($users as $user)
+                                <flux:option wire:key="{{ $user->id }}" value="{{ $user->id }}">{{ $user->name }}</flux:option>
+                            @empty
+                                <flux:option wire:key="0" value="0">Keine Benutzer gefunden</flux:option>
 
-                        mit Konto verknüpfen
-
+                        @endforelse
+                        </flux:select>
+                        <flux:button size="sm" square wire:click="attachUser">
+                            <flux:icon.user-plus variant="micro" class="text-emerald-500 dark:text-emerald-300" />
+                        </flux:button>
                     @endif
-
                 </flux:card>
             </form>
 

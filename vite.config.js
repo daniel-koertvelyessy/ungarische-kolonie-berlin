@@ -11,5 +11,8 @@ export default defineConfig({
             refresh: true,
         }),
     ],
-
+    server: {
+        cors: true, // Aktiviert die CORS-Header
+        host: '0.0.0.0', // Sicherstellen, dass der Server korrekt zugreifbar ist
+    },
 });

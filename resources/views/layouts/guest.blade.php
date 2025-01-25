@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
+      class="scroll-smooth"
+>
 <head>
     <meta charset="utf-8">
     <meta name="viewport"
@@ -17,7 +19,9 @@
     />
 
     <!-- Styles / Scripts -->
+    @fluxStyles
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     <link rel="icon"
           href="{{ Vite::asset('resources/images/favicons/favicon.ico') }}"
           sizes="48x48"
@@ -32,7 +36,7 @@
     >
     {{--            <link rel="manifest" href="{{ Vite::asset('resources/images/favicons/manifest.json') }}">--}}
 
-    @fluxStyles
+
 </head>
 <body class="font-sans antialiased">
 <div class="bg-zinc-50 text-black/50 dark:bg-black dark:text-white/50">
@@ -40,7 +44,7 @@
         <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl pt-3 lg:pt-6">
             <header class="flex justify-between items-center mb-6">
                 <div>
-                    <x-application-logo class="size-52" />
+                    <x-application-logo class="size-52"/>
 
                 </div>
 
@@ -54,15 +58,21 @@
         <footer class="py-16 text-center text-sm text-black dark:text-white/70">
 
             <flux:navbar>
-                <flux:navbar.item wire:navigate href="/">{{__('app.home')}}</flux:navbar.item>
-                <flux:navbar.item wire:navigate href="{{ route('impressum') }}">{{__('app.imprint')}}</flux:navbar.item>
+                <flux:navbar.item wire:navigate
+                                  href="/"
+                >{{__('app.home')}}</flux:navbar.item>
+                <flux:navbar.item wire:navigate
+                                  href="{{ route('impressum') }}"
+                >{{__('app.imprint')}}</flux:navbar.item>
 
                 <flux:dropdown>
                     <flux:navbar.item icon-trailing="chevron-down">{{__('app.locale')}}</flux:navbar.item>
 
                     <flux:navmenu>
                         @foreach (\App\Enums\Locale::toArray() as $locale)
-                            <flux:navmenu.item wire:navigate href="{{url('/lang/'.$locale)}}">{{ strtoupper($locale) }}</flux:navmenu.item>
+                            <flux:navmenu.item wire:navigate
+                                               href="{{url('/lang/'.$locale)}}"
+                            >{{ strtoupper($locale) }}</flux:navmenu.item>
                         @endforeach
 
                     </flux:navmenu>
@@ -72,9 +82,13 @@
                 @if (Route::has('login'))
 
                     @auth
-                        <flux:navbar.item wire:navigate href="{{ url('/dashboard') }}">{{__('app.dashboard')}}</flux:navbar.item>
+                        <flux:navbar.item wire:navigate
+                                          href="{{ url('/dashboard') }}"
+                        >{{__('app.dashboard')}}</flux:navbar.item>
                     @else
-                        <flux:navbar.item wire:navigate href="{{ route('login') }}">{{__('app.gotologin')}}</flux:navbar.item>
+                        <flux:navbar.item wire:navigate
+                                          href="{{ route('login') }}"
+                        >{{__('app.gotologin')}}</flux:navbar.item>
 
 
                         {{--                                    @if (Route::has('register'))--}}
@@ -90,6 +104,6 @@
                 @endif
             </flux:navbar>
         </footer>
-        @fluxScripts
-    </body>
+@fluxScripts
+</body>
 </html>
