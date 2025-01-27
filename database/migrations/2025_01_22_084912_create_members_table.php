@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('members', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->date('applied_at');
             $table->date('entered_at')->nullable();
             $table->date('left_at')->nullable();
             $table->boolean('is_discounted')->default(false);

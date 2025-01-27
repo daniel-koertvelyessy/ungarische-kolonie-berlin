@@ -19,6 +19,7 @@
     />
 
     <!-- Styles / Scripts -->
+    @turnstileScripts()
     @fluxStyles
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -126,7 +127,7 @@
                 >{{__('app.about-us')}}</flux:navbar.item>
 
                 <flux:navbar.item wire:navigate
-                                  href="{{ route('about-us') }}"
+                                  href="{{ route('become-a-member') }}"
                 >{{__('app.become-member')}}</flux:navbar.item>
 
                 <flux:navbar.item wire:navigate

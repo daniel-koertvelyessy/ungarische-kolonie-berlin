@@ -79,9 +79,7 @@ Route::get('/der-verein',function (){
     return view('about-us');
 })->name('about-us');
 
-Route::get('/werde-mitglied',function (){
-    return view('become-a-member');
-})->name('become-a-member');
+Route::get('/werde-mitglied', \App\Livewire\Member\Apply\Page::class)->name('become-a-member');
 
 Route::middleware([
     'auth:sanctum',
