@@ -2,6 +2,7 @@
 
 use App\Models\Event;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 
@@ -79,7 +80,7 @@ Route::get('/der-verein',function (){
     return view('about-us');
 })->name('about-us');
 
-Route::get('/werde-mitglied', \App\Livewire\Member\Apply\Page::class)->name('become-a-member');
+Route::get('/mitglied-werden', \App\Livewire\Member\Apply\Page::class)->name('members.application');
 
 Route::middleware([
     'auth:sanctum',
@@ -96,4 +97,12 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+});
+
+
+Route::get('/testroute', function() {
+    $name = "Funny Coder";
+
+    // The email sending is done using the to method on the Mail facade
+    Mail::to('daniel@thermo-control.com')->send(new \App\Mail\MailMemberApplication($name));
 });

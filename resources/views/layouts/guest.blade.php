@@ -69,7 +69,7 @@
                     <flux:navlist.item wire:navigate href="{{ route('events') }}" >{{__('app.events')}}</flux:navlist.item>
                     <flux:navlist.item wire:navigate href="{{ route('events') }}" >{{__('app.blog')}}</flux:navlist.item>
                     <flux:navlist.item wire:navigate href="{{ route('about-us') }}" >{{__('app.about-us')}}</flux:navlist.item>
-                    <flux:navlist.item wire:navigate href="{{ route('become-a-member') }}" >{{__('app.become-member')}}</flux:navlist.item>
+                    <flux:navlist.item wire:navigate href="{{ route('members.application') }}" >{{__('app.become-member')}}</flux:navlist.item>
                     <flux:separator />
                     <flux:navlist.item wire:navigate href="{{ route('impressum') }}" >{{__('app.imprint')}}</flux:navlist.item>
 
@@ -127,7 +127,7 @@
                 >{{__('app.about-us')}}</flux:navbar.item>
 
                 <flux:navbar.item wire:navigate
-                                  href="{{ route('become-a-member') }}"
+                                  href="{{ route('members.application') }}"
                 >{{__('app.become-member')}}</flux:navbar.item>
 
                 <flux:navbar.item wire:navigate

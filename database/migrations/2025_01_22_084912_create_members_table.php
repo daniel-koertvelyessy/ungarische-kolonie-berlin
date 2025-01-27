@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->date('applied_at');
+            $table->date('verified_at')->nullable();
             $table->date('entered_at')->nullable();
             $table->date('left_at')->nullable();
             $table->boolean('is_discounted')->default(false);

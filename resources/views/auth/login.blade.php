@@ -15,7 +15,7 @@
                 <flux:field>
                     <div class="mb-3 flex justify-between">
                         <flux:label>{{ __('app.login.password.label') }}</flux:label>
-                        <flux:link href="#" variant="subtle" class="text-sm">{{ __('app.login.forgot_password.label') }}</flux:link>
+                        <flux:link href="{{ route('password.request') }}" variant="subtle" class="text-sm">{{ __('app.login.forgot_password.label') }}</flux:link>
                     </div>
 
                     <flux:input name="password" type="password" required />
@@ -27,7 +27,7 @@
             <div class="space-y-2 mt-6">
                 <flux:button type="submit" variant="primary" >{{ __('app.login.btn.login.label') }}</flux:button>
                 @if (Route::has('register'))
-                <flux:button variant="ghost" >{{ __('app.login.btn.register.label') }}</flux:button>
+                <flux:button variant="ghost" href="{{ route('register') }}" >{{ __('app.login.btn.register.label') }}</flux:button>
                 @endif
             </div>
         </form>

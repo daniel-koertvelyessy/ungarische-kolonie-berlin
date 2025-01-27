@@ -21,6 +21,7 @@ class MemberFactory extends Factory
 
         $gen= Gender::ma;
         return [
+            'applied_at' => fake()->dateTimeBetween('-55 years','now')->format('Y-m-d'),
             'entered_at' => fake()->dateTimeBetween('-55 years','now')->format('Y-m-d'),
             'left_at' => null,
             'is_discounted' => false,

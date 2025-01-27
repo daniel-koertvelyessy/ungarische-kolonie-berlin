@@ -12,6 +12,27 @@ return [
     "con.men.payment"       => 'Einzahlung',
     "con.men.delete"        => 'Löschen',
 
+    "apply.discount.label" => "Ich beantrage einen reduzierten Mitgliedsbeitrag",
+    "apply.discount.reason.label" => "Grund der Befreiung",
+    "birth_date" => "Geburtstag",
+    "name" => "Nachname",
+    "first_name" => "Vorname",
+    "email" => "E-Mail",
+    "phone" => "Festnetz",
+    "mobile" => "Mobil",
+    "address" => "Adresse",
+    "city" => "Stadt",
+    "country" => "Land",
+    "locale" => "Bevorzugte Sprache",
+    "gender" => "Geschlecht",
+
+    "section.person" => "Person",
+    "section.address" => "Anschrift",
+    "section.phone" => "Telefonieren",
+    "section.fees" => "Mitgliedsbeiträge",
+    "section.email" => "E-Mail Adresse",
+
+
     "show.title"   => "Übersicht Mitglied: :name",
     "show.heading" => "",
 
@@ -32,6 +53,9 @@ return [
     "apply.via.web" => "Versand per Web",
     "apply.via.postal" => "Versand per Post",
 
+    "apply.email.note.header" => "Wichtig!",
+    "apply.email.note.content" => "Zum Versand über das Webprogramm muss Ihre E-Mail-Adresse angegeben werden. Wenn Sie keine E-Mail-Adresse besitzen, müssen Sie den Postweg wählen.",
+
     "apply.step2.label" => "Schritt 2",
     "apply.step2.text" => "Prüfen Sie Ihre Angaben",
     "apply.click.button" => "Klicken Sie auf den Knopf",
@@ -43,16 +67,26 @@ return [
     "apply.step3b.label" => "Schritt 3b",
 
 
-    "apply.step1.label" => "Schritt 1",
-    "apply.step1.text" => "Füllen Sie als ersten Schritt das unten stehende Formular aus.",
+    "apply.step4a.label" => "Schritt 4a",
+    "apply.step4a.text" => "Sie erhalten eine E-Mail vom System mit einem einmaligen Bestätigungslink.",
+    "apply.step4b.label" => "Schritt 4b",
+    "apply.step4b.text" => "Klicken Sie um auf Knopf [Formular ausdrucken] eine PDF-Version des Formulars zu erstellen",
 
-    "apply.step1.label" => "Schritt 1",
-    "apply.step1.text" => "Füllen Sie als ersten Schritt das unten stehende Formular aus.",
+    "apply.step5a.label" => "Schritt 5a",
+    "apply.step5a.text" => "Mit einem Klick auf diesen Link bestätigen Sie, dass die Anmeldung tatsächlich von Ihnen stammt.",
 
-    "apply.step1.label" => "Schritt 1",
-    "apply.step1.text" => "Füllen Sie als ersten Schritt das unten stehende Formular aus.",
+    "apply.step5b.label" => "Schritt 5b",
+    "apply.step5b.text" => "Drucken Sie das Formular aus, unterschreiben und senden Sie es an die im Formular angegebene Adresse.",
 
-    "apply.fee.label"           => "Für zahlende Mitglieder wird ein Beitrag von 10,50 EUR pro Monat fällig. Mitglieder über 75 Jahre sind von Beitragszahlungen befreit.",
+    "apply.step6.label" => "Schritt 6",
+    "apply.step6.text" => "Wir prüfen Ihre Angaben und setzen uns persönlich in Verbindung, falls noch Informationen benötigt werden.",
+
+    "apply.step7.label" => "Schritt 7",
+    "apply.step7.text" => "Abschließend wird über Ihre Aufnahme im Leitungskreis entschieden und Sie auf dem ausgewählten Weg per E-Mail oder Post benachrichtigen.",
+
+
+
+    "apply.fee.label"           => "Für zahlende Mitglieder wird ein Beitrag von :sum EUR pro Monat fällig. Mitglieder über 75 Jahre sind von Beitragszahlungen befreit.",
     "apply.email.none"          => "Ich habe keine E-Mail Adresse!",
     "apply.email.without.text"  => "Wenn Sie keine E-Mail-Adresse haben, können Sie dieses Formular auch ausdrucken und unterschrieben per Post an folgende Adresse senden:",
     "apply.email.benefits"      => "Mitglieder mit einer E-Mail-Adresse erhalten automatisch Benachrichtigungen über Veranstaltungen und erhalten Zugang zum Schwarzen Brett.",
