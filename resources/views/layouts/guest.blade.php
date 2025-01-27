@@ -46,12 +46,12 @@
             <header class="flex justify-between items-center mb-6">
                 <div>
                     <a href="/">
-                        <x-application-logo class="size-52"/>
+                        <x-application-logo class="size-28 md:size-32 lg:size-52"/>
                     </a>
                 </div>
 
                 <img src="{{ Vite::asset('resources/images/magyar_cim.svg') }}"
-                     class="h-48"
+                     class="h-20 md:h-28 lg:h-48"
                      alt=""
                 >
             </header>
