@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('city')->nullable();
             $table->string('country')->nullable();
+            $table->enum('locale',\App\Enums\Locale::toArray())->nullable()->default(\App\Enums\Locale::DE);
             $table->enum('gender',\App\Enums\Gender::toArray())->nullable()->default(\App\Enums\Gender::ma);
             $table->enum('type',\App\Enums\MemberType::toArray())->default(\App\Enums\MemberType::ST);
             $table->foreignIdFor(\App\Models\User::class)->nullable()->constrained()->nullOnDelete();
