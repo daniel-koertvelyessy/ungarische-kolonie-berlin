@@ -112,7 +112,7 @@
                         <flux:text>{{ __('members.apply.email.without.text') }}</flux:text>
                     @endif
                 </flux:card>
-                {{--     <x-turnstile />--}}
+                     <x-turnstile />
                 @if($nomail)
                     <flux:button type="button"
                                  variant="primary"
