@@ -15,6 +15,11 @@
         --color-accent-content: var(--color-emerald-400);
         --color-accent-foreground: var(--color-white);
     }
+
+    ::selection {
+         @apply text-white;
+         @apply bg-emerald-400;
+     }
 }
 
 h1{

@@ -44,8 +44,9 @@
         <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl pt-3 lg:pt-6">
             <header class="flex justify-between items-center mb-6">
                 <div>
-                    <x-application-logo class="size-52"/>
-
+                    <a href="/">
+                        <x-application-logo class="size-52"/>
+                    </a>
                 </div>
 
                 <img src="{{ Vite::asset('resources/images/magyar_cim.svg') }}"
@@ -53,14 +54,81 @@
                      alt=""
                 >
             </header>
+            <flux:navbar class="lg:hidden justify-end border-t border-zinc-200 dark:border-zinc-700" >
+                <flux:sidebar.toggle class="lg:hidden" icon="bars-3" inset="left" />
+            </flux:navbar>
             {{ $slot }}
         </div>
         <footer class="py-16 text-center text-sm text-black dark:text-white/70">
 
-            <flux:navbar>
+            <flux:sidebar stashable sticky class="lg:hidden bg-zinc-50 dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-700">
+                <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
+                <flux:navlist variant="outline">
+                    <flux:navlist.item wire:navigate href="/" >{{__('app.home')}}</flux:navlist.item>
+                    <flux:navlist.item wire:navigate href="{{ route('events') }}" >{{__('app.events')}}</flux:navlist.item>
+                    <flux:navlist.item wire:navigate href="{{ route('events') }}" >{{__('app.blog')}}</flux:navlist.item>
+                    <flux:navlist.item wire:navigate href="{{ route('about-us') }}" >{{__('app.about-us')}}</flux:navlist.item>
+                    <flux:navlist.item wire:navigate href="{{ route('become-a-member') }}" >{{__('app.become-member')}}</flux:navlist.item>
+                    <flux:separator />
+                    <flux:navlist.item wire:navigate href="{{ route('impressum') }}" >{{__('app.imprint')}}</flux:navlist.item>
+
+                    @if (Route::has('login'))
+
+                        @auth
+                            <flux:navlist.item wire:navigate
+                                              href="{{ url('/dashboard') }}"
+                            >{{__('app.dashboard')}}</flux:navlist.item>
+                        @else
+                            <flux:navlist.item wire:navigate
+                                              href="{{ route('login') }}"
+                            >{{__('app.gotologin')}}</flux:navlist.item>
+
+
+                            {{--                                    @if (Route::has('register'))--}}
+                            {{--                                        <a--}}
+                            {{--                                            href="{{ route('register') }}"--}}
+                            {{--                                            class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"--}}
+                            {{--                                        >--}}
+                            {{--                                            Register--}}
+                            {{--                                        </a>--}}
+                            {{--                                    @endif--}}
+                        @endauth
+
+                    @endif
+
+                    <flux:navlist.group heading="{{__('app.locale')}}" expandable :expanded="false">
+                        @foreach (\App\Enums\Locale::toArray() as $locale)
+                        <flux:navlist.item href="{{url('/lang/'.$locale)}}">{{ strtoupper($locale) }}</flux:navlist.item>
+                        @endforeach
+                    </flux:navlist.group>
+
+
+
+                </flux:navlist>
+            </flux:sidebar>
+
+            <flux:navbar class="hidden lg:flex" >
+
                 <flux:navbar.item wire:navigate
                                   href="/"
                 >{{__('app.home')}}</flux:navbar.item>
+
+                <flux:navbar.item wire:navigate :current="request()->routeIs('events*')"
+                                  href="{{ route('events') }}"
+                >{{__('app.events')}}</flux:navbar.item>
+
+                <flux:navbar.item wire:navigate :current="request()->routeIs('events*')"
+                                  href="{{ route('events') }}"
+                >{{__('app.blog')}}</flux:navbar.item>
+
+                <flux:navbar.item wire:navigate
+                                  href="{{ route('about-us') }}"
+                >{{__('app.about-us')}}</flux:navbar.item>
+
+                <flux:navbar.item wire:navigate
+                                  href="{{ route('about-us') }}"
+                >{{__('app.become-member')}}</flux:navbar.item>
+
                 <flux:navbar.item wire:navigate
                                   href="{{ route('impressum') }}"
                 >{{__('app.imprint')}}</flux:navbar.item>
@@ -104,6 +172,9 @@
                 @endif
             </flux:navbar>
         </footer>
+
+
+
 @fluxScripts
 </body>
 </html>

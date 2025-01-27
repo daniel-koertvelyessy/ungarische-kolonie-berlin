@@ -7,7 +7,7 @@ return [
     "locale.hu" => "Magyar",
     "home" => "Kezdőlap",
     "imprint" => "Impresszum",
-    "dashboard" => "Áttekintés",
+    "dashboard" => "Irányítópult",
     "gotologin" => "Belépés",
     "login.title" => "Bejelentkezés tagoknak",
     "login.header" => "Bejelentkezés",

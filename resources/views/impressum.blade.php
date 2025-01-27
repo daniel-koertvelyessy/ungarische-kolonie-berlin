@@ -25,9 +25,9 @@
         <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <dt class="text-sm/6 font-medium text-gray-900">{{__('impressum.represented_by')}}</dt>
             <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                <p>{{ __('impressum.president') }}: Józef Robottka</p>
+                <p>{{ __('impressum.president') }}: Józef Robotka</p>
 
-                <p>{{ __('impressum.sub_president') }}: </p>
+                <p>{{ __('impressum.sub_president') }}: Mátyás Temesi</p>
 
             </dd>
         </div>
@@ -35,8 +35,8 @@
             <dt class="text-sm/6 font-medium text-gray-900">  V.i.S.d § 18 Abs. 2 MStV</dt>
             <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
                 <ul>
-                    <li>Józef Robottka</li>
-                    <li>+493012345678</li>
+                    <li>Józef Robotka</li>
+                    <li>0163 377 20 91</li>
                     <li>jozef@ungarische-kolonie-berlin.org</li>
                 </ul>
             </dd>

@@ -16,8 +16,10 @@ return new class extends Migration
             $table->timestamps();
             $table->dateTime('starts_at')->nullable();
             $table->dateTime('ends_at')->nullable();
-            $table->string('title');
-            $table->text('description')->nullable();
+            $table->json('title');
+            $table->json('slug')->unique()->nullable();
+            $table->json('description')->nullable();
+            $table->foreignIdFor(\App\Models\Venue::class)->nullable()->constrained()->nullOnDelete();
         });
     }
 
