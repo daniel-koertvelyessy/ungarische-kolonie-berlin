@@ -110,12 +110,18 @@ Route::get('/print-member-application/{member}', function (\App\Models\Member $m
     $html = view('pdf.membership-application', ['member' => $member])->render();
     $filename = __('members.apply.print.filename', ['tm' => date('YmdHis'), 'id' => $member->id]);
 //    echo $html; exit;
+
+
     $pdf = Browsershot::html($html)
         ->setOption('args', ['--no-sandbox'])
         ->format('A4')
         ->margins(10, 10, 20, 30)
-        ->taggedPdf()
-        ->pdf();
+        ->taggedPdf();
+    if(app()->environment('production')) {
+      $pdf =  $pdf->setIncludePath('/usr/share/nodejs/');
+    }
+
+     $pdf = $pdf->pdf();
 
     $filePath = 'members/applications/tmp/'.$filename; // Define the file path
     Storage::disk('local')
