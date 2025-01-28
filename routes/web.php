@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
+use Spatie\Browsershot\Browsershot;
 
 Route::get('lang/{locale}', function ($locale) {
     App::setLocale($locale);
@@ -81,6 +82,22 @@ Route::get('/der-verein',function (){
 })->name('about-us');
 
 Route::get('/mitglied-werden', \App\Livewire\Member\Apply\Page::class)->name('members.application');
+Route::get('/print-member-application/{member}', function (\App\Models\Member $member) {
+
+    $html = view('pdf.membership-application', ['member' => $member ])->render();
+    $filename = __('members.apply.print.filename', ['tm' => date('YmdHis')]);
+//    echo $html; exit;
+    Browsershot::html($html)
+        ->setOption('args', ['--no-sandbox'])
+        ->format('A4')
+        ->margins(10, 10, 20, 30)
+        ->taggedPdf()
+//      ->pdf();
+        ->save($filename);
+
+    return response()->download($filename);
+})->name('members.print_application');
+
 
 Route::middleware([
     'auth:sanctum',

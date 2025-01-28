@@ -34,7 +34,7 @@
     </section>
 
 
-    <form wire:submit="sendApplication">
+    <form wire:submit="applyMembership">
         <div class="w-full lg:w-3/4 mx-auto">
             <flux:card class="space-y-6 mb-3 lg:mb-6">
                 <flux:separator text="{{ __('members.section.person') }}"/>
@@ -49,6 +49,7 @@
 
                 <flux:input type="date"
                             wire:model="birth_date"
+                            wire:blur="checkBirthDate"
                             label="{{ __('members.birth_date') }}"
                 />
 
@@ -103,7 +104,7 @@
 
                 <flux:text>{{ __('members.apply.fee.label', ['sum' => \App\Models\Member::feeForHumans() ]) }}</flux:text>
 
-                <flux:checkbox wire:model="is_discounted"
+                <flux:checkbox wire:model="is_deducted"
                                label="{{ __('members.apply.discount.label') }}"
                 />
                 <flux:textarea wire:model="deduction_reason"
@@ -113,7 +114,7 @@
                 <flux:separator text="{{ __('members.section.email') }}"/>
                 <flux:text>{{ __('members.apply.email.benefits') }}</flux:text>
 
-                <flux:input wire:model="email"
+                <flux:input wire:model="email" wire:blur="checkEmail"
                             label="{{ __('members.email') }}"
                 />
 
@@ -128,7 +129,7 @@
                 <x-turnstile/>
             @endif
             @if($nomail)
-                <flux:button type="button"
+                <flux:button type="submit"
                              variant="primary"
                              icon="printer"
                 >{{ __('members.apply.printAndSubmit') }}</flux:button>
@@ -142,5 +143,7 @@
 
 
     </form>
-
+    <flux:modal name="validation_error">
+        {{ $validation_error }}
+    </flux:modal>
 </div>

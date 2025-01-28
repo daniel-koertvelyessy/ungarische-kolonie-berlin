@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
 
         Member::factory()->create([
             'entered_at' => date('Y-m-d H:i:s'),
-            'is_discounted' => true,
+            'is_deducted' => false,
             'birth_date' => '1974-01-07',
             'name' => 'Körtvélyessy',
             'first_name' => 'Daniel',

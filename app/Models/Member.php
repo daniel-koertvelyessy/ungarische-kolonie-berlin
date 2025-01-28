@@ -12,6 +12,8 @@ class Member extends Model
 
     public static float $fee = 10.50;
 
+    public static int $minimumAgeForDeduction = 65;
+
     protected $guarded = [];
 
 

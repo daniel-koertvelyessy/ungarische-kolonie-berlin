@@ -20,7 +20,7 @@ return [
     "email"                       => "E-mail",
     "phone"                       => "Vezetékes",
     "mobile"                      => "Mobil",
-    "address"                         => "Cím",
+    "address"                     => "Cím",
     "city"                        => "Város",
     "country"                     => "Ország",
     "locale"                      => "Preferált nyelv",
@@ -91,6 +91,20 @@ return [
     "apply.email.benefits"     => "Az e-mail címmel rendelkező tagok automatikusan értesítést kapnak az eseményekről, és hozzáférhetnek a hirdetőtáblához.",
     "apply.checkAndSubmit"     => 'Információk ellenőrzése és űrlap beküldése',
     "apply.printAndSubmit"     => 'Űrlap nyomtatása',
+
+    "apply.submission.success.head" => "Siker!",
+    "apply.submission.success.msg"  => "Megkaptuk jelentkezését, és megvizsgáljuk. Köszönjük!",
+    "apply.submission.failed.head"  => "Hiba!",
+    "apply.submission.failed.msg"   => "Sajnos valami hiba történt. Kérjük, próbálja újra.",
+
+    "apply.print.title"    => "Jelentkezés a Magyar Kolónia Berlin e. V. tagságára",
+    "apply.print.greeting" => "Tisztelt Hölgyem vagy Uram!",
+
+    "apply.print.text"             => "Ezennel jelentkezem a Magyar Kolónia Berlin e.V. tagságára",
+    "apply.print.regards"          => "Üdvözlettel",
+    "apply.print.overview.person"  => "Rólam",
+    "apply.print.overview.contact" => "Elérhetőségeim",
+    "apply.print.filename"         => "Palyazat_Tagsag_Magyar_Kolonia_Berlin_:tm.pdf",
 
 
 ];

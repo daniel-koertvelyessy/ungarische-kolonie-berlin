@@ -92,4 +92,21 @@ return [
     "apply.email.benefits"      => "Mitglieder mit einer E-Mail-Adresse erhalten automatisch Benachrichtigungen über Veranstaltungen und erhalten Zugang zum Schwarzen Brett.",
     "apply.checkAndSubmit"      => 'Angaben prüfen und Formular versenden',
     "apply.printAndSubmit"      => 'Formular ausdrucken',
+
+
+    "apply.submission.success.head" => "Erfolg!",
+    "apply.submission.success.msg" => "Wir haben Ihren Anftrag erhalten und werden ihn prüfen. Vielen Dank!",
+    "apply.submission.failed.head" => "Fehler!",
+    "apply.submission.failed.msg" => "Leider ist estwas schief gelaufen. Bitte versuchen Sie es erneut.",
+
+
+    "apply.print.title" => "Antrag auf Mitgliedschaft bei der Magyar Kolónia Berlin e. V.",
+    "apply.print.greeting" => "Sehr geehrte Damen und Herren,",
+    "apply.print.text" => "hiermit möchte ich die Mitgliedschaft in der Magyar Kolónia Berlin e.V. beantragen.",
+    "apply.print.regards" => "Mit freundlichen Grüßen",
+    "apply.print.overview.person" => "Zu meiner Person",
+    "apply.print.overview.contact" => "Meine Kontaktdaten",
+    "apply.print.filename" => "Antrag_Mitgliedschaft_Magyar_Kolonia_Berlin_:tm.pdf",
+
+
 ];

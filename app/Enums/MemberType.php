@@ -2,11 +2,12 @@
 
 namespace App\Enums;
 
-enum MemberType:string
+enum MemberType: string
 {
-    case ST="standard";
-    case MD="board";
-    case AD="advisor";
+    case ST = "standard";
+    case MD = "board";
+    case AD = "advisor";
+    case AP = "applicant";
 
     public static function toArray(): array
     {
@@ -14,22 +15,23 @@ enum MemberType:string
     }
 
 
-    public static function value(string $value): string{
-
+    public static function value(string $value): string
+    {
         return match ($value) {
-            'male' => __('app.male'),
-            'female' => __('app.female'),
-//          'diverse' => __('app.diverse'),
+            'standard' => __('member.type.standard'),
+            'board' => __('member.type.board'),
+            'advisor' => __('member.type.advisor'),
+            'applicant' => __('member.type.applicant'),
         };
-
     }
 
-    public static function color(string $value): string{
+    public static function color(string $value): string
+    {
         return match ($value) {
             'standard' => 'default',
             'board' => 'emerald',
-          'advisor' => 'orange',
+            'advisor' => 'orange',
+            'applicant' => 'yellow',
         };
-
     }
 }
