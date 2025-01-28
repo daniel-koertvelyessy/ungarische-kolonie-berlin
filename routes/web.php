@@ -109,21 +109,24 @@ Route::get('/print-member-application/{member}', function (\App\Models\Member $m
 {
     $html = view('pdf.membership-application', ['member' => $member])->render();
     $filename = __('members.apply.print.filename', ['tm' => date('YmdHis'), 'id' => $member->id]);
-//    echo $html; exit;
+    $pdf = new TCPDF();
+
+    // Set document information
+    $pdf->SetCreator('Laravel');
+    $pdf->SetAuthor('Your Name');
+    $pdf->SetTitle('TCPDF Example');
+    $pdf->SetSubject('Laravel TCPDF Example');
+
+    // Add a page
+    $pdf->AddPage();
+
+    $pdf->writeHTML($html, true, false, true, false, '');
+
+    // Output the PDF as a download
+    $pdf->Output($filename, 'D');
 
 
-    $pdf = Browsershot::html($html)
-        ->setOption('args', ['--no-sandbox'])
-        ->format('A4')
-        ->margins(10, 10, 20, 30)
-        ->taggedPdf();
-    if(app()->environment('production')) {
-      $pdf =  $pdf->setIncludePath('/usr/share/nodejs/');
-    }
-
-     $pdf = $pdf->pdf();
-
-    $filePath = 'members/applications/tmp/'.$filename; // Define the file path
+/*    $filePath = 'members/applications/tmp/'.$filename; // Define the file path
     Storage::disk('local')
         ->put($filePath, $pdf);
     if (Storage::disk('local')
@@ -132,7 +135,7 @@ Route::get('/print-member-application/{member}', function (\App\Models\Member $m
             ->download($filePath, $filename);
     }
 
-    abort(404, 'File not found');
+    abort(404, 'File not found');*/
 })
     ->name('members.print_application');
 
