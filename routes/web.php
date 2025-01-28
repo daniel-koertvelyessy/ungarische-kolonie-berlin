@@ -112,11 +112,11 @@ Route::get('/print-member-application/{member}', function (\App\Models\Member $m
     $pdf = new TCPDF();
 
     // Set document information
-    $pdf->SetCreator('Laravel');
-    $pdf->SetAuthor('Your Name');
-    $pdf->SetTitle('TCPDF Example');
-    $pdf->SetSubject('Laravel TCPDF Example');
-
+    $pdf->SetTitle( __('members.apply.print.title') );
+    $pdf->SetSubject(__('members.apply.print.title'));
+    $pdf->setMargins(24,10,10);
+    $pdf->setPrintHeader(false);
+    $pdf->setPrintFooter(false);
     // Add a page
     $pdf->AddPage();
 
