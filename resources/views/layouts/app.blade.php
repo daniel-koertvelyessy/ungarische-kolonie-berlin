@@ -51,7 +51,7 @@
 
         <flux:navlist variant="outline">
             <flux:navlist.item wire:navigate icon="home" href="{{ route('dashboard') }}">{{ __('nav.dashboard') }}</flux:navlist.item>
-            <flux:navlist.item wire:navigate icon="users" badge="{{$counter??0}}" href="{{ route('members')  }}" :current="request()->is('members*')">{{ __('nav.members') }}</flux:navlist.item>
+            <flux:navlist.item wire:navigate icon="users" badge="{{\App\Models\Member::countNewApplicants()}}" href="{{ route('members')  }}" :current="request()->is('members*')">{{ __('nav.members') }}</flux:navlist.item>
             <flux:navlist.item wire:navigate icon="newspaper" href="#" :current="request()->is('blogs*')">{{ __('nav.blogs') }}</flux:navlist.item>
             <flux:navlist.item wire:navigate icon="calendar-days" href="#" :current="request()->is('events*')">{{ __('nav.events') }}</flux:navlist.item>
             <flux:navlist.item wire:navigate icon="currency-euro" href="#" :current="request()->is('kasse*')">{{ __('nav.kasse') }}</flux:navlist.item>

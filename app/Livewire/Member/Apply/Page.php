@@ -7,9 +7,12 @@ use App\Enums\Locale;
 use App\Enums\MemberType;
 use App\Mail\MailMemberApplication;
 use App\Models\Member;
+use App\Models\User;
+use App\Notifications\NewMemberApplied;
 use Carbon\Carbon;
 use Flux\Flux;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -96,6 +99,8 @@ protected Member $member;
 
             $this->member = $member;
 
+            Notification::send(Member::getBoardMembers(), new NewMemberApplied($this->member));
+
             if($this->nomail){
                 $this->printApplication();
             } else {
@@ -135,12 +140,13 @@ protected Member $member;
     protected function printApplication()
     {
 
-        return redirect()->to(route('members.print_application',['member'=>$this->member]));
+        return redirect(route('members.print_application',['member'=>$this->member]));
 
     }
 
-    protected function sendApplication(){
-        Mail::to($this->email)->send(new MailMemberApplication());
+    protected function sendApplication()
+    {
+        return redirect(route('home'));
     }
 
     #[Layout('layouts.guest')]

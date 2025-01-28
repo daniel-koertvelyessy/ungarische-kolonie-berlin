@@ -107,4 +107,9 @@ return [
     "apply.print.filename"         => "Palyazat_Tagsag_Magyar_Kolonia_Berlin_mid-:id:tm.pdf",
 
 
+    "widgets.applicants.title" => "Új tagsági jelentkezések",
+    "widgets.applicants.confirm.deletion.title" => "Siker",
+    "widgets.applicants.confirm.deletion.text" => "A kiválasztott alkalmazásokat törölték"
+
+
 ];

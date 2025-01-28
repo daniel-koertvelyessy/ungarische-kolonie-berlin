@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Enums\MemberType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 class Member extends Model
 {
+    use Notifiable;
     /** @use HasFactory<\Database\Factories\MemberFactory> */
     use HasFactory;
 
@@ -17,9 +20,38 @@ class Member extends Model
     protected $guarded = [];
 
 
-    public static function feeForHumans():string
+    protected $casts = [
+        'applied_at'=> 'datetime',
+        'verified_at'=> 'datetime',
+        'entered_at'=> 'datetime',
+        'left_at'=> 'datetime',
+        'is_deducted' => 'boolean',
+    ];
+
+    public function fullName():string
     {
-        return number_format(Member::$fee,2,',','.');
+        return $this->name . ', ' . $this->first_name;
+    }
+
+    public static function feeForHumans(): string
+    {
+        return number_format(Member::$fee, 2, ',', '.');
+    }
+
+    public static function getBoardMembers(): object
+    {
+        return Member::whereIn('type',[MemberType::AD->value, MemberType::MD->value])
+            ->get();
+    }
+
+
+    public static function countNewApplicants(): int{
+        return Member::whereIn('type',[MemberType::AP->value])
+            ->get()->count();
+    }
+    public static function Applicants()
+    {
+        return Member::whereIn('type',[MemberType::AP->value])->get();
     }
 
 }

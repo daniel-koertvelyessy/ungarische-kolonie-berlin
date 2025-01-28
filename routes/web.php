@@ -26,7 +26,7 @@ Route::get('/', function ()
             ->get()
             ->count(),
     ]);
-});
+})->name('home');
 
 Route::get('/events', function ()
 {
@@ -125,6 +125,7 @@ Route::get('/print-member-application/{member}', function (\App\Models\Member $m
     // Output the PDF as a download
     $pdf->Output($filename, 'D');
 
+    return $this->redirect(route('home'));
 
 /*    $filePath = 'members/applications/tmp/'.$filename; // Define the file path
     Storage::disk('local')
@@ -160,12 +161,3 @@ Route::middleware([
             ->name('dashboard');
     });
 
-
-Route::get('/testroute', function ()
-{
-    $name = "Funny Coder";
-
-    // The email sending is done using the to method on the Mail facade
-    Mail::to('daniel@thermo-control.com')
-        ->send(new \App\Mail\MailMemberApplication($name));
-});
