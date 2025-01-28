@@ -33,16 +33,7 @@
         <p><span class="font-semibold">{{ __('members.apply.step7.label') }}:</span> {{ __('members.apply.step7.text') }}</p>
     </section>
 
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-    
+
     <form wire:submit="applyMembership">
         <div class="w-full lg:w-3/4 mx-auto">
             <flux:card class="space-y-6 mb-3 lg:mb-6">
@@ -134,9 +125,9 @@
                     <flux:text>{{ __('members.apply.email.without.text') }}</flux:text>
                 @endif
             </flux:card>
-            @if(app()->isProduction())
+{{--            @if(app()->isProduction())
                 <x-turnstile/>
-            @endif
+            @endif--}}
             @if($nomail)
                 <flux:button type="submit"
                              variant="primary"
