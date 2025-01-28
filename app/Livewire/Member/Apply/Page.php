@@ -54,17 +54,15 @@ protected Member $member;
         $this->is_deducted = false;
     }
 
-    protected function sendApplication(){
-        Mail::to($this->email)->send(new \App\Mail\MailMemberApplication());
-    }
-
     public function applyMembership():void
     {
 
         if(app()->isProduction()) {
-            request()->validate([
+        $vali =    request()->validate([
                 'cf-turnstile-response' => ['required', app(Turnstile::class)],
             ]);
+
+        dd($vali);
         }
 
 
@@ -139,6 +137,10 @@ protected Member $member;
 
         return redirect()->to(route('members.print_application',['member'=>$this->member]));
 
+    }
+
+    protected function sendApplication(){
+        Mail::to($this->email)->send(new MailMemberApplication());
     }
 
     #[Layout('layouts.guest')]

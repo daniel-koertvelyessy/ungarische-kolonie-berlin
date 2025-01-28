@@ -106,7 +106,7 @@ return [
     "apply.print.regards" => "Mit freundlichen Grüßen",
     "apply.print.overview.person" => "Zu meiner Person",
     "apply.print.overview.contact" => "Meine Kontaktdaten",
-    "apply.print.filename" => "Antrag_Mitgliedschaft_Magyar_Kolonia_Berlin_:tm.pdf",
+    "apply.print.filename" => "Antrag_Mitgliedschaft_Magyar_Kolonia_Berlin_mid-:id:tm.pdf",
 
 
 ];

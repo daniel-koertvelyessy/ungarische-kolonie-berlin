@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Member;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -17,7 +18,7 @@ class MailMemberApplication extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(Member $member)
     {
         //
     }
@@ -50,6 +51,8 @@ class MailMemberApplication extends Mailable
      */
     public function attachments(): array
     {
-        return [];
+        return [
+
+        ];
     }
 }

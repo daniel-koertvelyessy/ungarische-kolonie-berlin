@@ -104,7 +104,7 @@ return [
     "apply.print.regards"          => "Üdvözlettel",
     "apply.print.overview.person"  => "Rólam",
     "apply.print.overview.contact" => "Elérhetőségeim",
-    "apply.print.filename"         => "Palyazat_Tagsag_Magyar_Kolonia_Berlin_:tm.pdf",
+    "apply.print.filename"         => "Palyazat_Tagsag_Magyar_Kolonia_Berlin_mid-:id:tm.pdf",
 
 
 ];
