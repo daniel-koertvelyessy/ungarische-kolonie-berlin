@@ -42,8 +42,7 @@
             </ul>
         </div>
     @endif
-
-    @enderror
+    
     <form wire:submit="applyMembership">
         <div class="w-full lg:w-3/4 mx-auto">
             <flux:card class="space-y-6 mb-3 lg:mb-6">
