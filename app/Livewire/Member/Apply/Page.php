@@ -32,6 +32,7 @@ protected Member $member;
     public string $mobile;
     public string $address;
 
+    public $checkTurnStile;
     public string $locales;
     public string $city;
     public string $country;
@@ -60,6 +61,7 @@ protected Member $member;
     public function applyMembership():void
     {
 
+        dd($this->checkTurnStile);
         if(app()->isProduction()) {
             request()->validate([
                 'cf-turnstile-response' => ['required', app(Turnstile::class)],

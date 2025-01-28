@@ -126,7 +126,7 @@
                 @endif
             </flux:card>
             @if(app()->isProduction())
-                <x-turnstile/>
+                <x-turnstile wire:model="checkTurnStile" />
             @endif
             @if($nomail)
                 <flux:button type="submit"
