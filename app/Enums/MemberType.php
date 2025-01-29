@@ -18,17 +18,17 @@ enum MemberType: string
     public static function value(string $value): string
     {
         return match ($value) {
-            'standard' => __('member.type.standard'),
-            'board' => __('member.type.board'),
-            'advisor' => __('member.type.advisor'),
-            'applicant' => __('member.type.applicant'),
+            'standard' => __('members.type.standard'),
+            'board' => __('members.type.board'),
+            'advisor' => __('members.type.advisor'),
+            'applicant' => __('members.type.applicant'),
         };
     }
 
     public static function color(string $value): string
     {
         return match ($value) {
-            'standard' => 'default',
+            'standard' => 'lime',
             'board' => 'emerald',
             'advisor' => 'orange',
             'applicant' => 'yellow',

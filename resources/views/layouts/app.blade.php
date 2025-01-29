@@ -51,10 +51,10 @@
 
         <flux:navlist variant="outline">
             <flux:navlist.item wire:navigate icon="home" href="{{ route('dashboard') }}">{{ __('nav.dashboard') }}</flux:navlist.item>
-            <flux:navlist.item wire:navigate icon="users" badge="{{\App\Models\Member::countNewApplicants()}}" href="{{ route('members')  }}" :current="request()->is('members*')">{{ __('nav.members') }}</flux:navlist.item>
-            <flux:navlist.item wire:navigate icon="newspaper" href="#" :current="request()->is('blogs*')">{{ __('nav.blogs') }}</flux:navlist.item>
-            <flux:navlist.item wire:navigate icon="calendar-days" href="#" :current="request()->is('events*')">{{ __('nav.events') }}</flux:navlist.item>
-            <flux:navlist.item wire:navigate icon="currency-euro" href="#" :current="request()->is('kasse*')">{{ __('nav.kasse') }}</flux:navlist.item>
+            <flux:navlist.item wire:navigate icon="users" href="{{ route('members.index')  }}" >{{ __('nav.members') }}</flux:navlist.item>
+            <flux:navlist.item wire:navigate icon="newspaper" href="#" >{{ __('nav.blogs') }}</flux:navlist.item>
+            <flux:navlist.item wire:navigate icon="calendar-days" href="{{ route('backend.events.index') }}" >{{ __('nav.events') }}</flux:navlist.item>
+            <flux:navlist.item wire:navigate icon="currency-euro" href="#" >{{ __('nav.kasse') }}</flux:navlist.item>
         </flux:navlist>
 
         <flux:spacer />
@@ -129,6 +129,6 @@
     {{ $slot }}
     </flux:main>
     @fluxScripts
-    <flux:toast />
+    <flux:toast position="top right" class="pt-5" />
     </body>
 </html>

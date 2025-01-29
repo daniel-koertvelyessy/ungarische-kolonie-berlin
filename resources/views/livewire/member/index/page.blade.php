@@ -6,8 +6,8 @@
         <flux:columns>
             <flux:column sortable :sorted="$sortBy === 'name'" :direction="$sortDirection" wire:click="sort('name')">{{ __('members.table.header.name') }}</flux:column>
             <flux:column sortable :sorted="$sortBy === 'mobile'" :direction="$sortDirection" wire:click="sort('mobile')" class="hidden sm:table-cell">{{ __('members.table.header.phone') }}</flux:column>
-            <flux:column sortable :sorted="$sortBy === 'status'" :direction="$sortDirection" wire:click="sort('status')" class="hidden sm:table-cell">{{ __('members.table.header.birthday') }}</flux:column>
             <flux:column sortable :sorted="$sortBy === 'birth_date'" :direction="$sortDirection" wire:click="sort('birth_date')" class="hidden sm:table-cell">{{ __('members.table.header.status') }}</flux:column>
+            <flux:column sortable :sorted="$sortBy === 'status'" :direction="$sortDirection" wire:click="sort('status')" class="hidden sm:table-cell">{{ __('members.table.header.birthday') }}</flux:column>
         </flux:columns>
 
         <flux:rows>
@@ -20,7 +20,7 @@
 
                     <flux:cell class="whitespace-nowrap hidden sm:table-cell">{{ $member->mobile }}</flux:cell>
                     <flux:cell class=" hidden sm:table-cell">
-                        <flux:badge size="sm" :color="\App\Enums\MemberType::color($member->type)" inset="top bottom">{{ $member->type }}</flux:badge>
+                        <flux:badge size="sm" :color="\App\Enums\MemberType::color($member->type)" inset="top bottom">{{ \App\Enums\MemberType::value($member->type) }}</flux:badge>
                     </flux:cell>
 
                     <flux:cell class=" hidden sm:table-cell" variant="strong">{{ $member->birth_date }}</flux:cell>

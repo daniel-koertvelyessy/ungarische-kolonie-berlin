@@ -21,10 +21,26 @@ return [
     "phone"                       => "Festnetz",
     "mobile"                      => "Mobil",
     "address"                     => "Adresse",
+    "zip"                         => "Postleitzahl",
     "city"                        => "Stadt",
     "country"                     => "Land",
     "locale"                      => "Bevorzugte Sprache",
     "gender"                      => "Geschlecht",
+
+    "update.success.title" => "Erfolg",
+    "update.success.content" => "Die Mitgliedsdaten wurden erfolgreich aktualisiert.",
+    "date.applied_at" => "Mitgliedschaft beantragt am",
+    "date.verified_at" => "E-Mail verifiziert am",
+    "date.entered_at" => "Mitgliedschaft bestätigt am",
+    "date.left_at" => "Ausgetreten am",
+    "btn.sendVerificationMail.label" => "Erinnerung an Verifizierung senden",
+    "btn.sendAcceptanceMail.label" => "Antrag annehmen",
+    "btn.cancelMembership.label" => "Mitgliedschaft kündigen",
+
+    "type.standard" => "Mitglied",
+    "type.applicant" => "Anwärter",
+    "type.board" => "Vorstand",
+    "type.advisor" => "Beirat",
 
     "section.person"  => "Person",
     "section.address" => "Anschrift",
@@ -45,9 +61,9 @@ return [
     "show.attached.failed.head" => 'Fehler!',
     "show.attached.failed.msg"  => 'Der Benutzer konnte nicht verknüpft werden',
 
-    "apply.title" => "Antrag auf Mitgliedschaft in der Magyar Kolónia Berlin e. V.",
-    "apply.text"  => "Wir freuen uns, dass Sie Mitglied der Magyar Kolónia Berlin e. V. werden möchten. Die Aufnahme erfolgt nach dem unten stehenden Prozess:",
-
+    "apply.title"       => "Antrag auf Mitgliedschaft in der Magyar Kolónia Berlin e. V.",
+    "apply.text"        => "Wir freuen uns, dass Sie Mitglied der Magyar Kolónia Berlin e. V. werden möchten. ",
+    "apply.process"     => "Die Aufnahme erfolgt nach dem unten stehenden Prozess:",
     "apply.step1.label" => "Schritt 1",
     "apply.step1.text"  => "Füllen Sie als ersten Schritt das unten stehende Formular aus.",
     "apply.via.web"     => "Versand per Web",
@@ -106,13 +122,24 @@ return [
     "apply.print.overview.contact" => "Meine Kontaktdaten",
     "apply.print.filename"         => "Antrag_Mitgliedschaft_Magyar_Kolonia_Berlin_mid-:id:tm.pdf",
 
-    "widgets" => [
-        "applicants" => [
-            "title" => "Neue Mitgliedsanträge",
-            "confirm.deletion.title" => "Erfolg",
-            "confirm.deletion.text" => "Die ausgewählten Bewerbungen wurden gelöscht"
 
-        ]
-    ],
+    "widgets.applicants.title"                  => "Neue Mitgliedsanträge",
+    "widgets.applicants.search.label"                  => "Nach Namen filtern",
+    "widgets.applicants.empty_search"           => "keine passende Einträge gefunden",
+    "widgets.applicants.empty_list"             => "Keine offenen Anträge vorhanden",
+    "widgets.applicants.confirm.deletion.title" => "Erfolg",
+    "widgets.applicants.confirm.deletion.text"  => "Die ausgewählten Bewerbungen wurden gelöscht",
+
+    "widgets.applicants.options.label" => "Optionen",
+    "widgets.applicants.options.deletion.confirm" => "Bitte die Löschung der ausgewählten Anträge bestätigen!",
+    "widgets.applicants.options.edit.btn.label" => "Bearbeiten",
+    "widgets.applicants.options.deletion.btn.label" => "Löschen",
+    "widgets.applicants.tab.header.from" => "vor",
+    "widgets.applicants.tab.header.name" => "Name",
+    "" => "",
+
+
+
+
 
 ];

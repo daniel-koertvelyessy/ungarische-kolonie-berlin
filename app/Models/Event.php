@@ -12,17 +12,19 @@ class Event extends Model
     use HasFactory;
 
     protected $casts = [
-        'starts_at' => 'datetime',
-        'ends_at' => 'datetime',
+
         'title' => 'array',
         'slug' => 'array',
         'description' => 'array',
+        'event_date' => 'date', // Cast as Carbon instance
+        'start_time' => 'datetime:H:i:s', // Cast time as Carbon (only hours & minutes)
+        'end_time' => 'datetime:H:i:s',
     ];
 
-    public function getRouteKeyName(): string
+ /*   public function getRouteKeyName(): string
     {
         return 'slug';
-    }
+    }*/
 
     public function venue(): BelongsTo
     {

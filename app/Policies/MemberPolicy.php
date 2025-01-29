@@ -37,7 +37,7 @@ class MemberPolicy
      */
     public function update(User $user, Member $member): bool
     {
-        return false;
+        return $this->checkThis($user, $member);
     }
 
     /**
@@ -45,7 +45,7 @@ class MemberPolicy
      */
     public function delete(User $user, Member $member): bool
     {
-        return false;
+        return $this->checkThis($user, $member);
     }
 
     /**
@@ -61,6 +61,19 @@ class MemberPolicy
      */
     public function forceDelete(User $user, Member $member): bool
     {
+        return false;
+    }
+
+    private function checkThis(User $user, Member $member): bool
+    {
+        if ($user->is_admin) {
+            return true;
+        }
+
+        if ($member->type === 'board') {
+            return true;
+        }
+
         return false;
     }
 }

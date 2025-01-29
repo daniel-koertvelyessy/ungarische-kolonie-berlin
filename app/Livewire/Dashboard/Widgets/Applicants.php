@@ -23,7 +23,7 @@ class Applicants extends Component
     public $sortDirection = 'desc';
     public string $search = '';
 
-    protected $numApplicants;
+    public int $numApplicants;
 
     public function sort($column): void
     {
@@ -33,6 +33,11 @@ class Applicants extends Component
             $this->sortBy = $column;
             $this->sortDirection = 'asc';
         }
+    }
+
+    public function mount()
+    {
+        $this->numApplicants = Member::countNewApplicants();
     }
 
     protected function applySearch($query)
@@ -48,7 +53,6 @@ class Applicants extends Component
 
     public function deleteSelectedApplicants(): void{
 
-
         if (count($this->selectedApplicants) > 0 && Auth()->user()->is_admin)  {
 
             foreach ($this->selectedApplicants as $applicant) {
@@ -59,7 +63,26 @@ class Applicants extends Component
                 text: __('members.widgets.applicants.confirm.deletion.text'),
                 variant: 'success',
             );
+
+            $this->numApplicants = Member::countNewApplicants();
+
         }
+
+
+    }
+
+    public function editSelectedApplicants()
+    {
+        if (count($this->selectedApplicants) > 1) {
+        /**
+         * TODO   make confirmation model to open n tabs with members to be edited
+         *        or to choose one
+         *
+         */
+            exit;
+        }
+
+        return $this->redirect(route('members.show', $this->selectedApplicants[0]));
 
 
     }
@@ -67,8 +90,6 @@ class Applicants extends Component
     #[Computed]
     public function applicants(): LengthAwarePaginator
     {
-
-        $this->numApplicants = Member::countNewApplicants();
 
         $this->allApplicants = Member::Applicants()->map(fn ($member) => (string) $member->id)->toArray();
 

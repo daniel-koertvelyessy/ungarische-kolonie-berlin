@@ -149,9 +149,16 @@ Route::middleware([
     ->group(function ()
     {
         Route::get('/members', \App\Livewire\Member\Index\Page::class)
-            ->name('members');
+            ->name('members.index');
+
         Route::get('/members/{member}', \App\Livewire\Member\Show\Page::class)
             ->name('members.show');
+
+        Route::get('/backend-events', \App\Livewire\Event\Index\Page::class)
+            ->name('backend.events.index');
+
+        Route::get('/backend-events/{event}', \App\Livewire\Event\Show\Page::class)
+            ->name('backend.events.show');
 
 
         Route::get('/dashboard', function ()

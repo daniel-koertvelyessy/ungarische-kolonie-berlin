@@ -16,9 +16,7 @@ use Illuminate\Support\Facades\Notification;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
-use RyanChandler\LaravelCloudflareTurnstile\Rules\Turnstile;
-use Spatie\Browsershot\Browsershot;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Livewire\Livewire;
 
 class Page extends Component
 {
@@ -38,6 +36,7 @@ protected Member $member;
     public $checkTurnStile;
     public string $locales;
     public string $city;
+    public string $zip;
     public string $country;
     public Gender $gender;
     public string $applied_at;
@@ -85,6 +84,8 @@ protected Member $member;
         $member->email = $this->email??null;
         $member->phone = $this->phone??null;
         $member->mobile = $this->mobile??null;
+        $member->city = $this->city??null;
+        $member->zip = $this->zip??null;
         $member->address = $this->address??null;
         $member->type = MemberType::AP->value;
         $member->is_deducted = $this->is_deducted;

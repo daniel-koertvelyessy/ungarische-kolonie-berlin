@@ -21,6 +21,7 @@ return [
     "phone"                       => "Vezetékes",
     "mobile"                      => "Mobil",
     "address"                     => "Cím",
+    "zip"                         => "Iranitó szám",
     "city"                        => "Város",
     "country"                     => "Ország",
     "locale"                      => "Preferált nyelv",
@@ -45,9 +46,9 @@ return [
     "show.attached.failed.head" => 'Hiba!',
     "show.attached.failed.msg"  => 'A felhasználót nem sikerült összekapcsolni',
 
-    "apply.title" => "Pályázat a Magyar Kolónia Berlin e. V. tagságára",
-    "apply.text"  => "Örülünk, hogy a Magyar Kolónia Berlin e. V tagja szeretne lenni. A felvétel az alábbi folyamat szerint történik:",
-
+    "apply.title"       => "Pályázat a Magyar Kolónia Berlin e. V. tagságára",
+    "apply.text"        => "Örülünk, hogy a Magyar Kolónia Berlin e. V tagja szeretne lenni. ",
+    "apply.process"     => "A felvétel az alábbi folyamat szerint történik:",
     "apply.step1.label" => "1. lépés",
     "apply.step1.text"  => "Első lépésként töltse ki az alábbi űrlapot.",
     "apply.via.web"     => "Küldés weben",
@@ -107,9 +108,17 @@ return [
     "apply.print.filename"         => "Palyazat_Tagsag_Magyar_Kolonia_Berlin_mid-:id:tm.pdf",
 
 
-    "widgets.applicants.title" => "Új tagsági jelentkezések",
-    "widgets.applicants.confirm.deletion.title" => "Siker",
-    "widgets.applicants.confirm.deletion.text" => "A kiválasztott alkalmazásokat törölték"
+    "widgets.applicants.title"                      => "Új tagsági jelentkezések",
+    "widgets.applicants.empty_search"               => "nincs megfelelő bejegyzés",
+    "widgets.applicants.empty_list"                 => "Nincsenek nyitott kérések",
+    "widgets.applicants.confirm.deletion.title"     => "Siker",
+    "widgets.applicants.confirm.deletion.text"      => "A kiválasztott alkalmazásokat törölték",
+    "widgets.applicants.options.label"              => "Opciók",
+    "widgets.applicants.options.deletion.confirm"   => "Kérjük, erősítse meg a kiválasztott alkalmazások törlését!",
+    "widgets.applicants.options.edit.btn.label"     => "Szerkesztés",
+    "widgets.applicants.options.deletion.btn.label" => "Törlés",
+    "widgets.applicants.tab.header.from"            => "Mikor",
+    "widgets.applicants.tab.header.name"            => "Név",
 
 
 ];

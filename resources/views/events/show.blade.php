@@ -1,5 +1,5 @@
 <x-guest-layout :title="__('event.show.title')">
-    <h1 class="text-2xl mb-3">{{ __('event.show.title') }}</h1>
+    <h1 class="text-xl mb-3">{{ __('event.show.title') }}</h1>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-6">
         <article>
@@ -12,13 +12,18 @@
                 <dl class="divide-y divide-gray-100">
 
                     <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                        <dt class="text-sm/6 font-medium text-gray-900 dark:text-emerald-400">{{ __('event.date') }}</dt>
+                        <dd class="mt-1 text-sm/6 text-gray-700 dark:text-gray-100 sm:col-span-2 sm:mt-0">{{ $event->event_date->locale($locale)->isoFormat('LLLL') }}</dd>
+                    </div>
+
+                    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                         <dt class="text-sm/6 font-medium text-gray-900 dark:text-emerald-400">{{ __('event.begins') }}</dt>
-                        <dd class="mt-1 text-sm/6 text-gray-700 dark:text-gray-100 sm:col-span-2 sm:mt-0">{{ $event->starts_at->locale($locale)->isoFormat('LLLL') }}</dd>
+                        <dd class="mt-1 text-sm/6 text-gray-700 dark:text-gray-100 sm:col-span-2 sm:mt-0">{{ $event->start_time->format('H:i') }}</dd>
                     </div>
 
                     <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                         <dt class="text-sm/6 font-medium text-gray-900 dark:text-emerald-400">{{ __('event.ends') }}</dt>
-                        <dd class="mt-1 text-sm/6 text-gray-700 dark:text-gray-100 sm:col-span-2 sm:mt-0">{{ $event->ends_at->locale($locale)->isoFormat('LLLL') }}</dd>
+                        <dd class="mt-1 text-sm/6 text-gray-700 dark:text-gray-100 sm:col-span-2 sm:mt-0">{{ $event->end_time->format('H:i') }}</dd>
                     </div>
 
                     <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">

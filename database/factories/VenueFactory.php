@@ -24,7 +24,7 @@ class VenueFactory extends Factory
             'postal_code' => fake()->postcode,
             'phone' => fake()->phoneNumber,
             'website' => fake()->domainName,
-            'geolocation' => fake()->localCoordinates,
+            'geolocation' => null,
         ];
     }
 }

@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('mobile')->nullable();
             $table->string('address')->nullable();
+            $table->string('zip')->nullable();
             $table->string('city')->nullable();
             $table->string('country')->nullable();
             $table->enum('locale',\App\Enums\Locale::toArray())->nullable()->default(\App\Enums\Locale::DE->value);

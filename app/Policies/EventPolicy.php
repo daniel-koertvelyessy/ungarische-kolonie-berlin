@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\Event;
+use App\Models\Member;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
@@ -37,7 +38,7 @@ class EventPolicy
      */
     public function update(User $user, Event $event): bool
     {
-        return false;
+        return $this->checkThis($user, $event);
     }
 
     /**
@@ -45,7 +46,7 @@ class EventPolicy
      */
     public function delete(User $user, Event $event): bool
     {
-        return false;
+        return $this->checkThis($user, $event);
     }
 
     /**
@@ -53,6 +54,10 @@ class EventPolicy
      */
     public function restore(User $user, Event $event): bool
     {
+        if ($user->is_admin) {
+            return true;
+        }
+
         return false;
     }
 
@@ -61,6 +66,23 @@ class EventPolicy
      */
     public function forceDelete(User $user, Event $event): bool
     {
+        if ($user->is_admin) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function checkThis(User $user, Event $event): bool
+    {
+        if ($user->is_admin) {
+            return true;
+        }
+
+        if ($event->type === 'board') {
+            return true;
+        }
+
         return false;
     }
 }
