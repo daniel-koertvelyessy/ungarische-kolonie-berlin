@@ -20,6 +20,7 @@ return new class extends Migration
             $table->json('title');
             $table->json('slug')->unique()->nullable();
             $table->json('description')->nullable();
+            $table->string('image')->nullable();
             $table->unsignedSmallInteger('entry_fee')->nullable();
             $table->unsignedSmallInteger('entry_fee_discounted')->nullable();
             $table->foreignIdFor(\App\Models\Venue::class)->nullable()->constrained()->nullOnDelete();

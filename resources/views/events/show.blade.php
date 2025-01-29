@@ -1,11 +1,17 @@
 <x-guest-layout :title="__('event.show.title')">
-    <h1 class="text-xl mb-3">{{ __('event.show.title') }}</h1>
+    <h1 class="text-xl mb-3">{{ __('event.show.title') }}: {{ $event->title[$locale??'de'] }}</h1>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-6">
         <article>
-            <flux:heading size="xl">{{ $event->title[$locale??'de'] }}</flux:heading>
-            <flux:text>{{ $event->description[$locale??'de'] }}</flux:text>
+            <flux:text class="my-3 prose prose-emerald dark:prose-invert">{!! $event->description[$locale??'de']  !!}</flux:text>
 
+
+            @if($event->image)
+                <img src="/images/{{ $event->image }}"
+                     alt=""
+                     class="my-3 lg:my-9 rounded-md shadow"
+                >
+            @endif
         </article>
         <aside>
             <flux:card>

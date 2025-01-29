@@ -68,7 +68,16 @@
             </flux:card>
 
             <flux:card>
-                <flux:input type="file" wire:model="logo" label="Logo" accept=".pdf,.jpg,.jpeg,.png,.webp"/>
+                <flux:heading>Titelbild für die Veranstaltung</flux:heading>
+                @if($event->image)
+                    <img src="/images/{{ $event->image }}"
+                         alt=""
+                         class="my-3 lg:my-9 rounded-md shadow"
+                    >
+                    <flux:button size="sm" variant="danger" icon="trash" wire:click="deleteImage" />
+                @else
+                    <livewire:app.global.image-upload />
+                @endif
             </flux:card>
 
             @foreach($locales as $locale)

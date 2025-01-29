@@ -6,7 +6,9 @@ use App\Enums\Locale;
 use App\Models\Event;
 use App\Models\Venue;
 use Flux\Flux;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Page extends Component
@@ -81,11 +83,52 @@ class Page extends Component
         $this->event->entry_fee_discounted = $this->entry_fee_discounted;
         $this->event->venue_id = $this->venue_id;
 
+
         if ($this->event->save()) {
             Flux::toast(
                 heading: __('members.update.success.title'),
                 text: __('members.update.success.content'),
                 variant: 'success',
+            );
+        }
+
+    }
+    #[On('image-uploaded')]
+    public function storeImage($file)
+    {
+        $this->event->image = $file;
+        $this->event->save();
+    }
+
+    public function deleteImage():void{
+
+        try {
+            $this->authorize('delete', $this->event);
+        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+            Flux::toast(
+                heading: 'Forbidden',
+                text: 'You have no permission to edit this member! '.$e->getMessage(),
+                variant: 'danger',
+            );
+            return;
+        }
+
+        try{
+            $del = Storage::disk('public')->delete('/image/images/'.$this->event->image);
+            if ($del){
+                $this->event->image = null;
+                $this->event->save();
+                Flux::toast(
+                    heading: __('members.update.success.title'),
+                    text: __('members.update.success.content'),
+                    variant: 'success',
+                );
+            }
+        } catch (\Illuminate\Contracts\Filesystem\FileNotFoundException $e) {
+            Flux::toast(
+                heading: 'Fehler',
+                text: 'Die Datei konnte nicht gelköscht werden => '.$e->getMessage(),
+                variant: 'danger',
             );
         }
 
