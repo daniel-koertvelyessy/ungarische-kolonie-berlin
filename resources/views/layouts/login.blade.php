@@ -8,6 +8,10 @@
           content="width=device-width, initial-scale=1"
     >
 
+    <meta http-equiv="refresh"
+          content="60;url={{ env('APP_URL') }}"
+    >
+
     <title>{{$title??'Magyar Kolónia Berlin e.V.'}}</title>
 
     <!-- Fonts -->
@@ -80,7 +84,7 @@
                                        href="{{ route('events') }}"
                     >{{__('app.events')}}</flux:navlist.item>
                     <flux:navlist.item wire:navigate
-                                       href="{{ route('articles.index') }}"
+                                       href="{{ route('events') }}"
                     >{{__('app.blog')}}</flux:navlist.item>
                     <flux:navlist.item wire:navigate
                                        href="{{ route('about-us') }}"
@@ -142,8 +146,8 @@
                 >{{__('app.events')}}</flux:navbar.item>
 
                 <flux:navbar.item wire:navigate
-                                  :current="request()->routeIs('articles*')"
-                                  href="{{ route('articles.index') }}"
+                                  :current="request()->routeIs('events*')"
+                                  href="{{ route('events') }}"
                 >{{__('app.blog')}}</flux:navbar.item>
 
                 <flux:navbar.item wire:navigate

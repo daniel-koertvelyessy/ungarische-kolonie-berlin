@@ -19,6 +19,7 @@ return new class extends Migration
             $table->time('end_time')->nullable();
             $table->json('title');
             $table->json('slug')->unique()->nullable();
+            $table->json('excerpt')->nullable();
             $table->json('description')->nullable();
             $table->string('image')->nullable();
             $table->unsignedSmallInteger('entry_fee')->nullable();

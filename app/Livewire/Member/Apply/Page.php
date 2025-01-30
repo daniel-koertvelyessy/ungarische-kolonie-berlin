@@ -59,13 +59,7 @@ protected Member $member;
     public function applyMembership():void
     {
 
-/*        if(app()->isProduction()) {
-        $vali =    request()->validate([
-                'cf-turnstile-response' => ['required', app(Turnstile::class)],
-            ]);
-
-        dd($vali);
-        }*/
+        $this->validate();
 
 
         if(! $this->nomail && $this->email===''){

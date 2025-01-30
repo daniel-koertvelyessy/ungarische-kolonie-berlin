@@ -1,4 +1,4 @@
-<x-guest-layout title="{{ __('app.login.title') }}">
+<x-login-layout title="{{ __('app.login.title') }}" >
 
     <flux:card class="space-y-6 max-w-2xl mx-auto">
         <div>
@@ -34,4 +34,4 @@
 
     </flux:card>
 
-</x-guest-layout>
+</x-login-layout>

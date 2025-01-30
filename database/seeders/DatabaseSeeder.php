@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Enums\Gender;
+use App\Enums\MemberType;
+use App\Models\Event;
 use App\Models\Member;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -37,9 +39,11 @@ class DatabaseSeeder extends Seeder
             'mobile' => '+491735779408',
             'address' => 'Grünspechtweg 19',
             'city' => 'Berlin',
-            'user_id' => 1
+            'user_id' => 1,
+            'type' => MemberType::MD->value
         ]);
 
         Member::factory(30)->create();
+        Event::factory(10)->create();
     }
 }

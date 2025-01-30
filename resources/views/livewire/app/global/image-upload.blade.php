@@ -1,6 +1,12 @@
 <div>
+
+    <section class="flex items-center flex-col h-full w-full rounded-lg border-2 border-dashed border-gray-300 p-12 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
+        <div>
+            <flux:input type="file" wire:model="image" accept="image/*"/>
+        </div>
+    </section>
     <!-- Image Upload Form -->
-    <flux:input type="file" wire:model="image" label="Logo" accept="image/*"/>
+
 
     @if ($image)
         <div wire:loading wire:target="image">Uploading...</div>

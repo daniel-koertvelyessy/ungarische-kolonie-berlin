@@ -14,6 +14,7 @@ class Event extends Model
     protected $casts = [
 
         'title' => 'array',
+        'excerpt' => 'array',
         'slug' => 'array',
         'description' => 'array',
         'event_date' => 'date', // Cast as Carbon instance

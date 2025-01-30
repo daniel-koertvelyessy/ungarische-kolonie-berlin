@@ -23,21 +23,22 @@ Route::get('/', function ()
             ->where('starts_at', '>', now())
             ->take(3)
             ->get(),
-        'total'  => \App\Models\Event::where('starts_at', '>', now())
+        'events_total'  => \App\Models\Event::where('starts_at', '>', now())
             ->get()
             ->count(),
+        'articles' => \App\Models\Article::take(3)->get(),
+        'articles_total' => \App\Models\Article::all()->count(),
     ]);
 })->name('home');
 
 Route::get('/events', function ()
 {
     return view('events.index', [
-        'events' => \App\Models\Event::orderBy('starts_at')
+        'events' => \App\Models\Event::orderBy('event_date')
             ->paginate(5),
         'locale' => App::getLocale()
     ]);
-})
-    ->name('events');
+})->name('events');
 
 Route::get('/events/{slug}', function (string $slug)
 {
@@ -47,64 +48,10 @@ Route::get('/events/{slug}', function (string $slug)
             ->firstOrFail(),
         'locale' => App::getLocale()
     ]);
-})
-    ->name('events.show');
+})->name('events.show');
 
-Route::get('/ics_old/{slug}', function (string $slug)
-{
-    $locale = App::getLocale();
-
-    // Find the event by JSON slug field
-    $event = Event::whereJsonContains('slug', $slug)
-        ->firstOrFail();
-
-    // Retrieve localized details
-    $title = $event->title[$locale] ?? 'Untitled Event';
-    $description = Str::limit($event->description[$locale] , 50, ' ..', true);
-    $location = $event->location ?? 'Event Location';
-
-    // Format dates to UTC in iCalendar format (YYYYMMDDTHHMMSSZ)
-    // Combine the event_date with start_time to form a full DateTime string
-
-    $start= $event->event_date->format('Y-m-d') . ' ' . $event->start_time->format('H:i:s');
-    $end = $event->event_date->format('Y-m-d') . ' ' . $event->end_time->format('H:i:s');
-
-    $startDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $start);
-    $endDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $end);
-
-    // Convert to UTC timezone
-    $startDateTime->setTimezone('UTC');
-    $endDateTime->setTimezone('UTC');
-
-    // Format the dates in iCalendar format (YYYYMMDDTHHMMSSZ)
-    $startFormatted = $startDateTime->format('Ymd\THis\Z');
-    $endFormatted = $endDateTime->format('Ymd\THis\Z');
-
-
-    // Build the ICS file content
-    $ics_data = "BEGIN:VCALENDAR\r\n";
-    $ics_data .= "VERSION:2.0\r\n";
-    $ics_data .= "PRODID:-//YourApp//NONSGML v1.0//EN\r\n";
-    $ics_data .= "CALSCALE:GREGORIAN\r\n";
-    $ics_data .= "METHOD:PUBLISH\r\n";
-    $ics_data .= "BEGIN:VEVENT\r\n";
-    $ics_data .= "UID:".uniqid()."@yourapp.com\r\n";
-    $ics_data .= "SUMMARY:".addslashes($title)."\r\n";
-    $ics_data .= "DESCRIPTION:".addslashes($description)."\r\n";
-    $ics_data .= "LOCATION:".addslashes($location)."\r\n";
-    $ics_data .= "DTSTART:".$startFormatted."\r\n";
-    $ics_data .= "DTEND:".$endFormatted."\r\n";
-    $ics_data .= "STATUS:CONFIRMED\r\n";
-    $ics_data .= "END:VEVENT\r\n";
-    $ics_data .= "END:VCALENDAR\r\n";
-
-    dd($ics_data);
-    $safeSlug = Str::slug($event->slug[$locale]);
-    // Return as a downloadable response
-    return response($ics_data)
-        ->header('Content-Type', 'text/calendar; charset=utf-8')
-        ->header('Content-Disposition', 'attachment; filename="'.$safeSlug.'.ics"');
-});
+Route::get('/articles', \App\Livewire\Article\Index\Page::class)
+    ->name('articles.index');
 
 Route::get('/ics/{slug}', function (string $slug)
 {

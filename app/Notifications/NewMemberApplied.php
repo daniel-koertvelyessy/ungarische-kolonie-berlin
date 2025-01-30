@@ -39,14 +39,11 @@ class NewMemberApplied extends Notification //implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
 
-        $url = route('dashboard');
-
         return (new MailMessage)
-            ->greeting('Hello!')
-            ->line('One of your invoices has been paid!')
-            ->lineIf($this->member->email === null, "E-Mail: {$this->member->email}")
-            ->action('View Invoice', $url)
-            ->line('Thank you for using our application!');
+            ->from('hallo@ungarische-kolonie-berlin.org', 'Daniel Körtvélyessy')
+            ->view(
+            'emails.member-application', ['member' => $this->member]
+        );
     }
 
     /**

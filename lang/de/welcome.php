@@ -9,6 +9,13 @@ return [
     "events.title"      => "Veranstaltungen",
     "events.listing"    => "Kommende Veranstaltungen der Maygar Kolónia Berlin e. V.",
     "events.link.label" => "Alle :num Veranstaltungen ansehen",
+    "events.empty.list" => "Es sind noch keine Veranstaltungen veröffentlicht worden",
+
+
+    "articles.title"     => "Artikel",
+    "articles.listing"    => "Veröffentliche Artikel von Mitgliedern der Maygar Kolónia Berlin e. V.",
+    "articles.link.label" => "Alle :num Artikel ansehen",
+    "articles.empty.list" => "Es sind noch keine Artikel veröffentlicht worden",
 
     "members.apply.header"    => "Mitglied werden",
     "members.apply.text"      => "Werden Sie Teil einer lustigen und unternehmungsreichen Gesellschaft",

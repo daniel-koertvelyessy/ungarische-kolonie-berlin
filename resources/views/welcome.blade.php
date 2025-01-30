@@ -13,6 +13,7 @@
                     <p class="mt-4 text-sm/relaxed">
                         {{ __('welcome.events.listing') }}
                     </p>
+                    @if($events_total>0)
                     @foreach($events as $key => $event)
                         <x-event-item :event="$event"/>
                     @endforeach
@@ -22,9 +23,12 @@
                                  variant="primary"
                                  icon-trailing="arrow-right-circle"
                     >
-                        {{ __('welcome.events.link.label',['num'=>$total]) }}
+                        {{ __('welcome.events.link.label',['num'=>$events_total]) }}
                     </flux:button>
+                    @else
 
+                        <flux:text class="mt-14">{{ __('welcome.events.empty.list') }}</flux:text>
+                    @endif
                 </div>
             </div>
 
@@ -46,19 +50,21 @@
 
         </article>
 
-        <!-- Blog entries -->
+        <!-- Article entries -->
         <article class="flex flex-col items-start gap-6 overflow-hidden rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] md:row-span-3 lg:p-10 lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
         >
 
             <div class="w-full">
                 <div class="pt-3 sm:pt-5 lg:pt-0">
-                    <h2 class="text-xl font-semibold text-black dark:text-white">{{ __('welcome.events.title') }}</h2>
+                    <h2 class="text-xl font-semibold text-black dark:text-white">{{ __('welcome.articles.title') }}</h2>
 
                     <p class="mt-4 text-sm/relaxed">
-                        {{ __('welcome.events.listing') }}
+                        {{ __('welcome.articles.listing') }}
                     </p>
-                    @foreach($events as $key => $event)
-                        <x-event-item :event="$event"/>
+
+                    @if($articles_total>0)
+                    @foreach($articles as $key => $article)
+                        <x-article-item :event="$article"/>
                     @endforeach
 
                     <flux:button size="sm"
@@ -66,9 +72,12 @@
                                  variant="primary"
                                  icon-trailing="arrow-right-circle"
                     >
-                        {{ __('welcome.events.link.label',['num'=>$total]) }}
+                        {{ __('welcome.articles.link.label',['num'=>$articles_total]) }}
                     </flux:button>
+                    @else
 
+                        <flux:text class="mt-14">{{ __('welcome.articles.empty.list') }}</flux:text>
+                    @endif
                 </div>
             </div>
 
