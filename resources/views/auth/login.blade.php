@@ -26,9 +26,9 @@
 
             <div class="space-y-2 mt-6">
                 <flux:button type="submit" variant="primary" >{{ __('app.login.btn.login.label') }}</flux:button>
-                @if (Route::has('register'))
+             {{--   @if (Route::has('register'))
                 <flux:button variant="ghost" href="{{ route('register') }}" >{{ __('app.login.btn.register.label') }}</flux:button>
-                @endif
+                @endif--}}
             </div>
         </form>
 

@@ -1,5 +1,9 @@
 <x-guest-layout title="Register">
-    <x-authentication-card>
+
+    <p>
+        Sorry, diese Funktion ist nicht aktiv :/
+    </p>
+{{--    <x-authentication-card>
         <x-slot name="logo">
             <x-authentication-card-logo />
         </x-slot>
@@ -56,5 +60,5 @@
                 </x-button>
             </div>
         </form>
-    </x-authentication-card>
+    </x-authentication-card>--}}
 </x-guest-layout>
