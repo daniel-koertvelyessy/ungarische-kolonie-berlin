@@ -26,6 +26,9 @@ return [
     "country"                     => "Land",
     "locale"                      => "Bevorzugte Sprache",
     "gender"                      => "Geschlecht",
+    "type"                      => "Mitgliedsstatus",
+    "linked_user"                      => "verknüft mit Backend-Benutzer",
+    "unlink_user"                      => "Verknüpfung lösen",
 
     "update.success.title" => "Erfolg",
     "update.success.content" => "Die Mitgliedsdaten wurden erfolgreich aktualisiert.",
@@ -36,6 +39,7 @@ return [
     "btn.sendVerificationMail.label" => "Erinnerung an Verifizierung senden",
     "btn.sendAcceptanceMail.label" => "Antrag annehmen",
     "btn.cancelMembership.label" => "Mitgliedschaft kündigen",
+    "btn.inviteAsUser.label" => "Mitglied als Benutzer einladen",
 
     "type.standard" => "Mitglied",
     "type.applicant" => "Anwärter",

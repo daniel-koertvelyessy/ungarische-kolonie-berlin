@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Enums\MemberType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Notifications\Notifiable;
 
 class Member extends Model
@@ -52,6 +54,11 @@ class Member extends Model
     public static function Applicants()
     {
         return Member::whereIn('type',[MemberType::AP->value])->get();
+    }
+
+    public function user(): belongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
 }

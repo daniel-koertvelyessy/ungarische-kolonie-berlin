@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Enums\MemberType;
 use App\Models\Member;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
@@ -37,6 +38,19 @@ class MemberPolicy
      */
     public function update(User $user, Member $member): bool
     {
+
+        dump($user);
+
+        dump($member);
+
+        if($user->member && $user->member->id == $member->id){
+            return true;
+        }
+
+        if ($user->member && $user->member->type === MemberType::MD->value) {
+            return true;
+        }
+
         return $this->checkThis($user, $member);
     }
 
@@ -66,11 +80,14 @@ class MemberPolicy
 
     private function checkThis(User $user, Member $member): bool
     {
+
+
         if ($user->is_admin) {
             return true;
         }
 
-        if ($member->type === 'board') {
+
+        if ($user->member && $user->member->type === MemberType::MD->value) {
             return true;
         }
 

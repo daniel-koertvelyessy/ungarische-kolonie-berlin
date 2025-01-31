@@ -1,6 +1,9 @@
 <div class="space-y-6">
 
+    <header class="flex justify-between">
     <flux:heading size="xl">{{ __('event.page.title') }}</flux:heading>
+    <flux:button href="{{ route('backend.events.create') }}" variant="primary">Neu erstellen</flux:button>
+    </header>
 
     <flux:table :paginate="$this->events">
 

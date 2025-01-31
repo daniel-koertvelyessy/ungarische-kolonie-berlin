@@ -2,9 +2,14 @@
 
 namespace App\Livewire\Member\Show;
 
+use App\Enums\MemberType;
+use App\Mail\InvitationMail;
+use App\Models\Invitation;
 use App\Models\Member;
 use App\Models\User;
 use Flux\Flux;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Livewire\Component;
 
 class Page extends Component
@@ -15,6 +20,7 @@ class Page extends Component
     public Member $member;
     public int $member_id;
 
+    public string $member_type;
 
     public $entered_at;
     public $left_at;
@@ -33,6 +39,8 @@ class Page extends Component
     public $zip;
     public $country;
     public $user_id;
+
+    public string $linked_user_name;
 
 
     public function mount(Member $member): void
@@ -63,6 +71,14 @@ class Page extends Component
         $this->city = $this->member->city;
         $this->country = $this->member->country;
         $this->user_id = $this->member->user_id;
+        $this->member_type = $this->member->type;
+
+        $get_user = \App\Models\User::find($this->user_id);
+        $this->linked_user_name =  $get_user
+            ?     $get_user->first_name . ' ' . $get_user->name
+            :'Nicht verknüpft';
+
+
     }
 
     public function detachUser(int $userid): void
@@ -173,9 +189,10 @@ class Page extends Component
             return;
         }
 
-        $this->member->email = $this->email;
-        $this->member->phone = $this->phone;
-        $this->member->mobile = $this->mobile;
+        $this->member->type = $this->member_type;
+        $this->member->is_deducted = $this->is_deducted;
+        $this->member->deduction_reason = $this->deduction_reason;
+
 
         if ($this->member->save()) {
             Flux::toast(
@@ -184,6 +201,26 @@ class Page extends Component
                 variant: 'success',
             );
         }
+    }
+
+    public function sendInvitation(): void
+    {
+        $this->validate([
+            'email' => 'required|email|unique:invitations,email|unique:users,email',
+        ]);
+
+        $invitation = Invitation::create([
+            'email' => $this->email,
+            'token' => Str::random(32),
+        ]);
+
+        Mail::to($this->email)->send(new InvitationMail($invitation));
+
+        Flux::toast(
+            heading: __('Erfolg'),
+            text: __('Einladung verschickt'),
+            variant: 'success',
+        );
     }
 
     public function render()

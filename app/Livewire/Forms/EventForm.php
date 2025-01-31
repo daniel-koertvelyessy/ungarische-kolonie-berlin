@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Forms;
 
+use App\Enums\EventStatus;
 use App\Enums\Locale;
 use App\Models\Event;
 use Flux\Flux;
@@ -15,7 +16,7 @@ class EventForm extends Form
     public Event $event;
     public string $locale;
     public array $locales;
-
+    public $status = EventStatus::DRAFT;
     public $event_date;
     public $start_time;
     public $end_time;

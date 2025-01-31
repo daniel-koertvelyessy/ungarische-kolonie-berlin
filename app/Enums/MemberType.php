@@ -4,10 +4,10 @@ namespace App\Enums;
 
 enum MemberType: string
 {
-    case ST = "standard";
-    case MD = "board";
-    case AD = "advisor";
     case AP = "applicant";
+    case ST = "standard";
+    case AD = "advisor";
+    case MD = "board";
 
     public static function toArray(): array
     {

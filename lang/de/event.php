@@ -15,6 +15,9 @@ return array(
     "index.table.header.title" => "Title",
     "index.table.header.image" => "Titelbild",
 
+    "create.slug.notice" => "Der slug wird als Link in zwei Sprachen angelegt. Dieser kann nachträglich nicht mehr geändert werden!",
+    "create.page.title" => "Neue Veranstaltung erstellen",
+
     "show.page.title" => "Veranstaltung :name bearbeiten",
 
     "form.event_date" => "Datum",
@@ -39,5 +42,14 @@ return array(
     "delete_image.success.content" => "Das Titelbild wurde erfolgreich gelöscht.",
     "store_image.success.title" => "Upload erfolgreich",
     "store_image.success.content" => "Das Titelbild wurde erfolgreich gespeichert und mit der Veranstaltung verknüpft.",
+
+    "type.label" => "Status",
+    "type.draft" => "Entwurf",
+    "type.pending" => "Ausstehend",
+    "type.published" => "Veröffentlicht",
+    "type.rejected" => "Abgelehnt",
+    "type.retracted" => "Zurückgezogen",
+
+
 
 );

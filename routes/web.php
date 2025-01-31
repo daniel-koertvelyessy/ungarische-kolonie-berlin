@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RegisterController;
 use App\Models\Event;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
@@ -163,6 +164,8 @@ Route::get('/print-member-application/{member}', function (\App\Models\Member $m
 })
     ->name('members.print_application');
 
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [RegisterController::class, 'create']);
 
 Route::middleware([
     'auth:sanctum',
@@ -179,6 +182,9 @@ Route::middleware([
 
         Route::get('/backend-events', \App\Livewire\Event\Index\Page::class)
             ->name('backend.events.index');
+
+        Route::get('/backend-events/create', \App\Livewire\Event\Create\Page::class)
+            ->name('backend.events.create');
 
         Route::get('/backend-events/{event}', \App\Livewire\Event\Show\Page::class)
             ->name('backend.events.show');
