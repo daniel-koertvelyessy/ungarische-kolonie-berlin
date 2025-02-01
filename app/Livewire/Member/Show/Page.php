@@ -205,22 +205,34 @@ class Page extends Component
 
     public function sendInvitation(): void
     {
-        $this->validate([
-            'email' => 'required|email|unique:invitations,email|unique:users,email',
-        ]);
+        try{
+            $this->validate([
+                'email' => 'required|email|unique:invitations,email|unique:users,email',
+            ]);
+            $invitation = Invitation::create([
+                'email' => $this->email,
+                'token' => Str::random(32),
+            ]);
 
-        $invitation = Invitation::create([
-            'email' => $this->email,
-            'token' => Str::random(32),
-        ]);
+            Mail::to($this->email)->send(new InvitationMail($invitation));
 
-        Mail::to($this->email)->send(new InvitationMail($invitation));
+            Flux::toast(
+                heading: __('Erfolg'),
+                text: __('Einladung verschickt'),
+                variant: 'success',
+            );
 
-        Flux::toast(
-            heading: __('Erfolg'),
-            text: __('Einladung verschickt'),
-            variant: 'success',
-        );
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            Flux::toast(
+                heading: __('Fehler'),
+                text: __('Wurde nicht verschickt: '. $e->getMessage()),
+                variant: 'danger',
+            );
+        }
+
+
+
+
     }
 
     public function render()

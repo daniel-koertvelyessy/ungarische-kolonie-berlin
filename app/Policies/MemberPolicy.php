@@ -39,10 +39,6 @@ class MemberPolicy
     public function update(User $user, Member $member): bool
     {
 
-        dump($user);
-
-        dump($member);
-
         if($user->member && $user->member->id == $member->id){
             return true;
         }

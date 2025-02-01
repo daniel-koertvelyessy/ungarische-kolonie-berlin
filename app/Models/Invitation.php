@@ -11,4 +11,8 @@ class Invitation extends Model
         'token',
         'accepted',
     ];
+
+    public function invite(){
+
+    }
 }

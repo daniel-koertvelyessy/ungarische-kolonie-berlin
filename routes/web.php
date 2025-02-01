@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\RegisterController;
 use App\Models\Event;
+use App\Models\Member;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
@@ -9,6 +10,14 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 //use Spatie\Browsershot\Browsershot;
+
+
+Route::get('/mailer-test',function(){
+
+    app()->setLocale('hu');
+
+    return view('emails.invitation',['member'=> Member::find(1)]);
+})->name('mail-tester');
 
 Route::get('lang/{locale}', function ($locale)
 {

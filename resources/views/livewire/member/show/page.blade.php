@@ -235,6 +235,7 @@
                                          wire:click="sendInvitation"
                             >{{ __('members.btn.inviteAsUser.label') }}
                             </flux:button>
+                            <flux:error for="email" />
                         </flux:field>
                     @endif
                 </flux:card>

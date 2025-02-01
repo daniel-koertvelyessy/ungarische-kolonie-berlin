@@ -24,7 +24,7 @@ class InvitationMail extends Mailable
     {
         return $this->subject('Meghívás a Magyar Kolónia Berlin e.V.')
             ->from('szia@magyar-kolonia-berlin.org', 'Körtvélyessy Daniel')
-            ->view('emails.invitation')
+            ->view('emails._invitation')
             ->with([
                 'url' => route('register', ['token' => $this->invitation->token]),
             ]);
