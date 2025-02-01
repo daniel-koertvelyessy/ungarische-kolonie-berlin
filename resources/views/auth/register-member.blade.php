@@ -6,23 +6,18 @@
         >
             @csrf
             <input type="hidden"
+                   name="name"
+                   value="{{ $member->name }}"
+            >
+            {{ app()->getLocale() }}
+            <input type="hidden"
                    name="token"
                    value="{{ $token }}"
             >
+
             <section class="space-y-6">
 
-
-                <flux:input name="name"
-                            label="Name"
-                            autocomplete="name"
-                />
-                <flux:input type="email"
-                            name="email"
-                            value="{{ $invitation->email??'' }}"
-                            label="E-Mail"
-                            readonly
-                            autocomplete="off"
-                />
+                <flux:heading size="lg">Jetzt noch das Passwort</flux:heading>
 
                 <flux:input viewable
                             name="password"

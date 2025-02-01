@@ -206,15 +206,17 @@ class Page extends Component
     public function sendInvitation(): void
     {
         try{
+
             $this->validate([
                 'email' => 'required|email|unique:invitations,email|unique:users,email',
             ]);
+
             $invitation = Invitation::create([
                 'email' => $this->email,
                 'token' => Str::random(32),
             ]);
 
-            Mail::to($this->email)->send(new InvitationMail($invitation));
+            Mail::to($this->email)->send(new InvitationMail($invitation, $this->member));
 
             Flux::toast(
                 heading: __('Erfolg'),

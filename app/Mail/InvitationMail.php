@@ -2,6 +2,8 @@
 
 namespace App\Mail;
 
+use App\Models\Invitation;
+use App\Models\Member;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -14,17 +16,19 @@ class InvitationMail extends Mailable
     use Queueable, SerializesModels;
 
     public $invitation;
+    public $member;
 
-    public function __construct($invitation)
+    public function __construct(Invitation $invitation, Member $member)
     {
         $this->invitation = $invitation;
+        $this->member = $member;
     }
 
     public function build(): InvitationMail
     {
         return $this->subject('Meghívás a Magyar Kolónia Berlin e.V.')
             ->from('szia@magyar-kolonia-berlin.org', 'Körtvélyessy Daniel')
-            ->view('emails._invitation')
+            ->view('emails._invitation', [ 'member' => $this->member])
             ->with([
                 'url' => route('register', ['token' => $this->invitation->token]),
             ]);

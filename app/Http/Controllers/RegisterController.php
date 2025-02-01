@@ -20,9 +20,16 @@ class RegisterController extends Controller
         $invitation = Invitation::where('token', $request->token)
             ->firstOrFail();
 
-        $member = Member::where('email', $request->email)->firstOrFail();
+        $member = Member::where('email', $invitation->email)->firstOrFail();
 
-        $user = (new CreateNewUser())->create($request->all());
+        $user = (new CreateNewUser())->create([
+            'locale' => $member->locale,
+            'first_name' => $member->first_name,
+            'name' => $member->name,
+            'email' => $member->email,
+            'password' => $request->password,
+            'password_confirmation' => $request->password_confirmation,
+        ]);
 
         $invitation->update(['accepted' => true]);
 
@@ -45,11 +52,18 @@ class RegisterController extends Controller
         $invitation = Invitation::where('token', $token)
             ->first();
 
+        $member = Member::where('email', $invitation->email)->firstOrFail();
+
+        if (!$member){
+            return redirect('/')->with('error', 'Invalid or non existent member');
+
+        }
+
         if (!$invitation) {
             return redirect('/')->with('error', 'Invalid or expired invitation link.');
         }
 
-        return view('auth.register', compact('token', 'invitation'));
+        return view('auth.register-member', compact('token', 'invitation', 'member'));
     }
 }
 /**
