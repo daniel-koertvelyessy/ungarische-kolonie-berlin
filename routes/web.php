@@ -198,6 +198,11 @@ Route::middleware([
         Route::get('/backend-events/{event}', \App\Livewire\Event\Show\Page::class)
             ->name('backend.events.show');
 
+        Route::get('/accounting', \App\Livewire\Accounting\Index\Page::class)
+            ->name('accounting.index');
+
+        Route::get('/transaction', \App\Livewire\Accounting\Transaction\Create\Page::class)->name('transaction.create');
+
 
         Route::get('/dashboard', function ()
         {

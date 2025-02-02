@@ -95,11 +95,15 @@
                            :current="request()->is('*events*')"
         >{{ __('nav.events') }}</flux:navlist.item>
 
-        <flux:navlist.item wire:navigate
-                           icon="currency-euro"
-                           href="#"
-                           :current="request()->is('/')"
-        >{{ __('nav.kasse') }}</flux:navlist.item>
+
+
+        <flux:navlist.group heading="{{ __('nav.kasse') }}" expandable>
+            <flux:navlist.item href="{{ route('accounting.index') }}">Übersicht</flux:navlist.item>
+            <flux:navlist.item href="#">Belege</flux:navlist.item>
+            <flux:navlist.item href="{{ route('transaction.create') }}">Buchungen</flux:navlist.item>
+            <flux:navlist.item href="#">Berichte</flux:navlist.item>
+            <flux:navlist.item href="#">Konten</flux:navlist.item>
+        </flux:navlist.group>
 
     </flux:navlist>
 

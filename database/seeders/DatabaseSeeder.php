@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Actions\Accounting\CreateBookingAccount;
+use App\Enums\BookingAccountType;
 use App\Enums\Gender;
 use App\Enums\MemberType;
 use App\Models\Event;
@@ -43,7 +45,22 @@ class DatabaseSeeder extends Seeder
             'type' => MemberType::MD->value
         ]);
 
-        Member::factory(30)->create();
-        Event::factory(10)->create();
+
+        CreateBookingAccount::create([
+           'type' => BookingAccountType::Expenses->value,
+            'number' => '2701',
+            'label' => 'Büromaterial',
+        ]);
+
+
+
+        if (app()->environment() !== 'production') {
+            Member::factory(30)
+                ->create();
+            Event::factory(10)
+                ->create();
+        }
+
+
     }
 }
