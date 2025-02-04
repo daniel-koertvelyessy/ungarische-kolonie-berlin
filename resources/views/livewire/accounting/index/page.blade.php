@@ -6,31 +6,61 @@
     <section class="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
 
         <flux:card>
-            <flux:heading>Belege</flux:heading>
-            <section class="space-y-6 my-3">
-                <aside>
-                    <flux:subheading>Letzen Belege</flux:subheading>
-                    @forelse($this->receipts as $key => $receipt)
+            <flux:heading>Buchungen</flux:heading>
 
-                        @empty
-                        <flux:text size="sm" class="text-orange-500">keine Belege im Buchungsjahr 2025 erfasst</flux:text>
-                    @endforelse
+            <flux:table :paginate="$this->transactions">
+                <flux:columns>
+                    <flux:column>Bezeichnung</flux:column>
+                    <flux:column>Summe</flux:column>
+                </flux:columns>
 
-                </aside>
-                <flux:button variant="primary" href="{{ route('transaction.create') }}">Beleg Einreichen</flux:button>
+                <flux:rows>
+                    @foreach ($this->transactions as $items)
+                        <flux:row :key="$items->id">
+                            <flux:cell>
+                                {{ $items->label }}
+                            </flux:cell>
+                            <flux:cell class="{{ $items->type === \App\Enums\TransactionType::Deposit->value ? 'text-lime-500' : 'text-orange-600'  }}">
+                                {{ $items->grossForHumans() }}
+                            </flux:cell>
+
+                        </flux:row>
+                    @endforeach
+                </flux:rows>
+            </flux:table>
+
+
+                            <section class="space-y-6 my-3">
+                                <flux:button href="#">Übersicht</flux:button>
+                <flux:button variant="primary"
+                             href="{{ route('transaction.create') }}"
+                >Beleg Einreichen
+                </flux:button>
             </section>
         </flux:card>
 
         <flux:card>
             <flux:heading>Konten</flux:heading>
             <section class="space-y-6 my-3">
-                <flux:card class="bg-teal-50 flex items-center justify-between">
-                    <div>
-                        <flux:heading>Barkasse</flux:heading>
-                        <flux:text>Stand: 2025-02-23</flux:text>
-                    </div>
-                    <aside>EUR 10.122,12</aside>
-                </flux:card>
+                @php $total = 0; @endphp
+                @forelse($this->accounts as $account)
+                    @php
+                        $accountBalance=   $account->accountBalance();
+                        $total += $accountBalance;
+                    @endphp
+                    <flux:card class="bg-teal-50 flex items-center justify-between">
+                        <div>
+                            <flux:heading>{{ $account->name }}</flux:heading>
+                            <flux:text>Stand: 2025-02-23</flux:text>
+                        </div>
+                        <aside>EUR {{ number_format(($accountBalance/100),2,',','.') }}</aside>
+                    </flux:card>
+                @empty
+
+                @endforelse
+
+                {{ number_format(($total/100),2,',','.') }}
+
             </section>
         </flux:card>
         <flux:card>

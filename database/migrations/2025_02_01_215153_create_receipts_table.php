@@ -16,8 +16,8 @@ return new class extends Migration
             $table->uuid();
             $table->string('label');
             $table->string('file_name');
-            $table->string('receipt_number')->index();
-            $table->string('receipt_date');
+            $table->string('number')->index();
+            $table->string('date');
             $table->text('description')->nullable();
             $table->timestamps();
         });

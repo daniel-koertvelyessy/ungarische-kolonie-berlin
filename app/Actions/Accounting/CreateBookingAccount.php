@@ -12,11 +12,6 @@ class CreateBookingAccount
 {
     public static function create(array $data): BookingAccount
     {
-        Validator::make($data, [
-            'type'   => ['required', 'string'],
-            'number' => ['required', 'string', Rule::unique('booking_accounts', 'number')],
-            'label'  => ['required','string'],
-        ])->validate();
 
         return DB::transaction(function () use ($data)
         {

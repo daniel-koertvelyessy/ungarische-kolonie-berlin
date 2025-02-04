@@ -16,6 +16,8 @@ class BookingAccount extends Model
     use HasFactory;
 
     protected $fillable = [
-        ''
+        'label',
+        'number',
+        'type'
     ];
 }

@@ -3,12 +3,18 @@
 namespace App\Livewire\Accounting\Transaction\Create;
 
 use App\Actions\Accounting\CreateAccount;
+use App\Actions\Accounting\CreateBookingAccount;
 use App\Enums\TransactionType;
+use App\Livewire\Forms\AccountForm;
+use App\Livewire\Forms\BookingAccountForm;
+use App\Livewire\Forms\ReceiptForm;
 use App\Livewire\Forms\TransactionForm;
 use App\Models\Accounting\Account;
 use App\Models\Accounting\BookingAccount;
+use App\Models\Accounting\Transaction;
 use Flux\Flux;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -17,12 +23,11 @@ class Page extends Component
     use WithFileUploads;
 
     public TransactionForm $form;
+    public AccountForm $account;
+    public ReceiptForm $receipt;
+    public BookingAccountForm $booking;
 
-    public $account_name;
-    public $account_number;
-    public $account_institute;
-    public $account_iban;
-    public $account_bic;
+    public Transaction $transaction;
 
     public bool $check_form = false;
 
@@ -40,7 +45,83 @@ class Page extends Component
             ->get();
     }
 
-    public function addNewAccount(): void
+    public function mount(){
+        $this->form->type = TransactionType::Withdrawal->value;
+        $this->form->vat = 19;
+        $this->receipt->date = now()->format('Y-m-d');
+    }
+
+    public function submitTransaction():void
+    {
+        $this->checkUser();
+
+      $this->transaction =  $this->form->create();
+
+      if ($this->transaction->save()) {
+          $this->reset( 'transaction');
+
+          Flux::toast(
+              heading: 'Erfolg',
+              text: 'Die Buchung '.$this->form->label.' wurde eingereicht',
+              variant: 'success',
+          );
+      }
+    }
+
+    public function submitReceipt():void
+    {
+        if(empty($this->receipt->file_name)){
+            Flux::modal('missing-transaction-modal')->show();
+          return;
+        }
+
+        $receipt = $this->receipt->updateFile();
+
+        $this->transaction->receipt_id = $receipt->id;
+        $this->form->receipt_id = $receipt->id;
+
+        if ($this->transaction->save()) {
+            $this->reset('receipt');
+            Flux::toast(
+                heading: 'Erfolg',
+                text: 'Die Buchung wurde eingereicht',
+                variant: 'success',
+            );
+        }
+    }
+    public function addAccount():void
+    {
+        $this->checkUser();
+        $this->account->create();
+        $this->form->account_id = $this->account->id;
+
+    }
+
+    public function createAccount():void
+    {
+        $this->checkUser();
+        $this->account->create();
+        $this->reset('account');
+
+    }
+
+
+    public function addBookingAccount(): void
+    {
+        $this->checkUser();
+        $this->booking->create();
+        $this->form->booking_id = $this->booking->id;
+
+    }
+
+    public function createBookingAccount(): void
+    {
+        $this->checkUser();
+        $this->booking->create();
+        $this->reset('booking');
+    }
+
+    protected function checkUser(): void
     {
         try {
             $this->authorize('create', Account::class);
@@ -52,41 +133,5 @@ class Page extends Component
             );
             return;
         }
-
-
-        CreateAccount::create([
-            'name'      => $this->account_name,
-            'number'    => $this->account_number,
-            'institute' => $this->account_institute,
-            'iban'      => $this->account_iban,
-            'bic'       => $this->account_bic,
-        ]);
-    }
-
-
-    public function addNewBookingAccount()
-    {
-        try {
-            $this->authorize('create', Account::class);
-        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
-            Flux::toast(
-                heading: 'Forbidden',
-                text: 'Sie haben keine Berechtigungen zur Erstellung von Konten'.$e->getMessage(),
-                variant: 'danger',
-            );
-            return;
-        }
-
-        CreateAccount::create([
-            'type'   => $this->booking_account_type,
-            'number' => $this->booking_account_number,
-            'label'  => $this->booking_account_label,
-        ]);
-    }
-
-
-    public function render()
-    {
-        return view('livewire.accounting.transaction.create.page');
     }
 }

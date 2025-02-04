@@ -14,12 +14,11 @@ enum TransactionType:string
     }
 
 
-    public static function value(string $value): string
+    public static function calc(string $value): int
     {
         return match ($value) {
-            'Deposit' => 'lime',
-            'Withdrawal' => 'orange',
-            'Reversal' => 'red',
+            'Einzahlung' => 1,
+            'Auszahlung', 'Storno' => -1,
         };
     }
 

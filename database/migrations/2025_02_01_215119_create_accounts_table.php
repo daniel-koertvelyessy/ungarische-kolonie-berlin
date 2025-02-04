@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('institute')->nullable();
             $table->string('iban')->nullable();
             $table->string('bic')->nullable();
+            $table->integer('starting_amount');
             $table->timestamps();
         });
     }

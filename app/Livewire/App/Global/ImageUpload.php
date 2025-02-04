@@ -18,7 +18,7 @@ class ImageUpload extends Component
     public $image;
     public $thumbnail;
 
-    public function updatedImage()
+    public function updatedImage(): void
     {
 
         if ($this->image) {
