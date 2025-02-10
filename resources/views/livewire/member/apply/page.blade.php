@@ -2,7 +2,9 @@
     <flux:heading size="xl">{{ __('members.apply.title') }}</flux:heading>
     <flex:text>{{ __('members.apply.text') }}</flex:text>
 
-    <flux:accordion transition class="bg-white dark:bg-zinc-600 p-2 rounded">
+    <flux:accordion transition
+                    class="bg-white dark:bg-zinc-600 p-2 rounded"
+    >
         <flux:accordion.item>
             <flux:accordion.heading>{{ __('members.apply.process') }}</flux:accordion.heading>
 
@@ -40,10 +42,6 @@
         </flux:accordion.item>
 
     </flux:accordion>
-
-
-
-
 
 
     <form wire:submit="applyMembership">
@@ -101,17 +99,17 @@
                                autocomplete="street-address"
                 />
 
-                    <flux:input wire:model="zip"
-                                label="{{ __('members.zip') }}"
-                                class="w-20"
-                                autocomplete="postal-code"
-                    />
-                    <flux:input wire:model="city"
-                                label="{{ __('members.city') }}"
-                                class="grow"
-                                autocomplete="address-level1"
+                <flux:input wire:model="zip"
+                            label="{{ __('members.zip') }}"
+                            class="w-20"
+                            autocomplete="postal-code"
+                />
+                <flux:input wire:model="city"
+                            label="{{ __('members.city') }}"
+                            class="grow"
+                            autocomplete="address-level1"
 
-                    />
+                />
 
 
                 <flux:input wire:model="country"
@@ -136,7 +134,7 @@
 
                 <flux:separator text="{{ __('members.section.fees') }}"/>
 
-                <flux:text>{{ __('members.apply.fee.label', ['sum' => \App\Models\Member::feeForHumans() ]) }}</flux:text>
+                <flux:text>{{ __('members.apply.fee.label', ['sum' => \App\Models\Membership\Member::feeForHumans() ]) }}</flux:text>
 
                 <flux:checkbox wire:model="is_deducted"
                                label="{{ __('members.apply.discount.label') }}"
@@ -148,7 +146,8 @@
                 <flux:separator text="{{ __('members.section.email') }}"/>
                 <flux:text>{{ __('members.apply.email.benefits') }}</flux:text>
 
-                <flux:input wire:model="email" wire:blur="checkEmail"
+                <flux:input wire:model="email"
+                            wire:blur="checkEmail"
                             label="{{ __('members.email') }}"
                             autocomplete="email"
                 />
@@ -157,24 +156,24 @@
                                label="{{ __('members.apply.email.none') }}"
                 />
 
-                    <flux:text  x-show="$wire.nomail">{{ __('members.apply.email.without.text') }}</flux:text>
+                <flux:text x-show="$wire.nomail">{{ __('members.apply.email.without.text') }}</flux:text>
 
             </flux:card>
-{{--            @if(app()->isProduction())
-                <x-turnstile/>
-            @endif--}}
+            {{--            @if(app()->isProduction())
+                            <x-turnstile/>
+                        @endif--}}
 
-                <flux:button type="submit"
-                             variant="primary"
-                             icon="printer"
-                             x-show="$wire.nomail"
-                >{{ __('members.apply.printAndSubmit') }}</flux:button>
+            <flux:button type="submit"
+                         variant="primary"
+                         icon="printer"
+                         x-show="$wire.nomail"
+            >{{ __('members.apply.printAndSubmit') }}</flux:button>
 
-                <flux:button type="submit"
-                             variant="primary"
-                             icon="paper-airplane"
-                             x-show="! $wire.nomail"
-                >{{ __('members.apply.checkAndSubmit') }}</flux:button>
+            <flux:button type="submit"
+                         variant="primary"
+                         icon="paper-airplane"
+                         x-show="! $wire.nomail"
+            >{{ __('members.apply.checkAndSubmit') }}</flux:button>
 
         </div>
 

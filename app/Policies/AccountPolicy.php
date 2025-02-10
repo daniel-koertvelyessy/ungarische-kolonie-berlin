@@ -3,8 +3,6 @@
 namespace App\Policies;
 
 use App\Enums\MemberType;
-use App\Models\Accounting\Account;
-use App\Models\Member;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 

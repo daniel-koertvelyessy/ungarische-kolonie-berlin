@@ -5,7 +5,7 @@ namespace App\Livewire\Forms;
 use App\Enums\Gender;
 use App\Enums\Locale;
 use App\Enums\MemberType;
-use App\Models\Member;
+use App\Models\Membership\Member;
 use Illuminate\Validation\Rule;
 use Livewire\Form;
 

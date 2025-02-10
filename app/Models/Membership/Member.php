@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Membership;
 
 use App\Enums\MemberType;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Notifications\Notifiable;
 
 class Member extends Model
 {
     use Notifiable;
-    /** @use HasFactory<\Database\Factories\MemberFactory> */
+    /** @use HasFactory<\Database\Factories\Membership\MemberFactory> */
     use HasFactory;
 
     public static float $fee = 10.50;

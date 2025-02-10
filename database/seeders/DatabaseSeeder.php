@@ -7,11 +7,12 @@ use App\Enums\BookingAccountType;
 use App\Enums\Gender;
 use App\Enums\MemberType;
 use App\Models\Event;
-use App\Models\Member;
+use App\Models\Membership\Member;
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+
+// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DatabaseSeeder extends Seeder
 {
@@ -25,7 +26,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'daniel@thermo-control.com',
             'username' => 'Daniel',
             'first_name' => 'Daniel',
-            'gender' => Gender::ma,
+            'gender' => Gender::ma->value,
             'is_admin' => true,
             'password' => Hash::make('33 hkB47!!'),
         ]);
@@ -46,6 +47,16 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
+        CreateBookingAccount::create([
+           'type' => BookingAccountType::Income->value,
+            'number' => '5706',
+            'label' => 'Einnahmen aus sonstigen Veranstaltungen',
+        ]);
+        CreateBookingAccount::create([
+           'type' => BookingAccountType::Income->value,
+            'number' => '8002',
+            'label' => 'Eintrittsgelder aus geselligen Veranstaltungen',
+        ]);
         CreateBookingAccount::create([
            'type' => BookingAccountType::Expenses->value,
             'number' => '2701',

@@ -20,15 +20,19 @@
                         <flux:input wire:model="form.title.{{$locale->value}}"
                                     description="Der Titel wird für die Seite verwendet"
                         />
+                        <flux:error name="form.title"/>
                     </flux:field>
 
                     <div>
                         <flux:label>Slug für Sprache
                             <flux:badge color="lime">{{ $locale->value }}</flux:badge>
                         </flux:label>
+
                         <flux:input wire:model="form.slug.{{$locale->value}}"
                                     description="{{ __('event.create.slug.notice') }}"
                         />
+                        <flux:error name="form.slug"/>
+
                     </div>
 
                     <flux:field>

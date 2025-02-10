@@ -2,7 +2,6 @@
 
 namespace App\View\Components;
 
-use App\Models\Member;
 use Illuminate\View\Component;
 use Illuminate\View\View;
 

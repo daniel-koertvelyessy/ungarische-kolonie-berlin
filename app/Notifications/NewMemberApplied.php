@@ -2,9 +2,7 @@
 
 namespace App\Notifications;
 
-use App\Models\Member;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Models\Membership\Member;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 

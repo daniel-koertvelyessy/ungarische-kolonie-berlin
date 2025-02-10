@@ -2,15 +2,14 @@
 
 use App\Http\Controllers\RegisterController;
 use App\Models\Event;
-use App\Models\Member;
+use App\Models\Membership\Member;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+
 //use Spatie\Browsershot\Browsershot;
 
 
@@ -140,7 +139,7 @@ Route::get('/der-verein', function ()
 Route::get('/mitglied-werden', \App\Livewire\Member\Apply\Page::class)
     ->name('members.application');
 
-Route::get('/print-member-application/{member}', function (\App\Models\Member $member)
+Route::get('/print-member-application/{member}', function (\App\Models\Membership\Member $member)
 {
     $html = view('pdf.membership-application', ['member' => $member])->render();
     $filename = __('members.apply.print.filename', ['tm' => date('YmdHis'), 'id' => $member->id]);

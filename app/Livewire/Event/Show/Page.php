@@ -5,37 +5,64 @@ namespace App\Livewire\Event\Show;
 use App\Enums\Locale;
 use App\Livewire\Forms\EventForm;
 use App\Models\Event;
+use App\Models\Membership\MemberTransaction;
 use App\Models\Venue;
 use Flux\Flux;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Page extends Component
 {
+    use WithPagination;
+    public EventForm $form;
+    public $event_id;
+    public $sortBy = 'date';
+    public $sortDirection = 'desc';
+    public Event $event;
+public $tab = 'payments';
+    protected $listeners = ['updated-payments' => 'payments'];
 
-  public EventForm $form;
-
-
+    public function sort($column)
+    {
+        if ($this->sortBy === $column) {
+            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            $this->sortBy = $column;
+            $this->sortDirection = 'asc';
+        }
+    }
 
     #[Computed]
     public function venues()
     {
-        return Venue::select('id','name')->get();
+        return Venue::select('id', 'name')
+            ->get();
+    }
+
+    #[Computed]
+    public function payments(): LengthAwarePaginator
+    {
+        return MemberTransaction::query()
+            ->with('event')
+            ->where('event_id', '=', $this->event_id)
+            ->tap(fn($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
+            ->paginate(10);
     }
 
 
     public function mount(Event $event)
     {
-
+        $this->event_id = $event->id;
         $this->form->setEvent($event);
     }
 
 
-
-    public function updateEventData(): void{
-
+    public function updateEventData(): void
+    {
         try {
             $this->authorize('update', $this->form->event);
         } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
@@ -50,35 +77,31 @@ class Page extends Component
     }
 
     #[On('image-uploaded')]
-    public function storeImage($file):void
+    public function storeImage($file): void
     {
-        if ($this->form->storeImage($file)){
-
+        if ($this->form->storeImage($file)) {
             Flux::toast(
                 heading: __('event.store_image.success.title'),
                 text: __('event.store_image.success.content'),
                 variant: 'success',
             );
-        } else{
+        } else {
             dd('fehler');
         }
     }
 
     #[On('new-venue-created')]
-    public function assignVenue():void
-    {
+    public function assignVenue(): void {}
 
-    }
-
-    public function deleteImage():void
+    public function deleteImage(): void
     {
-        if ($this->form->deleteImage()){
+        if ($this->form->deleteImage()) {
             Flux::toast(
                 heading: __('event.delete_image.success.title'),
                 text: __('event.delete_image.success.content'),
                 variant: 'success',
             );
-        } else{
+        } else {
             dd('fehler');
         }
     }

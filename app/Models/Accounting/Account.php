@@ -39,14 +39,15 @@ class Account extends Model
         return $current;
     }
 
-    public static function makeCentInteger($formattedValue): array|string|null
+    public static function makeCentInteger($formattedValue)
     {
         // Remove all non-numeric characters except commas
         $value = preg_replace('/[^\d,]/', '', $formattedValue);
 
         // Replace comma with a dot for decimal conversion
-        $value = str_replace(',', '', $value);
+        $n = str_replace(',', '', $value,$count);
 
-        return (int) $value;
+        return (int) $n;
+
     }
 }

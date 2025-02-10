@@ -22,7 +22,7 @@ return new class extends Migration
             $table->json('excerpt')->nullable();
             $table->json('description')->nullable();
             $table->string('image')->nullable();
-            $table->enum('status', \App\Enums\EventStatus::toArray())->nullable();
+            $table->enum('status', \App\Enums\EventStatus::toArray());
             $table->unsignedSmallInteger('entry_fee')->nullable();
             $table->unsignedSmallInteger('entry_fee_discounted')->nullable();
             $table->foreignIdFor(\App\Models\Venue::class)->nullable()->constrained()->nullOnDelete();

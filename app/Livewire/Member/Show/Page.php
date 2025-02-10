@@ -4,18 +4,25 @@ namespace App\Livewire\Member\Show;
 
 use App\Livewire\Forms\MemberForm;
 use App\Mail\InvitationMail;
-use App\Models\Invitation;
-use App\Models\Member;
+use App\Models\Membership\Invitation;
+use App\Models\Membership\Member;
+use App\Models\Membership\MemberTransaction;
 use App\Models\User;
 use Flux\Flux;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Page extends Component
 {
 
+    use WithPagination;
     public $users;
     public int $newUser = 0;
     public Member $member;
@@ -26,13 +33,37 @@ class Page extends Component
 
     public $hasUser = false;
 
+
+    public $sortBy = 'date';
+    public $sortDirection = 'desc';
+
+    protected $listeners = ['updated-payments' => 'payments'];
+
+    public function sort($column) {
+        if ($this->sortBy === $column) {
+            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            $this->sortBy = $column;
+            $this->sortDirection = 'asc';
+        }
+    }
+
+    #[Computed]
+    public function payments(): LengthAwarePaginator
+    {
+        return MemberTransaction::query()
+            ->with('event')
+            ->where('member_id','=', $this->member->id)
+            ->tap(fn ($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
+            ->paginate(10);
+    }
+
     public function mount(Member $member): void
     {
         $this->memberForm->set($member);
         $this->users = User::select('id', 'name')
             ->get();
     }
-
 
     public function detachUser(int $userid): void
     {
@@ -140,7 +171,7 @@ class Page extends Component
                 text: __('Einladung verschickt'),
                 variant: 'success',
             );
-        } catch (\Illuminate\Validation\ValidationException $e) {
+        } catch (ValidationException $e) {
             Flux::toast(
                 heading: __('Fehler'),
                 text: __('Wurde nicht verschickt: '.$e->getMessage()),
@@ -153,7 +184,7 @@ class Page extends Component
     {
         try {
             $this->authorize('delete', Member::class);
-        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+        } catch (AuthorizationException $e) {
             Flux::toast(
                 heading: 'Forbidden',
                 text: 'You have no permission to edit this member! '.$e->getMessage(),
@@ -170,7 +201,7 @@ class Page extends Component
     {
         try {
             $this->authorize('update', $this->member);
-        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+        } catch (AuthorizationException $e) {
             Flux::toast(
                 heading: 'Forbidden',
                 text: 'You have no permission to edit this member! '.$e->getMessage(),

@@ -7,7 +7,7 @@
         <flux:tabs>
             <flux:tab name="profile"
                       icon="user"
-            >Angaben zur Person
+            ><span class="hidden sm:flex">Angaben zur </span>Person
             </flux:tab>
             <flux:tab name="account"
                       icon="cog-6-tooth"
@@ -257,12 +257,51 @@
 
         </flux:tab.panel>
         <flux:tab.panel name="billing">
+            <section class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+               <flux:card class="col-span-1 lg:col-span-2">
+                   <flux:subheading>Zahlungseingänge</flux:subheading>
 
-            Übersicht Zahlungen
+                   <flux:table :paginate="$this->payments">
+                       <flux:columns>
+                           <flux:column>Text</flux:column>
+                           <flux:column sortable :sorted="$sortBy === 'date'" :direction="$sortDirection" wire:click="sort('date')">Datum</flux:column>
+                           <flux:column sortable :sorted="$sortBy === 'status'" :direction="$sortDirection" wire:click="sort('status')" align="right">Betrag</flux:column>
+                           <flux:column sortable :sorted="$sortBy === 'amount'" :direction="$sortDirection" wire:click="sort('amount')">Amount</flux:column>
+                       </flux:columns>
 
-            {{ $member }}
+                       <flux:rows>
+                           @foreach ($this->payments as $payment)
+                               <flux:row :key="$payment->id">
+
+                                   <flux:cell variant="strong">
+                                       {{ $payment->label }}
+                                   </flux:cell>
+
+                                   <flux:cell>{{ $payment->date->diffForHumans() }}</flux:cell>
+
+                                   <flux:cell variant="strong" align="end">{{ $payment->amountForHumans() }}</flux:cell>
+
+                                   <flux:cell>
+                                       <flux:button variant="ghost" size="sm" icon="ellipsis-horizontal" inset="top bottom"></flux:button>
+                                   </flux:cell>
+                               </flux:row>
+                           @endforeach
+                       </flux:rows>
+                   </flux:table>
+
+               </flux:card>
+
+                <flux:card>
+                   <flux:subheading>Neu erfassen</flux:subheading>
+                    <livewire:forms.member-transaction-form :member="$memberForm->member"/>
+
+               </flux:card>
+
+            </section>
+
         </flux:tab.panel>
     </flux:tab.group>
+
 
 
     <flux:modal name="delete-membership">

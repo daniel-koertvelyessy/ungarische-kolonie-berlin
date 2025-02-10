@@ -3,7 +3,7 @@
 namespace App\Livewire\App\Mails;
 
 use App\Mail\InvitationMail;
-use App\Models\Invitation;
+use App\Models\Membership\Invitation;
 use Flux\Flux;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;

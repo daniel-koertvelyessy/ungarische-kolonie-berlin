@@ -11,7 +11,7 @@ enum EventStatus:string
     case RETRACTED = 'retracted';
     public static function toArray(): array
     {
-        return array_column(MemberType::cases(), 'value');
+        return array_column(EventStatus::cases(), 'value');
     }
 
 

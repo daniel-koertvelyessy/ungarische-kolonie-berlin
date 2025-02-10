@@ -24,7 +24,7 @@ class Page extends Component
     #[\Livewire\Attributes\Computed]
     public function members()
     {
-        return \App\Models\Member::query()
+        return \App\Models\Membership\Member::query()
             ->tap(fn ($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
             ->paginate(10);
     }

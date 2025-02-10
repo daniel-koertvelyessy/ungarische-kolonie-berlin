@@ -3,7 +3,6 @@
 namespace App\Livewire\Event\Index;
 
 use App\Models\Event;
-use App\Models\Member;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;

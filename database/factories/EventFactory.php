@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\EventStatus;
 use App\Models\Venue;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -48,6 +49,7 @@ class EventFactory extends Factory
                 'de'=>fake()->sentences(10,true),
                 'hu'=>fake()->sentences(10, true),
             ],
+            'status' => EventStatus::DRAFT->value,
             'venue_id' => Venue::factory()->create(),
         ];
     }

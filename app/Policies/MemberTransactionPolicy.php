@@ -3,11 +3,13 @@
 namespace App\Policies;
 
 use App\Enums\MemberType;
-use App\Models\Event;
+use App\Models\Membership\Member;
+use App\Models\Membership\MemberTransaction;
 use App\Models\User;
+use Illuminate\Auth\Access\Response;
 use Illuminate\Support\Facades\Auth;
 
-class EventPolicy
+class MemberTransactionPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -20,7 +22,7 @@ class EventPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(): bool
+    public function view(User $user, MemberTransaction $memberTransaction): bool
     {
         return true;
     }
@@ -36,7 +38,7 @@ class EventPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(): bool
+    public function update(User $user, MemberTransaction $memberTransaction): bool
     {
         return $this->checkThis();
     }
@@ -44,7 +46,7 @@ class EventPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(): bool
+    public function delete(User $user, MemberTransaction $memberTransaction): bool
     {
         return $this->checkThis();
     }
@@ -52,27 +54,29 @@ class EventPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(): bool
+    public function restore(User $user, MemberTransaction $memberTransaction): bool
     {
-        return $this->checkThis();
+        return false;
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(): bool
+    public function forceDelete(User $user, MemberTransaction $memberTransaction): bool
     {
-        return $this->checkThis();
+        return false;
     }
 
     private function checkThis(): bool
     {
         $user = Auth::user();
+
         if ($user->is_admin) {
             return true;
         }
 
-        if ($user->member->type === MemberType::MD->value) {
+
+        if ($user->member && $user->member->type === MemberType::MD->value) {
             return true;
         }
 

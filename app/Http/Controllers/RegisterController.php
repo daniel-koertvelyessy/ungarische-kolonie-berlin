@@ -3,15 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Fortify\CreateNewUser;
-use App\Models\Invitation;
-use App\Models\Member;
-use App\Models\User;
+use App\Models\Membership\Invitation;
+use App\Models\Membership\Member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use Laravel\Fortify\Fortify;
-use Laravel\Jetstream\Jetstream;
 
 class RegisterController extends Controller
 {

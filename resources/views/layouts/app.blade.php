@@ -96,11 +96,12 @@
         >{{ __('nav.events') }}</flux:navlist.item>
 
 
-
-        <flux:navlist.group heading="{{ __('nav.kasse') }}" expandable>
+        <flux:navlist.group heading="{{ __('nav.kasse') }}"
+                            expandable
+        >
             <flux:navlist.item href="{{ route('accounting.index') }}">Übersicht</flux:navlist.item>
-            <flux:navlist.item href="#">Belege</flux:navlist.item>
             <flux:navlist.item href="{{ route('transaction.index') }}">Buchungen</flux:navlist.item>
+            <flux:navlist.item href="#">Belege</flux:navlist.item>
             <flux:navlist.item href="#">Berichte</flux:navlist.item>
             <flux:navlist.item href="#">Konten</flux:navlist.item>
         </flux:navlist.group>

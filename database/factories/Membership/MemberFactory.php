@@ -1,13 +1,13 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Membership;
 
 use App\Enums\Gender;
 use App\Enums\MemberType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Member>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Membership\Member>
  */
 class MemberFactory extends Factory
 {
@@ -35,7 +35,7 @@ class MemberFactory extends Factory
             'city' => fake()->city,
             'country' => fake()->country,
             'gender' => $gen,
-            'type' => MemberType::ST,
+            'type' => MemberType::ST->value,
             'user_id' => null,
 
         ];

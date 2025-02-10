@@ -3,20 +3,15 @@
 namespace App\Livewire\Member\Apply;
 
 use App\Enums\Gender;
-use App\Enums\Locale;
 use App\Enums\MemberType;
-use App\Mail\MailMemberApplication;
-use App\Models\Member;
-use App\Models\User;
+use App\Models\Membership\Member;
 use App\Notifications\NewMemberApplied;
 use Carbon\Carbon;
 use Flux\Flux;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
-use Livewire\Livewire;
 
 class Page extends Component
 {

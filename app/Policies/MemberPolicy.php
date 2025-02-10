@@ -3,9 +3,8 @@
 namespace App\Policies;
 
 use App\Enums\MemberType;
-use App\Models\Member;
+use App\Models\Membership\Member;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 use Illuminate\Support\Facades\Auth;
 
 class MemberPolicy

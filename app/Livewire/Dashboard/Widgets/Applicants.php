@@ -3,7 +3,7 @@
 namespace App\Livewire\Dashboard\Widgets;
 
 use App\Enums\MemberType;
-use App\Models\Member;
+use App\Models\Membership\Member;
 use Flux\Flux;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Livewire\Attributes\Computed;
@@ -93,7 +93,7 @@ class Applicants extends Component
 
         $this->allApplicants = Member::Applicants()->map(fn ($member) => (string) $member->id)->toArray();
 
-        $applicantList = \App\Models\Member::query()
+        $applicantList = \App\Models\Membership\Member::query()
             ->whereIn('type', [MemberType::AP->value])
             ->tap(fn($query) => $this->search !== '' ? $query->where('name', 'like', '%'.$this->search.'%') : $query)
             ->tap(fn($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)

@@ -11,6 +11,20 @@ class Event extends Model
     /** @use HasFactory<\Database\Factories\EventFactory> */
     use HasFactory;
 
+    protected $fillable=[
+        'event_date',
+        'start_time',
+        'end_time',
+        'title',
+        'slug',
+        'excerpt',
+        'description',
+        'image',
+        'status',
+        'entry_fee',
+        'entry_fee_discounted',
+        'venue_id'
+    ];
     protected $casts = [
 
         'title' => 'array',

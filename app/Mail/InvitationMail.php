@@ -2,10 +2,9 @@
 
 namespace App\Mail;
 
-use App\Models\Invitation;
-use App\Models\Member;
+use App\Models\Membership\Invitation;
+use App\Models\Membership\Member;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;

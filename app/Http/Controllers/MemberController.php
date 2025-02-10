@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMemberRequest;
 use App\Http\Requests\UpdateMemberRequest;
-use App\Models\Member;
+use App\Models\Membership\Member;
 
 class MemberController extends Controller
 {
