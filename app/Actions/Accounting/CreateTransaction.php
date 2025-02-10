@@ -13,12 +13,13 @@ use Illuminate\Validation\Rule;
 
 class CreateTransaction
 {
-    public static function create(array $data): Transaction
+    public static function handle(array $data): Transaction
     {
         return DB::transaction(function () use ($data)
         {
-            return Transaction::create([
+           return Transaction::create([
                 'label'              => $data['label'],
+                'date'               => $data['date'],
                 'amount_net'         => Account::makeCentInteger($data['amount_net']),
                 'vat'                => Account::makeCentInteger($data['vat']),
                 'tax'                => Account::makeCentInteger($data['tax']),

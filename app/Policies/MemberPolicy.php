@@ -6,6 +6,7 @@ use App\Enums\MemberType;
 use App\Models\Member;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Auth;
 
 class MemberPolicy
 {
@@ -53,9 +54,18 @@ class MemberPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Member $member): bool
+    public function delete(): bool
     {
-        return $this->checkThis($user, $member);
+        $user = Auth::user();
+
+        if ($user->is_admin) {
+            return true;
+        }
+
+        if ($user->is_BoardMember) {
+            return true;
+        }
+        return false;
     }
 
     /**

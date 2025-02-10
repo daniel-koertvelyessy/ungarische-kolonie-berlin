@@ -2,25 +2,22 @@
 
 namespace App\Livewire\Forms;
 
+use App\Actions\Accounting\CreateBooking;
 use App\Actions\Accounting\CreateTransaction;
-use App\Enums\AccountType;
+use App\Actions\Accounting\UpdateTransaction;
 use App\Enums\TransactionStatus;
 use App\Enums\TransactionType;
 use App\Models\Accounting\Account;
-use App\Models\Accounting\Receipt;
+use App\Models\Accounting\Transaction;
 use Flux\Flux;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
-use Intervention\Image\Drivers\Gd\Driver;
-use Intervention\Image\ImageManager;
-use Livewire\Attributes\Validate;
 use Livewire\Form;
-use Livewire\WithFileUploads;
 
 class TransactionForm extends Form
 {
+    public $id;
     public $label;
+    public $date;
     public $amount_net;
     public $vat;
     public $tax;
@@ -31,12 +28,64 @@ class TransactionForm extends Form
     public $type;
     public $status = TransactionStatus::submitted->value;
 
-    public function create()
+
+    public function set(Transaction $transaction): void
+    {
+        $this->id = $transaction->id;
+        $this->label = $transaction->label;
+        $this->date = $transaction->date->format('Y-m-d');
+        $this->amount_net = $transaction->netForHumans();
+        $this->vat = ($transaction->vat);
+        $this->tax = $transaction->taxForHumans();
+        $this->amount_gross = $transaction->grossForHumans();
+        $this->account_id = $transaction->account_id;
+        $this->receipt_id = $transaction->receipt_id;
+        $this->booking_account_id = $transaction->booking_account_id;
+        $this->type = $transaction->type;
+        $this->status = $transaction->status;
+    }
+
+    public function book()
+    {
+        $this->validate([
+            'booking_account_id' => 'required|exists:booking_accounts,id',
+            'status' => Rule::enum(TransactionStatus::class)
+        ]);
+
+        return CreateBooking::handle([
+            'id'                 => $this->id,
+            'booking_account_id' => $this->booking_account_id,
+            'status'             => $this->status,
+        ]);
+    }
+
+    public function create(): Transaction
     {
         $this->validate();
 
-        return CreateTransaction::create([
+        return CreateTransaction::handle([
             'label'              => $this->label,
+            'date'               => $this->date,
+            'amount_net'         => Account::makeCentInteger($this->amount_net),
+            'vat'                => Account::makeCentInteger($this->vat),
+            'tax'                => $this->tax,
+            'amount_gross'       => Account::makeCentInteger($this->amount_gross),
+            'account_id'         => $this->account_id,
+            'receipt_id'         => $this->receipt_id,
+            'booking_account_id' => $this->booking_account_id,
+            'type'               => $this->type,
+            'status'             => $this->status,
+        ]);
+    }
+
+    public function update(): Transaction
+    {
+        $this->validate();
+
+        return UpdateTransaction::handle([
+            'id'                 => $this->id,
+            'label'              => $this->label,
+            'date'               => $this->date,
             'amount_net'         => Account::makeCentInteger($this->amount_net),
             'vat'                => Account::makeCentInteger($this->vat),
             'tax'                => $this->tax,
@@ -52,16 +101,18 @@ class TransactionForm extends Form
     protected function rules(): array
     {
         return [
-            'label'              => ['required', 'string'],
-            'amount_net'         => ['required'],
-            'vat'                => ['required', 'integer'],
+            'id'                 => ['nullable','integer'],
+            'label'              => ['string', 'required_unless:id,null'],
+            'amount_net'         => ['required_unless:id,null'],
+            'date'               => ['required_unless:id,null', 'date'],
+            'vat'                => ['required_unless:id,null', 'integer'],
             'tax'                => ['nullable',],
-            'amount_gross'       => ['required',],
-            'account_id'         => ['required', 'integer'],
+            'amount_gross'       => ['required_unless:id,null',],
+            'account_id'         => ['required_unless:id,null', 'integer'],
             'receipt_id'         => ['nullable'],
             'booking_account_id' => ['nullable', 'integer'],
-            'type'               => ['required', Rule::enum(TransactionType::class)],
-            'status'             => ['required', Rule::enum(TransactionStatus::class)],
+            'type'               => ['required_unless:id,null', Rule::enum(TransactionType::class)],
+            'status'             => ['required_unless:id,null', Rule::enum(TransactionStatus::class)],
         ];
     }
 

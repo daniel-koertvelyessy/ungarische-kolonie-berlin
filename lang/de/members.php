@@ -29,6 +29,7 @@ return [
     "type"                      => "Mitgliedsstatus",
     "linked_user"                      => "verknüft mit Backend-Benutzer",
     "unlink_user"                      => "Verknüpfung lösen",
+    "left_at"                      => "Gekündigt am",
 
     "update.success.title" => "Erfolg",
     "update.success.content" => "Die Mitgliedsdaten wurden erfolgreich aktualisiert.",
@@ -38,8 +39,15 @@ return [
     "date.left_at" => "Ausgetreten am",
     "btn.sendVerificationMail.label" => "Erinnerung an Verifizierung senden",
     "btn.sendAcceptanceMail.label" => "Antrag annehmen",
-    "btn.cancelMembership.label" => "Mitgliedschaft kündigen",
     "btn.inviteAsUser.label" => "Mitglied als Benutzer einladen",
+
+
+
+    "cancel.modal.title" => "Kündigung bestätigen",
+    "cancel.modal.text" => "Bitte bestätigen Sie die Kündigung des Mitgliedes.",
+    "btn.cancelMembership.label" => "Mitgliedschaft kündigen",
+    "cancel.confirm_text_input.label" => "Bitte zur Sicherheit den Nachnamen eingeben",
+    "cancel.btn.final.label" => "Mitglied endgültig kündigen",
 
     "type.standard" => "Mitglied",
     "type.applicant" => "Anwärter",

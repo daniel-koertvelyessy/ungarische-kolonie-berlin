@@ -4,6 +4,8 @@ use App\Http\Controllers\RegisterController;
 use App\Models\Event;
 use App\Models\Member;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
@@ -202,6 +204,7 @@ Route::middleware([
             ->name('accounting.index');
 
         Route::get('/transaction', \App\Livewire\Accounting\Transaction\Create\Page::class)->name('transaction.create');
+        Route::get('/transactions', \App\Livewire\Accounting\Transaction\Index\Page::class)->name('transaction.index');
 
 
         Route::get('/dashboard', function ()
@@ -209,5 +212,25 @@ Route::middleware([
             return view('dashboard');
         })
             ->name('dashboard');
-    });
 
+
+        Route::get('/secure-image/{filename}', function (Request $request, $filename) {
+            // Ensure user is authenticated
+            if (!auth()->check()) {
+                abort(403); // Forbidden
+            }
+
+            // Build full path
+            $path = storage_path('app/private/accounting/receipts/previews/' . $filename);
+
+            // Check if file exists
+            if (!file_exists($path)) {
+                abort(404);
+            }
+
+            // Serve the file as a response
+            return Response::file($path, [
+                'Content-Type' => 'image/png'
+            ]);
+        });
+    });

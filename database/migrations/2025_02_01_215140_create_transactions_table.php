@@ -15,12 +15,13 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->string('label');
+            $table->dateTime('date');
             $table->unsignedInteger('amount_net');
             $table->unsignedtinyInteger('vat');
             $table->unsignedInteger('tax')->nullable();
             $table->unsignedInteger('amount_gross');
             $table->foreignIdFor(Account::class)->constrained()->restrictOnDelete();
-            $table->foreignIdFor(\App\Models\Accounting\Receipt::class)->nullable()->constrained()->restrictOnDelete();
+            $table->foreignIdFor(\App\Models\Accounting\Receipt::class)->nullable();
             $table->foreignIdFor(\App\Models\Accounting\BookingAccount::class)->nullable();
             $table->enum('type', \App\Enums\TransactionType::toArray());
             $table->enum('status', \App\Enums\TransactionStatus::toArray());

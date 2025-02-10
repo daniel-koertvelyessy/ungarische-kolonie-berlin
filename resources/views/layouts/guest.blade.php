@@ -63,7 +63,7 @@
             </flux:navbar>
             {{ $slot }}
         </div>
-        <footer class="py-16 text-center text-sm text-black dark:text-white/70">
+        <footer class="py-16 flex justify-center flex-col items-center text-sm text-black dark:text-white/70">
 
             <flux:sidebar stashable
                           sticky
@@ -154,10 +154,6 @@
                                   href="{{ route('members.application') }}"
                 >{{__('app.become-member')}}</flux:navbar.item>
 
-                <flux:navbar.item wire:navigate
-                                  href="{{ route('impressum') }}"
-                >{{__('app.imprint')}}</flux:navbar.item>
-
                 <flux:dropdown>
                     <flux:navbar.item icon-trailing="chevron-down">{{__('app.locale')}}</flux:navbar.item>
 
@@ -172,16 +168,22 @@
 
 
                 </flux:dropdown>
+            </flux:navbar>
+            <flux:navbar class="hidden lg:flex">
+                <span class="text-zinc-400 mx-3 text-sm">Magyar Kolónia Berlin e. V.</span>
+
+               <x-footer-link link="{{ route('impressum') }}">{{__('app.imprint')}}</x-footer-link>
+
+
+
                 @if (Route::has('login'))
 
                     @auth
-                        <flux:navbar.item wire:navigate
-                                          href="{{ url('/dashboard') }}"
-                        >{{__('app.dashboard')}}</flux:navbar.item>
+                        <x-footer-link link="{{ route('dashboard') }}">{{__('app.dashboard')}}</x-footer-link>
+
                     @else
-                        <flux:navbar.item wire:navigate
-                                          href="{{ route('login') }}"
-                        >{{__('app.gotologin')}}</flux:navbar.item>
+                        <x-footer-link link="{{ route('login') }}">{{__('app.gotologin')}}</x-footer-link>
+
 
 
                         {{--                                    @if (Route::has('register'))--}}

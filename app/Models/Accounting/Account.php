@@ -2,6 +2,7 @@
 
 namespace App\Models\Accounting;
 
+use App\Enums\TransactionStatus;
 use App\Enums\TransactionType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -32,7 +33,7 @@ class Account extends Model
         $current = $this->starting_amount??0;
 
         foreach (Transaction::where('account_id',$this->id)->get() as $transaction) {
-            $current += $transaction->amount_gross * TransactionType::calc($transaction->type);
+            $current += $transaction->status === TransactionStatus::booked->value ? $transaction->amount_gross * TransactionType::calc($transaction->type):0;
         }
 
         return $current;

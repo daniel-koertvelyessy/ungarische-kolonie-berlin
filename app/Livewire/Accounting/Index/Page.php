@@ -15,6 +15,7 @@ use WithPagination;
     public $sortBy = 'date';
     public $sortDirection = 'desc';
 
+    protected $listeners = ['receipt-deleted' => '$refresh'];
 
     #[Computed]
     public function transactions()

@@ -31,6 +31,7 @@ class AccountPolicy
      */
     public function create(): bool
     {
+
         return $this->checkThis();
     }
 
@@ -66,6 +67,11 @@ class AccountPolicy
         return false;
     }
 
+    public function bookItem()
+    {
+        return $this->checkThis();
+    }
+
     private function checkThis(): bool
     {
         $user = Auth::user();
@@ -76,6 +82,11 @@ class AccountPolicy
 
 
         if ($user->email === env('APP_ACCOUNTANT')) {
+            return true;
+        }
+
+
+        if ($user->member->type === MemberType::MD->value){
             return true;
         }
 

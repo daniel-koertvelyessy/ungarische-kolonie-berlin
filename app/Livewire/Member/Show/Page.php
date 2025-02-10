@@ -2,12 +2,13 @@
 
 namespace App\Livewire\Member\Show;
 
-use App\Enums\MemberType;
+use App\Livewire\Forms\MemberForm;
 use App\Mail\InvitationMail;
 use App\Models\Invitation;
 use App\Models\Member;
 use App\Models\User;
 use Flux\Flux;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Livewire\Component;
@@ -18,75 +19,27 @@ class Page extends Component
     public $users;
     public int $newUser = 0;
     public Member $member;
-    public int $member_id;
 
-    public string $member_type;
+    public MemberForm $memberForm;
 
-    public $entered_at;
-    public $left_at;
-    public $is_deducted;
-    public $deduction_reason;
-    public $birth_date;
-    public $applied_at;
-    public $verified_at;
-    public $name;
-    public $first_name;
-    public $email;
-    public $phone;
-    public $mobile;
-    public $address;
-    public $city;
-    public $zip;
-    public $country;
-    public $user_id;
+    public $confirm_deletion_text = '';
 
-    public string $linked_user_name;
-
+    public $hasUser = false;
 
     public function mount(Member $member): void
     {
-        $this->member = $member;
-        $this->populate();
-
+        $this->memberForm->set($member);
         $this->users = User::select('id', 'name')
             ->get();
     }
 
-    protected function populate(): void
-    {
-        $this->entered_at = optional($this->member->entered_at)->format('Y-m-d');
-        $this->left_at = optional($this->member->left_at)->format('Y-m-d');
-        $this->deduction_reason = $this->member->deduction_reason;
-        $this->is_deducted = $this->member->is_deducted;
-        $this->applied_at = $this->member->applied_at;
-        $this->verified_at = optional($this->member->verified_at)->format('Y-m-d');
-        $this->birth_date = $this->member->birth_date;
-        $this->name = $this->member->name;
-        $this->first_name = $this->member->first_name;
-        $this->email = $this->member->email;
-        $this->phone = $this->member->phone;
-        $this->mobile = $this->member->mobile;
-        $this->address = $this->member->address;
-        $this->zip = $this->member->zip;
-        $this->city = $this->member->city;
-        $this->country = $this->member->country;
-        $this->user_id = $this->member->user_id;
-        $this->member_type = $this->member->type;
-
-        $get_user = \App\Models\User::find($this->user_id);
-        $this->linked_user_name =  $get_user
-            ?     $get_user->first_name . ' ' . $get_user->name
-            :'Nicht verknüpft';
-
-
-    }
 
     public function detachUser(int $userid): void
     {
-        if ($this->user_id === $userid) {
-            $this->member->user_id = null;
-            $this->user_id = null;
+        if ($this->memberForm->user_id === $userid) {
+            $this->memberForm->user_id = null;
             if ($this->member->save()) {
+                $this->hasUser = false;
                 Flux::toast(
                     heading: __('members.show.detached.success.head'),
                     text: __('members.show.detached.success.msg', ['name' => $this->member->name]),
@@ -101,14 +54,16 @@ class Page extends Component
         if ($this->newUser > 0) {
             $getUser = User::find($this->newUser);
             if ($getUser->id === $this->newUser) {
-                $this->member->user_id = $this->newUser;
-                if ($this->member->save()) {
+                $this->memberForm->member->user_id = $this->newUser;
+                if ($this->memberForm->member->save()) {
+                    $this->hasUser = true;
+
                     Flux::toast(
                         heading: __('members.show.attached.success.head'),
                         text: __('members.show.attached.success.msg', ['name' => $getUser->name]),
                         variant: 'success',
                     );
-                    $this->user_id = $this->newUser;
+                    $this->memberForm->user_id = $this->newUser;
                 }
             } else {
                 Flux::toast(
@@ -120,28 +75,11 @@ class Page extends Component
         }
     }
 
-    public function updateMemberData():void
+    public function updateMemberData(): void
     {
-        try {
-            $this->authorize('update', $this->member);
-        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
-            Flux::toast(
-                heading: 'Forbidden',
-                text: 'You have no permission to edit this member! '.$e->getMessage(),
-                variant: 'danger',
-            );
-            return;
-        }
+        $this->checkUser();
 
-        $this->member->name = $this->name;
-        $this->member->first_name = $this->first_name;
-        $this->member->birth_date = $this->birth_date;
-        $this->member->address = $this->address;
-        $this->member->zip = $this->zip;
-        $this->member->city = $this->city;
-        $this->member->country = $this->country;
-
-        if ($this->member->save()) {
+        if ($this->memberForm->updateData()) {
             Flux::toast(
                 heading: __('members.update.success.title'),
                 text: __('members.update.success.content'),
@@ -150,24 +88,11 @@ class Page extends Component
         }
     }
 
-    public function updateContactData():void
+    public function updateContactData(): void
     {
-        try {
-            $this->authorize('update', $this->member);
-        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
-            Flux::toast(
-                heading: 'Forbidden',
-                text: 'You have no permission to edit this member! '.$e->getMessage(),
-                variant: 'danger',
-            );
-            return;
-        }
+        $this->checkUser();
 
-        $this->member->email = $this->email;
-        $this->member->phone = $this->phone;
-        $this->member->mobile = $this->mobile;
-
-        if ($this->member->save()) {
+        if ($this->memberForm->updateContact()) {
             Flux::toast(
                 heading: __('members.update.success.title'),
                 text: __('members.update.success.content'),
@@ -176,18 +101,9 @@ class Page extends Component
         }
     }
 
-    public function updateMembershipData():void
+    public function updateMembershipData(): void
     {
-        try {
-            $this->authorize('update', $this->member);
-        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
-            Flux::toast(
-                heading: 'Forbidden',
-                text: 'You have no permission to edit this member! '.$e->getMessage(),
-                variant: 'danger',
-            );
-            return;
-        }
+        $this->checkUser();
 
         $this->member->type = $this->member_type;
         $this->member->is_deducted = $this->is_deducted;
@@ -205,35 +121,102 @@ class Page extends Component
 
     public function sendInvitation(): void
     {
-        try{
-
+        try {
             $this->validate([
-                'email' => 'required|email|unique:invitations,email|unique:users,email',
+                'memberForm.email' => 'required|email|unique:invitations,email|unique:users,email',
             ]);
 
             $invitation = Invitation::create([
-                'email' => $this->email,
+                'email' => $this->memberForm->email,
                 'token' => Str::random(32),
             ]);
 
-            Mail::to($this->email)->send(new InvitationMail($invitation, $this->member));
+
+            Mail::to($this->memberForm->email)
+                ->send(new InvitationMail($invitation, $this->memberForm->member));
 
             Flux::toast(
                 heading: __('Erfolg'),
                 text: __('Einladung verschickt'),
                 variant: 'success',
             );
-
         } catch (\Illuminate\Validation\ValidationException $e) {
             Flux::toast(
                 heading: __('Fehler'),
-                text: __('Wurde nicht verschickt: '. $e->getMessage()),
+                text: __('Wurde nicht verschickt: '.$e->getMessage()),
                 variant: 'danger',
             );
         }
+    }
+
+    public function cancelMember()
+    {
+        try {
+            $this->authorize('delete', Member::class);
+        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+            Flux::toast(
+                heading: 'Forbidden',
+                text: 'You have no permission to edit this member! '.$e->getMessage(),
+                variant: 'danger',
+            );
+            return;
+        }
+
+        Flux::modal('delete-membership')
+            ->show();
+    }
+
+    protected function checkUser(): void
+    {
+        try {
+            $this->authorize('update', $this->member);
+        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+            Flux::toast(
+                heading: 'Forbidden',
+                text: 'You have no permission to edit this member! '.$e->getMessage(),
+                variant: 'danger',
+            );
+            return;
+        }
+    }
+
+    public function deleteMembershipForSure()
+    {
+        $this->authorize('delete', Member::class);
+        $msg = '';
+        if ($this->memberForm->user_id){
+
+            if (Auth::user()->id !== $this->memberForm->user_id) {
+                $msg = User::find($this->memberForm->user_id)->delete() ? ' Benutzer gelöscht' : ' Fehler beim Löschen des Benutzers ' . $this->memberForm->user_id;
+            }
 
 
 
+        }
+
+        if ($this->memberForm->cancelMembership()){
+
+            Flux::toast(
+                heading: __('Erfolg'),
+                text: __('Mitgliedshaft wurde gekündigt'). $msg,
+                variant: 'success',
+            );
+        }
+
+    }
+
+    public function reactivateMembership():void
+    {
+        $this->authorize('delete', Member::class);
+
+        if ($this->memberForm->reactivateMembership()){
+
+            Flux::toast(
+                heading: __('Erfolg'),
+                text: __('Mitgliedshaft wurde wiederhergestellt'),
+                variant: 'success',
+            );
+        }
 
     }
 

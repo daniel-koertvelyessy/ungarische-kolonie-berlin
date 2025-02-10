@@ -25,9 +25,9 @@ enum TransactionType:string
     public static function color(string $value): string
     {
         return match ($value) {
-            'Deposit' => 'lime',
-            'Withdrawal' => 'orange',
-            'Reversal' => 'red',
+            'Einzahlung' => 'lime',
+            'Auszahlung' => 'orange',
+            'Storno' => 'red',
         };
     }
 }

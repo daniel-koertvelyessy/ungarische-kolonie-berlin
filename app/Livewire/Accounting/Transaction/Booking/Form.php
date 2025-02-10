@@ -1,0 +1,42 @@
+<?php
+
+namespace App\Livewire\Accounting\Transaction\Booking;
+
+use App\Livewire\Forms\TransactionForm;
+use App\Models\Accounting\Receipt;
+use App\Models\Accounting\Transaction;
+use Flux\Flux;
+use Livewire\Component;
+
+class Form extends Component
+{
+    public ?Transaction $transaction = null;
+    public TransactionForm $form;
+    protected $listeners = ['book-transaction' => 'loadTransaction'];
+
+    public function loadTransaction(int $transactionId): void
+    {
+        $this->transaction = Transaction::find($transactionId);
+        $this->form->set($this->transaction);
+    }
+
+    public function updateBookingStatus(): void
+    {
+      $booking =   $this->form->book();
+        $this->dispatch('transaction-updated');
+
+        Flux::toast(
+            heading: 'Erfolg',
+            text: 'Die Buchung wurde aktualisiert',
+            variant: 'success',
+        );
+
+        Flux::modal('book-transaction')
+            ->close();
+    }
+
+    public function render()
+    {
+        return view('livewire.accounting.transaction.booking.form');
+    }
+}

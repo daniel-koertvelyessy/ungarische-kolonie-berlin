@@ -24,29 +24,29 @@
             <section class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <form wire:submit="updateMemberData">
                     <flux:card class="space-y-6">
-                        <flux:input wire:model="first_name"
+                        <flux:input wire:model="memberForm.first_name"
                                     label="{{ __('members.first_name') }}"
                         />
-                        <flux:input wire:model="name"
+                        <flux:input wire:model="memberForm.name"
                                     label="{{ __('members.name') }}"
                         />
                         <flux:input type="date"
-                                    wire:model="birth_date"
+                                    wire:model="memberForm.birth_date"
                                     label="Geboren am"
                         />
-                        <flux:textarea wire:model="address"
+                        <flux:textarea wire:model="memberForm.address"
                                        rows="auto"
                                        label="{{ __('members.address') }}"
                         />
-                        <flux:input wire:model="zip"
+                        <flux:input wire:model="memberForm.zip"
                                     label="{{ __('members.zip') }}"
                                     class="w-24"
                         />
-                        <flux:input wire:model="city"
+                        <flux:input wire:model="memberForm.city"
                                     label="{{ __('members.city') }}"
                         />
 
-                        <flux:input wire:model="country"
+                        <flux:input wire:model="memberForm.country"
                                     label="{{ __('members.country') }}"
                         />
                         @can('update', $member)
@@ -60,59 +60,66 @@
 
                 <form wire:submit="updateContactData">
                     <flux:card class="space-y-6">
-                        <flux:input wire:model="email"
+                        <flux:input wire:model="memberForm.email"
                                     label="E-Mail"
                         />
-                        <flux:input wire:model="phone"
-                                    label="Festnetz"
+                        <flux:input wire:model="memberForm.phone"
+                                    label="{{ __('members.phone') }}"
+                                    mask="+99 99 99999999"
+                                    placeholder="+49 30 12345678"
+                                    autocomplete="tel"
                         />
-                        <flux:input wire:model="mobile"
-                                    label="Mobil"
+                        <flux:input wire:model="memberForm.mobile"
+                                    label="{{ __('members.mobile') }}"
+                                    mask="+99 999 99999999"
+                                    placeholder="+49 173 12345678"
+                                    autocomplete="tel"
                         />
 
                         @can('update', $member)
                             <flux:field class="flex flex-col space-y-3">
-                                @if($user_id)
+                                @if($memberForm->user_id)
                                     <flux:label>verknüft mit Benutzer</flux:label>
                                     <flux:badge color="lime"
                                                 size="lg"
-                                    >{{ $linked_user_name }}</flux:badge>
+                                    >{{ $memberForm->linked_user_name }}</flux:badge>
                                     <flux:button size="sm"
                                                  variant="danger"
-                                                 wire:click="detachUser({{$user_id}})"
+                                                 wire:click="detachUser({{$memberForm->user_id}})"
                                     >{{ __('members.unlink_user') }}
 
                                     </flux:button>
                                 @else
-                                    <flux:select variant="listbox"
-                                                 wire:model="newUser"
-                                                 searchable
-                                                 placeholder="{{ __('members.show.attached.placeholder') }}"
-                                    >
-                                        <flux:option wire:key="0"
-                                                     value="0"
-                                        >Benutzer wählen
-                                        </flux:option>
-                                        @forelse($users as $user)
-                                            <flux:option wire:key="{{ $user->id }}"
-                                                         value="{{ $user->id }}"
-                                            >{{ $user->name }}</flux:option>
-                                        @empty
+                                    <flux:button.group>
+                                        <flux:select variant="listbox"
+                                                     wire:model="memberForm.newUser"
+                                                     searchable
+                                                     placeholder="{{ __('members.show.attached.placeholder') }}"
+                                        >
                                             <flux:option wire:key="0"
                                                          value="0"
-                                            >Keine Benutzer gefunden
+                                            >Benutzer wählen
                                             </flux:option>
+                                            @forelse($users as $user)
+                                                <flux:option wire:key="{{ $user->id }}"
+                                                             value="{{ $user->id }}"
+                                                >{{ $user->name }}</flux:option>
+                                            @empty
+                                                <flux:option wire:key="0"
+                                                             value="0"
+                                                >Keine Benutzer gefunden
+                                                </flux:option>
 
-                                        @endforelse
-                                    </flux:select>
-                                    <flux:button size="sm"
-                                                 square
-                                                 wire:click="attachUser"
-                                    >
-                                        <flux:icon.user-plus variant="micro"
-                                                             class="text-emerald-500 dark:text-emerald-300"
-                                        />
-                                    </flux:button>
+                                            @endforelse
+                                        </flux:select>
+                                        <flux:button square
+                                                     wire:click="attachUser"
+                                        >
+                                            <flux:icon.user-plus variant="micro"
+                                                                 class="text-emerald-500 dark:text-emerald-300"
+                                            />
+                                        </flux:button>
+                                    </flux:button.group>
                                 @endif
                             </flux:field>
 
@@ -147,7 +154,7 @@
                     <flux:card class="space-y-6">
 
                         @can('update', $member)
-                            <flux:radio.group wire:model="member_type"
+                            <flux:radio.group wire:model="memberForm.type"
                                               label="{{ __('members.type') }}"
                                               variant="cards"
                                               class="max-sm:flex-col"
@@ -166,14 +173,13 @@
                                             color=" {{ \App\Enums\MemberType::color($member_type) }}"
                                 > {{ \App\Enums\MemberType::value($member_type) }}</flux:badge>
                             </flux:field>
-
                         @endcan
 
 
-                        <flux:switch wire:model="is_deducted"
+                        <flux:switch wire:model="memberForm.is_deducted"
                                      label="Ist rabattiert?"
                         />
-                        <flux:textarea wire:model="deduction_reason"
+                        <flux:textarea wire:model="memberForm.deduction_reason"
                                        rows="auto"
                         />
                             <flux:spacer/>
@@ -211,16 +217,22 @@
                         @endif
                     </flux:field>
 
-                    <flux:field>
+                    <flux:field class="space-y-2">
                         @if($member->left_at)
 
-                            <flux:text>{{ __('members.date.left_at') }} {{ $member->left_at }}</flux:text>
-                            <flux:heading size="lg">{{ $member->left_at->diffForHumans() }}</flux:heading>
+                           <div>
+                               <flux:text>{{ __('members.date.left_at') }} {{ $member->left_at }}</flux:text>
+                               <flux:heading size="lg">{{ $member->left_at->diffForHumans() }}</flux:heading>
+                           </div>
 
+                            @can('delete',$this->member)
+                                <flux:button variant="primary" wire:click="reactivateMembership">Reaktivieren</flux:button>
+                            @endcan
                         @else
                             @if($member->entered_at)
                                 @can('delete',$this->member)
-                                    <flux:button variant="danger">{{ __('members.btn.cancelMembership.label') }}</flux:button>
+                                    <flux:button variant="danger" wire:click="cancelMember">{{ __('members.btn.cancelMembership.label') }}</flux:button>
+
                                 @endcan
                             @endif
 
@@ -229,7 +241,7 @@
 
                     </flux:field>
 
-                    @if(! $user_id)
+                    @if(! $memberForm->user_id)
                         <flux:field>
                             <flux:button type="button"
                                          wire:click="sendInvitation"
@@ -252,5 +264,35 @@
         </flux:tab.panel>
     </flux:tab.group>
 
+
+    <flux:modal name="delete-membership">
+        <form wire:submit="deleteMembershipForSure" class="space-y-6">
+            <div>
+                <flux:heading size="lg">{{ __('members.cancel.modal.title') }}</flux:heading>
+
+                <flux:subheading>
+                    <p>{{ __('members.cancel.modal.text') }}</p>
+                </flux:subheading>
+            </div>
+
+            <div>
+                <flux:input wire:model.live="confirm_deletion_text" label="{{ __('members.cancel.confirm_text_input.label') }}" />
+            </div>
+
+            @if($memberForm->user_id)
+                Nutzer löschen!
+                @endif
+
+            <div class="flex gap-2">
+                <flux:spacer />
+
+                <flux:modal.close>
+                    <flux:button variant="ghost">{{ __('profile.2FA.modal-confirm.btn.cancel.label') }}</flux:button>
+                </flux:modal.close>
+
+                <flux:button type="submit" variant="danger" :disabled="$confirm_deletion_text !== $memberForm->name">{{ __('members.cancel.btn.final.label') }}</flux:button>
+            </div>
+        </form>
+    </flux:modal>
 
 </div>

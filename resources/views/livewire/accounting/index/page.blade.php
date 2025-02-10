@@ -20,8 +20,10 @@
                             <flux:cell>
                                 {{ $items->label }}
                             </flux:cell>
-                            <flux:cell class="{{ $items->type === \App\Enums\TransactionType::Deposit->value ? 'text-lime-500' : 'text-orange-600'  }}">
-                                {{ $items->grossForHumans() }}
+                            <flux:cell>
+                                <span class="{{ $items->grossColor() }}">
+                                    {{ $items->grossForHumans() }}
+                                </span>
                             </flux:cell>
 
                         </flux:row>
@@ -30,12 +32,16 @@
             </flux:table>
 
 
-                            <section class="space-y-6 my-3">
-                                <flux:button href="#">Übersicht</flux:button>
+            <section class="my-3 flex">
+                <flux:button href="{{ route('transaction.index') }}">Übersicht</flux:button>
+                @can('create', \App\Models\Accounting\Account::class)
+
+                <flux:spacer />
                 <flux:button variant="primary"
                              href="{{ route('transaction.create') }}"
-                >Beleg Einreichen
+                >Buchung Einreichen
                 </flux:button>
+                    @endcan
             </section>
         </flux:card>
 
@@ -59,6 +65,8 @@
 
                 @endforelse
 
+                <flux:spacer />
+                Gesamter Kontostand:
                 {{ number_format(($total/100),2,',','.') }}
 
             </section>
