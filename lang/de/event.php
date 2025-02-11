@@ -8,6 +8,7 @@ return array(
     'ends' => "Ende",
     'show.label' => "Details",
     'venue' => "Ort",
+    'status' => "Status",
     'make_ics' => "Kalendereintrag erstellen",
     'show.title' => "Übersicht Veranstaltung",
 
@@ -33,6 +34,7 @@ return array(
     "form.entry_fee" => "Eintritt",
     "form.entry_fee_discounted" => "Reduzierter Eintritt",
     "form.venue_id" => "Veranstaltungsort",
+    "form.status" => "Status",
 
 
 

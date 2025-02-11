@@ -169,8 +169,8 @@
 
                 </flux:dropdown>
             </flux:navbar>
-            <flux:navbar class="hidden lg:flex">
-                <span class="text-zinc-400 mx-3 text-sm">Magyar Kolónia Berlin e. V.</span>
+            <flux:navbar class="hidden lg:flex my-3 lg:my-6">
+                <span class="text-zinc-400 mx-3 text-sm">(c) Magyar Kolónia Berlin e. V.</span>
 
                <x-footer-link link="{{ route('impressum') }}">{{__('app.imprint')}}</x-footer-link>
 

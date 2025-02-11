@@ -213,7 +213,7 @@
                             <flux:heading size="lg">{{ $member->entered_at->diffForHumans() }}</flux:heading>
 
                         @else
-                            <flux:button variant="primary">{{ __('members.btn.sendAcceptanceMail.label') }}</flux:button>
+                            <flux:button variant="primary" wire:click="acceptApplication">{{ __('members.btn.sendAcceptanceMail.label') }}</flux:button>
                         @endif
                     </flux:field>
 

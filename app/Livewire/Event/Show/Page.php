@@ -5,6 +5,7 @@ namespace App\Livewire\Event\Show;
 use App\Enums\Locale;
 use App\Livewire\Forms\EventForm;
 use App\Models\Event;
+use App\Models\EventTransaction;
 use App\Models\Membership\MemberTransaction;
 use App\Models\Venue;
 use Flux\Flux;
@@ -46,7 +47,7 @@ public $tab = 'payments';
     #[Computed]
     public function payments(): LengthAwarePaginator
     {
-        return MemberTransaction::query()
+        return EventTransaction::query()
             ->with('event')
             ->where('event_id', '=', $this->event_id)
             ->tap(fn($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)

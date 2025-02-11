@@ -24,7 +24,7 @@ class EventPayment extends Component
     #[Computed]
     public function members()
     {
-        return \App\Models\Membership\Member::select('id', 'name')
+        return \App\Models\Membership\Member::select('id', 'name','first_name')
             ->where('left_at', null)
             ->get();
     }
@@ -38,7 +38,7 @@ class EventPayment extends Component
     #[Computed]
     public function booking_accounts()
     {
-        return \App\Models\Accounting\BookingAccount::select('id', 'label', 'nummer')->get();
+        return \App\Models\Accounting\BookingAccount::select('id', 'label', 'number')->get();
     }
 
     public function mount(Event $event)
@@ -47,6 +47,7 @@ class EventPayment extends Component
         $this->transactionForm->type = TransactionType::Deposit->value;
         $this->transactionForm->amount_gross = number_format($this->eventForm->entry_fee, 2, ',', '.');
         $this->transactionForm->label = 'Zahlung Abendkasse';
+        $this->transactionForm->date = $this->eventForm->event_date;
     }
 
     public function updatedSetEntryFee()
@@ -63,10 +64,13 @@ class EventPayment extends Component
             'transaction' => $this->transactionForm,
             'member_id' => $this->member_id,
         ]);
+        $this->dispatch('updated-payments');
 
     }
 
-    public function addEventPayment() {}
+    public function addEventPayment() {
+        $this->storePayment();
+    }
 
     public function render()
     {

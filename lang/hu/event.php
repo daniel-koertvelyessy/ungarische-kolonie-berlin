@@ -9,6 +9,7 @@ return array(
     'ends' => "Vége",
     'show.label' => "Részletek",
     'venue' => "helyszín",
+    'status' => 'Statusz',
     'make_ics' => "Naptárbejegyzés létrehozása",
     'show.title' => "Esemény áttekintése",
 
@@ -19,7 +20,7 @@ return array(
     "create.slug.notice" => "A slug linkként jön létre két nyelven. Ezt utólag nem lehet megváltoztatni!",
     "create.page.title" => "Új esemény létrehozása",
 
-    "show.page.title" => "Esemény szerkesztése:név",
+    "show.page.title" => "Esemény szerkesztése :name",
 
     "form.event_date" => "Dátum",
     "form.start_time" => "Kezdés",

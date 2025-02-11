@@ -75,6 +75,18 @@
 
                             <flux:fieldset class="space-y-6">
                                 <flux:field>
+                                    <flux:label>{{__('event.form.status')}}</flux:label>
+                                    <flux:select wire:model="form.status" variant="listbox" placeholder="Choose industry...">
+                                        @foreach(\App\Enums\EventStatus::cases() as $status)
+                                            <flux:option value="{{ $status->value }}">
+                                                <flux:badge color="{{ \App\Enums\EventStatus::color($status->value) }}">{{ \App\Enums\EventStatus::value($status->value) }}</flux:badge>
+                                            </flux:option>
+                                        @endforeach
+
+                                    </flux:select>
+                                </flux:field>
+
+                                <flux:field>
                                     <flux:label>{{__('event.form.entry_fee')}}</flux:label>
                                     <flux:input.group>
                                         <flux:input type="number"
@@ -136,22 +148,28 @@
                                  alt=""
                                  class="my-3 lg:my-9 rounded-md shadow"
                             >
+                            @can('update',\App\Models\Event::class)
                             <flux:button size="sm"
                                          variant="danger"
                                          icon="trash"
                                          wire:click="deleteImage"
                             />
+                                @endcan
                         @else
+                            @can('update',\App\Models\Event::class)
                             <livewire:app.global.image-upload/>
+                                @endcan
                         @endif
                     </flux:card>
 
 
                 </section>
+                @can('update',\App\Models\Event::class)
                 <flux:button type="submit"
                              variant="primary"
                 >Speichern
                 </flux:button>
+                    @endcan
             </form>
         </flux:tab.panel>
         <flux:tab.panel name="payments">
@@ -162,27 +180,44 @@
                     <flux:column sortable :sorted="$sortBy === 'member_id'" :direction="$sortDirection" wire:click="sort('member')">Mitglied</flux:column>
                     <flux:column sortable :sorted="$sortBy === 'amount'" :direction="$sortDirection" wire:click="sort('amount')" align="right">Betrag</flux:column>
                 </flux:columns>
-
+@php $total = 0; @endphp
                 <flux:rows>
                     @foreach ($this->payments as $payment)
                         <flux:row :key="$payment->id">
 
                             <flux:cell variant="strong">
                                 {{ $payment->label }}
+                                {{ \App\Enums\TransactionType::calc($payment->transaction->type) }}
                             </flux:cell>
 
                             <flux:cell>{{ $payment->date->diffForHumans() }}</flux:cell>
-                            <flux:cell>{{ $payment->member->fullName() }}</flux:cell>
+                            <flux:cell>{{ $payment->name }}</flux:cell>
 
-                            <flux:cell variant="strong" align="end">{{ $payment->amountForHumans() }}</flux:cell>
+                            <flux:cell variant="strong" align="end">
+                                <span class="text-{{ \App\Enums\TransactionType::color($payment->transaction->type) }}-600">
+                                    {{ $payment->amountForHumans() }}
+                                </span>
+                            </flux:cell>
 
                         </flux:row>
+                        @php $total += $payment->amount * \App\Enums\TransactionType::calc($payment->transaction->type); @endphp
+
+
                     @endforeach
                 </flux:rows>
             </flux:table>
-            <flux:modal.trigger name="add-new-payment">
-                <flux:button variant="primary">Neue Zahlung erfassen</flux:button>
-            </flux:modal.trigger>
+            <aside class="flex">
+                <flux:spacer />
+                <flux:heading size="lg">Ergebnis: <span class="mr-2.5 text-sm">EUR</span> <span class="{{ $total>0?'text-emerald-600':'text-orange-600' }}">{{ number_format(($total/100),2,',','.') }}</span></flux:heading>
+            </aside>
+
+            @can('create',\App\Models\Event::class)
+                <aside class="mt-3 lg:mt-9">
+                    <flux:modal.trigger name="add-new-payment" >
+                        <flux:button variant="primary">Neue Zahlung erfassen</flux:button>
+                    </flux:modal.trigger>
+                </aside>
+                @endcan
         </flux:tab.panel>
     </flux:tab.group>
 

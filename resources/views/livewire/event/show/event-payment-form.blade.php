@@ -1,7 +1,19 @@
 <div>
-
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <form wire:submit="addEventPayment">
+
         <section class="space-y-3 mb-6">
+
+            <flux:input type="date" wire:model="transactionForm.date" label="Datum" size="sm" />
+
             <flux:radio.group wire:model="transactionForm.type"
                               label="Buchung"
                               variant="segmented"

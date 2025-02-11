@@ -2,17 +2,22 @@
 
 namespace App\Livewire\Member\Show;
 
+use App\Enums\MemberType;
 use App\Livewire\Forms\MemberForm;
+use App\Mail\AcceptMembershipMail;
 use App\Mail\InvitationMail;
 use App\Models\Membership\Invitation;
 use App\Models\Membership\Member;
 use App\Models\Membership\MemberTransaction;
 use App\Models\User;
+use App\Notifications\MemberAcceptedNotification;
+use App\Notifications\NewMemberApplied;
 use Flux\Flux;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Computed;
@@ -178,6 +183,26 @@ class Page extends Component
                 variant: 'danger',
             );
         }
+    }
+
+    public function acceptApplication():void
+    {
+
+        $this->checkUser();
+
+        $this->memberForm->type = MemberType::ST->value;
+        $this->memberForm->entered_at = now();
+
+        if ($this->memberForm->updateMembership()) {
+            Flux::toast(
+                heading: __('Erfolg'),
+                text: __('Mitgliedshaft wurde angenommen'),
+                variant: 'success',
+            );
+            Mail::to($this->memberForm->email)->send(new AcceptMembershipMail($this->member));
+
+        }
+
     }
 
     public function cancelMember()

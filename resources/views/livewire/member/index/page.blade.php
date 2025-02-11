@@ -6,8 +6,8 @@
         <flux:columns>
             <flux:column sortable :sorted="$sortBy === 'name'" :direction="$sortDirection" wire:click="sort('name')">{{ __('members.table.header.name') }}</flux:column>
             <flux:column sortable :sorted="$sortBy === 'mobile'" :direction="$sortDirection" wire:click="sort('mobile')" class="hidden sm:table-cell">{{ __('members.table.header.phone') }}</flux:column>
-            <flux:column sortable :sorted="$sortBy === 'birth_date'" :direction="$sortDirection" wire:click="sort('birth_date')" class="hidden sm:table-cell">{{ __('members.table.header.status') }}</flux:column>
-            <flux:column sortable :sorted="$sortBy === 'status'" :direction="$sortDirection" wire:click="sort('status')" class="hidden sm:table-cell">{{ __('members.table.header.birthday') }}</flux:column>
+            <flux:column sortable :sorted="$sortBy === 'type'" :direction="$sortDirection" wire:click="sort('type')" class="hidden sm:table-cell">{{ __('members.table.header.status') }}</flux:column>
+            <flux:column sortable :sorted="$sortBy === 'birth_date'" :direction="$sortDirection" wire:click="sort('birthday')" class="hidden sm:table-cell">{{ __('members.table.header.birthday') }}</flux:column>
         </flux:columns>
 
         <flux:rows>
@@ -24,7 +24,7 @@
                     </flux:cell>
 
                     <flux:cell class=" hidden sm:table-cell" variant="strong">{{ $member->birth_date }}</flux:cell>
-
+                    @can('view', \App\Models\Membership\Member::class)
                     <flux:cell>
                         <flux:dropdown :key="$member->id">
                             <flux:button variant="ghost" size="sm" icon="ellipsis-horizontal" inset="top bottom"></flux:button>
@@ -36,6 +36,7 @@
                             </flux:menu>
                         </flux:dropdown>
                     </flux:cell>
+                        @endcan
                 </flux:row>
             @endforeach
         </flux:rows>

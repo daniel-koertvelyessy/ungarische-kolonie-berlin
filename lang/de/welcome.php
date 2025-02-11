@@ -18,7 +18,7 @@ return [
     "articles.empty.list" => "Es sind noch keine Artikel veröffentlicht worden",
 
     "members.apply.header"    => "Mitglied werden",
-    "members.apply.text"      => "Werden Sie Teil einer lustigen und unternehmungsreichen Gesellschaft",
+    "members.apply.text"      => "Werde Teil einer lustigen und unternehmungsreichen Gesellschaft",
     "members.apply.btn.label" => "Jetzt Antrag ausfüllen!",
 
 ];

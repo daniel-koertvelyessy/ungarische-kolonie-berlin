@@ -20,9 +20,10 @@ class MemberPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Member $member): bool
+    public function view(): bool
     {
-        return false;
+       return $this->checkThis();
+
     }
 
     /**
@@ -30,7 +31,7 @@ class MemberPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+      return $this->checkThis();
     }
 
     /**
@@ -47,7 +48,7 @@ class MemberPolicy
             return true;
         }
 
-        return $this->checkThis($user, $member);
+        return $this->checkThis();
     }
 
     /**
@@ -83,9 +84,10 @@ class MemberPolicy
         return false;
     }
 
-    private function checkThis(User $user, Member $member): bool
+    private function checkThis(): bool
     {
 
+        $user = Auth::user();
 
         if ($user->is_admin) {
             return true;

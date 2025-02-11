@@ -30,8 +30,8 @@ enum EventStatus:string
     {
         return match ($value) {
             'draft' => 'gray',
-            'pending' => 'lime',
-            'published' => 'emerald',
+            'pending' => 'teal',
+            'published' => 'lime',
             'rejected' => 'yellow',
             'retracted' => 'orange',
         };

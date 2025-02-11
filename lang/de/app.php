@@ -16,7 +16,7 @@ return [
     "about-us" => "Der Verein",
     "become-member" => "Mitglied werden",
 
-    "dashboard" => "Übersicht",
+    "dashboard" => "Dashboard",
     "gotologin" => "Anmeldung",
     "login.title" => "Anmeldung für Mitglieder",
     "login.header" => "Melden Sie sich an",

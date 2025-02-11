@@ -31,10 +31,12 @@ Route::get('/', function ()
 {
     return view('welcome', [
         'events' => \App\Models\Event::with('venue')
+            ->where('status','=', \App\Enums\EventStatus::PUBLISHED->value)
             ->where('starts_at', '>', now())
             ->take(3)
             ->get(),
         'events_total'  => \App\Models\Event::where('starts_at', '>', now())
+            ->where('status','=', \App\Enums\EventStatus::PUBLISHED->value)
             ->get()
             ->count(),
         'articles' => \App\Models\Article::take(3)->get(),
@@ -46,6 +48,7 @@ Route::get('/events', function ()
 {
     return view('events.index', [
         'events' => \App\Models\Event::orderBy('event_date')
+            ->where('status','=', \App\Enums\EventStatus::PUBLISHED->value)
             ->paginate(5),
         'locale' => App::getLocale()
     ]);

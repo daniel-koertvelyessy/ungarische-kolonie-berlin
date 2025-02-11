@@ -16,6 +16,13 @@ class Form extends Component
 
     public function loadTransaction(int $transactionId): void
     {
+
+        $this->transaction = Transaction::find($transactionId);
+        $this->form->set($this->transaction);
+    }
+
+    public function mount(?int $transactionId = null)
+    {
         $this->transaction = Transaction::find($transactionId);
         $this->form->set($this->transaction);
     }

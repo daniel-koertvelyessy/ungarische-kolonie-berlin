@@ -76,6 +76,14 @@ class MemberForm extends Form
         $this->member->mobile = $this->mobile;
         return $this->member->save();
     }
+    public function updateMembership(): bool
+    {
+        $this->member->type = $this->type;
+        $this->member->entered_at = $this->entered_at;
+        $this->member->left_at = $this->left_at;
+        $this->member->applied_at = $this->applied_at;
+        return $this->member->save();
+    }
 
 
     public function updateData(): bool

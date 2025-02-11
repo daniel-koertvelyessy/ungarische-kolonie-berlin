@@ -18,7 +18,7 @@ return [
     "articles.link.label" => "Összes :num cikk megtekintése",
     "articles.empty.list" => "Még nem jelent meg cikk",
 
-    "members.apply.header" => "Legyen tag",
+    "members.apply.header" => "Legyél tag",
     "members.apply.text" => "Légy része egy szórakoztató és vállalkozó szellemű társadalomnak",
     "members.apply.btn.label" => "Töltse ki a jelentkezést most!",
 ];

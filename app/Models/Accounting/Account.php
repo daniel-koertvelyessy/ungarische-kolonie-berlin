@@ -30,6 +30,7 @@ class Account extends Model
 
     public function accountBalance():int
     {
+
         $current = $this->starting_amount??0;
 
         foreach (Transaction::where('account_id',$this->id)->get() as $transaction) {

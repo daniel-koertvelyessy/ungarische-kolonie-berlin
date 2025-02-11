@@ -14,7 +14,7 @@ return [
     "about-us" => "Egyesület",
     "become-member" => "Légy tag",
 
-    "dashboard" => "Áttekintés",
+    "dashboard" => "Dashboard",
     "gotologin" => "Bejelentkezés",
     "login.title" => "Bejelentkezés tagoknak",
     "login.header" => "Bejelentkezés",

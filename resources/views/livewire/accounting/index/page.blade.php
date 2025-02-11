@@ -47,29 +47,7 @@
 
         <flux:card>
             <flux:heading>Konten</flux:heading>
-            <section class="space-y-6 my-3">
-                @php $total = 0; @endphp
-                @forelse($this->accounts as $account)
-                    @php
-                        $accountBalance=   $account->accountBalance();
-                        $total += $accountBalance;
-                    @endphp
-                    <flux:card class="bg-teal-50 flex items-center justify-between">
-                        <div>
-                            <flux:heading>{{ $account->name }}</flux:heading>
-                            <flux:text>Stand: 2025-02-23</flux:text>
-                        </div>
-                        <aside>EUR {{ number_format(($accountBalance/100),2,',','.') }}</aside>
-                    </flux:card>
-                @empty
-
-                @endforelse
-
-                <flux:spacer />
-                Gesamter Kontostand:
-                {{ number_format(($total/100),2,',','.') }}
-
-            </section>
+            <x-balance-sheet/>
         </flux:card>
         <flux:card>
             <flux:heading>Berichte</flux:heading>

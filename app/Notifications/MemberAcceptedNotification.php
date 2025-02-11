@@ -3,21 +3,21 @@
 namespace App\Notifications;
 
 use App\Models\Membership\Member;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewMemberApplied extends Notification //implements ShouldQueue
+class MemberAcceptedNotification extends Notification
 {
-    // use Queueable;
+    use Queueable;
 
-    protected $member;
-
+    public $member;
     /**
      * Create a new notification instance.
      */
     public function __construct(Member $member)
     {
-
         $this->member = $member;
     }
 
@@ -28,7 +28,7 @@ class NewMemberApplied extends Notification //implements ShouldQueue
      */
     public function via(object $notifiable): array
     {
-        return ['mail', 'database'];
+        return ['mail'];
     }
 
     /**
@@ -36,12 +36,12 @@ class NewMemberApplied extends Notification //implements ShouldQueue
      */
     public function toMail(object $notifiable): MailMessage
     {
-
+        app()->setLocale($this->member->locale);
         return (new MailMessage)
             ->from('szia@magyar-kolonia-berlin.org', 'Daniel Körtvélyessy')
             ->view(
-            'emails.member-application', ['member' => $this->member]
-        );
+                'emails.member-acceptance', ['member' => $this->member]
+            );
     }
 
     /**
