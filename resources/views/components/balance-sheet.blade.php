@@ -10,17 +10,17 @@
                 <flux:heading>{{ $account->name }}</flux:heading>
                 <flux:text>Stand: {{ $account->updated_at->diffForHumans() }}</flux:text>
             </div>
-            <aside class="font-bold {{ $total>0 ? 'text-emerald-600' : 'text-orange-600' }}"><span class="text-sm mr-2.5">EUR</span>  <span>{{ $total>0?'+': '-' }}</span>{{ number_format(($accountBalance/100),2,',','.') }}</aside>
+            <aside class="font-bold {{ $total>0 ? 'positive' : 'negative' }}"><span class="text-sm mr-2.5">EUR</span>  <span>{{ $total>0?'+': '-' }}</span>{{ number_format(($accountBalance/100),2,',','.') }}</aside>
         </flux:card>
     @empty
 
     @endforelse
-    <aside class="flex pt-3 items-center border-t border-t-2 border-dashed">
+    <aside class="flex pt-3 items-center border-t-2 border-dashed">
 <span>Gesamter Kontostand:</span>
 
         <flux:spacer/>
         <span class="text-sm mr-2.5">EUR</span>
-        <span class="font-bold {{ $total>0 ? 'text-emerald-600' : 'text-orange-600' }}">
+        <span class="font-bold {{ $total>0 ? 'positive' : 'negative' }}">
             {{ number_format(($total/100),2,',','.') }}
         </span>
     </aside>

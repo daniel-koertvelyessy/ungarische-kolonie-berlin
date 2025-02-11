@@ -21,6 +21,12 @@ h1{
     @apply text-emerald-600 dark:text-emerald-400;
 }
 
+.positive{
+    @apply text-emerald-600 dark:text-emerald-600 dark:opacity-75;
+}
+.negative{
+    @apply text-orange-600 dark:text-orange-500 dark:opacity-75;
+}
 
 [x-cloak] {
     display: none;
