@@ -3,7 +3,7 @@
         <flux:heading size="xl">Kassenjahr 2025</flux:heading>
     </header>
 
-    <section class="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+    <section class="grid grid-cols-1 gap-3 lg:grid-cols-2 xl:grid-cols-3 lg:gap-6">
 
         <flux:card>
             <flux:heading>Buchungen</flux:heading>

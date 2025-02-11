@@ -14,7 +14,7 @@
     <input type="hidden"
             wire:model="form.id"
     >
-    <div class="grid grid-cols-1 gap-3 lg:grid-cols-2 lg:gap-6 xl:grid-cols-3">
+    <div class="grid grid-cols-1 gap-3 lg:grid-cols-2 lg:gap-6">
 
         <flux:card x-data="checkVat">
             <form wire:submit="submitTransaction">
@@ -152,7 +152,7 @@
             </form>
         </flux:card>
 
-        <flux:card class="space-y-2 xl:col-span-2">
+        <flux:card class="space-y-2">
             <form wire:submit="submitReceipt">
                 <flux:heading>Beleg hochladen</flux:heading>
                 <section class="grid grid-cols-1 lg:grid-cols-3 gap-3">
