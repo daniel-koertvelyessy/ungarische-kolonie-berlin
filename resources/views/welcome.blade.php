@@ -23,7 +23,11 @@
                                  variant="primary"
                                  icon-trailing="arrow-right-circle"
                     >
-                        {{ __('welcome.events.link.label',['num'=>$events_total]) }}
+                        @if ($events_total>1)
+                        {{ __('welcome.events.links.label',['num'=>$events_total]) }}
+                        @else
+                            {{ __('welcome.events.link.label') }}
+                        @endif
                     </flux:button>
                     @else
 

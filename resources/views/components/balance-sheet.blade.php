@@ -6,11 +6,11 @@
             $total += $accountBalance;
         @endphp
         <flux:card class="flex items-center justify-between">
-            <div>
+            <div class="flex-1">
                 <flux:heading>{{ $account->name }}</flux:heading>
                 <flux:text>Stand: {{ $account->updated_at->diffForHumans() }}</flux:text>
             </div>
-            <aside class="font-bold {{ $total>0 ? 'positive' : 'negative' }}"><span class="text-sm mr-2.5">EUR</span>  <span>{{ $total>0?'+': '-' }}</span>{{ number_format(($accountBalance/100),2,',','.') }}</aside>
+            <aside class="font-bold">  <span class="{{ $total>0 ? 'positive' : 'negative' }}"><span>{{ $total>0?'+': '-' }}</span>{{ number_format(($accountBalance/100),2,',','.') }}</span><span class="text-sm ml-2.5">EUR</span></aside>
         </flux:card>
     @empty
 
@@ -21,6 +21,7 @@
         <flux:spacer/>
         <span class="text-sm mr-2.5">EUR</span>
         <span class="font-bold {{ $total>0 ? 'positive' : 'negative' }}">
+            <span>{{ $total>0?'+': '-' }}</span>
             {{ number_format(($total/100),2,',','.') }}
         </span>
     </aside>

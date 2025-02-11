@@ -8,7 +8,8 @@ return [
     "mission.content"   => "Der Verein hilft Ungarn, die in Berlin wohnen oder zu Besuch sind. Unser Schwarzes Brett kann von Mitgliedern mit Angeboten und Suchen eingesehen werden.",
     "events.title"      => "Veranstaltungen",
     "events.listing"    => "Kommende Veranstaltungen der Maygar Kolónia Berlin e. V.",
-    "events.link.label" => "Alle :num Veranstaltungen ansehen",
+    "events.links.label" => "Alle :num Veranstaltungen ansehen",
+    "events.link.label" => "Veranstaltung ansehen",
     "events.empty.list" => "Es sind noch keine Veranstaltungen veröffentlicht worden",
 
 

@@ -32,10 +32,10 @@ Route::get('/', function ()
     return view('welcome', [
         'events' => \App\Models\Event::with('venue')
             ->where('status','=', \App\Enums\EventStatus::PUBLISHED->value)
-            ->where('starts_at', '>', now())
+            ->where('event_date', '>', now())
             ->take(3)
             ->get(),
-        'events_total'  => \App\Models\Event::where('starts_at', '>', now())
+        'events_total'  => \App\Models\Event::where('event_date', '>', now())
             ->where('status','=', \App\Enums\EventStatus::PUBLISHED->value)
             ->get()
             ->count(),

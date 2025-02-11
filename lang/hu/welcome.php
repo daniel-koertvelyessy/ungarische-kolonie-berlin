@@ -9,7 +9,8 @@ return [
     "mission.content" => "Az egyesület a Berlinben élő vagy idelátogató magyarokat segíti. Faliújságunkat ajánlatokkal, kérésekkel megtekinthetik a tagok.",
     "events.title" => "Események",
     "events.listing" => "Maygar Kolónia Berlin e. V. közelgő eseményei",
-    "events.link.label" => "Összes :num esemény megtekintése",
+    "events.links.label" => "Összes :num eseményneket megtekintése",
+    "events.link.label" => "Eseményt megtekintése",
     "events.empty.list" => "Még nincs esemény közzétéve",
 
 
