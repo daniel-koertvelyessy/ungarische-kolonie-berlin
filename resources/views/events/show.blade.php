@@ -7,7 +7,7 @@
 
 
             @if($event->image)
-                <img src="/images/{{ $event->image }}"
+                <img src="{{ asset('storage/images/'.$form->event->image) }}"
                      alt=""
                      class="my-3 lg:my-9 rounded-md shadow"
                 >
