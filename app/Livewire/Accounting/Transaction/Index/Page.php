@@ -53,7 +53,7 @@ class Page extends Component
     public function transactions(): LengthAwarePaginator
     {
         $this->allTransactions = Transaction::all()
-            ->map(fn($member) => (string) $member->id)
+            ->map(fn($transaction) => (string) $transaction->id)
             ->toArray();
 
         $date_range = DateRange::from($this->filter_date_range)
@@ -65,12 +65,12 @@ class Page extends Component
             ->whereIn('status', $this->filter_status)
             ->whereIn('type', $this->filter_type)
             ->tap(fn($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
-            ->tap(fn($query) => $this->filter_date_range === DateRange::All ? $query : $query->whereBetween('date', $date_range))
-            ->tap(fn($query) => logger()->info($query->toSql(), $query->getBindings()))
+            ->tap(fn($query) => $this->filter_date_range === DateRange::All->value ? $query : $query->whereBetween('date', $date_range))
+//            ->tap(fn($query) => logger()->info($query->toSql(), $query->getBindings()))
             ->paginate(15)
             ->through(fn($transaction) => $transaction->refresh());
 
-        $this->transactionsOnPage = $transactionList->map(fn($member) => (string) $member->id)
+        $this->transactionsOnPage = $transactionList->map(fn($transaction) => (string) $transaction->id)
             ->toArray();
 
 

@@ -7,7 +7,6 @@
         ></flux:button>
     </header>
 
-
     <nav class="my-2 hidden gap-3 lg:flex items-center "
          x-cloak
          x-show="showFilter"
@@ -33,7 +32,7 @@
             @endforeach
         </flux:checkbox.group>
 
-        <flux:fieldset>
+        <flux:fieldset class="space-y-3">
             <flux:input wire:model.live.debounce="search"
                         clearable
                         size="sm"
@@ -91,9 +90,16 @@
         <flux:columns>
             <flux:column>Buchung</flux:column>
             <flux:column sortable
+                         :sorted="$sortBy === 'date'"
+                         :direction="$sortDirection"
+                         wire:click="sort('date')"
+                         class="hidden md:table-cell"
+            >Erfolgt am
+            </flux:column>
+            <flux:column sortable
                          :sorted="$sortBy === 'created_at'"
                          :direction="$sortDirection"
-                         wire:click="sort('created_at')"
+                         wire:click="sort('created')"
                          class="hidden md:table-cell"
             >Eingereicht
             </flux:column>
@@ -129,6 +135,8 @@
                     <flux:cell variant="strong">
                         {{ $item->label }}
                     </flux:cell>
+
+                    <flux:cell class="hidden md:table-cell">{{ $item->date->diffForHumans() }}</flux:cell>
 
                     <flux:cell class="hidden md:table-cell">{{ $item->created_at->diffForHumans() }}</flux:cell>
 
