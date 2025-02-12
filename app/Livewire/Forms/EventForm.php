@@ -27,6 +27,7 @@ class EventForm extends Form
     public $image;
     public $entry_fee;
     public $entry_fee_discounted;
+    public $payment_link;
 
     public array $title;
     #[Validate]
@@ -57,7 +58,6 @@ class EventForm extends Form
 
     public function create()
     {
-
         $this->validate();
         CreateEvent::handle($this);
     }
@@ -73,10 +73,11 @@ class EventForm extends Form
                                          'required',
                                          new UniqueJsonSlug('events', 'title', $this->id)
             ],
-            'slug.*'                 =>  new UniqueJsonSlug('events', 'slug', $this->id),
+            'slug.*'               => new UniqueJsonSlug('events', 'slug', $this->id),
             'excerpt'              => 'nullable',
             'description'          => 'nullable',
             'image'                => 'nullable',
+            'payment_link'         => 'nullable',
             'status'               => ['nullable', Rule::enum(EventStatus::class)],
             'entry_fee'            => 'nullable|numeric',
             'entry_fee_discounted' => 'nullable|numeric',
@@ -85,6 +86,7 @@ class EventForm extends Form
 
     public function update()
     {
+        $this->validate();
         $this->event->event_date = $this->event_date;
         $this->event->start_time = $this->start_time;
         $this->event->end_time = $this->end_time;
@@ -95,6 +97,7 @@ class EventForm extends Form
         $this->event->entry_fee = $this->entry_fee;
         $this->event->entry_fee_discounted = $this->entry_fee_discounted;
         $this->event->venue_id = $this->venue_id;
+        $this->event->payment_link = $this->payment_link;
 
 
         if ($this->event->save()) {

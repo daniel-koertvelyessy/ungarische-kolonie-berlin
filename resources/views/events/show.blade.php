@@ -70,10 +70,11 @@
                         </dd>
                     </div>
 
-
                 </dl>
 
-
+                @if($event->payment_link)
+                    <flux:button href="{{ $event->payment_link }}" target="_blank" variant="primary" icon-trailing="arrow-up-right">Jetzt Karten kaufen</flux:button>
+                @endif
             </flux:card>
         </aside>
     </div>

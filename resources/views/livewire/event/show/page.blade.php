@@ -109,39 +109,44 @@
                                     </flux:input.group>
                                     <flux:error name="entry_fee_discounted"/>
                                 </flux:field>
+
+
                             </flux:fieldset>
+                           <div class="col-span-3 space-y-3">
+                               <flux:field >
+                                   <flux:label>{{__('event.form.venue_id')}}</flux:label>
 
-                            <flux:field class="col-span-3">
-                                <flux:label>{{__('event.form.venue_id')}}</flux:label>
+                                   <flux:select variant="listbox"
+                                                searchable
+                                                placeholder="Choose venue_id"
+                                                wire:model="form.venue_id"
+                                   >
+                                       <flux:option value="new">Neu</flux:option>
+                                       @foreach($this->venues as $key => $venue)
+                                           <flux:option value="{{ $venue->id }}"
+                                                        :key
+                                           >{{ $venue->name }}</flux:option>
+                                       @endforeach
 
-                                <flux:select variant="listbox"
-                                             searchable
-                                             placeholder="Choose venue_id"
-                                             wire:model="form.venue_id"
-                                >
-                                    <flux:option value="new">Neu</flux:option>
-                                    @foreach($this->venues as $key => $venue)
-                                        <flux:option value="{{ $venue->id }}"
-                                                     :key
-                                        >{{ $venue->name }}</flux:option>
-                                    @endforeach
+                                   </flux:select>
 
-                                </flux:select>
+                                   <div x-show="$wire.form.venue_id ==='new'"
+                                        class="pt-3"
+                                   >
+                                       <flux:modal.trigger name="add-new-venue">
+                                           <flux:button>{{ __('venue.new.btn.label') }}</flux:button>
+                                       </flux:modal.trigger>
+                                   </div>
+                               </flux:field>
+                               <flux:input wire:model="form.payment_link" label="{{ __('event.form.payment_link') }}" />
+                           </div>
 
-                                <div x-show="$wire.form.venue_id ==='new'"
-                                     class="pt-3"
-                                >
-                                    <flux:modal.trigger name="add-new-venue">
-                                        <flux:button>{{ __('venue.new.btn.label') }}</flux:button>
-                                    </flux:modal.trigger>
-                                </div>
-                            </flux:field>
 
                         </div>
 
                     </flux:card>
 
-                    <flux:card class="space-y-3">
+                    <flux:card class="space-y-6">
                         <flux:heading>{{ __('event.form.image.upload') }}</flux:heading>
                         @if($form->event->image)
                             <img src="{{ asset('storage/images/'.$form->event->image) }}"

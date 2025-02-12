@@ -98,6 +98,8 @@
                             </flux:input.group>
                             <flux:error name="entry_fee_discounted"/>
                         </flux:field>
+
+                        <flux:input wire:model="payment_link" label="{{ __('event.form.payment_link') }}" />
                     </flux:fieldset>
 
                     <section class="col-span-3 space-y-6">

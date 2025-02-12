@@ -35,6 +35,7 @@ return array(
     "form.entry_fee_discounted" => "Reduzierter Eintritt",
     "form.venue_id" => "Veranstaltungsort",
     "form.status" => "Status",
+    "form.payment_link" => "Link für Bezahlung",
 
 
 
