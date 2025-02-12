@@ -11,6 +11,7 @@ use Livewire\Form;
 
 class AccountForm extends Form
 {
+    public Account $account;
     public $id;
     public $name;
     public $number;
@@ -20,10 +21,22 @@ class AccountForm extends Form
     public $bic;
     public $starting_amount;
 
+    public function set(Account $account)
+    {
+        $this->name = $account->name;
+        $this->number = $account->number;
+        $this->institute = $account->institute;
+        $this->type = $account->type;
+        $this->iban = $account->iban;
+        $this->bic = $account->bic;
+        $this->starting_amount = number_format(( $account->starting_amount/100), 2, ',', '.');
+        $this->id = $account->id;
+    }
+
     public function create(): void
     {
         $this->validate();
-        $account = CreateAccount::create([
+        $account = CreateAccount::handle([
             'name'            => $this->name,
             'number'          => $this->number,
             'institute'       => $this->institute,
@@ -45,6 +58,14 @@ class AccountForm extends Form
 
         Flux::modal('add-account-modal')
             ->close();
+    }
+
+    public function update()
+    {
+
+        $this->validate();
+        $account = '';
+
     }
 
     protected function rules():array

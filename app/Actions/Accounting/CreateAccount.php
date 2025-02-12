@@ -11,7 +11,7 @@ use Illuminate\Validation\ValidationException;
 
 class CreateAccount
 {
-    public static function create(array $data): Account
+    public static function handle(array $data): Account
     {
 
 

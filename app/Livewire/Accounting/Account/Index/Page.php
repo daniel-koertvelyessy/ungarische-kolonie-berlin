@@ -1,22 +1,26 @@
 <?php
 
-namespace App\Livewire\Accounting\Index;
+namespace App\Livewire\Accounting\Account\Index;
 
 use App\Enums\TransactionStatus;
+use App\Livewire\Forms\AccountForm;
 use App\Models\Accounting\Account;
 use App\Models\Accounting\Transaction;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class Page extends Component
 {
-use WithPagination;
-
+    use WithPagination;
+    public Account $account;
     public $sortBy = 'date';
     public $sortDirection = 'desc';
 
-    protected $listeners = ['receipt-deleted' => '$refresh'];
+
+    public $selectedAccount;
+    protected $listeners = ['account-updated' => '$refresh'];
 
     public function sort($column): void
     {
@@ -28,26 +32,32 @@ use WithPagination;
         }
     }
 
-
     #[Computed]
-    public function transactions()
+    public function accounts(): LengthAwarePaginator
     {
-        return Transaction::query()
-            ->where('status','=', TransactionStatus::booked->value)
-            ->tap(fn ($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
-            ->paginate(10);
-    }
-
-    #[Computed]
-    public function accounts(){
         return Account::query()
             ->tap(fn ($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
             ->paginate(10);
     }
 
+    #[Computed]
+    public function transactions(): LengthAwarePaginator
+    {
+        return Transaction::query()
+            ->where('account_id',$this->account->id)
+            ->where('status','=', TransactionStatus::booked->value)
+            ->tap(fn ($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
+            ->paginate(10);
+    }
+
+    public function editAccount(): void
+    {
+        $this->account = Account::find($this->selectedAccount);
+
+    }
 
     public function render()
     {
-        return view('livewire.accounting.index.page');
+        return view('livewire.accounting.account.index.page');
     }
 }

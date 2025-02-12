@@ -103,7 +103,9 @@
             <flux:navlist.item href="{{ route('transaction.index') }}">Buchungen</flux:navlist.item>
             <flux:navlist.item href="#">Belege</flux:navlist.item>
             <flux:navlist.item href="#">Berichte</flux:navlist.item>
-            <flux:navlist.item href="#">Konten</flux:navlist.item>
+            @can('create', \App\Models\Accounting\Account::class)
+            <flux:navlist.item href="{{ route('accounts.index') }}">Konten</flux:navlist.item>
+            @endcan
         </flux:navlist.group>
 
     </flux:navlist>

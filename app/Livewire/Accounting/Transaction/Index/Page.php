@@ -31,7 +31,7 @@ class Page extends Component
     public $sortDirection = 'desc';
 
     public $search;
-    public array $filter_status = ['eingereicht'];
+    public array $filter_status = ['eingereicht','gebucht'];
     public array $filter_type = [];
     public $selectedTransactions = [];
     public $numTransactions;

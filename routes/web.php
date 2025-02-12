@@ -207,6 +207,7 @@ Route::middleware([
 
         Route::get('/transaction', \App\Livewire\Accounting\Transaction\Create\Page::class)->name('transaction.create');
         Route::get('/transactions', \App\Livewire\Accounting\Transaction\Index\Page::class)->name('transaction.index');
+        Route::get('/accounts', \App\Livewire\Accounting\Account\Index\Page::class)->name('accounts.index');
 
 
         Route::get('/dashboard', function ()
