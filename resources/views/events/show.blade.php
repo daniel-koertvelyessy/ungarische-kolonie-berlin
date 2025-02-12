@@ -69,12 +69,20 @@
                             />
                         </dd>
                     </div>
+                    @if($event->payment_link)
 
+                        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                            <dt class="text-sm/6 font-medium text-gray-900 dark:text-emerald-400">{{ __('event.buy_tickets') }}</dt>
+                            <dd class="mt-1 text-sm/6 text-gray-700 dark:text-gray-100 sm:col-span-2 sm:mt-0">
+                                <flux:button href="{{ $event->payment_link }}" target="_blank" variant="primary" icon-trailing="banknotes">PayPal</flux:button>
+                            </dd>
+                        </div>
+
+
+                    @endif
                 </dl>
 
-                @if($event->payment_link)
-                    <flux:button href="{{ $event->payment_link }}" target="_blank" variant="primary" icon-trailing="arrow-up-right">Jetzt Karten kaufen</flux:button>
-                @endif
+
             </flux:card>
         </aside>
     </div>

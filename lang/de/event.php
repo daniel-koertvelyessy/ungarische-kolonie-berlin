@@ -10,6 +10,7 @@ return array(
     'venue' => "Ort",
     'status' => "Status",
     'make_ics' => "Kalendereintrag erstellen",
+    'buy_tickets' => "Jetzt Karten kaufen",
     'show.title' => "Übersicht Veranstaltung",
 
     "index.title" => "Title",

@@ -11,6 +11,8 @@ return array(
     'venue' => "helyszín",
     'status' => 'Statusz',
     'make_ics' => "Naptárbejegyzés létrehozása",
+    'buy_tickets' => "Jegyeket vásároljoni",
+
     'show.title' => "Esemény áttekintése",
 
     "index.title" => "Cím",
