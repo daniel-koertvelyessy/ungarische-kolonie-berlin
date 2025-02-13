@@ -1,4 +1,4 @@
-<header class="grid grid-cols-3 mb-6 gap-3 hidden lg:block">
+<header class="lg:grid grid-cols-3 mb-6 gap-3 hidden">
     <div class="ml-6">
         <a href="/">
             <x-application-logo class="size-20 md:size-28 lg:size-40"/>
