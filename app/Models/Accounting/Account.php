@@ -49,6 +49,10 @@ class Account extends Model
         $n = str_replace(',', '', $value,$count);
 
         return (int) $n;
+    }
 
+    public static function formatedAmount(int $value):string
+    {
+        return number_format($value, 2, ',', '.');
     }
 }

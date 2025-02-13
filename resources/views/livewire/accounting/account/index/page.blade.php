@@ -29,7 +29,12 @@
         <flux:card>
             <flux:heading>Bewegungen</flux:heading>
             @if($selectedAccount)
-                @php $total = 0; @endphp
+
+                @php
+
+                    $total = $account->starting_amount/100;
+                    $sub = 0;
+ @endphp
             <flux:table :paginate="$this->transactions">
                 <flux:columns>
                     <flux:column>Bezeichnung</flux:column>
@@ -46,10 +51,12 @@
                             </flux:cell>
                             <flux:cell align="end">
                                <span class="{{ $item->grossColor() }}">
-                                    {{ $item->netForHumans()}}
+                                    {{ $item->grossForHumans()}}
                                </span>
-                                @php $total += $item->amount_gross/100 * \App\Enums\TransactionType::calc($item->type); @endphp
-
+                                @php
+                                    $sub += $item->amount_gross/100 *  \App\Enums\TransactionType::calc($item->type);
+                                    $total += $item->amount_gross/100 ;
+                                @endphp
                             </flux:cell>
                             <flux:cell>
                                 {{ $item->type }}
@@ -65,8 +72,8 @@
                <aside class="flex">
                    <flux:spacer />
                    <div>
-                       <flux:subheading>Gesamt {{ number_format($total, 2,',','.') }}</flux:subheading>
-                       <flux:heading>Stand Konto {{ number_format($total + $account->starting_amount/100, 2,',','.') }}</flux:heading>
+                       <flux:subheading>Gesamt {{ number_format($sub, 2,',','.') }}</flux:subheading>
+                       <flux:heading>Stand Konto {{ number_format($total, 2,',','.') }}</flux:heading>
                    </div>
                </aside>
             @endif
