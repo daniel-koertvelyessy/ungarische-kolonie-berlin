@@ -2,38 +2,38 @@
 
 namespace App\Actions\Accounting;
 
-use App\Enums\AccountType;
-use App\Enums\TransactionStatus;
-use App\Enums\TransactionType;
+use App\Livewire\Forms\TransactionForm;
 use App\Models\Accounting\Account;
 use App\Models\Accounting\Transaction;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Notifications\Action;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 
-final class UpdateTransaction extends Action
+class UpdateTransaction extends Action
 {
-    public static function handle(array $data): Transaction
+    public static function handle(Transaction $transaction): Transaction
     {
-        DB::transaction(function () use ($data)
+        return DB::transaction(function () use ($transaction)
         {
-            Transaction::where('id', $data['id'])
-                ->update([
-                    'label'              => $data['label'],
-                    'date'               => $data['date'],
-                    'amount_net'         => Account::makeCentInteger($data['amount_net']),
-                    'vat'                => Account::makeCentInteger($data['vat']),
-                    'tax'                => Account::makeCentInteger($data['tax']),
-                    'amount_gross'       => Account::makeCentInteger($data['amount_gross']),
-                    'account_id'         => $data['account_id'],
-                    'booking_account_id' => $data['booking_account_id'],
-                    'type'               => $data['type'],
-                    'status'             => $data['status'],
-                    'receipt_id'         => $data['receipt_id'],
-                ]);
+            if ($transaction->update([
+                'date'               => $transaction->date,
+                'label'              => $transaction->label,
+                'reference'          => $transaction->reference,
+                'description'        => $transaction->description,
+                'amount_gross'       => Account::makeCentInteger($transaction->amount_gross),
+                'vat'                => $transaction->vat,
+                'tax'                => Account::makeCentInteger($transaction->tax),
+                'amount_net'         => Account::makeCentInteger($transaction->amount_net),
+                'account_id'         => $transaction->account_id,
+                'booking_account_id' => $transaction->booking_account_id,
+                'type'               => $transaction->type,
+                'status'             => $transaction->status,
+            ])){
+                return $transaction;
+            } else {
+                throw (new ModelNotFoundException())->setModel(Transaction::class);
+            }
         });
-        return Transaction::find($data['id']);
     }
 
 }

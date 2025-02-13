@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Event\Show;
 
-use App\Actions\Accounting\CreateEventPayment;
+use App\Actions\Accounting\CreateEventTransaction;
 use App\Enums\TransactionType;
 use App\Livewire\Forms\EventForm;
 use App\Livewire\Forms\TransactionForm;
@@ -59,7 +59,7 @@ class EventPayment extends Component
 
     public function storePayment()
     {
-        CreateEventPayment::handle([
+        CreateEventTransaction::handle([
             'event' => $this->eventForm,
             'transaction' => $this->transactionForm,
             'member_id' => $this->member_id,

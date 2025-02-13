@@ -224,7 +224,9 @@ Route::middleware([
             }
 
             // Build full path
-            $path = storage_path('app/private/accounting/receipts/previews/' . $filename);
+            $path = storage_path('app/private/accounting/receipts/previews/' . pathinfo($filename, PATHINFO_FILENAME).'.png');
+
+
 
             // Check if file exists
             if (!file_exists($path)) {

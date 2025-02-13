@@ -15,13 +15,9 @@ return new class extends Migration
     {
         Schema::create('member_transactions', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
-            $table->date('date');
-            $table->string('label');
-            $table->integer('amount');
             $table->foreignIdFor(Member::class);
             $table->foreignIdFor(Transaction::class);
-            $table->foreignIdFor(\App\Models\Event::class)->nullable();
+            $table->timestamps();
         });
     }
 

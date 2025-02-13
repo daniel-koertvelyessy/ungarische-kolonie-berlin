@@ -3,9 +3,11 @@
 namespace App\Models\Accounting;
 
 use App\Enums\TransactionType;
+use App\Models\Membership\Member;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Transaction extends Model
@@ -28,9 +30,14 @@ class Transaction extends Model
         return $this->belongsTo(Account::class);
     }
 
-    public function receipt(): belongsTo
+    public function receipts(): hasMany
     {
-        return $this->belongsTo(Receipt::class);
+        return $this->hasMany(Receipt::class);
+    }
+
+    public function members(): belongsTo
+    {
+        return $this->belongsTo(Member::class);
     }
 
     public function grossForHumans():string{

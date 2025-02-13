@@ -182,30 +182,30 @@
                 <flux:columns>
                     <flux:column>Text</flux:column>
                     <flux:column sortable :sorted="$sortBy === 'date'" :direction="$sortDirection" wire:click="sort('date')">Datum</flux:column>
-                    <flux:column sortable :sorted="$sortBy === 'member_id'" :direction="$sortDirection" wire:click="sort('member')">Mitglied</flux:column>
+                    <flux:column sortable :sorted="$sortBy === 'member_id'" :direction="$sortDirection" wire:click="sort('member')">Besucher</flux:column>
                     <flux:column sortable :sorted="$sortBy === 'amount'" :direction="$sortDirection" wire:click="sort('amount')" align="right">Betrag</flux:column>
                 </flux:columns>
 @php $total = 0; @endphp
                 <flux:rows>
                     @foreach ($this->payments as $payment)
-                        <flux:row :key="$payment->id">
+
+                        <flux:row :key="$payment->transaction->id">
 
                             <flux:cell variant="strong">
-                                {{ $payment->label }}
-                                {{ \App\Enums\TransactionType::calc($payment->transaction->type) }}
+                                {{ $payment->transaction->label }}
                             </flux:cell>
 
-                            <flux:cell>{{ $payment->date->diffForHumans() }}</flux:cell>
-                            <flux:cell>{{ $payment->name }}</flux:cell>
+                            <flux:cell>{{ $payment->transaction->date->diffForHumans() }}</flux:cell>
+                            <flux:cell>{{ $payment->visitor_name }}</flux:cell>
 
                             <flux:cell variant="strong" align="end">
                                 <span class="text-{{ \App\Enums\TransactionType::color($payment->transaction->type) }}-600">
-                                    {{ $payment->amountForHumans() }}
+                                    {{ $payment->transaction->grossForHumans() }}
                                 </span>
                             </flux:cell>
 
                         </flux:row>
-                        @php $total += $payment->amount * \App\Enums\TransactionType::calc($payment->transaction->type); @endphp
+                        @php $total += $payment->transaction->amount_gross * \App\Enums\TransactionType::calc($payment->transaction->type); @endphp
 
 
                     @endforeach
@@ -245,7 +245,7 @@
     >
 
 
-        <livewire:event.show.event-payment :event="$form->event" />
+        <livewire:accounting.transaction.create.form :event="$form->event" />
 
     </flux:modal>
 </div>

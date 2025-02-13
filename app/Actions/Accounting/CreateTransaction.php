@@ -2,32 +2,30 @@
 
 namespace App\Actions\Accounting;
 
-use App\Enums\AccountType;
-use App\Enums\TransactionStatus;
-use App\Enums\TransactionType;
+use App\Livewire\Forms\TransactionForm;
 use App\Models\Accounting\Account;
 use App\Models\Accounting\Transaction;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 
 class CreateTransaction
 {
-    public static function handle(array $data): Transaction
+    public static function handle(TransactionForm $form): Transaction
     {
-        return DB::transaction(function () use ($data)
+        return DB::transaction(function () use ($form)
         {
-           return Transaction::create([
-                'label'              => $data['label'],
-                'date'               => $data['date'],
-                'amount_net'         => Account::makeCentInteger($data['amount_net']),
-                'vat'                => Account::makeCentInteger($data['vat']),
-                'tax'                => Account::makeCentInteger($data['tax']),
-                'amount_gross'       => Account::makeCentInteger($data['amount_gross']),
-                'account_id'         => $data['account_id'],
-                'booking_account_id' => $data['booking_account_id'],
-                'type'               => $data['type'],
-                'status'             => $data['status'],
+            return Transaction::create([
+                'date'               => $form->date,
+                'label'              => $form->label,
+                'reference'          => $form->reference,
+                'description'        => $form->description,
+                'amount_gross'       => Account::makeCentInteger($form->amount_gross),
+                'vat'                => $form->vat,
+                'tax'                => Account::makeCentInteger($form->tax),
+                'amount_net'         => Account::makeCentInteger($form->amount_net),
+                'account_id'         => $form->account_id,
+                'booking_account_id' => $form->booking_account_id,
+                'type'               => $form->type,
+                'status'             => $form->status,
             ]);
         });
     }

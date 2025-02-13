@@ -19,33 +19,23 @@ class ReceiptForm extends Form
 
 
     public $id;
-    public $uuid;
-    public $label;
+    public $transaction_id;
     public $file_name;
-    #[Validate]
-    public $number;
-    public $date;
-    public $description;
-
+    public $file_name_original;
 
     public function set(Receipt $receipt)
     {
         $this->id = $receipt->id;
-        $this->uuid = $receipt->uuid;
-        $this->label = $receipt->label;
         $this->file_name = $receipt->file_name;
-        $this->number = $receipt->number;
-        $this->date = $receipt->date;
-        $this->description = $receipt->description;
     }
 
 
-    public function generatePreview(): string
+    public function generatePreview($filename): string
     {
         if (app()->environment() == 'production') {
             putenv("MAGICK_GS_DELEGATE=/opt/homebrew/bin/gs");
-            $pdfFullPath = storage_path('app/private/accounting/receipts/'.$this->file_name);
-            $outputPath = 'accounting/receipts/previews/'.pathinfo($this->file_name, PATHINFO_FILENAME).'.png';
+            $pdfFullPath = storage_path('app/private/accounting/receipts/'.$filename);
+            $outputPath = 'accounting/receipts/previews/'.pathinfo($filename, PATHINFO_FILENAME).'.png';
             $outputFullPath = storage_path('app/private/'.$outputPath);
             if (file_exists($pdfFullPath)) {
                 if (!file_exists($outputFullPath)) {
@@ -63,60 +53,64 @@ class ReceiptForm extends Form
             }
             return Storage::url($outputPath);
         } else {
-            $pdfPath = storage_path('app/private/accounting/receipts/'.$this->file_name);
-            $outputPath = storage_path('app/private/accounting/receipts/previews/'.pathinfo($this->file_name, PATHINFO_FILENAME).'.png');
+            $pdfPath = storage_path('app/private/accounting/receipts/'.$filename);
+            $outputPath = storage_path('app/private/accounting/receipts/previews/'.pathinfo($filename, PATHINFO_FILENAME).'.png');
 
             $command = "/opt/homebrew/bin/gs -sDEVICE=pngalpha -o {$outputPath} -r288 {$pdfPath}";
             shell_exec($command);
 
-            return pathinfo($this->file_name, PATHINFO_FILENAME).'.png';
+            return pathinfo($filename, PATHINFO_FILENAME).'.png';
         }
     }
 
-    public function updateFile()
+    public function updateFile(int $transaction_id)
     {
+        $this->transaction_id = $transaction_id;
         $this->validate();
 
         $uuid = Str::uuid();
         $originalFilename = $this->file_name->getClientOriginalName();
         $extension = $this->file_name->getClientOriginalExtension();
         $newFilename = $uuid.'.'.$extension;
-
         // Store file
         $this->file_name->storeAs('accounting/receipts', $newFilename, 'local');
 
+        $path = $this->generatePreview($newFilename);
+
+
         // Store receipt in DB
         return Receipt::create([
-            'uuid'        => $uuid,
-            'label'       => $this->label,
-            'file_name'   => $newFilename,
-            'number'      => $this->number,
-            'date'        => $this->date,
-            'description' => $this->description,
+            'file_name_original' => $originalFilename,
+            'file_name'          => $newFilename,
+            'transaction_id'     => $transaction_id,
         ]);
     }
 
     protected function rules(): array
     {
         return [
-            'label'       => ['required'],
-            'file_name'   => ['required'],
-            'number'      => [
-                'required', \Illuminate\Validation\Rule::unique('receipts', 'number')
-                    ->ignore($this->id)
+
+            'file_name_original' => [
+                'nullable', \Illuminate\Validation\Rule::unique('receipts', 'file_name')
+                    ->ignore($this->transaction_id)
             ],
-            'date'        => ['required', 'date'],
-            'description' => ['nullable', 'string'],
+            'file_name'        => [
+                'required'
+            ],
+            'transaction_id'   => [
+                'required',
+            ],
         ];
     }
 
     protected function messages(): array
     {
         return [
-            'label.required'     => 'Belegbezeichnung fehlt',
-            'file_name.required' => 'Es wurde noch keine Datei ausgewählt',
-            'number.unique'      => 'Diese Belegnummer wurde bereits gebucht!',
-            'date.required'      => 'Belegdatum fehlt',
+            'transaction_id.required' => __('The transaction id field is required.'),
+            'label.required'          => 'Belegbezeichnung fehlt',
+            'file_name.required'      => 'Es wurde noch keine Datei ausgewählt',
+            'number.unique'           => 'Diese Belegnummer wurde bereits gebucht!',
+            'date.required'           => 'Belegdatum fehlt',
         ];
     }
 }

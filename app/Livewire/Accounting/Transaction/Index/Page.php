@@ -60,7 +60,7 @@ class Page extends Component
             ->dates();
 
         $transactionList = \App\Models\Accounting\Transaction::query()
-            ->with('receipt')
+            ->with('receipts')
             ->tap(fn($query) => $this->search ? $query->where('label', 'LIKE', '%'.$this->search.'%') : $query)
             ->whereIn('status', $this->filter_status)
             ->whereIn('type', $this->filter_type)

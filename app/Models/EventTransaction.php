@@ -33,7 +33,4 @@ class EventTransaction extends Model
         return number_format(($value), 2,',','.');
     }
 
-    protected $casts = [
-        'date'=> 'date',
-    ];
 }

@@ -1,6 +1,9 @@
 <?php
 
+use App\Enums\TransactionStatus;
+use App\Enums\TransactionType;
 use App\Models\Accounting\Account;
+use App\Models\Accounting\BookingAccount;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,17 +17,18 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->string('label');
             $table->dateTime('date');
-            $table->unsignedInteger('amount_net');
+            $table->string('label');
+            $table->string('reference')->nullable();
+            $table->text('description')->nullable();
+            $table->unsignedInteger('amount_gross');
             $table->unsignedtinyInteger('vat');
             $table->unsignedInteger('tax')->nullable();
-            $table->unsignedInteger('amount_gross');
+            $table->unsignedInteger('amount_net');
             $table->foreignIdFor(Account::class)->constrained()->restrictOnDelete();
-            $table->foreignIdFor(\App\Models\Accounting\Receipt::class)->nullable();
-            $table->foreignIdFor(\App\Models\Accounting\BookingAccount::class)->nullable();
-            $table->enum('type', \App\Enums\TransactionType::toArray());
-            $table->enum('status', \App\Enums\TransactionStatus::toArray());
+            $table->foreignIdFor(BookingAccount::class)->nullable();
+            $table->enum('type', TransactionType::toArray());
+            $table->enum('status', TransactionStatus::toArray());
             $table->timestamps();
         });
     }

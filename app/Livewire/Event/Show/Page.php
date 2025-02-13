@@ -48,7 +48,7 @@ public $tab = 'payments';
     public function payments(): LengthAwarePaginator
     {
         return EventTransaction::query()
-            ->with('event')
+            ->with('transaction')
             ->where('event_id', '=', $this->event_id)
             ->tap(fn($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
             ->paginate(10);

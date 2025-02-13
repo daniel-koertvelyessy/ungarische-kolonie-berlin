@@ -157,12 +157,18 @@
                         >{{ $item->type }}</flux:badge>
                     </flux:cell>
                     <flux:cell class="hidden lg:table-cell">
-                        @if($item->receipt_id)
+
+                        @if($item->receipts->count() > 0)
+                            @foreach($item->receipts as $key => $receipt)
+
+                                <flux:tooltip content="{{ $receipt->file_name_original }}" position="top">
                             <flux:button
-                                wire:click="download({{$item->receipt_id}})"
+                                wire:click="download({{$item->receipt}})"
                                 icon-trailing="document-arrow-down"
                                 size="xs"
                             />
+                                </flux:tooltip>
+                            @endforeach
                         @else
                             -
                         @endif
@@ -217,10 +223,13 @@
         <flux:spacer/>
         <flux:button variant="primary"
                      href="{{ route('transaction.create') }}"
-        >Neue Buchung anlegen!!
+        >Neue Buchung anlegen
         </flux:button>
     </div>
     @endcan
+
+
+
     <!-- MODALS -->
 
     <flux:modal name="edit-transaction"

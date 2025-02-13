@@ -6,6 +6,9 @@ use App\Enums\MemberType;
 use App\Livewire\Forms\MemberForm;
 use App\Mail\AcceptMembershipMail;
 use App\Mail\InvitationMail;
+use App\Models\Accounting\Account;
+use App\Models\Accounting\Receipt;
+use App\Models\Accounting\Transaction;
 use App\Models\Membership\Invitation;
 use App\Models\Membership\Member;
 use App\Models\Membership\MemberTransaction;
@@ -18,16 +21,19 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class Page extends Component
 {
 
     use WithPagination;
+
     public $users;
     public int $newUser = 0;
     public Member $member;
@@ -36,7 +42,12 @@ class Page extends Component
 
     public $confirm_deletion_text = '';
 
+
     public $hasUser = false;
+    protected $feeStatusResults = [];
+    public $openFees;
+    public $feeStatus;
+    public $searchPayment = '';
 
 
     public $sortBy = 'date';
@@ -44,7 +55,8 @@ class Page extends Component
 
     protected $listeners = ['updated-payments' => 'payments'];
 
-    public function sort($column) {
+    public function sort($column)
+    {
         if ($this->sortBy === $column) {
             $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
         } else {
@@ -57,9 +69,14 @@ class Page extends Component
     public function payments(): LengthAwarePaginator
     {
         return MemberTransaction::query()
-            ->with('event')
-            ->where('member_id','=', $this->member->id)
-            ->tap(fn ($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
+            ->where('member_id', '=', $this->member->id)
+            ->tap(fn($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
+            ->tap(fn($query) => $this->searchPayment ? $query->whereHas('transaction', function ($query)
+            {
+                $query->where('label', 'LIKE', '%'.$this->searchPayment.'%')
+                    ->orWhere('reference', 'LIKE', '%'.$this->searchPayment.'%')
+                    ->orWhere('description', 'LIKE', '%'.$this->searchPayment.'%');
+            }) : $query)
             ->paginate(10);
     }
 
@@ -68,6 +85,11 @@ class Page extends Component
         $this->memberForm->set($member);
         $this->users = User::select('id', 'name')
             ->get();
+
+        $this->feeStatusResults = $member->feeStatus();
+
+        $this->feeStatus = $this->feeStatusResults['status'];
+        $this->openFees = number_format($this->feeStatusResults['paid'] / 100, 2, ',', '.');
     }
 
     public function detachUser(int $userid): void
@@ -185,9 +207,8 @@ class Page extends Component
         }
     }
 
-    public function acceptApplication():void
+    public function acceptApplication(): void
     {
-
         $this->checkUser();
 
         $this->memberForm->type = MemberType::ST->value;
@@ -199,10 +220,9 @@ class Page extends Component
                 text: __('Mitgliedshaft wurde angenommen'),
                 variant: 'success',
             );
-            Mail::to($this->memberForm->email)->send(new AcceptMembershipMail($this->member));
-
+            Mail::to($this->memberForm->email)
+                ->send(new AcceptMembershipMail($this->member));
         }
-
     }
 
     public function cancelMember()
@@ -240,40 +260,68 @@ class Page extends Component
     {
         $this->authorize('delete', Member::class);
         $msg = '';
-        if ($this->memberForm->user_id){
-
+        if ($this->memberForm->user_id) {
             if (Auth::user()->id !== $this->memberForm->user_id) {
-                $msg = User::find($this->memberForm->user_id)->delete() ? ' Benutzer gelöscht' : ' Fehler beim Löschen des Benutzers ' . $this->memberForm->user_id;
+                $msg = User::find($this->memberForm->user_id)
+                    ->delete() ? ' Benutzer gelöscht' : ' Fehler beim Löschen des Benutzers '.$this->memberForm->user_id;
             }
-
-
-
         }
 
-        if ($this->memberForm->cancelMembership()){
-
+        if ($this->memberForm->cancelMembership()) {
             Flux::toast(
                 heading: __('Erfolg'),
-                text: __('Mitgliedshaft wurde gekündigt'). $msg,
+                text: __('Mitgliedshaft wurde gekündigt').$msg,
                 variant: 'success',
             );
         }
-
     }
 
-    public function reactivateMembership():void
+    public function reactivateMembership(): void
     {
         $this->authorize('delete', Member::class);
 
-        if ($this->memberForm->reactivateMembership()){
-
+        if ($this->memberForm->reactivateMembership()) {
             Flux::toast(
                 heading: __('Erfolg'),
                 text: __('Mitgliedshaft wurde wiederhergestellt'),
                 variant: 'success',
             );
         }
+    }
 
+    public function download(int $receipt_id): StreamedResponse
+    {
+        $receipt = Receipt::findOrFail($receipt_id);
+
+        $filePath = "accounting/receipts/{$receipt->file_name}";
+
+        // Debugging: Check if the file exists
+        if (!Storage::disk('local')
+            ->exists($filePath)) {
+            abort(404, 'File not found.');
+        }
+
+        return Storage::disk('local')
+            ->download($filePath);
+    }
+
+    public function bookItem(int $transaction_id): void
+    {
+        $this->authorize('book-item', Account::class);
+        $this->dispatch('book-transaction', transactionId: $transaction_id);
+        $this->transaction = Transaction::find($transaction_id);
+        Flux::modal('book-transaction')
+            ->show();
+    }
+
+    public function editItem(int $transaction_id): void
+    {
+        $this->authorize('update', Account::class);
+        $this->dispatch('edit-transaction', transactionId: $transaction_id);
+        $this->transaction = Transaction::find($transaction_id);
+
+        Flux::modal('add-new-payment')
+            ->show();
     }
 
     public function render()

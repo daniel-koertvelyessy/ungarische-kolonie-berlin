@@ -20,5 +20,8 @@ use Livewire\WithFileUploads;
 
 class Page extends Component
 {
-
+    public function render()
+    {
+        return view('livewire.accounting.transaction.create.page');
+    }
 }

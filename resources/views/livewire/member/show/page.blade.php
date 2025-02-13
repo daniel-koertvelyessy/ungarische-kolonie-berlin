@@ -182,15 +182,37 @@
                         <flux:textarea wire:model="memberForm.deduction_reason"
                                        rows="auto"
                         />
-                            <flux:spacer/>
-                            <flux:button variant="primary"
-                                         type="submit"
-                            >Speichern
-                            </flux:button>
+                        <flux:spacer/>
+                        <flux:button variant="primary"
+                                     type="submit"
+                        >Speichern
+                        </flux:button>
                     </flux:card>
                 </form>
 
                 <flux:card class="space-y-6">
+
+                    <flux:field>
+                        @if($member->is_deducted)
+                            <flux:badge color="lime"
+                                        size="lg"
+                            >Befreit von Beitragszahlungen
+                                <flux:icon.check-circle variant="mini"/>
+                            </flux:badge>
+                        @else
+                            @if($feeStatus)
+                                <flux:badge color="lime"
+                                            size="lg"
+                                >Bezahlt: <span class="mx-1.5 text-sm">EUR</span> {{$openFees}}
+                                    <flux:icon.check-circle variant="mini"/>
+                                </flux:badge>
+                            @else
+                                <flux:badge color="orange">Bezahlt: <span class="mx-1.5 text-sm">EUR</span> {{$openFees}}
+                                    <flux:icon.bolt variant="mini"/>
+                                </flux:badge>
+                            @endif
+                        @endif
+                    </flux:field>
 
                     <flux:field>
                         <flux:text>{{ __('members.date.applied_at') }} {{ $member->applied_at }}</flux:text>
@@ -213,25 +235,32 @@
                             <flux:heading size="lg">{{ $member->entered_at->diffForHumans() }}</flux:heading>
 
                         @else
-                            <flux:button variant="primary" wire:click="acceptApplication">{{ __('members.btn.sendAcceptanceMail.label') }}</flux:button>
+                            <flux:button variant="primary"
+                                         wire:click="acceptApplication"
+                            >{{ __('members.btn.sendAcceptanceMail.label') }}</flux:button>
                         @endif
                     </flux:field>
 
                     <flux:field class="space-y-2">
                         @if($member->left_at)
 
-                           <div>
-                               <flux:text>{{ __('members.date.left_at') }} {{ $member->left_at }}</flux:text>
-                               <flux:heading size="lg">{{ $member->left_at->diffForHumans() }}</flux:heading>
-                           </div>
+                            <div>
+                                <flux:text>{{ __('members.date.left_at') }} {{ $member->left_at }}</flux:text>
+                                <flux:heading size="lg">{{ $member->left_at->diffForHumans() }}</flux:heading>
+                            </div>
 
                             @can('delete',$this->member)
-                                <flux:button variant="primary" wire:click="reactivateMembership">Reaktivieren</flux:button>
+                                <flux:button variant="primary"
+                                             wire:click="reactivateMembership"
+                                >Reaktivieren
+                                </flux:button>
                             @endcan
                         @else
                             @if($member->entered_at)
                                 @can('delete',$this->member)
-                                    <flux:button variant="danger" wire:click="cancelMember">{{ __('members.btn.cancelMembership.label') }}</flux:button>
+                                    <flux:button variant="danger"
+                                                 wire:click="cancelMember"
+                                    >{{ __('members.btn.cancelMembership.label') }}</flux:button>
 
                                 @endcan
                             @endif
@@ -247,7 +276,7 @@
                                          wire:click="sendInvitation"
                             >{{ __('members.btn.inviteAsUser.label') }}
                             </flux:button>
-                            <flux:error for="email" />
+                            <flux:error for="email"/>
                         </flux:field>
                     @endif
                 </flux:card>
@@ -257,55 +286,142 @@
 
         </flux:tab.panel>
         <flux:tab.panel name="billing">
-            <section class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-               <flux:card class="col-span-1 lg:col-span-2">
-                   <flux:subheading>Zahlungseingänge</flux:subheading>
 
-                   <flux:table :paginate="$this->payments">
-                       <flux:columns>
-                           <flux:column>Text</flux:column>
-                           <flux:column sortable :sorted="$sortBy === 'date'" :direction="$sortDirection" wire:click="sort('date')">Datum</flux:column>
-                           <flux:column sortable :sorted="$sortBy === 'status'" :direction="$sortDirection" wire:click="sort('status')" align="right">Betrag</flux:column>
-                           <flux:column sortable :sorted="$sortBy === 'amount'" :direction="$sortDirection" wire:click="sort('amount')">Amount</flux:column>
-                       </flux:columns>
+            <flux:card class="space-y-6">
 
-                       <flux:rows>
-                           @foreach ($this->payments as $payment)
-                               <flux:row :key="$payment->id">
+                <nav class="flex items-center gap-3">
+                    <flux:modal.trigger name="add-new-payment">
+                        <flux:button variant="primary"
+                                     size="sm"
+                        >Neue Zahlung erfassen
+                        </flux:button>
+                    </flux:modal.trigger>
 
-                                   <flux:cell variant="strong">
-                                       {{ $payment->label }}
-                                   </flux:cell>
 
-                                   <flux:cell>{{ $payment->date->diffForHumans() }}</flux:cell>
+                    <flux:input clearable
+                                wire:model.live="searchPayment"
+                                size="sm"
+                                placeholder="Suche"
+                    />
+                </nav>
 
-                                   <flux:cell variant="strong" align="end">{{ $payment->amountForHumans() }}</flux:cell>
+                <flux:subheading>Getätigte Zahlungen</flux:subheading>
 
-                                   <flux:cell>
-                                       <flux:button variant="ghost" size="sm" icon="ellipsis-horizontal" inset="top bottom"></flux:button>
-                                   </flux:cell>
-                               </flux:row>
-                           @endforeach
-                       </flux:rows>
-                   </flux:table>
+                <flux:table :paginate="$this->payments">
+                    <flux:columns>
+                        <flux:column>Text</flux:column>
+                        <flux:column sortable
+                                     :sorted="$sortBy === 'transaction.date'"
+                                     :direction="$sortDirection"
+                                     wire:click="sort('date')"
+                                     class="hidden md:table-cell"
+                        >Datum
+                        </flux:column>
+                        <flux:column sortable
+                                     :sorted="$sortBy === 'transaction.status'"
+                                     :direction="$sortDirection"
+                                     wire:click="sort('status')"
+                                     align="right"
+                                     class="hidden lg:table-cell"
+                        >Betrag
+                        </flux:column>
+                        <flux:column sortable
+                                     :sorted="$sortBy === 'transaction.amount'"
+                                     :direction="$sortDirection"
+                                     wire:click="sort('amount')"
+                                     class="hidden md:table-cell"
+                        >Amount
+                        </flux:column>
+                    </flux:columns>
 
-               </flux:card>
+                    <flux:rows>
+                        @foreach ($this->payments as $payment)
+                            <flux:row :key="$payment->id">
 
-                <flux:card>
-                   <flux:subheading>Neu erfassen</flux:subheading>
-                    <livewire:forms.member-transaction-form :member="$memberForm->member"/>
+                                <flux:cell variant="strong" >
 
-               </flux:card>
+                                    {{ $payment->transaction->label }}
+                                </flux:cell>
 
-            </section>
+                                <flux:cell class="hidden lg:table-cell">{{ $payment->transaction->date->diffForHumans() }}</flux:cell>
+
+                                <flux:cell variant="strong"
+                                           align="end"
+                                           class="hidden md:table-cell"
+                                >{{ $payment->transaction->grossForHumans() }}</flux:cell>
+                                <flux:cell class="hidden lg:table-cell">
+
+                                    @if($payment->transaction->receipts->count() > 0)
+                                        @foreach($payment->transaction->receipts as $key => $receipt)
+
+                                            <flux:tooltip content="{{ $receipt->file_name_original }}" position="top">
+                                                <flux:button
+                                                    wire:click="download({{$payment->transaction->receipt}})"
+                                                    icon-trailing="document-arrow-down"
+                                                    size="xs"
+                                                />
+                                            </flux:tooltip>
+                                        @endforeach
+                                    @else
+                                        -
+                                    @endif
+                                </flux:cell>
+                                <flux:cell>
+                                    @can('update', \App\Models\Accounting\Account::class)
+                                        <flux:cell>
+                                            <flux:dropdown>
+                                                <flux:button variant="ghost"
+                                                             size="sm"
+                                                             icon="ellipsis-horizontal"
+                                                             inset="top bottom"
+                                                ></flux:button>
+                                                <flux:menu>
+                                                    @if($payment->transaction->status === \App\Enums\TransactionStatus::submitted->value)
+                                                        <flux:menu.item icon="check"
+                                                                        wire:click="bookItem({{ $payment->transaction->id }})"
+                                                        >Buchen
+                                                        </flux:menu.item>
+                                                        <flux:menu.item icon="pencil"
+                                                                        wire:click="editItem({{ $payment->transaction->id }})"
+                                                        >Bearbeiten
+                                                        </flux:menu.item>
+                                                    @else
+                                                        <flux:menu.item icon="trash"
+                                                                        wire:click="cancelItem({{ $payment->transaction->id }})"
+                                                        >Storno
+                                                        </flux:menu.item>
+                                                    @endif
+                                                </flux:menu>
+                                            </flux:dropdown>
+                                        </flux:cell>
+                                    @endcan
+                                </flux:cell>
+                            </flux:row>
+                        @endforeach
+                    </flux:rows>
+                </flux:table>
+
+            </flux:card>
+
 
         </flux:tab.panel>
     </flux:tab.group>
 
+    <flux:modal name="add-new-payment"
+                variant="flyout"
+                position="right"
+                class="space-y-6"
+    >
 
+
+        <livewire:accounting.transaction.create.form :member="$member"/>
+
+    </flux:modal>
 
     <flux:modal name="delete-membership">
-        <form wire:submit="deleteMembershipForSure" class="space-y-6">
+        <form wire:submit="deleteMembershipForSure"
+              class="space-y-6"
+        >
             <div>
                 <flux:heading size="lg">{{ __('members.cancel.modal.title') }}</flux:heading>
 
@@ -315,21 +431,26 @@
             </div>
 
             <div>
-                <flux:input wire:model.live="confirm_deletion_text" label="{{ __('members.cancel.confirm_text_input.label') }}" />
+                <flux:input wire:model.live="confirm_deletion_text"
+                            label="{{ __('members.cancel.confirm_text_input.label') }}"
+                />
             </div>
 
             @if($memberForm->user_id)
                 Nutzer löschen!
-                @endif
+            @endif
 
             <div class="flex gap-2">
-                <flux:spacer />
+                <flux:spacer/>
 
                 <flux:modal.close>
                     <flux:button variant="ghost">{{ __('profile.2FA.modal-confirm.btn.cancel.label') }}</flux:button>
                 </flux:modal.close>
 
-                <flux:button type="submit" variant="danger" :disabled="$confirm_deletion_text !== $memberForm->name">{{ __('members.cancel.btn.final.label') }}</flux:button>
+                <flux:button type="submit"
+                             variant="danger"
+                             :disabled="$confirm_deletion_text !== $memberForm->name"
+                >{{ __('members.cancel.btn.final.label') }}</flux:button>
             </div>
         </form>
     </flux:modal>

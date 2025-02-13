@@ -22,19 +22,29 @@
     <!-- Styles / Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="icon"
-          href="{{ Vite::asset('resources/images/favicons/favicon.ico') }}"
+          href="{{ Vite::asset('resources/images/favicon.ico') }}"
           sizes="48x48"
     >
     <link rel="icon"
-          href="{{ Vite::asset('resources/images/kolonia_icon.svg') }}"
+          href="{{ Vite::asset('resources/magyar-kolonia_logo.svg') }}"
           sizes="any"
           type="image/svg+xml"
     >
     <link rel="apple-touch-icon"
           href="{{ Vite::asset('resources/images/favicons/apple-icon-180x180.png') }}"
     >
-    {{--            <link rel="manifest" href="{{ Vite::asset('resources/images/favicons/manifest.json') }}">--}}
-
+    <link rel="apple-touch-icon"
+          sizes="180x180"
+          href="{{ Vite::asset('resources/images/apple-touch-icon.png') }}"
+    />
+    <meta name="apple-mobile-web-app-title"
+          content="Kolonia"
+    />
+    <link rel="icon"
+          type="image/png"
+          href="{{ Vite::asset('resources/images/favicon-96x96.png') }}"
+          sizes="96x96"
+    />
     <!-- Fonts -->
     <link rel="preconnect"
           href="https://fonts.bunny.net"
@@ -54,21 +64,27 @@
               stashable
               class="bg-zinc-50 dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-700"
 >
-    <flux:sidebar.toggle class="lg:hidden"
-                         icon="x-mark"
-    />
+  <div class="flex justify-between">
+      <flux:brand href="/"
+                  logo="{{ Vite::asset('resources/images/magyar-kolonia-logo.svg') }}"
+                  name="Kolónia Portal"
+                  class="px-2"
+      />
 
-    <flux:brand href="/"
-                logo="{{ Vite::asset('resources/images/kolonia_icon.svg') }}"
-                name="Kolonia"
-                class="px-2"
-    />
+      <flux:sidebar.toggle class="lg:hidden ml-3"
+                                   icon="x-mark"
+      />
+  </div>
 
+    <flux:separator />
+
+{{--
     <flux:input as="button"
                 variant="filled"
                 placeholder="Search..."
                 icon="magnifying-glass"
     />
+--}}
 
     <flux:navlist variant="outline">
 
@@ -104,7 +120,7 @@
             <flux:navlist.item href="#">Belege</flux:navlist.item>
             <flux:navlist.item href="#">Berichte</flux:navlist.item>
             @can('create', \App\Models\Accounting\Account::class)
-            <flux:navlist.item href="{{ route('accounts.index') }}">Konten</flux:navlist.item>
+                <flux:navlist.item href="{{ route('accounts.index') }}">Konten</flux:navlist.item>
             @endcan
         </flux:navlist.group>
 
@@ -185,6 +201,7 @@
 
                 <flux:button type="submit"
                              icon="arrow-right-start-on-rectangle"
+                             variant="ghost"
                 >{{ __('nav.logout') }}</flux:button>
             </form>
 

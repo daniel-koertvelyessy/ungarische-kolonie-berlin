@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Accounting\Transaction;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,12 +14,9 @@ return new class extends Migration
     {
         Schema::create('receipts', function (Blueprint $table) {
             $table->id();
-            $table->uuid();
-            $table->string('label');
-            $table->string('file_name');
-            $table->string('number')->index();
-            $table->string('date');
-            $table->text('description')->nullable();
+            $table->string('file_name')->nullable();
+            $table->string('file_name_original')->nullable();
+            $table->foreignIdFor(Transaction::class);
             $table->timestamps();
         });
     }

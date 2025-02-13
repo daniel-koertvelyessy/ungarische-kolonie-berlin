@@ -5,7 +5,6 @@ namespace App\Models\Accounting;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Receipt extends Model
 {
@@ -14,9 +13,9 @@ class Receipt extends Model
 
     protected $guarded=[];
 
-    public function transaction(): HasOne
+    public function transaction(): BelongsTo
     {
-        return $this->hasOne(Transaction::class);
+        return $this->BelongsTo(Transaction::class);
     }
 
     public function download()
