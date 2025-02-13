@@ -247,43 +247,45 @@
 
                 @if($event)
 
-                    <flux:separator text="Besucher"/>
+                   <section class="space-y-6">
+                       <flux:separator text="Besucher"/>
 
-                    <flux:select wire:model.live="selectedMember"
-                                 variant="listbox"
-                                 searchable
-                                 placeholder="Mitglied auswählen ..."
-                    >
-                        <flux:option value="extern">Externer Gast</flux:option>
-                        @foreach(\App\Models\Membership\Member::select('id', 'name', 'first_name')->get() as $key => $member)
-                            <flux:option value="{{ $member->id }}">{{ $member->fullName() }}</flux:option>
-                        @endforeach
-                    </flux:select>
+                       <flux:select wire:model.live="selectedMember"
+                                    variant="listbox"
+                                    searchable
+                                    placeholder="Mitglied auswählen ..."
+                       >
+                           <flux:option value="extern">Externer Gast</flux:option>
+                           @foreach(\App\Models\Membership\Member::select('id', 'name', 'first_name')->get() as $key => $member)
+                               <flux:option value="{{ $member->id }}">{{ $member->fullName() }}</flux:option>
+                           @endforeach
+                       </flux:select>
 
-                    <input type="text"
-                           wire:model="visitor_has_member_id"
-                    >
+                       <input type="hidden"
+                              wire:model="visitor_has_member_id"
+                       >
 
-                    <flux:field>
-                        <flux:input wire:model="visitor_name"
-                                    placeholder="Name des Gastes"
-                                    clearable
-                        />
-                        <flux:error name="visitor_name"/>
-                    </flux:field>
+                       <flux:field>
+                           <flux:input wire:model="visitor_name"
+                                       placeholder="Name des Gastes"
+                                       clearable
+                           />
+                           <flux:error name="visitor_name"/>
+                       </flux:field>
 
 
-                    <flux:radio.group wire:model="gender"
-                                      label="Geschlecht"
-                                      variant="segmented"
-                    >
-                        @foreach(\App\Enums\Gender::cases() as $gender)
-                            <flux:radio value="{{ $gender->value }}"
-                                        label="{{ \App\Enums\Gender::value($gender->value) }}"
-                            />
-                        @endforeach
+                       <flux:radio.group wire:model="gender"
+                                         label="Geschlecht"
+                                         variant="segmented"
+                       >
+                           @foreach(\App\Enums\Gender::cases() as $gender)
+                               <flux:radio value="{{ $gender->value }}"
+                                           label="{{ \App\Enums\Gender::value($gender->value) }}"
+                               />
+                           @endforeach
 
-                    </flux:radio.group>
+                       </flux:radio.group>
+                   </section>
 
 
 

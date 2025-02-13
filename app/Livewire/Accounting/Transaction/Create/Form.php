@@ -76,7 +76,7 @@ class Form extends Component
     public function updatedSelectedMember($value): void
     {
         if ($value === 'extern') {
-            $this->visitor_name = 'Externer Gast';
+            $this->visitor_name = '';
             $this->visitor_has_member_id = false;
         } else {
             $member = \App\Models\Membership\Member::find($value);
