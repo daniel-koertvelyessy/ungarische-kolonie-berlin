@@ -120,7 +120,7 @@
             <flux:navlist.item href="#">Belege</flux:navlist.item>
             <flux:navlist.item href="#">Berichte</flux:navlist.item>
             @can('create', \App\Models\Accounting\Account::class)
-                <flux:navlist.item href="{{ route('accounts.index') }}">Konten</flux:navlist.item>
+                <flux:navlist.item href="{{ route('accounts.index') }}" :current="request()->is('accounts*')">Konten</flux:navlist.item>
             @endcan
         </flux:navlist.group>
 
