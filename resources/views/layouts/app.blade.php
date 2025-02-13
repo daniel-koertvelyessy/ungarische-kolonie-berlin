@@ -26,12 +26,12 @@
           sizes="48x48"
     >
     <link rel="icon"
-          href="{{ Vite::asset('resources/magyar-kolonia_logo.svg') }}"
+          href="{{ Vite::asset('resources/images/magyar-kolonia-logo.svg') }}"
           sizes="any"
           type="image/svg+xml"
     >
     <link rel="apple-touch-icon"
-          href="{{ Vite::asset('resources/images/favicons/apple-icon-180x180.png') }}"
+          href="{{ Vite::asset('resources/images/web-app-manifest-512x512.png') }}"
     >
     <link rel="apple-touch-icon"
           sizes="180x180"
