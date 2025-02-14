@@ -13,8 +13,10 @@ return [
     "con.men.delete"        => 'Löschen',
 
     "apply.discount.label"        => "Ich beantrage einen reduzierten Mitgliedsbeitrag",
+    "apply.fee.text"              => "Ich bin über den monatlichen Mitgliedsbeitrag von :sum EUR informiert worden und verpflichte mich, diesen zu entrichten.",
     "apply.discount.reason.label" => "Grund der Befreiung",
     "birth_date"                  => "Geburtstag",
+    "birth_place"                 => "Geburtsort",
     "name"                        => "Nachname",
     "first_name"                  => "Vorname",
     "email"                       => "E-Mail",
@@ -26,33 +28,45 @@ return [
     "country"                     => "Land",
     "locale"                      => "Bevorzugte Sprache",
     "gender"                      => "Geschlecht",
-    "type"                      => "Mitgliedsstatus",
-    "linked_user"                      => "verknüft mit Backend-Benutzer",
-    "unlink_user"                      => "Verknüpfung lösen",
-    "left_at"                      => "Gekündigt am",
+    "type"                        => "Mitgliedsstatus",
+    "linked_user"                 => "verknüft mit Backend-Benutzer",
+    "unlink_user"                 => "Verknüpfung lösen",
+    "left_at"                     => "Gekündigt am",
+    "section.admins"              => "vom Vorstand auszufüllen",
 
-    "update.success.title" => "Erfolg",
-    "update.success.content" => "Die Mitgliedsdaten wurden erfolgreich aktualisiert.",
-    "date.applied_at" => "Mitgliedschaft beantragt am",
-    "date.verified_at" => "E-Mail verifiziert am",
-    "date.entered_at" => "Mitgliedschaft bestätigt am",
-    "date.left_at" => "Ausgetreten am",
+    "update.success.title"           => "Erfolg",
+    "update.success.content"         => "Die Mitgliedsdaten wurden erfolgreich aktualisiert.",
+    "date.applied_at"                => "Mitgliedschaft beantragt am",
+    "date.verified_at"               => "E-Mail verifiziert am",
+    "date.entered_at"                => "Mitgliedschaft bestätigt am",
+    "date.left_at"                   => "Ausgetreten am",
     "btn.sendVerificationMail.label" => "Erinnerung an Verifizierung senden",
-    "btn.sendAcceptanceMail.label" => "Antrag annehmen",
-    "btn.inviteAsUser.label" => "Mitglied als Benutzer einladen",
+    "btn.sendAcceptanceMail.label"   => "Antrag annehmen",
+    "btn.inviteAsUser.label"         => "Mitglied als Benutzer einladen",
+    "accordion.optionals.label"      => "Optionale Angaben",
 
+    "appliance_received.mail.subject" => "Wir haben Ihren Antrag erhalten!",
+    "appliance_received.mail.greeting" => "Szia :name",
+    "appliance_received.mail.text" => "wir haben Ihren Mitgliedschaftsantrag erhalten und danken Ihnen für Ihr Interesse an unserer Gemeinschaft. Wir werden Ihren Antrag so bald wie möglich prüfen und uns in Kürze mit Ihnen in Verbindung setzen.",
 
-
-    "cancel.modal.title" => "Kündigung bestätigen",
-    "cancel.modal.text" => "Bitte bestätigen Sie die Kündigung des Mitgliedes.",
-    "btn.cancelMembership.label" => "Mitgliedschaft kündigen",
+    "cancel.modal.title"              => "Kündigung bestätigen",
+    "cancel.modal.text"               => "Bitte bestätigen Sie die Kündigung des Mitgliedes.",
+    "btn.cancelMembership.label"      => "Mitgliedschaft kündigen",
     "cancel.confirm_text_input.label" => "Bitte zur Sicherheit den Nachnamen eingeben",
-    "cancel.btn.final.label" => "Mitglied endgültig kündigen",
+    "cancel.btn.final.label"          => "Mitglied endgültig kündigen",
 
-    "type.standard" => "Mitglied",
+    "type.standard"  => "Mitglied",
     "type.applicant" => "Anwärter",
-    "type.board" => "Vorstand",
-    "type.advisor" => "Beirat",
+    "type.board"     => "Vorstand",
+    "type.advisor"   => "Beirat",
+
+
+    "optional-data.text"    => "Hier können noch weitere Angaben gemacht werden.",
+    'familystatus.label'    => "Familenstand",
+    "familystatus.single"   => "Single",
+    "familystatus.married"  => "Verheiratet",
+    "familystatus.divorced" => "Geschieden",
+    "familystatus.n_a"      => "Keine Angabe",
 
     "section.person"  => "Person",
     "section.address" => "Anschrift",
@@ -136,22 +150,19 @@ return [
 
 
     "widgets.applicants.title"                  => "Neue Mitgliedsanträge",
-    "widgets.applicants.search.label"                  => "Nach Namen filtern",
+    "widgets.applicants.search.label"           => "Nach Namen filtern",
     "widgets.applicants.empty_search"           => "keine passende Einträge gefunden",
     "widgets.applicants.empty_list"             => "Keine offenen Anträge vorhanden",
     "widgets.applicants.confirm.deletion.title" => "Erfolg",
     "widgets.applicants.confirm.deletion.text"  => "Die ausgewählten Bewerbungen wurden gelöscht",
 
-    "widgets.applicants.options.label" => "Optionen",
-    "widgets.applicants.options.deletion.confirm" => "Bitte die Löschung der ausgewählten Anträge bestätigen!",
-    "widgets.applicants.options.edit.btn.label" => "Bearbeiten",
+    "widgets.applicants.options.label"              => "Optionen",
+    "widgets.applicants.options.deletion.confirm"   => "Bitte die Löschung der ausgewählten Anträge bestätigen!",
+    "widgets.applicants.options.edit.btn.label"     => "Bearbeiten",
     "widgets.applicants.options.deletion.btn.label" => "Löschen",
-    "widgets.applicants.tab.header.from" => "vor",
-    "widgets.applicants.tab.header.name" => "Name",
-    "" => "",
-
-
-
+    "widgets.applicants.tab.header.from"            => "vor",
+    "widgets.applicants.tab.header.name"            => "Name",
+    ""                                              => "",
 
 
 ];

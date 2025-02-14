@@ -86,7 +86,7 @@ class Form extends Component
     }
 
 
-    public function loadTransaction(int $transactionId): void
+    public function loadTransaction($transactionId): void
     {
         $this->transaction = Transaction::find($transactionId);
         $this->form->set($this->transaction);
@@ -99,17 +99,14 @@ class Form extends Component
 
     public function mount(?int $transactionId = null)
     {
-        if ($transactionId) {
+        if ($transactionId !== null) {
             $this->transaction = Transaction::find($transactionId);
-            $this->form->set($this->transaction);
-//            if ($this->transaction->receipt_id) {
-//                $this->receiptForm->set(Receipt::find($this->transaction->receipt_id));
-//            }
+
+            if ($this->transaction) {
+                $this->form->set($this->transaction);
+            }
         } else {
-            $this->form->type = TransactionType::Withdrawal->value;
-            $this->form->vat = 19;
-//            $this->receiptForm->date = now()->format('Y-m-d');
-            $this->form->date = now()->format('Y-m-d');
+            $this->resetTransactionForm();
         }
 
         if (isset($this->event)) {
@@ -117,6 +114,7 @@ class Form extends Component
             $this->entry_fee_discounted = $this->event->entry_fee_discounted;
         }
     }
+
 
     public function submitTransaction(): void
     {
@@ -153,6 +151,16 @@ class Form extends Component
             : CreateTransaction::handle($this->form);
 
         $this->form->id = $transaction->id;
+
+        if(isset($this->receiptForm->file_name)){
+            $this->submitReceipt();
+        }
+
+        Flux::toast(
+            heading: 'Erfolg',
+            text: 'Die Buchung wurde erfasst',
+            variant: 'success',
+        );
 
         return $transaction;
 
@@ -217,6 +225,8 @@ class Form extends Component
 
     public function submitReceipt(): void
     {
+
+
         if (empty($this->form->id)) {
             Flux::modal('missing-transaction-modal')
                 ->show();
@@ -227,12 +237,14 @@ class Form extends Component
 
         $this->previewImagePath = storage_path('app/private/accounting/receipts/previews/'.pathinfo($this->receiptForm->file_name, PATHINFO_FILENAME).'.png');
 
-        $this->dispatch('edit-transaction');
+    //    $this->dispatch('edit-transaction');
 
         $this->reset('receiptForm');
+
+
         Flux::toast(
             heading: 'Erfolg',
-            text: 'Die Buchung wurde eingereicht',
+            text: 'Der Beleg wurde eingereicht',
             variant: 'success',
         );
     }
@@ -270,6 +282,15 @@ class Form extends Component
         }
 
         $this->dispatch('edit-transaction');
+
+    }
+
+    public function resetTransactionForm():void
+    {
+       $this->form->reset();
+        $this->form->type = TransactionType::Withdrawal->value;
+        $this->form->vat = 19;
+        $this->form->date = now()->format('Y-m-d');
 
     }
 

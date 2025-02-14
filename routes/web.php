@@ -193,6 +193,9 @@ Route::middleware([
         Route::get('/members/{member}', \App\Livewire\Member\Show\Page::class)
             ->name('members.show');
 
+        Route::get('/members-create', \App\Livewire\Member\Create\Page::class)
+            ->name('members.create');
+
         Route::get('/backend-events', \App\Livewire\Event\Index\Page::class)
             ->name('backend.events.index');
 

@@ -106,6 +106,10 @@
         </tr>
         </table>
         <br><br>
+
+    @else
+        <br><br>
+        <p style="font-size: 12pt; font-weight: bold;">{{ __('members.apply.fee.text', ['sum' => \App\Models\Membership\Member::$fee/100]) }}</p>
     @endif
 
     <p>{{ __('members.apply.print.regards') }}<br><span style="font-size: 11pt;">{{ $member->name }}, {{ $member->first_name }}</span>

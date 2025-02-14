@@ -57,7 +57,7 @@
 <div class="bg-zinc-50 text-black/50 dark:bg-black dark:text-white/50">
     <div class="relative min-h-screen flex flex-col items-center justify-between selection:bg-[#FF2D20] selection:text-white">
         <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl pt-3 lg:pt-6">
-            <x-header />
+            <x-header/>
             <flux:navbar class="lg:hidden justify-between mb-3 border-b border-zinc-200 dark:border-zinc-700">
                 <a href="/">
                     <x-application-logo class="size-10 ml-2"/>
@@ -182,7 +182,6 @@
                 <x-footer-link link="{{ route('impressum') }}">{{__('app.imprint')}}</x-footer-link>
 
 
-
                 @if (Route::has('login'))
 
                     @auth
@@ -207,8 +206,9 @@
             </flux:navbar>
         </footer>
 
-
-        <flux:toast/>
+        @persist('toast')
+        <flux:toast position="top right"/>
+@endpersist
 @fluxScripts
 </body>
 </html>

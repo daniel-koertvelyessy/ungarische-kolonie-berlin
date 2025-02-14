@@ -50,6 +50,7 @@ class EventForm extends Form
         $this->title = $this->event->title;
         $this->excerpt = $this->event->excerpt;
         $this->slug = $this->event->slug;
+        $this->payment_link = $this->event->payment_link;
         $this->description = $this->event->description;
         $this->entry_fee = $this->event->entry_fee;
         $this->entry_fee_discounted = $this->event->entry_fee_discounted;

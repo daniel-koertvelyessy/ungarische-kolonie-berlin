@@ -204,8 +204,9 @@
             </flux:navbar>
         </footer>
 
-
-        <flux:toast/>
+        @persist('toast')
+        <flux:toast position="top right"/>
+        @endpersist
 @fluxScripts
 </body>
 </html>

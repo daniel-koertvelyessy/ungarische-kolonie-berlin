@@ -13,8 +13,10 @@ return [
     "con.men.delete"        => 'Törlés',
 
     "apply.discount.label"        => "Csökkentett tagsági díjat kérek",
+    "apply.fee.text"              => "A havi :num eurós tagdíjról tájékoztatást kaptam és annak megfizetését vállalom.",
     "apply.discount.reason.label" => "A mentesség oka",
     "birth_date"                  => "Születésnap",
+    "birth_place"                      => "Születési hely",
     "name"                        => "Vezetéknév",
     "first_name"                  => "Keresztnév",
     "email"                       => "E-mail",
@@ -26,15 +28,23 @@ return [
     "country"                     => "Ország",
     "locale"                      => "Preferált nyelv",
     "gender"                      => "Nem",
+    "section.admins"              => "Adminisztrátios rész",
+
+    "optional-data.text" => "További információ itt lehet tallálni.",
+    'familystatus.label' => "Családi állapot",
+    "familystatus.single" => "Egyedülálló",
+    "familystatus.married" => "Házas",
+    "familystatus.divorced" => "Elvált",
+    "familystatus.n_a" => "Nincs megadva",
 
     "section.person"  => "Személy",
     "section.address" => "Lakcím",
     "section.phone"   => "Telefon",
     "section.fees"    => "Tagsági díjak",
     "section.email"   => "E-mail cím",
+    "accordion.optionals.label" => "Opcionális információk",
 
-
-    "show.title"   => "Áttekintés Tag: :név",
+    "show.title"   => "Áttekintés Tag: :name",
     "show.heading" => "",
 
     "show.attached.success.head" => 'Siker!',
@@ -108,6 +118,9 @@ return [
     "apply.print.filename"         => "Palyazat_Tagsag_Magyar_Kolonia_Berlin_mid-:id:tm.pdf",
 
 
+    "appliance_received.mail.subject" => "Megkaptuk tagfelvételi kérelmét!",
+    "appliance_received.mail.greeting" => "Szia :name",
+    "appliance_received.mail.text" => "Megkaptuk tagfelvételi kérelmét, és köszönjük érdeklődését közösségünk iránt. Kérelmét a lehető leghamarabb feldolgozzuk, és hamarosan felvesszük Önnel a kapcsolatot.",
     "widgets.applicants.title"                      => "Új tagsági jelentkezések",
     "widgets.applicants.empty_search"               => "nincs megfelelő bejegyzés",
     "widgets.applicants.empty_list"                 => "Nincsenek nyitott kérések",

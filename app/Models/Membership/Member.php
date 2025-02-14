@@ -21,7 +21,7 @@ class Member extends Model
 
     public static float $fee = 500;
 
-    public static int $minimumAgeForDeduction = 65;
+    public static int $minimumAgeForDeduction = 75;
 
     protected $guarded = [];
 
@@ -41,7 +41,7 @@ class Member extends Model
 
     public static function feeForHumans(): string
     {
-        return number_format(Member::$fee, 2, ',', '.');
+        return number_format(Member::$fee/100, 2, ',', '.');
     }
 
     public static function getBoardMembers(): object

@@ -110,35 +110,6 @@ protected Member $member;
     }
 
 
-    public function checkEmail():void
-    {
-
-        $this->nomail = $this->email==='';
-
-    }
-
-    public function checkBirthDate():void
-    {
-        $birthDate = new Carbon($this->birth_date);
-
-        $this->is_deducted = $birthDate->diffInYears(now()) > Member::$minimumAgeForDeduction;
-        if ($this->is_deducted){
-            $this->deduction_reason = 'Älter als 65';
-        }
-    }
-
-    protected function printApplication()
-    {
-
-        return redirect(route('members.print_application',['member'=>$this->member]));
-
-    }
-
-    protected function sendApplication()
-    {
-        return redirect(route('home'));
-    }
-
     #[Layout('layouts.guest')]
     public function render()
     {

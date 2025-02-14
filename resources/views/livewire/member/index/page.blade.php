@@ -2,6 +2,27 @@
 
     <flux:heading size="xl">{{ __('members.title') }}</flux:heading>
     <flux:text>{{ __('members.header') }}</flux:text>
+
+    <nav class="flex gap-1 items-center">
+        <flux:button href="{{ route('members.create') }}" size="sm" variant="primary">
+            <flux:icon.user-plus class="size-4" />
+            <span class="hidden lg:flex">Neu anlegen</span>
+        </flux:button>
+        <flux:input size="sm" wire:model.live.debounce="search" clearable icon="magnifying-glass" placeholder="Suche ..." />
+
+        <flux:checkbox.group wire:model.live="filteredBy" class="hidden lg:flex gap-2 pt-1">
+            @foreach(\App\Enums\MemberType::cases() as $type)
+            <flux:checkbox label="{{ \App\Enums\MemberType::value($type->value) }}" value="{{ $type->value }}" />
+            @endforeach
+        </flux:checkbox.group>
+
+        <flux:select wire:model.live="filteredBy" variant="listbox" size="sm" indicator="checkbox" multiple placeholder="Filter ..." class=" lg:hidden">
+            @foreach(\App\Enums\MemberType::cases() as $type)
+                <flux:option value="{{ $type->value }}" >{{ \App\Enums\MemberType::value($type->value) }}</flux:option>
+            @endforeach
+
+        </flux:select>
+    </nav>
     <flux:table :paginate="$this->members">
         <flux:columns>
             <flux:column sortable :sorted="$sortBy === 'name'" :direction="$sortDirection" wire:click="sort('name')">{{ __('members.table.header.name') }}</flux:column>

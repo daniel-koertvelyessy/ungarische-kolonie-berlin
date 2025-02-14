@@ -64,27 +64,27 @@
               stashable
               class="bg-zinc-50 dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-700"
 >
-  <div class="flex justify-between">
-      <flux:brand href="/"
-                  logo="{{ Vite::asset('resources/images/magyar-kolonia-logo.svg') }}"
-                  name="Kolónia Portal"
-                  class="px-2"
-      />
+    <div class="flex justify-between">
+        <flux:brand href="/"
+                    logo="{{ Vite::asset('resources/images/magyar-kolonia-logo.svg') }}"
+                    name="Kolónia Portal"
+                    class="px-2"
+        />
 
-      <flux:sidebar.toggle class="lg:hidden ml-3"
-                                   icon="x-mark"
-      />
-  </div>
+        <flux:sidebar.toggle class="lg:hidden ml-3"
+                             icon="x-mark"
+        />
+    </div>
 
-    <flux:separator />
+    <flux:separator/>
 
-{{--
-    <flux:input as="button"
-                variant="filled"
-                placeholder="Search..."
-                icon="magnifying-glass"
-    />
---}}
+    {{--
+        <flux:input as="button"
+                    variant="filled"
+                    placeholder="Search..."
+                    icon="magnifying-glass"
+        />
+    --}}
 
     <flux:navlist variant="outline">
 
@@ -120,7 +120,10 @@
             <flux:navlist.item href="#">Belege</flux:navlist.item>
             <flux:navlist.item href="#">Berichte</flux:navlist.item>
             @can('create', \App\Models\Accounting\Account::class)
-                <flux:navlist.item href="{{ route('accounts.index') }}" :current="request()->is('accounts*')">Konten</flux:navlist.item>
+                <flux:navlist.item href="{{ route('accounts.index') }}"
+                                   :current="request()->is('accounts*')"
+                >Konten
+                </flux:navlist.item>
             @endcan
         </flux:navlist.group>
 
@@ -214,8 +217,8 @@
     {{ $slot }}
 </flux:main>
 @fluxScripts
-<flux:toast position="top right"
-            class="pt-5"
-/>
+@persist('toast')
+<flux:toast position="top right"/>
+@endpersist
 </body>
 </html>

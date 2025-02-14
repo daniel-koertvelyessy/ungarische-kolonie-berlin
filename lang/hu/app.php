@@ -2,8 +2,8 @@
 
 return [
     "welcome" => "Üdvözöljük",
-    "férfi" => "Férfi",
-    "nő" => "Nő",
+    "male" => "Férfi",
+    "female" => "Nő",
     "locale" => "Nyelv",
     "locale.de" => "Magyar",
     "locale.hu" => "Német",

@@ -44,7 +44,9 @@
     </flux:accordion>
 
 
-    <form wire:submit="applyMembership">
+    <livewire:member.create.form application/>
+
+    {{--<form wire:submit="applyMembership">
         <div class="w-full lg:w-3/4 mx-auto">
             <flux:card class="space-y-6 mb-3 lg:mb-6">
                 <flux:separator text="{{ __('members.section.person') }}"/>
@@ -159,9 +161,9 @@
                 <flux:text x-show="$wire.nomail">{{ __('members.apply.email.without.text') }}</flux:text>
 
             </flux:card>
-            {{--            @if(app()->isProduction())
+            --}}{{--            @if(app()->isProduction())
                             <x-turnstile/>
-                        @endif--}}
+                        @endif--}}{{--
 
             <flux:button type="submit"
                          variant="primary"
@@ -178,7 +180,7 @@
         </div>
 
 
-    </form>
+    </form>--}}
     <flux:modal name="validation_error">
         {{ $validation_error }}
     </flux:modal>

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Forms;
 
+use App\Actions\Member\CreateMember;
 use App\Enums\Gender;
 use App\Enums\Locale;
 use App\Enums\MemberType;
@@ -20,6 +21,7 @@ class MemberForm extends Form
     public $is_deducted;
     public $deduction_reason;
     public $birth_date;
+    public $birth_place;
     public $name;
     public $first_name;
     public $email;
@@ -29,6 +31,8 @@ class MemberForm extends Form
     public $zip;
     public $city;
     public $country;
+    public $citizenship;
+    public $family_status;
     public $locale;
     public $gender;
     public $type;
@@ -58,6 +62,9 @@ class MemberForm extends Form
         $this->country = $this->member->country;
         $this->user_id = $this->member->user_id;
         $this->type = $this->member->type;
+        $this->birth_place = $this->member->birth_place;
+        $this->citizenship = $this->member->citizenship;
+        $this->family_status = $this->member->family_status;
         $this->linked_user_name = $this->setUser();
     }
 
@@ -76,6 +83,7 @@ class MemberForm extends Form
         $this->member->mobile = $this->mobile;
         return $this->member->save();
     }
+
     public function updateMembership(): bool
     {
         $this->member->type = $this->type;
@@ -95,8 +103,16 @@ class MemberForm extends Form
         $this->member->zip = $this->zip;
         $this->member->city = $this->city;
         $this->member->country = $this->country;
+        $this->member->birth_place = $this->birth_place;
+        $this->member->citizenship = $this->citizenship;
+        $this->member->family_status = $this->family_status;
 
         return $this->member->save();
+    }
+
+    public function create():Member
+    {
+        return CreateMember::handle($this);
     }
 
     public function cancelMembership(): bool
@@ -104,6 +120,7 @@ class MemberForm extends Form
         $this->member->left_at = now();
         return $this->member->save();
     }
+
     public function reactivateMembership(): bool
     {
         $this->member->left_at = null;
@@ -113,8 +130,6 @@ class MemberForm extends Form
     protected function rules(): array
     {
         return [
-            'id'               => Rule::unique('members', 'id')
-                ->ignore($this->member->id),
             'applied_at'       => 'required|date',
             'verified_at'      => 'nullable',
             'entered_at'       => 'nullable',
@@ -131,6 +146,9 @@ class MemberForm extends Form
             'zip'              => 'nullable',
             'city'             => 'nullable',
             'country'          => 'nullable',
+            'birth_place'      => 'nullable',
+            'citizenship'      => 'nullable',
+            'family_status'    => 'nullable',
             'locale'           => ['nullable', Rule::enum(Locale::class)],
             'gender'           => ['nullable', Rule::enum(Gender::class)],
             'type'             => ['nullable', Rule::enum(MemberType::class)],
