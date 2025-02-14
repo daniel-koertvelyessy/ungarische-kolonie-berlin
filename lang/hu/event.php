@@ -18,7 +18,7 @@ return array(
     "index.title" => "Cím",
     "index.table.header.title" => "Cím",
     "index.table.header.image" => "Címkép",
-
+    "visitor.name" => "Látogató",
     "create.slug.notice" => "A slug linkként jön létre két nyelven. Ezt utólag nem lehet megváltoztatni!",
     "create.page.title" => "Új esemény létrehozása",
 

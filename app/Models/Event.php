@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Accounting\Transaction;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -45,5 +46,7 @@ class Event extends Model
     {
         return $this->belongsTo(Venue::class);
     }
+
+
 
 }

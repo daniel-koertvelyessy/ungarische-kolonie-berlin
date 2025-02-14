@@ -2,8 +2,10 @@
 
 namespace App\Policies;
 
+use App\Enums\MemberType;
 use App\Models\Accounting\Transaction;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class TransactionPolicy
 {
@@ -26,17 +28,18 @@ class TransactionPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(): bool
     {
-        return false;
+        return $this->checkThis();
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Transaction $transaction): bool
+    public function update(): bool
     {
-        return false;
+      return $this->checkThis();
+
     }
 
     /**
@@ -65,11 +68,29 @@ class TransactionPolicy
 
     public function addAccount(User $user): bool
     {
-        dump($user->email);
-        dump(env('APP_ACCOUNTANT'));
+
         if ($user->email === env('APP_ACCOUNTANT')) {
             return true;
         }
+        return false;
+    }
+
+    private function checkThis(): bool
+    {
+
+        $user = Auth::user();
+
+
+
+        if ($user->is_admin) {
+            return true;
+        }
+
+        dd($user->is_admin);
+        if ($user->member && $user->member->type === MemberType::MD->value) {
+            return true;
+        }
+
         return false;
     }
 }

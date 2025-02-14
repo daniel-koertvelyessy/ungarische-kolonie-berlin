@@ -3,12 +3,16 @@
 namespace App\Models\Accounting;
 
 use App\Enums\TransactionType;
+use App\Models\Event;
+use App\Models\EventTransaction;
 use App\Models\Membership\Member;
+use App\Models\Membership\MemberTransaction;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Transaction extends Model
 {
@@ -33,6 +37,15 @@ class Transaction extends Model
     public function receipts(): hasMany
     {
         return $this->hasMany(Receipt::class);
+    }
+
+    public function event_transaction(): HasOne
+    {
+        return $this->hasOne(EventTransaction::class);
+    }
+    public function member_transaction(): HasOne
+    {
+        return $this->hasOne(MemberTransaction::class);
     }
 
     public function members(): belongsTo

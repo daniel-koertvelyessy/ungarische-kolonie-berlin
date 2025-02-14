@@ -126,14 +126,17 @@
             >Art
             </flux:column>
             <flux:column class="hidden lg:table-cell">Beleg</flux:column>
+            <flux:column class="hidden lg:table-cell">Verknüpft</flux:column>
 
         </flux:columns>
 
         <flux:rows>
             @forelse ($this->transactions as $item)
+
                 <flux:row :key="$item->id">
                     <flux:cell variant="strong">
-                        {{ $item->label }}
+                        <span class="lg:hidden inline-block">{{ \Illuminate\Support\Str::limit($item->label,10,' ..') }}</span>
+                        <span class="hidden lg:inline-block">{{ $item->label}}</span>
                     </flux:cell>
 
                     <flux:cell class="hidden md:table-cell">{{ $item->date->diffForHumans() }}</flux:cell>
@@ -160,17 +163,34 @@
 
                         @if($item->receipts->count() > 0)
                             @foreach($item->receipts as $key => $receipt)
-
-                                <flux:tooltip content="{{ $receipt->file_name_original }}" position="top">
-                            <flux:button
-                                wire:click="download({{$item->receipt}})"
-                                icon-trailing="document-arrow-down"
-                                size="xs"
-                            />
+                                <flux:tooltip content="{{ $receipt->file_name_original }}"
+                                              position="top"
+                                >
+                                    <flux:button
+                                        wire:click="download({{$receipt->id}})"
+                                        icon-trailing="document-arrow-down"
+                                        size="xs"
+                                    />
                                 </flux:tooltip>
                             @endforeach
                         @else
                             -
+                        @endif
+                    </flux:cell>
+                    <flux:cell class="hidden lg:table-cell">
+                        @if($item->event_transaction)
+                            <flux:tooltip content="Veranstalung zugeordnet: {{ $item->event_transaction->event->title[app()->getLocale()] }}"
+                                              position="top"
+                                >
+                            <flux:icon.calendar-days class="size-4" variant="mini" />
+                            </flux:tooltip>
+                        @endif
+                        @if($item->member_transaction)
+                            <flux:tooltip content="Mitglied zugeordnet {{ $item->member_transaction->member->fullName() }}"
+                                              position="top"
+                                >
+                            <flux:icon.users class="size-4" variant="mini" />
+                            </flux:tooltip>
                         @endif
                     </flux:cell>
                     @can('update', \App\Models\Accounting\Account::class)
@@ -200,6 +220,16 @@
                                         >Storno
                                         </flux:menu.item>
                                     @endif
+                                    <flux:menu.submenu heading="Zuweisen">
+                                        <flux:menu.item icon="calendar-days"
+                                                        wire:click="appendToEvent({{ $item->id }})"
+                                        >Veranstaltung
+                                        </flux:menu.item>
+                                        <flux:menu.item icon="users"
+                                                        wire:click="appendToMember({{ $item->id }})"
+                                        >Mitglied
+                                        </flux:menu.item>
+                                    </flux:menu.submenu>
                                 </flux:menu>
                             </flux:dropdown>
                         </flux:cell>
@@ -219,13 +249,13 @@
         </flux:rows>
     </flux:table>
     @can('create', \App\Models\Accounting\Account::class)
-    <div class="flex mt-3">
-        <flux:spacer/>
-        <flux:button variant="primary"
-                     href="{{ route('transaction.create') }}"
-        >Neue Buchung anlegen
-        </flux:button>
-    </div>
+        <div class="flex mt-3">
+            <flux:spacer/>
+            <flux:button variant="primary"
+                         href="{{ route('transaction.create') }}"
+            >Neue Buchung anlegen
+            </flux:button>
+        </div>
     @endcan
 
 
@@ -255,4 +285,84 @@
             <livewire:accounting.transaction.booking.form :transactionId="$transaction->id"/>
         @endif
     </flux:modal>
+
+    <flux:modal name="append-to-event-transaction"
+                variant="flyout"
+                position="right"
+    >
+
+        <flux:heading class="my-4">Veranstaltung zuordnen</flux:heading>
+
+        <form wire:submit="appendEvent" class="space-y-6">
+
+            <flux:field>
+                <flux:select wire:model="target_event"
+                             variant="listbox"
+                             searchable
+                             placeholder="Veranstaltung wählen"
+                >
+                    @foreach(\App\Models\Event::select('id', 'title')->get() as $key => $event)
+                        <flux:option value="{{ $event->id }}">{{ \Illuminate\Support\Str::limit($event->title['de'],30,'..',true) }}</flux:option>
+                    @endforeach
+                </flux:select>
+                <flux:error name="target_event"/>
+            </flux:field>
+
+                <flux:accordion transition>
+                    <flux:accordion.item heading="Optional">
+                        <section class=" space-y-4">
+                            <flux:input label="{{ __('event.visitor.name') }}"
+                                        wire:model="event_visitor_name"
+                            />
+
+                            <flux:radio.group wire:model="event_gender"
+                                              label="{{ __('members.gender') }}"
+                                              variant="segmented"
+                            >
+                                @foreach( App\Enums\Gender::cases() as $gender)
+                                    <flux:radio value="{{ $gender->value }}">{{ \App\Enums\Gender::value($gender->value) }}</flux:radio>
+                                @endforeach
+                            </flux:radio.group>
+                        </section>
+
+                    </flux:accordion.item>
+                </flux:accordion>
+
+                <flux:button variant="primary"
+                             type="submit"
+                >zuordnen
+                </flux:button>
+        </form>
+
+    </flux:modal>
+
+    <flux:modal name="append-to-member-transaction"
+                variant="flyout"
+                position="right"
+    >
+
+        <flux:heading class="my-4">Veranstaltung zuordnen</flux:heading>
+
+        <form wire:submit="appendMember" class="space-y-6">
+
+            <flux:field>
+                <flux:select wire:model="target_member"
+                             variant="listbox"
+                             searchable
+                             placeholder="Mitglied wählen"
+                >
+                    @foreach(\App\Models\Membership\Member::select('id', 'name')->get() as $key => $member)
+                        <flux:option value="{{ $member->id }}">{{ $member->fullName() }}</flux:option>
+                    @endforeach
+                </flux:select>
+                <flux:error name="target_member"/>
+                <flux:error name="transaction.id"/>
+            </flux:field>
+            <flux:button variant="primary"
+                         type="submit"
+            >Mitglied zuordnen
+            </flux:button>
+        </form>
+    </flux:modal>
+
 </div>

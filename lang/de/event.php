@@ -21,7 +21,7 @@ return array(
     "create.page.title" => "Neue Veranstaltung erstellen",
 
     "show.page.title" => "Veranstaltung :name bearbeiten",
-
+    "visitor.name" => "Besucher",
     "form.event_date" => "Datum",
     "form.start_time" => "Startet um",
     "form.end_time" => "Endet um",

@@ -11,6 +11,14 @@ use Illuminate\Support\Facades\DB;
 
 class CreateEventTransaction
 {
+    /**
+     * @param  Transaction  $transaction
+     * @param  Event  $event
+     * @param $name
+     * @param $gender
+     * @return bool
+     * @throws \Throwable
+     */
     public static function handle(Transaction $transaction, Event $event, $name, $gender): bool
     {
         DB::transaction(function () use ($transaction, $event, $name, $gender)

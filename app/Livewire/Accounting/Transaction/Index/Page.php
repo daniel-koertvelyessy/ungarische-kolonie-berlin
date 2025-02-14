@@ -2,19 +2,28 @@
 
 namespace App\Livewire\Accounting\Transaction\Index;
 
+use App\Actions\Accounting\CreateEventTransaction;
+use App\Actions\Accounting\CreateMemberTransaction;
 use App\Enums\DateRange;
+use App\Enums\Gender;
+use App\Enums\MemberType;
 use App\Enums\TransactionType;
 use App\Livewire\Forms\ReceiptForm;
 use App\Livewire\Forms\TransactionForm;
 use App\Models\Accounting\Account;
 use App\Models\Accounting\Receipt;
 use App\Models\Accounting\Transaction;
+use App\Models\Event;
+use App\Models\Membership\Member;
 use Flux\Flux;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Imagick;
 use Livewire\Attributes\Url;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -31,13 +40,20 @@ class Page extends Component
     public $sortDirection = 'desc';
 
     public $search;
-    public array $filter_status = ['eingereicht','gebucht'];
+    public array $filter_status = ['eingereicht', 'gebucht'];
     public array $filter_type = [];
     public $selectedTransactions = [];
     public $numTransactions;
     public $transactionsOnPage = [];
     public $allTransactions = [];
     public $filter_date_range = DateRange::All->value;
+
+    #[Validate]
+    public $target_event;
+    #[Validate]
+    public $target_member;
+    public $event_visitor_name;
+    public $event_gender;
 
     public function sort($column): void
     {
@@ -60,7 +76,8 @@ class Page extends Component
             ->dates();
 
         $transactionList = \App\Models\Accounting\Transaction::query()
-            ->with('receipts')
+            ->with('event_transaction')
+            ->with('member_transaction')
             ->tap(fn($query) => $this->search ? $query->where('label', 'LIKE', '%'.$this->search.'%') : $query)
             ->whereIn('status', $this->filter_status)
             ->whereIn('type', $this->filter_type)
@@ -95,7 +112,7 @@ class Page extends Component
         }
 
         return Storage::disk('local')
-            ->download($filePath);
+            ->download($filePath, $receipt->file_name_original);
     }
 
     public function bookItem(int $transaction_id): void
@@ -122,23 +139,104 @@ class Page extends Component
         dd($transaction_id);
     }
 
-    public function generatePreview()
+    public function appendToEvent(int $transactioId): void
     {
-        $pdfFullPath = storage_path('app/'.$this->pdfPath);
-        $outputPath = 'accounting/previews/'.pathinfo($this->pdfPath, PATHINFO_FILENAME).'.jpg';
-        $outputFullPath = storage_path('app/'.$outputPath);
-
-        if (!file_exists($outputFullPath)) {
-            $imagick = new Imagick();
-            $imagick->setResolution(150, 150); // Set DPI for better quality
-            $imagick->readImage($pdfFullPath.'[0]'); // Read first page
-            $imagick->setImageFormat('jpeg');
-            $imagick->writeImage($outputFullPath);
-            $imagick->clear();
-            $imagick->destroy();
+        try {
+            $this->authorize('create', Transaction::class);
+        } catch (AuthorizationException $e) {
+            Flux::toast(
+                text: 'Sie haben keine Berechtigungen Buchungen zu verwalten: '.$e->getMessage(),
+                heading: 'Forbidden',
+                variant: 'danger',
+            );
+            return;
         }
 
-        $this->previewImagePath = Storage::url($outputPath);
+        $this->transaction = Transaction::findOrFail($transactioId);
+        Flux::modal('append-to-event-transaction')
+            ->show();
+    }
+
+    public function appendToMember(int $transactioId): void
+    {
+        try {
+            $this->authorize('create', Transaction::class);
+        } catch (AuthorizationException $e) {
+            Flux::toast(
+                text: 'Sie haben keine Berechtigungen Buchungen zu verwalten: '.$e->getMessage(),
+                heading: 'Forbidden',
+                variant: 'danger',
+            );
+            return;
+        }
+
+        $this->transaction = Transaction::findOrFail($transactioId);
+        Flux::modal('append-to-member-transaction')
+            ->show();
+    }
+
+    public function appendEvent(): void
+    {
+        $this->checkUser();
+        $this->validate([
+            'transaction.id'       => ['unique:event_transactions,transaction_id'],
+            'target_event' => 'required',
+            'event_visitor_name' => '',
+            'event_gender'       => ['nullable', Rule::enum(Gender::class)]
+        ], [
+            'target_event.required'        => 'Bitte eine Veranstaltung auswählen',
+            'transaction.id.unique' => 'Buchung ist bereits der Veranstaltung zugeordnnet worden',
+        ]);
+
+        $event = Event::findOrFail($this->target_event);
+
+        if (CreateEventTransaction::handle($this->transaction, $event, $this->event_visitor_name, $this->event_gender)) {
+            Flux::toast(
+                text: 'Die Buchung wurde erfolgreich zugeordnet',
+                heading: 'Erfolg',
+                variant: 'sucess',
+            );
+            Flux::modal('append-to-event-transaction')
+                ->close();
+        }
+    }
+
+    public function appendMember(): void
+    {
+        $this->checkUser();
+        $this->validate([
+            'transaction.id'       => ['unique:member_transactions,transaction_id'],
+            'target_member' => 'required'
+        ], [
+            'target_member.required'         => 'Bitte ein Mitglied auswählen',
+            'transaction.id.unique' => 'Buchung ist bereits einem Mitglied zugeordnnet worden',
+        ]);
+
+        $member = Member::findOrFail($this->target_member);
+
+        CreateMemberTransaction::handle($this->transaction, $member);
+            Flux::toast(
+                text: 'Die Buchung wurde erfolgreich zugeordnet',
+                heading: 'Erfolg',
+                variant: 'sucess',
+            );
+            Flux::modal('append-to-member-transaction')
+                ->close();
+
+    }
+
+    protected function checkUser(): void
+    {
+        try {
+            $this->authorize('create', Transaction::class);
+        } catch (AuthorizationException $e) {
+            Flux::toast(
+                text: 'Sie haben keine Berechtigungen zur Erstellung von Konten'.$e->getMessage(),
+                heading: 'Forbidden',
+                variant: 'danger',
+            );
+            return;
+        }
     }
 
     public function render()
