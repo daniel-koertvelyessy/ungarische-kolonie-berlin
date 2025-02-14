@@ -82,10 +82,15 @@ class MemberForm extends Form
         $this->member->phone = $this->phone;
         $this->member->mobile = $this->mobile;
         return $this->member->save();
+
+
     }
 
     public function updateMembership(): bool
     {
+
+        $this->member->is_deducted = $this->is_deducted;
+        $this->member->deduction_reason = $this->deduction_reason;
         $this->member->type = $this->type;
         $this->member->entered_at = $this->entered_at;
         $this->member->left_at = $this->left_at;

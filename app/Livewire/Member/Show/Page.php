@@ -163,18 +163,14 @@ class Page extends Component
     {
         $this->checkUser();
 
-        $this->member->type = $this->member_type;
-        $this->member->is_deducted = $this->is_deducted;
-        $this->member->deduction_reason = $this->deduction_reason;
-
-
-        if ($this->member->save()) {
+        if ($this->memberForm->updateMembership()){
             Flux::toast(
                 heading: __('members.update.success.title'),
                 text: __('members.update.success.content'),
                 variant: 'success',
             );
-        }
+            }
+        
     }
 
     public function sendInvitation(): void
