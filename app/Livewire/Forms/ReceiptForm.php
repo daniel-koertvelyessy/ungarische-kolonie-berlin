@@ -33,7 +33,7 @@ class ReceiptForm extends Form
     public function generatePreview($filename): string
     {
         if (app()->environment() == 'production') {
-            putenv("MAGICK_GS_DELEGATE=/opt/homebrew/bin/gs");
+            putenv("MAGICK_GS_DELEGATE=/usr/bin/gs");
             $pdfFullPath = storage_path('app/private/accounting/receipts/'.$filename);
             $outputPath = 'accounting/receipts/previews/'.pathinfo($filename, PATHINFO_FILENAME).'.png';
             $outputFullPath = storage_path('app/private/'.$outputPath);

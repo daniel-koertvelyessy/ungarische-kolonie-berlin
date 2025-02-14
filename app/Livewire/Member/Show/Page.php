@@ -170,7 +170,7 @@ class Page extends Component
                 variant: 'success',
             );
             }
-        
+
     }
 
     public function sendInvitation(): void
