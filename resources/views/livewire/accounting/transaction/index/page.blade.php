@@ -178,20 +178,23 @@
                         @endif
                     </flux:cell>
                     <flux:cell class="hidden lg:table-cell">
-                        @if($item->event_transaction)
-                            <flux:tooltip content="Veranstalung zugeordnet: {{ $item->event_transaction->event->title[app()->getLocale()] }}"
+                        <aside class="flex gap-2">
+                            @if($item->event_transaction)
+                                <flux:tooltip content="Veranstalung zugeordnet: {{ $item->event_transaction->event->title[app()->getLocale()] }}"
                                               position="top"
                                 >
-                            <flux:icon.calendar-days class="size-4" variant="mini" />
-                            </flux:tooltip>
-                        @endif
-                        @if($item->member_transaction)
-                            <flux:tooltip content="Mitglied zugeordnet {{ $item->member_transaction->member->fullName() }}"
+                                    <flux:icon.calendar-days class="size-4" variant="mini" />
+                                </flux:tooltip>
+                            @endif
+                            @if($item->member_transaction)
+                                <flux:tooltip content="Mitglied zugeordnet {{ $item->member_transaction->member->fullName() }}"
                                               position="top"
                                 >
-                            <flux:icon.users class="size-4" variant="mini" />
-                            </flux:tooltip>
-                        @endif
+                                    <flux:icon.users class="size-4" variant="mini" />
+                                </flux:tooltip>
+                            @endif
+                        </aside>
+
                     </flux:cell>
                     @can('update', \App\Models\Accounting\Account::class)
                         <flux:cell>
