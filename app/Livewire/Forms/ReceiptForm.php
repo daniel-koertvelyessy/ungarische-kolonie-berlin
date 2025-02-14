@@ -32,34 +32,39 @@ class ReceiptForm extends Form
 
     public function generatePreview($filename): string
     {
-        if (app()->environment() == 'production') {
-            putenv("MAGICK_GS_DELEGATE=/usr/bin/gs");
-            $pdfFullPath = storage_path('app/private/accounting/receipts/'.$filename);
-            $outputPath = 'accounting/receipts/previews/'.pathinfo($filename, PATHINFO_FILENAME).'.png';
-            $outputFullPath = storage_path('app/private/'.$outputPath);
-            if (file_exists($pdfFullPath)) {
-                if (!file_exists($outputFullPath)) {
-                    $imagick = new Imagick();
-                    $imagick->readImage($pdfFullPath.'[0]'); // Read first page
-                    $w = $imagick->getImageWidth() * 0.3;
-                    $h = $imagick->getImageHeight() * 0.3;
-                    $imagick->resizeImage($w, $h, Imagick::FILTER_CATROM, 1);
-                    $imagick->setResolution(288, 288); // Set DPI for better quality
-                    $imagick->setImageFormat('png');
-                    $imagick->writeImage($outputFullPath);
-                    $imagick->clear();
-                    $imagick->destroy();
-                }
-            }
+        $pdfFullPath = storage_path('app/private/accounting/receipts/' . $filename);
+        $outputPath = 'accounting/receipts/previews/' . pathinfo($filename, PATHINFO_FILENAME) . '.png';
+        $outputFullPath = storage_path('app/private/' . $outputPath);
+
+        // Ensure directory exists
+        $outputDir = dirname($outputFullPath);
+        if (!file_exists($outputDir)) {
+            mkdir($outputDir, 0755, true);
+        }
+
+        // Detect Ghostscript path
+        $gsPath = '/usr/bin/gs'; // Linux default
+        if (app()->environment() == 'local') {
+            $gsPath = '/opt/homebrew/bin/gs'; // macOS Homebrew
+        }
+        putenv("MAGICK_GS_DELEGATE=$gsPath");
+
+        try {
+            $imagick = new Imagick();
+            $imagick->readImage($pdfFullPath . '[0]');
+            $w = $imagick->getImageWidth() * 0.3;
+            $h = $imagick->getImageHeight() * 0.3;
+            $imagick->resizeImage($w, $h, Imagick::FILTER_CATROM, 1);
+            $imagick->setResolution(288, 288);
+            $imagick->setImageFormat('png');
+            $imagick->writeImage($outputFullPath);
+            $imagick->clear();
+            $imagick->destroy();
+
             return Storage::url($outputPath);
-        } else {
-            $pdfPath = storage_path('app/private/accounting/receipts/'.$filename);
-            $outputPath = storage_path('app/private/accounting/receipts/previews/'.pathinfo($filename, PATHINFO_FILENAME).'.png');
-
-            $command = "/opt/homebrew/bin/gs -sDEVICE=pngalpha -o {$outputPath} -r288 {$pdfPath}";
-            shell_exec($command);
-
-            return pathinfo($filename, PATHINFO_FILENAME).'.png';
+        } catch (\Exception $e) {
+            \Log::error('PDF Preview Error: ' . $e->getMessage());
+            return '';
         }
     }
 
