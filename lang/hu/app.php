@@ -27,7 +27,7 @@ return [
     "password.reset.title" => "Elfelejtette jelszavát?",
     "password.reset.text" => "Nem probléma. Csak adja meg e-mail címét, és e-mailben küldünk egy jelszó-visszaállítási linket, amely lehetővé teszi, hogy újat válasszon.",
     "password.reset.btn.label" => "E-mail jelszó-visszaállítási hivatkozás",
-    "" => "",
+    "today" => "Ma",
     "" => "",
 
 ];

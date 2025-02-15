@@ -26,7 +26,8 @@ return [
     "login.btn.login.label" => "Anmelden",
     "login.btn.register.label" => "Registrieren",
 
-    "password.reset.btn.label" => "",
+    "today" => "Heute",
+
     "password.reset.btn.label" => "",
 
 
