@@ -29,13 +29,14 @@ Route::get('lang/{locale}', function ($locale)
 
 Route::get('/', function ()
 {
+
     return view('welcome', [
         'events' => \App\Models\Event::with('venue')
-            ->where('status','=', \App\Enums\EventStatus::PUBLISHED->value)
-            ->where('event_date', '>', now())
+            ->where('status','=', \App\Enums\EventStatus::PUBLISHED)
+            ->whereBetween('event_date', [Carbon::today(), Carbon::now()->endOfYear()])
             ->take(3)
             ->get(),
-        'events_total'  => \App\Models\Event::where('event_date', '>', now())
+        'events_total'  => \App\Models\Event::whereBetween('event_date', [Carbon::today(), Carbon::now()->endOfDecade()])
             ->where('status','=', \App\Enums\EventStatus::PUBLISHED->value)
             ->get()
             ->count(),
