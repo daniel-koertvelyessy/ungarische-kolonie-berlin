@@ -5,6 +5,7 @@ namespace App\Livewire\Accounting\Transaction\Create;
 use App\Actions\Accounting\CreateEventTransaction;
 use App\Actions\Accounting\CreateMemberTransaction;
 use App\Actions\Accounting\CreateTransaction;
+use App\Actions\Accounting\UpdateEventTransaction;
 use App\Actions\Accounting\UpdateTransaction;
 use App\Enums\Gender;
 use App\Enums\TransactionType;
@@ -53,9 +54,11 @@ class Form extends Component
 
     public $visitors = [];
 
+    public $tmp_transaction_id;
+
     public bool $check_form = false;
 
-    protected $listeners = ['edit-transaction' => 'loadTransaction','fileDropped'];
+    protected $listeners = ['edit-transaction' => 'loadTransaction', 'fileDropped'];
 
     #[Computed]
     public function accounts()
@@ -70,7 +73,6 @@ class Form extends Component
         return BookingAccount::select('id', 'label', 'number')
             ->get();
     }
-
 
 
     public function updatedSelectedMember($value): void
@@ -90,14 +92,9 @@ class Form extends Component
     {
         $this->transaction = Transaction::find($transactionId);
         $this->form->set($this->transaction);
-//        if ($this->transaction->receipts->count() > 0) {
-//            $this->receiptForm->set(Receipt::find($this->transaction->receipt_id));
-//        }
-
-
     }
 
-    public function mount(?int $transactionId = null)
+    public function mount(?int $transactionId = null): void
     {
         if ($transactionId !== null) {
             $this->transaction = Transaction::find($transactionId);
@@ -124,94 +121,155 @@ class Form extends Component
 
         $this->transaction = $this->handleTransaction();
 
-        if (isset($this->event)) {
-
-            $this->handleEventTransaction($this->transaction);
-
-        }
-
-        if ($this->visitor_has_member_id) {
-            $this->handleMemberTransaction($this->transaction, Member::find($this->visitor_has_member_id));
-        }
-
-        if (isset($this->member)) {
-
-            $this->handleMemberTransaction($this->transaction, $this->member);
-
-        }
 
         $this->dispatch('updated-payments');
+//        $this->redirect(route('transaction.index'));
 
+    }
+
+    public function submitEventTransaction(): void
+    {
+        $this->checkUser();
+            $this->handleEventTransaction($this->transaction);
+
+        if ($this->visitor_has_member_id) {
+            $this->handleMemberTransaction($this->transaction, Member::find($this->visitor_has_member_id), true);
+        }
+    }
+
+    public function submitMemberTransaction(): void
+    {
+        if (isset($this->member)) {
+            $this->handleMemberTransaction($this->transaction, $this->member);
+        }
     }
 
     protected function handleTransaction(): Transaction
     {
-        $transaction =  isset($this->transaction)
-            ? UpdateTransaction::handle($this->transaction)
-            : CreateTransaction::handle($this->form);
 
-        $this->form->id = $transaction->id;
+        if (isset($this->transaction)){
 
-        if(isset($this->receiptForm->file_name)){
+            UpdateTransaction::handle($this->transaction);
+             $this->tmp_transaction_id = $this->transaction->id;
+            Flux::toast(
+                text: 'Die Buchung '.$this->transaction->label.' wurde aktualisiert',
+                heading: 'Erfolg',
+                variant: 'success',
+            );
+
+        } else{
+
+            $this->transaction = CreateTransaction::handle($this->form);
+            Flux::toast(
+                text: 'Die Buchung '.$this->transaction->label.' wurde erfasst',
+                heading: 'Erfolg',
+                variant: 'success',
+            );
+        }
+
+
+
+        if (isset($this->receiptForm->file_name)) {
             $this->submitReceipt();
         }
 
-        Flux::toast(
-            heading: 'Erfolg',
-            text: 'Die Buchung wurde erfasst',
-            variant: 'success',
-        );
 
-        return $transaction;
 
+        return $this->transaction;
     }
 
-    protected function handleEventTransaction(Transaction $transaction): void
+    protected function handleEventTransaction()
     {
         $this->validate([
-            'event'        => 'required',
-            'visitor_name' => 'required',
-            'gender'       => 'required',
+            'form.account_id' => ['required','doesnt_start_with:new'],
+            'transaction.id' => 'unique:event_transactions,transaction_id',
+            'event'          => 'required',
+            'visitor_name'   => 'required',
+            'gender'         => 'required',
         ], [
+            'form.account_id.required'        => 'Bitte Zahlungskonto angeben',
+            'form.account_id.doesnt_start_with'        => 'Bitte Zahlungskonto angeben oder anlegen',
             'event.required'        => 'Event is required.',
             'visitor_name.required' => 'Der Gast hat noch keinen Namen',
+            'transaction.id.unique' => 'Diese Buchung wurde bereits vergeben.',
         ]);
 
-        try {
-            CreateEventTransaction::handle($transaction, $this->event, $this->visitor_name, $this->gender);
 
-            Flux::toast(
-                heading: 'Erfolg',
-                text: 'Die Buchung für die Veranstaung wurde erfasst',
-                variant: 'success',
-            );
-        } catch (\Throwable $e) {
-            Flux::toast(
-                heading: 'Fehler',
-                text: 'Die Transaktion konnte nicht gespeichert werden: '.$e->getMessage(),
-                variant: 'error',
-            );
+  /*      if (isset($this->transaction)){
+            try {
+                UpdateEventTransaction::handle($this->transaction,$this->event, $this->visitor_name, $this->gender );
+                Flux::toast(
+                    text: 'Die Buchung '.$this->transaction->label.' wurde aktualisiert',
+                    heading: 'Erfolg',
+                    variant: 'success',
+                );
+            } catch (\Throwable $e) {
+                Flux::toast(
+                    text: 'Die Transaktion konnte nicht gespeichert werden: '.$e->getMessage(),
+                    heading: 'Fehler',
+                    duration: 0,
+                    variant: 'error',
+                );
+                Log::error('Transaction creation failed', ['error' => $e->getMessage()]);
+            }
 
-            // Optional: Log the error
-            Log::error('Transaction creation failed', ['error' => $e->getMessage()]);
+
+        } else{*/
+            try {
+                if (isset($this->receiptForm->file_name)) {
+                    $this->transaction =  CreateEventTransaction::handle($this->form, $this->event, $this->visitor_name, $this->gender);
+                    $this->submitReceipt();
+                } else {
+                    CreateEventTransaction::handle($this->form, $this->event, $this->visitor_name, $this->gender);
+                }
+
+                Flux::toast(
+                    text: 'Die Buchung für die Veranstaung wurde erfasst',
+                    heading: 'Erfolg',
+                    variant: 'success',
+                );
+
+
+            } catch (\Throwable $e) {
+                Flux::toast(
+                    text: 'Die Transaktion konnte nicht gespeichert werden: '.$e->getMessage(),
+                    heading: 'Fehler',
+                    duration: 0,
+                    variant: 'error',
+                );
+                Log::error('Transaction creation failed', ['error' => $e->getMessage()]);
+            }
+//        }
+
+
+        if (isset($this->receiptForm->file_name)) {
+            $this->submitReceipt();
         }
+
+        return $this->transaction;
+
+
+
     }
 
-    protected function handleMemberTransaction(Transaction $transaction, Member $member): void
+    protected function handleMemberTransaction(Transaction $transaction, Member $member, bool $is_event_transaction = false): void
     {
-        $id = $this->visitor_has_member_id || $member->id;
 
         try {
             CreateMemberTransaction::handle($transaction, $member);
-            Flux::toast(
-                heading: 'Erfolg',
-                text: 'Die Buchung des Mitgliedsbeitrages wurde erfasst',
-                variant: 'success',
-            );
+
+            if (! $is_event_transaction) {
+                Flux::toast(
+                    text: 'Die Buchung des Mitgliedsbeitrages wurde erfasst',
+                    heading: 'Erfolg',
+                    variant: 'success',
+                );
+            }
+
         } catch (\Throwable $e) {
             Flux::toast(
-                heading: 'Fehler',
                 text: 'Die Transaktion konnte nicht gespeichert werden: '.$e->getMessage(),
+                heading: 'Fehler',
                 variant: 'error',
             );
 
@@ -219,36 +277,31 @@ class Form extends Component
             Log::error('Transaction creation failed', ['error' => $e->getMessage()]);
         }
     }
-
-
 
 
     public function submitReceipt(): void
     {
-
-
-        if (empty($this->form->id)) {
+        if (empty($this->transaction->id)) {
             Flux::modal('missing-transaction-modal')
                 ->show();
             return;
         }
 
-        $this->receiptForm->updateFile($this->form->id);
+        $this->receiptForm->updateFile($this->transaction->id);
 
         $this->previewImagePath = storage_path('app/private/accounting/receipts/previews/'.pathinfo($this->receiptForm->file_name, PATHINFO_FILENAME).'.png');
 
-    //    $this->dispatch('edit-transaction');
+        //    $this->dispatch('edit-transaction');
 
         $this->reset('receiptForm');
 
 
         Flux::toast(
-            heading: 'Erfolg',
             text: 'Der Beleg wurde eingereicht',
+            heading: 'Erfolg',
             variant: 'success',
         );
     }
-
 
 
     public function fileDropped($file)
@@ -275,23 +328,21 @@ class Form extends Component
                 ->missing('accounting/receipts/previews/'.$file)) {
             $this->dispatch('receipt-deleted');
             Flux::toast(
-                heading: 'Erfolg',
                 text: 'Die Datei wurde gelöscht',
+                heading: 'Erfolg',
                 variant: 'success',
             );
         }
 
         $this->dispatch('edit-transaction');
-
     }
 
-    public function resetTransactionForm():void
+    public function resetTransactionForm(): void
     {
-       $this->form->reset();
+        $this->form->reset();
         $this->form->type = TransactionType::Withdrawal->value;
         $this->form->vat = 19;
         $this->form->date = now()->format('Y-m-d');
-
     }
 
     public function addAccount(): void
@@ -334,8 +385,8 @@ class Form extends Component
             $this->authorize('create', Account::class);
         } catch (AuthorizationException $e) {
             Flux::toast(
-                heading: 'Forbidden',
                 text: 'Sie haben keine Berechtigungen zur Erstellung von Konten'.$e->getMessage(),
+                heading: 'Forbidden',
                 variant: 'danger',
             );
             return;

@@ -24,7 +24,7 @@ class Page extends Component
     public $sortBy = 'date';
     public $sortDirection = 'desc';
     public Event $event;
-public $tab = 'payments';
+public $tab = 'dates';
     protected $listeners = ['updated-payments' => 'payments'];
 
     public function sort($column)
@@ -68,8 +68,8 @@ public $tab = 'payments';
             $this->authorize('update', $this->form->event);
         } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
             Flux::toast(
-                heading: 'Forbidden',
                 text: 'You have no permission to edit this member! '.$e->getMessage(),
+                heading: 'Forbidden',
                 variant: 'danger',
             );
             return;
@@ -82,8 +82,8 @@ public $tab = 'payments';
     {
         if ($this->form->storeImage($file)) {
             Flux::toast(
-                heading: __('event.store_image.success.title'),
                 text: __('event.store_image.success.content'),
+                heading: __('event.store_image.success.title'),
                 variant: 'success',
             );
         } else {
@@ -98,8 +98,8 @@ public $tab = 'payments';
     {
         if ($this->form->deleteImage()) {
             Flux::toast(
-                heading: __('event.delete_image.success.title'),
                 text: __('event.delete_image.success.content'),
+                heading: __('event.delete_image.success.title'),
                 variant: 'success',
             );
         } else {

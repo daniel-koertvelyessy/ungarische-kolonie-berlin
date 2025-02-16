@@ -11,18 +11,27 @@ use Illuminate\Support\Facades\DB;
 
 class CreateEventTransaction
 {
-    /**
-     * @param  Transaction  $transaction
-     * @param  Event  $event
-     * @param $name
-     * @param $gender
-     * @return bool
-     * @throws \Throwable
-     */
-    public static function handle(Transaction $transaction, Event $event, $name, $gender): bool
+    public static function handle(TransactionForm $form, Event $event, $name, $gender): Transaction
     {
-        DB::transaction(function () use ($transaction, $event, $name, $gender)
+      return  DB::transaction(function () use ($form, $event, $name, $gender)
         {
+
+            $transaction = Transaction::create([
+                'date'               => $form->date,
+                'label'              => $form->label,
+                'reference'          => $form->reference,
+                'description'        => $form->description,
+                'amount_gross'       => Account::makeCentInteger($form->amount_gross),
+                'vat'                => $form->vat,
+                'tax'                => Account::makeCentInteger($form->tax),
+                'amount_net'         => Account::makeCentInteger($form->amount_net),
+                'account_id'         => $form->account_id,
+                'booking_account_id' => $form->booking_account_id,
+                'type'               => $form->type,
+                'status'             => $form->status,
+            ]);
+
+
 
             EventTransaction::create([
                 'visitor_name'   => $name,
@@ -31,7 +40,7 @@ class CreateEventTransaction
                 'event_id'       => $event->id,
             ]);
 
-            return true;
+            return $transaction;
         });
 
 

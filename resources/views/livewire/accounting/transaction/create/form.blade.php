@@ -8,7 +8,7 @@
         <div class="grid grid-cols-1 gap-3 lg:grid-cols-2 lg:gap-6">
 
             <flux:card>
-                <form wire:submit="submitTransaction">
+                <form>
                     <section class="space-y-6">
                         <section class="grid grid-cols-1 lg:grid-cols-2 gap-3">
                             <flux:radio.group wire:model="form.type"
@@ -124,6 +124,7 @@
 
                             <flux:input wire:model="form.vat"
                                         label="MWSt [%]"
+                                        @change="updateValuesFromGross"
                             />
 
                             <flux:input wire:model="form.tax"
@@ -172,11 +173,25 @@
 
 
                             <flux:spacer/>
+                            <flux:error name="transaction.id" />
                             <flux:button wire:click="resetTransactionForm">Neue Buchung anfangen</flux:button>
-                            <flux:button type="submit"
-                                         variant="primary"
-                            >Buchung speichern
-                            </flux:button>
+                            @if(isset($event))
+                                <flux:button wire:click="submitEventTransaction"
+                                             variant="primary"
+                                >Buchung speichern
+                                </flux:button>
+                            @elseif(isset($member))
+                                <flux:button wire:click="submitMemberTransaction"
+                                             variant="primary"
+                                >Buchung speichern
+                                </flux:button>
+                            @else
+                                <flux:button wire:click="submitTransaction"
+                                             variant="primary"
+                                >Buchung speichern
+                                </flux:button>
+                            @endif
+
                         </div>
                     </section>
                 </form>
@@ -351,6 +366,7 @@
 
                         this.$wire.form.amount_gross = this.maskInput(n * entry_fee)
                     },
+
                     updateValuesFromGross() {
                         let gross = this.updateCents($wire.form.amount_gross) / 100; // Convert cents to euros
                         let vat = this.$wire.form.vat;
@@ -545,5 +561,6 @@
         </flux:modal>
     </aside>
 
+    @dump($transaction)
 
 </div>

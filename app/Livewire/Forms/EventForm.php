@@ -57,10 +57,10 @@ class EventForm extends Form
         $this->venue_id = $this->event->venue_id;
     }
 
-    public function create()
+    public function create():Event
     {
         $this->validate();
-        CreateEvent::handle($this);
+       return CreateEvent::handle($this);
     }
 
     protected function rules(): array
@@ -68,8 +68,8 @@ class EventForm extends Form
         return [
             'venue_id'             => 'nullable|exists:venues,id',
             'event_date'           => 'nullable|date',
-            'start_time'           => 'nullable',
-            'end_time'             => 'required_with:event_date|nullable',
+            'start_time'           => 'required_with:event_date',
+            'end_time'             => 'required_with:event_date',
             'title.*'              => [  // Using wildcard for each locale key
                                          'required',
                                          new UniqueJsonSlug('events', 'title', $this->id)
@@ -103,8 +103,8 @@ class EventForm extends Form
 
         if ($this->event->save()) {
             Flux::toast(
-                heading: __('event.update.success.title'),
                 text: __('event.update.success.content'),
+                heading: __('event.update.success.title'),
                 variant: 'success',
             );
         }

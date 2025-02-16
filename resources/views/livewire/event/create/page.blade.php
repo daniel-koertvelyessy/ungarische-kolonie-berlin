@@ -56,7 +56,7 @@
             @endforeach
 
             <flux:card class="col-span-1">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
                     <flux:field class="space-y-6">
                         <flux:input type="date"
                                     wire:model="form.event_date"
@@ -102,7 +102,7 @@
                         <flux:input wire:model="form.payment_link" label="{{ __('event.form.payment_link') }}" />
                     </flux:fieldset>
 
-                    <section class="col-span-3 space-y-6">
+                    <section class="space-y-6">
                         <flex:field class="space-y-2">
                             <flux:label>{{__('event.form.venue_id')}}</flux:label>
 
@@ -176,4 +176,6 @@
         <livewire:venue.create.page/>
 
     </flux:modal>
+
+
 </div>

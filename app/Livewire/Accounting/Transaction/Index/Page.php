@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Accounting\Transaction\Index;
 
+use App\Actions\Accounting\AppendEventTransaction;
+use App\Actions\Accounting\AppendMemberTransaction;
 use App\Actions\Accounting\CreateEventTransaction;
 use App\Actions\Accounting\CreateMemberTransaction;
 use App\Enums\DateRange;
@@ -35,8 +37,9 @@ class Page extends Component
     protected $listeners = ['transaction-updated'];
     public ReceiptForm $receipt;
     public ?Transaction $transaction = null;
-
+    #[Url]
     public $sortBy = 'date';
+    #[Url]
     public $sortDirection = 'desc';
 
     public $search;
@@ -179,18 +182,18 @@ class Page extends Component
     {
         $this->checkUser();
         $this->validate([
-            'transaction.id'       => ['unique:event_transactions,transaction_id'],
-            'target_event' => 'required',
+            'transaction.id'     => ['unique:event_transactions,transaction_id'],
+            'target_event'       => 'required',
             'event_visitor_name' => '',
             'event_gender'       => ['nullable', Rule::enum(Gender::class)]
         ], [
-            'target_event.required'        => 'Bitte eine Veranstaltung auswählen',
+            'target_event.required' => 'Bitte eine Veranstaltung auswählen',
             'transaction.id.unique' => 'Buchung ist bereits der Veranstaltung zugeordnnet worden',
         ]);
 
         $event = Event::findOrFail($this->target_event);
 
-        if (CreateEventTransaction::handle($this->transaction, $event, $this->event_visitor_name, $this->event_gender)) {
+        if (AppendEventTransaction::handle($this->transaction, $event, $this->event_visitor_name, $this->event_gender)) {
             Flux::toast(
                 text: 'Die Buchung wurde erfolgreich zugeordnet',
                 heading: 'Erfolg',
@@ -205,24 +208,23 @@ class Page extends Component
     {
         $this->checkUser();
         $this->validate([
-            'transaction.id'       => ['unique:member_transactions,transaction_id'],
-            'target_member' => 'required'
+            'transaction.id' => ['unique:member_transactions,transaction_id'],
+            'target_member'  => 'required'
         ], [
-            'target_member.required'         => 'Bitte ein Mitglied auswählen',
-            'transaction.id.unique' => 'Buchung ist bereits einem Mitglied zugeordnnet worden',
+            'target_member.required' => 'Bitte ein Mitglied auswählen',
+            'transaction.id.unique'  => 'Buchung ist bereits einem Mitglied zugeordnnet worden',
         ]);
 
         $member = Member::findOrFail($this->target_member);
 
-        CreateMemberTransaction::handle($this->transaction, $member);
-            Flux::toast(
-                text: 'Die Buchung wurde erfolgreich zugeordnet',
-                heading: 'Erfolg',
-                variant: 'sucess',
-            );
-            Flux::modal('append-to-member-transaction')
-                ->close();
-
+        AppendMemberTransaction::handle($this->transaction, $member);
+        Flux::toast(
+            text: 'Die Buchung wurde erfolgreich zugeordnet',
+            heading: 'Erfolg',
+            variant: 'sucess',
+        );
+        Flux::modal('append-to-member-transaction')
+            ->close();
     }
 
     protected function checkUser(): void

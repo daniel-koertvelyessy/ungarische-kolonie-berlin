@@ -77,7 +77,7 @@
 
 
                     <flux:cell class="hidden sm:table-cell">
-                        {{ $event->event_date->format('Y-m-d') }}
+                        {{ optional($event->event_date)->format('Y-m-d') }}
                     </flux:cell>
 
                     <flux:cell class="hidden sm:table-cell">
@@ -91,7 +91,7 @@
                     <flux:cell class=" hidden lg:table-cell"
                                variant="strong"
                     >
-                        {{ $event->venue->name }}
+                        {{ optional( $event->venue)->name }}
                     </flux:cell>
                     <flux:cell>
                         <flux:badge color="{{ \App\Enums\EventStatus::color($event->status) }}">{{ \App\Enums\EventStatus::value($event->status) }}</flux:badge>

@@ -97,9 +97,9 @@
             >Erfolgt am
             </flux:column>
             <flux:column sortable
-                         :sorted="$sortBy === 'created_at'"
+                         :sorted="$sortBy === 'created'"
                          :direction="$sortDirection"
-                         wire:click="sort('created')"
+                         wire:click="sort('created_at')"
                          class="hidden md:table-cell"
             >Eingereicht
             </flux:column>
@@ -112,7 +112,7 @@
             </flux:column>
             <flux:column align="right"
                          sortable
-                         :sorted="$sortBy === 'amount_gross'"
+                         :sorted="$sortBy === 'amount'"
                          :direction="$sortDirection"
                          wire:click="sort('amount_gross')"
             >Betrag [EUR]
