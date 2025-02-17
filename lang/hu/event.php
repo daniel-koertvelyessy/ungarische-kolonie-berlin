@@ -15,6 +15,27 @@ return array(
 
     'show.title' => "Esemény áttekintése",
 
+    'subscribe' => "Érdekel?",
+    "subscription.title" => "Esemény követése",
+    "subscription.text" => "Nagyon örülünk, hogy érdeklődsz az esemény iránt. A jobb tervezés érdekében kérünk, hogy töltsd ki az alábbi űrlapot. Így jobb áttekintést kapunk a várható látogatószámról.",
+    "subscription.consent" => "Ezenkívül ezt az e-mail címet felhasználhatjuk arra, hogy értesítsünk a változásokról. Kérlek, engedélyezd ezt a lehetőséget, ha szeretnéd megkapni az értesítéseket.",
+    "subscription.consent.label" => "Igen, kérek értesítéseket erről az eseményről.",
+    "subscription.confirm_subscription_message" => "Köszönjük! Egy visszaigazoló e-mailt küldtünk neked.",
+    "subscription.submit-button.label" => "Esemény követése",
+    "subscription.subscribe-button.label" => "Részvétel jelzése",
+    "subscription.disclaimer.header" => "Fontos megjegyzés",
+    "subscription.disclaimer.body" => "Ezeket az adatokat kizárólag az esemény szervezéséhez használjuk fel, és az esemény után töröljük.",
+    "subscription.mail.text" => "Kérlek, erősítsd meg az eseményre való jelentkezésedet az alábbi linkre kattintva:",
+    "subscription.mail.link.label" => "Most megerősítem",
+    "subscription.mail.bring_a_guest" => "Örülünk, hogy :num vendéget hozol magaddal.",
+    "subscription.mail.notification" => "Értesítünk, ha változások történnek.",
+    "subscription.mail.ignore" => "Ha nem jelentkeztél, hagyd figyelmen kívül ezt az e-mailt.",
+
+    'name.required' => 'Kérlek, add meg a neved!',
+    'email.required' => 'Szükségünk van az e-mail címedre.',
+    'email.unique' => 'Ellenőrizd, hogy kaptál-e már tőlünk e-mailt.',
+
+
     "index.title" => "Cím",
     "index.table.header.title" => "Cím",
     "index.table.header.image" => "Címkép",

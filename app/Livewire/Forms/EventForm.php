@@ -99,6 +99,7 @@ class EventForm extends Form
         $this->event->entry_fee_discounted = $this->entry_fee_discounted;
         $this->event->venue_id = $this->venue_id;
         $this->event->payment_link = $this->payment_link;
+        $this->event->status = $this->status;
 
 
         if ($this->event->save()) {

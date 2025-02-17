@@ -197,7 +197,55 @@
         </flux:tab.panel>
 
         <flux:tab.panel name="subscriptions">
-            Meldungen
+            <flux:table :paginate="$this->subscriptions">
+                <flux:columns>
+                    <flux:column>Name</flux:column>
+                    <flux:column sortable :sorted="$sortBy === 'date'" :direction="$sortDirection" wire:click="sort('date')">Datum</flux:column>
+                    <flux:column sortable :sorted="$sortBy === 'status'" :direction="$sortDirection" wire:click="sort('status')">E-Mail</flux:column>
+                    <flux:column sortable :sorted="$sortBy === 'amount'" :direction="$sortDirection" wire:click="sort('amount')">Benachritigungen</flux:column>
+                    <flux:column sortable :sorted="$sortBy === 'amount'" :direction="$sortDirection" wire:click="sort('amount')">Telefon</flux:column>
+                    <flux:column sortable :sorted="$sortBy === 'amount'" :direction="$sortDirection" wire:click="sort('amount')"># Gäste</flux:column>
+                    <flux:column sortable :sorted="$sortBy === 'amount'" :direction="$sortDirection" wire:click="sort('amount')">E-Mail bestätigt am</flux:column>
+                </flux:columns>
+
+                <flux:rows>
+                    @forelse ($this->subscriptions as $subscription)
+                        <flux:row :key="$subscription->id">
+                            <flux:cell>
+                                {{ $subscription->name }}
+                            </flux:cell>
+                            <flux:cell>
+                                {{ $subscription->created_at->diffForHumans() }}
+                            </flux:cell>
+                            <flux:cell>
+                                {{ $subscription->email }}
+                            </flux:cell>
+                            <flux:cell>
+                                @if($subscription->consentNotification)
+                                    <flux:icon.check-circle class="size-4 text-lime-700" />
+                                @else
+                                    <flux:icon.minus-circle class="size-4 text-orange-700" />
+                                @endif
+                            </flux:cell>
+                            <flux:cell>
+                                {{ $subscription->phone }}
+                            </flux:cell>
+                            <flux:cell>
+                                {{ $subscription->amount_guests }}
+                            </flux:cell>
+                            <flux:cell>
+                                {{ optional($subscription->confirmed_at)->diffForHumans() }}
+                            </flux:cell>
+
+
+                        </flux:row>
+                    @empty
+
+                    @endforelse
+                </flux:rows>
+            </flux:table>
+
+
         </flux:tab.panel>
 
         <flux:tab.panel name="payments">

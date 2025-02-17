@@ -6,6 +6,7 @@ use App\Models\Accounting\Transaction;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Event extends Model
 {
@@ -47,6 +48,10 @@ class Event extends Model
         return $this->belongsTo(Venue::class);
     }
 
+    public function subscriptions(): HasMany
+    {
+        return $this->hasMany(EventSubscription::class);
+    }
 
 
 }

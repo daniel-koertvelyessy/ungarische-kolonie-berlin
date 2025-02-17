@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\RegisterController;
 use App\Models\Event;
+use App\Models\EventSubscription;
 use App\Models\Membership\Member;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -13,12 +14,13 @@ use Illuminate\Support\Str;
 //use Spatie\Browsershot\Browsershot;
 
 
-Route::get('/mailer-test',function(){
-
+Route::get('/mailer-test', function ()
+{
     app()->setLocale('hu');
 
-    return view('emails.invitation',['member'=> Member::find(1)]);
-})->name('mail-tester');
+    return view('emails.invitation', ['member' => Member::find(1)]);
+})
+    ->name('mail-tester');
 
 Route::get('lang/{locale}', function ($locale)
 {
@@ -29,31 +31,40 @@ Route::get('lang/{locale}', function ($locale)
 
 Route::get('/', function ()
 {
-
     return view('welcome', [
-        'events' => \App\Models\Event::with('venue')
-            ->where('status','=', \App\Enums\EventStatus::PUBLISHED)
-            ->whereBetween('event_date', [Carbon::today(), Carbon::now()->endOfYear()])
+        'events'         => \App\Models\Event::with('venue')
+            ->where('status', '=', \App\Enums\EventStatus::PUBLISHED)
+            ->whereBetween('event_date', [
+                Carbon::today(), Carbon::now()
+                    ->endOfYear()
+            ])
             ->take(3)
             ->get(),
-        'events_total'  => \App\Models\Event::whereBetween('event_date', [Carbon::today(), Carbon::now()->endOfDecade()])
-            ->where('status','=', \App\Enums\EventStatus::PUBLISHED->value)
+        'events_total'   => \App\Models\Event::whereBetween('event_date', [
+            Carbon::today(), Carbon::now()
+                ->endOfDecade()
+        ])
+            ->where('status', '=', \App\Enums\EventStatus::PUBLISHED->value)
             ->get()
             ->count(),
-        'articles' => \App\Models\Article::take(3)->get(),
-        'articles_total' => \App\Models\Article::all()->count(),
+        'articles'       => \App\Models\Article::take(3)
+            ->get(),
+        'articles_total' => \App\Models\Article::all()
+            ->count(),
     ]);
-})->name('home');
+})
+    ->name('home');
 
 Route::get('/events', function ()
 {
     return view('events.index', [
         'events' => \App\Models\Event::orderBy('event_date')
-            ->where('status','=', \App\Enums\EventStatus::PUBLISHED->value)
+            ->where('status', '=', \App\Enums\EventStatus::PUBLISHED->value)
             ->paginate(5),
         'locale' => App::getLocale()
     ]);
-})->name('events');
+})
+    ->name('events');
 
 Route::get('/events/{slug}', function (string $slug)
 {
@@ -63,7 +74,8 @@ Route::get('/events/{slug}', function (string $slug)
             ->firstOrFail(),
         'locale' => App::getLocale()
     ]);
-})->name('events.show');
+})
+    ->name('events.show');
 
 Route::get('/articles', \App\Livewire\Article\Index\Page::class)
     ->name('articles.index');
@@ -78,9 +90,8 @@ Route::get('/ics/{slug}', function (string $slug)
     // Combine the event_date with start_time to form a full DateTime string
 
 
-    $startDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $event->event_date->format('Y-m-d') . ' ' . $event->start_time->format('H:i:s'),'Europe/Berlin');
-    $endDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $event->event_date->format('Y-m-d') . ' ' . $event->end_time->format('H:i:s'),'Europe/Berlin');
-
+    $startDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $event->event_date->format('Y-m-d').' '.$event->start_time->format('H:i:s'), 'Europe/Berlin');
+    $endDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $event->event_date->format('Y-m-d').' '.$event->end_time->format('H:i:s'), 'Europe/Berlin');
 
 
     // Convert to UTC timezone
@@ -92,40 +103,41 @@ Route::get('/ics/{slug}', function (string $slug)
     $endFormatted = $endDateTime->format('Ymd\THis\Z');
 
     $title = $event->title[$locale] ?? 'Untitled Event';
-    $description = Str::limit($event->description[$locale] , 50, ' ..', true);
+    $description = Str::limit($event->description[$locale], 50, ' ..', true);
     $location = $event->location ?? 'Event Location';
 
     // Generate a unique UID (could be based on event data or UUID)
-    $uid = uniqid('event_', true) . '@ungarische-kolonie-berlin.org';
+    $uid = uniqid('event_', true).'@ungarische-kolonie-berlin.org';
 
     // Get current date and time for DTSTAMP
-    $dtStamp = Carbon::now('UTC')->format('Ymd\THis\Z');
+    $dtStamp = Carbon::now('UTC')
+        ->format('Ymd\THis\Z');
 
     // Create ICS content with CRLF line breaks
     $icsContent = "BEGIN:VCALENDAR\r\n";
     $icsContent .= "VERSION:2.0\r\n";
     $icsContent .= "PRODID:-//Your Company//NONSGML v1.0//EN\r\n";
     $icsContent .= "BEGIN:VEVENT\r\n";
-    $icsContent .= "SUMMARY:" . $title . "\r\n";
-    $icsContent .= "LOCATION:" . $location . "\r\n";
-    $icsContent .= "DTSTART:" . $startFormatted . "\r\n";
-    $icsContent .= "DTEND:" . $endFormatted . "\r\n";
+    $icsContent .= "SUMMARY:".$title."\r\n";
+    $icsContent .= "LOCATION:".$location."\r\n";
+    $icsContent .= "DTSTART:".$startFormatted."\r\n";
+    $icsContent .= "DTEND:".$endFormatted."\r\n";
     $icsContent .= "DESCRIPTION:$description\r\n";
     $icsContent .= "STATUS:CONFIRMED\r\n";
-    $icsContent .= "DTSTAMP:" . $dtStamp . "\r\n";  // Add DTSTAMP property
-    $icsContent .= "UID:" . $uid . "\r\n";  // Add UID property
+    $icsContent .= "DTSTAMP:".$dtStamp."\r\n";  // Add DTSTAMP property
+    $icsContent .= "UID:".$uid."\r\n";  // Add UID property
     $icsContent .= "END:VEVENT\r\n";
     $icsContent .= "END:VCALENDAR\r\n";
 
 
     // Create and store the .ics file
-    $fileName = 'event_' . $event->event_date->format('Y-m-d') . '.ics';
+    $fileName = 'event_'.$event->event_date->format('Y-m-d').'.ics';
 //    Storage::disk('public')->put($fileName, $icsContent);
 
     // Alternatively, return the file as a response for immediate download
     return response($icsContent, 200)
         ->header('Content-Type', 'text/calendar')
-        ->header('Content-Disposition', 'attachment; filename="' . $fileName . '"');
+        ->header('Content-Disposition', 'attachment; filename="'.$fileName.'"');
 });
 
 Route::get('/impressum', function ()
@@ -150,9 +162,9 @@ Route::get('/print-member-application/{member}', function (\App\Models\Membershi
     $pdf = new TCPDF();
 
     // Set document information
-    $pdf->SetTitle( __('members.apply.print.title') );
+    $pdf->SetTitle(__('members.apply.print.title'));
     $pdf->SetSubject(__('members.apply.print.title'));
-    $pdf->setMargins(24,10,10);
+    $pdf->setMargins(24, 10, 10);
     $pdf->setPrintHeader(false);
     $pdf->setPrintFooter(false);
     // Add a page
@@ -164,21 +176,21 @@ Route::get('/print-member-application/{member}', function (\App\Models\Membershi
     $pdf->Output($filename, 'D');
 
     return $this->redirect(route('home'));
+    /*    $filePath = 'members/applications/tmp/'.$filename; // Define the file path
+        Storage::disk('local')
+            ->put($filePath, $pdf);
+        if (Storage::disk('local')
+            ->exists($filePath)) {
+            return Storage::disk('local')
+                ->download($filePath, $filename);
+        }
 
-/*    $filePath = 'members/applications/tmp/'.$filename; // Define the file path
-    Storage::disk('local')
-        ->put($filePath, $pdf);
-    if (Storage::disk('local')
-        ->exists($filePath)) {
-        return Storage::disk('local')
-            ->download($filePath, $filename);
-    }
-
-    abort(404, 'File not found');*/
+        abort(404, 'File not found');*/
 })
     ->name('members.print_application');
 
-Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])
+    ->name('register');
 Route::post('/register', [RegisterController::class, 'create']);
 
 Route::middleware([
@@ -209,9 +221,12 @@ Route::middleware([
         Route::get('/accounting', \App\Livewire\Accounting\Index\Page::class)
             ->name('accounting.index');
 
-        Route::get('/transaction', \App\Livewire\Accounting\Transaction\Create\Page::class)->name('transaction.create');
-        Route::get('/transactions', \App\Livewire\Accounting\Transaction\Index\Page::class)->name('transaction.index');
-        Route::get('/accounts', \App\Livewire\Accounting\Account\Index\Page::class)->name('accounts.index');
+        Route::get('/transaction', \App\Livewire\Accounting\Transaction\Create\Page::class)
+            ->name('transaction.create');
+        Route::get('/transactions', \App\Livewire\Accounting\Transaction\Index\Page::class)
+            ->name('transaction.index');
+        Route::get('/accounts', \App\Livewire\Accounting\Account\Index\Page::class)
+            ->name('accounts.index');
 
 
         Route::get('/dashboard', function ()
@@ -221,15 +236,15 @@ Route::middleware([
             ->name('dashboard');
 
 
-        Route::get('/secure-image/{filename}', function (Request $request, $filename) {
+        Route::get('/secure-image/{filename}', function (Request $request, $filename)
+        {
             // Ensure user is authenticated
             if (!auth()->check()) {
                 abort(403); // Forbidden
             }
 
             // Build full path
-            $path = storage_path('app/private/accounting/receipts/previews/' . pathinfo($filename, PATHINFO_FILENAME).'.png');
-
+            $path = storage_path('app/private/accounting/receipts/previews/'.pathinfo($filename, PATHINFO_FILENAME).'.png');
 
 
             // Check if file exists
@@ -243,3 +258,22 @@ Route::middleware([
             ]);
         });
     });
+
+Route::get('/event-subscription/confirm/{id}/{token}', function ($id, $token)
+{
+    $subscription = EventSubscription::findOrFail($id);
+
+    $storedToken = cache()->get("event_subscription_{$subscription->id}_token");
+
+    if ($storedToken && $storedToken === $token) {
+        $subscription->update(['confirmed_at' => now()]);
+        cache()->forget("event_subscription_{$subscription->id}_token");
+
+        session()->flash('status', 'Deine Anmeldung wurde bestätigt! 🎉');
+
+        return view('events.show', ['event' => $subscription->event, 'locale' => app()->getLocale()]);
+    }
+
+    abort(403);
+})
+    ->name('event.subscription.confirm');

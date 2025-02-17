@@ -5,6 +5,7 @@ namespace App\Livewire\Event\Show;
 use App\Enums\Locale;
 use App\Livewire\Forms\EventForm;
 use App\Models\Event;
+use App\Models\EventSubscription;
 use App\Models\EventTransaction;
 use App\Models\Membership\MemberTransaction;
 use App\Models\Venue;
@@ -19,12 +20,13 @@ use Livewire\WithPagination;
 class Page extends Component
 {
     use WithPagination;
+
     public EventForm $form;
     public $event_id;
     public $sortBy = 'date';
     public $sortDirection = 'desc';
     public Event $event;
-public $tab = 'dates';
+    public $tab = 'dates';
     protected $listeners = ['updated-payments' => 'payments'];
 
     public function sort($column)
@@ -35,6 +37,12 @@ public $tab = 'dates';
             $this->sortBy = $column;
             $this->sortDirection = 'asc';
         }
+    }
+
+    #[Computed]
+    public function subscriptions()
+    {
+        return EventSubscription::where('event_id', $this->event_id)->paginate(10);
     }
 
     #[Computed]

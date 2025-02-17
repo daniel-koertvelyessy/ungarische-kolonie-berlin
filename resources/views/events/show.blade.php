@@ -69,6 +69,15 @@
                             />
                         </dd>
                     </div>
+
+                    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                        <dt class="text-sm/6 font-medium text-gray-900 dark:text-emerald-400">{{ __('event.subscribe') }}</dt>
+                        <dd class="mt-1 text-sm/6 text-gray-700 dark:text-gray-100 sm:col-span-2 sm:mt-0">
+                            <flux:modal.trigger name="subscribe-event">
+                                <flux:button variant="primary" icon-trailing="user-plus">{{ __('event.subscription.subscribe-button.label') }}</flux:button>
+                            </flux:modal.trigger>
+                        </dd>
+                    </div>
                     @if($event->payment_link)
 
                         <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -87,4 +96,8 @@
         </aside>
     </div>
 
+
+    <flux:modal name="subscribe-event" class="md:w-96 space-y-6" variant="flyout" position="right">
+        <livewire:event.subscription.create.form :event-id="$event->id" />
+    </flux:modal>
 </x-guest-layout>

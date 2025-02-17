@@ -58,6 +58,11 @@ class Page extends Component
     public $event_visitor_name;
     public $event_gender;
 
+
+    public $changeTextLabel;
+    public $changeTextReference;
+    public $changeTextDescription;
+
     public function sort($column): void
     {
         if ($this->sortBy === $column) {
@@ -239,6 +244,36 @@ class Page extends Component
             );
             return;
         }
+    }
+
+    public function editTransactionText(int $transaction_id): void {
+        $this->transaction = Transaction::findOrFail($transaction_id);
+
+        $this->changeTextLabel = $this->transaction->label;
+        $this->changeTextReference = $this->transaction->reference;
+        $this->changeTextDescription = $this->transaction->description;
+
+        Flux::modal('edit-transaction-text')->show();
+    }
+
+    public function changeTransactionText():void
+    {
+        $this->checkUser();
+
+        if($this->transaction->update([
+            'label' => $this->changeTextLabel,
+            'reference' => $this->changeTextReference,
+            'description' => $this->changeTextDescription,
+        ])){
+            Flux::toast(
+                text: __('transaction.edit-text-modal.update-success.text'),
+                heading: __('transaction.edit-text-modal.update-success.heading'),
+                variant: 'success',
+            );
+            Flux::modal('edit-transaction-text')->close();
+
+        }
+
     }
 
     public function render()

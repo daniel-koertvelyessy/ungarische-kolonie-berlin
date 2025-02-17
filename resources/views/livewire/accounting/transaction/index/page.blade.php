@@ -134,9 +134,30 @@
             @forelse ($this->transactions as $item)
 
                 <flux:row :key="$item->id">
-                    <flux:cell variant="strong">
+                    <flux:cell variant="strong" class="flex items-center justify-start">
                         <span class="lg:hidden inline-block">{{ \Illuminate\Support\Str::limit($item->label,10,' ..') }}</span>
                         <span class="hidden lg:inline-block">{{ $item->label}}</span>
+
+                        @if($item->reference)
+                            <flux:tooltip toggleable>
+                                <flux:button icon="chat-bubble-bottom-center-text" size="xs" variant="ghost" />
+
+                                <flux:tooltip.content class="max-w-[20rem] space-y-2">
+                                    Referenz: {{ $item->reference }}
+                                </flux:tooltip.content>
+                            </flux:tooltip>
+                        @endif
+
+                        @if($item->description)
+                            <flux:tooltip toggleable>
+                                <flux:button icon="document-text" size="xs" variant="ghost" />
+
+                                <flux:tooltip.content class="max-w-[20rem] space-y-2">
+                                    Beschreibung: {{ $item->description }}
+                                </flux:tooltip.content>
+                            </flux:tooltip>
+                        @endif
+
                     </flux:cell>
 
                     <flux:cell class="hidden md:table-cell">{{ $item->date->diffForHumans() }}</flux:cell>
@@ -218,9 +239,13 @@
                                         >Bearbeiten
                                         </flux:menu.item>
                                     @else
-                                        <flux:menu.item icon="trash"
+                                        <flux:menu.item icon="trash" variant="danger"
                                                         wire:click="cancelItem({{ $item->id }})"
                                         >Storno
+                                        </flux:menu.item>
+                                        <flux:menu.item icon="document"
+                                                        wire:click="editTransactionText({{ $item->id }})"
+                                        >Texte ändern
                                         </flux:menu.item>
                                     @endif
                                     <flux:menu.submenu heading="Zuweisen">
@@ -365,6 +390,26 @@
                          type="submit"
             >Mitglied zuordnen
             </flux:button>
+        </form>
+    </flux:modal>
+
+    <flux:modal name="edit-transaction-text"
+                variant="flyout"
+                position="right"
+    >
+        <flux:heading size="lg">{{ __('transaction.edit-text-modal.heading') }}</flux:heading>
+
+        <form wire:submit="changeTransactionText" class="space-y-6">
+
+
+
+            <flux:input wire:model="changeTextLabel" label="{{ __('transaction.edit-text-modal.label') }}" />
+            <flux:input wire:model="changeTextReference" label="{{ __('transaction.edit-text-modal.reference') }}" />
+            <flux:textarea rows="auto" wire:model="changeTextDescription" label="{{ __('transaction.edit-text-modal.description') }}" />
+
+            <flux:button variant="primary"
+                         type="submit"
+            >{{ __('transaction.edit-text-modal.btn.label') }}</flux:button>
         </form>
     </flux:modal>
 
