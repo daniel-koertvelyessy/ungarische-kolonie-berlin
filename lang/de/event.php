@@ -66,6 +66,9 @@ return array(
     'email.required' => 'Wir benötigen Ihre E-Mail Adresse',
     'email.unique'   => 'Überprüfe, ob du schon eine E-Mail von uns erhalten hast.',
 
+    'report.title' => "Veranstalungsbericht",
+    'report.subject' => "Auswertung der Veranstaltung :name",
+
 
     "index.title"              => "Title",
     "index.table.header.title" => "Title",

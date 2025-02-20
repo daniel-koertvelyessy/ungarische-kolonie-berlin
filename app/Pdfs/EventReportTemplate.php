@@ -39,8 +39,8 @@ class EventReportTemplate extends TCPDF
 
 
         // Set document information
-        $this->SetTitle(__('members.apply.print.title'));
-        $this->SetSubject(__('members.apply.print.title'));
+        $this->SetTitle(__('event.report.title'));
+        $this->SetSubject(__('event.visitor.name', ['name' => $event->title[$locale]]));
 
         // Set margins
         $this->SetMargins(23, 30, 15);
