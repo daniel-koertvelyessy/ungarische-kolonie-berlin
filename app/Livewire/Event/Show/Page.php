@@ -131,6 +131,11 @@ class Page extends Component
         }
     }
 
+    public function generateEventReport()
+    {
+
+    }
+
     public function render()
     {
         return view('livewire.event.show.page');

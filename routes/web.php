@@ -4,6 +4,7 @@ use App\Http\Controllers\RegisterController;
 use App\Models\Event\Event;
 use App\Models\Event\EventSubscription;
 use App\Models\Membership\Member;
+use App\Pdfs\EventReportTemplate;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -220,6 +221,83 @@ Route::middleware([
 
         Route::get('/backend-events/{event}', \App\Livewire\Event\Show\Page::class)
             ->name('backend.events.show');
+
+        Route::get('/backend-events/report/{event}', function (Event $event)
+        {
+            $ets = \App\Models\Event\EventTransaction::where('event_id', $event->id)
+                ->with('transaction')
+                ->get();
+
+            $total = 0;
+            $income = 0;
+            $spending = 0;
+            $spendings = \App\Models\Event\EventTransaction::with('transaction.account')
+                ->where('event_id', $event->id)
+                ->whereHas('transaction', function ($query)
+                {
+                    $query->where('type', \App\Enums\TransactionType::Deposit->value);
+                })
+                ->get();
+
+            $incomes = \App\Models\Event\EventTransaction::with('transaction')
+                ->where('event_id', $event->id)
+                ->whereHas('transaction', function ($query)
+                {
+                    $query->where('type', \App\Enums\TransactionType::Withdrawal->value);
+                })
+                ->get();;
+
+            foreach ($ets as $et) {
+                if ($et->transaction->type === \App\Enums\TransactionType::Deposit->value) {
+                    $income += $et->transaction->amount_gross;
+                }
+
+                if ($et->transaction->type === \App\Enums\TransactionType::Withdrawal->value) {
+                    $spending += $et->transaction->amount_gross;
+                }
+            }
+
+            $visitors = \App\Models\Event\EventVisitor::all();
+
+            $html = view('pdf.event-report', [
+                'event'        => $event,
+                'income'       => $income / 100,
+                'incomes'      => $incomes,
+                'spending'     => $spending / 100,
+                'spendings'    => $spendings,
+                'visitors'     => $visitors,
+                'num-visitors' => $visitors->count(),
+            ])->render();
+            $content = "
+        <h1>Event Report: {$event->title['de']}</h1>
+        <p><strong>Income:</strong> €" . number_format($income / 100, 2) . "</p>
+        <p><strong>Spending:</strong> €" . number_format($spending / 100, 2) . "</p>
+        <h2>Visitors</h2>
+        <ul>";
+
+            foreach ($visitors as $visitor) {
+                $content .= "<li>{$visitor['name']}</li>";
+            }
+
+            $content .= "</ul>";
+
+            // Generate the PDF
+            $pdf = new EventReportTemplate(
+                $event,
+                $income / 100,
+                $incomes,
+                $spending / 100,
+                $spendings,
+                $visitors,
+                app()->getLocale()
+            );
+            $pdf->setContent($content);
+
+            $filename = 'event-report-' . $event->title['de'] . '.pdf';
+
+            return $pdf->generatePdf($filename);
+        })
+            ->name('backend.events.report');
 
         Route::get('/accounting', \App\Livewire\Accounting\Index\Page::class)
             ->name('accounting.index');

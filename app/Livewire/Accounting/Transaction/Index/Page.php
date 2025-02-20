@@ -35,7 +35,7 @@ class Page extends Component
     protected $listeners = ['transaction-updated'];
     public ReceiptForm $receipt;
     public ?Transaction $transaction = null;
-#[Url]
+    #[Url]
     public $search;
     #[Url]
     public array $filter_status = ['eingereicht', 'gebucht'];
@@ -140,17 +140,20 @@ class Page extends Component
     public function detachMember(int $member_transaction_id): void
     {
         $this->checkUser();
-        MemberTransaction::findOrFail($member_transaction_id)->delete();
+        MemberTransaction::findOrFail($member_transaction_id)
+            ->delete();
         Flux::toast(
             text: __('transaction.detach-member-success.text'),
             heading: __('transaction.detach-member-success.heading'),
             variant: 'success',
         );
     }
+
     public function detachEvent(int $event_transaction_id): void
     {
         $this->checkUser();
-        if (EventTransaction::findOrFail($event_transaction_id)->delete()){
+        if (EventTransaction::findOrFail($event_transaction_id)
+            ->delete()) {
             Flux::toast(
                 text: __('transaction.detach-event-success.text'),
                 heading: __('transaction.detach-event-success.heading'),
@@ -225,7 +228,6 @@ class Page extends Component
                 ->close();
         }
     }
-
 
 
     public function appendMember(): void

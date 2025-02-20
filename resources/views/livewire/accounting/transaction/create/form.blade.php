@@ -178,12 +178,12 @@
                             @if(isset($event))
                                 <flux:button wire:click="submitEventTransaction"
                                              variant="primary"
-                                >Buchung speichern
+                                >Event-Buchung speichern
                                 </flux:button>
                             @elseif(isset($member))
                                 <flux:button wire:click="submitMemberTransaction"
                                              variant="primary"
-                                >Buchung speichern
+                                >Mitglied-Buchung speichern
                                 </flux:button>
                             @else
                                 <flux:button wire:click="submitTransaction"

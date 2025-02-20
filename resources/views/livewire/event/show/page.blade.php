@@ -346,6 +346,8 @@
                     <flux:modal.trigger name="add-new-payment">
                         <flux:button variant="primary">Neue Zahlung erfassen</flux:button>
                     </flux:modal.trigger>
+
+                    <flux:button href="{{ route('backend.events.report', $event) }}" wire:click="generateEventReport">Bericht erstellen</flux:button>
                 </aside>
             @endcan
         </flux:tab.panel>
