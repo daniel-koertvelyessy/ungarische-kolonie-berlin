@@ -144,8 +144,11 @@ class Form extends Component
 
     protected function handleTransaction(): Transaction
     {
+
+
         if (isset($this->transaction)) {
-            UpdateTransaction::handle($this->transaction);
+
+            UpdateTransaction::handle($this->form);
             $this->tmp_transaction_id = $this->transaction->id;
             Flux::toast(
                 text: 'Die Buchung '.$this->transaction->label.' wurde aktualisiert',

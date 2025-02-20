@@ -560,5 +560,5 @@
             </div>
         </flux:modal>
     </aside>
-    
+
 </div>

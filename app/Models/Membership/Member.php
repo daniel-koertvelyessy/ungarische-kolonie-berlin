@@ -91,21 +91,24 @@ class Member extends Model
                 $query->where('label', 'LIKE', '%beitrag%')->where('label', 'LIKE', '%'.date('Y').'%');
             })
             ->with(['transaction' => function ($query) {
-                $query->select('id', 'amount_gross', 'label', 'status')->where('status', TransactionStatus::booked->value); // Select columns from the transaction table
+                $query->select('id', 'amount_gross', 'label', 'status')
+                    ->whereBetween('date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])
+                    ->where('status', TransactionStatus::booked->value); // Select columns from the transaction table
             }])
             ->whereBetween('updated_at', [
                 Carbon::today()->startOfYear(), Carbon::now()
             ])
-
             ->get();
 
 
         $totalFee = MemberFeeType::fee($this->fee_type) * 12;
         foreach ($payments as $payment) {
-            $paidFee += $payment->transaction->amount_gross;
+            if ($payment->transaction) {
+                $paidFee += $payment->transaction->amount_gross;
+            }
         }
 
-        return ['paid' => $paidFee, 'total' => $totalFee, 'status' => $paidFee >= $totalFee];
+        return ['paid' => $paidFee / 100, 'total' => $totalFee / 100, 'status' => $paidFee >= $totalFee];
     }
 
     public function checkInvitationStatus():string

@@ -11,28 +11,28 @@ use Illuminate\Support\Facades\DB;
 
 class UpdateTransaction extends Action
 {
-    public static function handle(Transaction $transaction): Transaction
+    public static function handle(TransactionForm $form): Transaction
     {
-        return DB::transaction(function () use ($transaction)
+        return DB::transaction(function () use ($form)
         {
-            if ($transaction->update([
-                'date'               => $transaction->date,
-                'label'              => $transaction->label,
-                'reference'          => $transaction->reference,
-                'description'        => $transaction->description,
-                'amount_gross'       => Account::makeCentInteger($transaction->amount_gross),
-                'vat'                => $transaction->vat,
-                'tax'                => Account::makeCentInteger($transaction->tax),
-                'amount_net'         => Account::makeCentInteger($transaction->amount_net),
-                'account_id'         => $transaction->account_id,
-                'booking_account_id' => $transaction->booking_account_id,
-                'type'               => $transaction->type,
-                'status'             => $transaction->status,
-            ])){
-                return $transaction;
-            } else {
-                throw (new ModelNotFoundException())->setModel(Transaction::class);
-            }
+
+            Transaction::where('id',$form->id)->update([
+                'date'               => $form->date,
+                'label'              => $form->label,
+                'reference'          => $form->reference,
+                'description'        => $form->description,
+                'amount_gross'       => Account::makeCentInteger($form->amount_gross),
+                'vat'                => $form->vat,
+                'tax'                => Account::makeCentInteger($form->tax),
+                'amount_net'         => Account::makeCentInteger($form->amount_net),
+                'account_id'         => $form->account_id,
+                'booking_account_id' => $form->booking_account_id,
+                'type'               => $form->type,
+                'status'             => $form->status,
+            ]);
+
+            return Transaction::find($form->id);
+
         });
     }
 

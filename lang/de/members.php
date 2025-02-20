@@ -7,6 +7,7 @@ return [
     "table.header.name"     => 'Name',
     "table.header.phone"    => 'Mobil',
     "table.header.status"   => 'Status',
+    "table.header.fee_status"   => 'Beitragszahlung',
     "table.header.birthday" => 'Geburtstag',
     "con.men.edit"          => 'Bearbeiten',
     "con.men.payment"       => 'Einzahlung',

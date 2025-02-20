@@ -8,6 +8,7 @@ use App\Enums\DateRange;
 use App\Enums\Gender;
 use App\Enums\TransactionType;
 use App\Livewire\Forms\ReceiptForm;
+use App\Livewire\Traits\Sortable;
 use App\Models\Accounting\Account;
 use App\Models\Accounting\Receipt;
 use App\Models\Accounting\Transaction;
@@ -23,22 +24,20 @@ use Illuminate\Validation\Rule;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
+use Livewire\WithPagination;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class Page extends Component
 {
 
-    use \Livewire\WithPagination;
+    use WithPagination, Sortable;
 
     protected $listeners = ['transaction-updated'];
     public ReceiptForm $receipt;
     public ?Transaction $transaction = null;
-    #[Url]
-    public $sortBy = 'date';
-    #[Url]
-    public $sortDirection = 'desc';
-
+#[Url]
     public $search;
+    #[Url]
     public array $filter_status = ['eingereicht', 'gebucht'];
     public array $filter_type = [];
     public $selectedTransactions = [];
