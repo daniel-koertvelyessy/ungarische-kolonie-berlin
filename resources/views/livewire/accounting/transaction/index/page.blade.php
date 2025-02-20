@@ -407,7 +407,7 @@
                 position="right"
     >
 
-        <flux:heading class="my-4">Veranstaltung zuordnen</flux:heading>
+        <flux:heading class="my-4">Mitglied zuordnen</flux:heading>
 
         <form wire:submit="appendMember"
               class="space-y-6"
@@ -419,7 +419,7 @@
                              searchable
                              placeholder="Mitglied wählen"
                 >
-                    @foreach(\App\Models\Membership\Member::select('id', 'name')->get() as $key => $member)
+                    @foreach(\App\Models\Membership\Member::select('id', 'name', 'first_name')->get() as $key => $member)
                         <flux:option value="{{ $member->id }}">{{ $member->fullName() }}</flux:option>
                     @endforeach
                 </flux:select>
