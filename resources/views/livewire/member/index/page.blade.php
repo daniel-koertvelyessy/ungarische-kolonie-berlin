@@ -4,10 +4,18 @@
     <flux:text>{{ __('members.header') }}</flux:text>
 
     <nav class="flex gap-1 items-center">
-        <flux:button href="{{ route('members.create') }}" size="sm" variant="primary">
-            <flux:icon.user-plus class="size-4" />
-            <span class="hidden lg:flex">Neu anlegen</span>
-        </flux:button>
+
+        @if(\Illuminate\Support\Facades\Auth::user()->is_admin)
+            <flux:button href="{{ route('members.import') }}" size="sm" icon-trailing="arrow-down-on-square-stack">Importieren</flux:button>
+        @endif
+
+        @can('create',\App\Models\Membership\Member::class)
+                <flux:button href="{{ route('members.create') }}" size="sm" variant="primary">
+                    <flux:icon.user-plus class="size-4" />
+                    <span class="hidden lg:flex">Neu anlegen</span>
+                </flux:button>
+        @endcan
+
         <flux:input size="sm" wire:model.live.debounce="search" clearable icon="magnifying-glass" placeholder="Suche ..." />
 
         <flux:checkbox.group wire:model.live="filteredBy" class="hidden lg:flex gap-2 pt-1">

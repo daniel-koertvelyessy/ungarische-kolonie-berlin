@@ -2,9 +2,8 @@
 
 namespace App\Policies;
 
-use App\Models\EventSubscription;
+use App\Models\Event\EventSubscription;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class EventSubscriptionPolicy
 {

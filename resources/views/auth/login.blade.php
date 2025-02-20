@@ -1,6 +1,6 @@
 <x-login-layout title="{{ __('app.login.title') }}" >
 
-    <flux:card class="space-y-6 max-w-2xl mx-auto">
+    <flux:card class="space-y-6 max-w-2xl mx-auto mt-10 lg:mt-60">
         <div>
             <flux:heading size="lg">{{ __('app.login.header') }}</flux:heading>
 {{--            <flux:subheading>Welcome back!</flux:subheading>--}}

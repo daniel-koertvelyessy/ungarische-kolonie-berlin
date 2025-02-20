@@ -2,7 +2,7 @@
 
     <header class="flex justify-between">
         <flux:heading size="xl">{{ __('event.page.title') }}</flux:heading>
-        @can('create',\App\Models\Event::class)
+        @can('create',\App\Models\Event\Event::class)
             <flux:button href="{{ route('backend.events.create') }}"
                          variant="primary"
             >Neu erstellen

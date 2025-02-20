@@ -3,7 +3,6 @@
 namespace App\Policies;
 
 use App\Enums\MemberType;
-use App\Models\Event;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 

@@ -3,7 +3,7 @@
 namespace App\Models\Membership;
 
 use App\Models\Accounting\Transaction;
-use App\Models\Event;
+use App\Models\Event\Event;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 

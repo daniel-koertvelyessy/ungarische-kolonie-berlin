@@ -2,16 +2,16 @@
 
 namespace App\Livewire\Event\Show;
 
-use App\Enums\Locale;
 use App\Livewire\Forms\EventForm;
-use App\Models\Event;
-use App\Models\EventSubscription;
-use App\Models\EventTransaction;
-use App\Models\Membership\MemberTransaction;
+use App\Livewire\Traits\PersistsTabs;
+use App\Livewire\Traits\Sortable;
+use App\Models\Event\Event;
+use App\Models\Event\EventSubscription;
+use App\Models\Event\EventTransaction;
+use App\Models\Event\EventVisitor;
 use App\Models\Venue;
 use Flux\Flux;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -19,25 +19,17 @@ use Livewire\WithPagination;
 
 class Page extends Component
 {
-    use WithPagination;
+    use WithPagination, Sortable, PersistsTabs;
 
     public EventForm $form;
     public $event_id;
-    public $sortBy = 'date';
-    public $sortDirection = 'desc';
     public Event $event;
-    public $tab = 'dates';
-    protected $listeners = ['updated-payments' => 'payments'];
 
-    public function sort($column)
-    {
-        if ($this->sortBy === $column) {
-            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
-        } else {
-            $this->sortBy = $column;
-            $this->sortDirection = 'asc';
-        }
-    }
+    public string $selectedTab = 'event-show-dates';
+    protected $listeners = [
+        'updated-payments' => 'payments',
+        'event-visitor-added' => 'visitors'
+    ];
 
     #[Computed]
     public function subscriptions()
@@ -62,6 +54,16 @@ class Page extends Component
             ->paginate(10);
     }
 
+    #[Computed]
+    public function visitors(): LengthAwarePaginator
+    {
+        return EventVisitor::query()
+            ->with('member')
+            ->where('event_id', '=', $this->event_id)
+            ->tap(fn($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
+            ->paginate(10);
+    }
+
 
     public function mount(Event $event)
     {
@@ -69,6 +71,20 @@ class Page extends Component
         $this->form->setEvent($event);
     }
 
+    public function addVisitor():void
+    {
+        try {
+            $this->authorize('update', $this->form->event);
+        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+            Flux::toast(
+                text: 'You have no permission to edit this member! '.$e->getMessage(),
+                heading: 'Forbidden',
+                variant: 'danger',
+            );
+            return;
+        }
+        Flux::modal('add-new-visitor')->show();
+    }
 
     public function updateEventData(): void
     {

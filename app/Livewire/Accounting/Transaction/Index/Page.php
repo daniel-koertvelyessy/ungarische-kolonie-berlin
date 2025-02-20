@@ -4,26 +4,22 @@ namespace App\Livewire\Accounting\Transaction\Index;
 
 use App\Actions\Accounting\AppendEventTransaction;
 use App\Actions\Accounting\AppendMemberTransaction;
-use App\Actions\Accounting\CreateEventTransaction;
-use App\Actions\Accounting\CreateMemberTransaction;
 use App\Enums\DateRange;
 use App\Enums\Gender;
-use App\Enums\MemberType;
 use App\Enums\TransactionType;
 use App\Livewire\Forms\ReceiptForm;
-use App\Livewire\Forms\TransactionForm;
 use App\Models\Accounting\Account;
 use App\Models\Accounting\Receipt;
 use App\Models\Accounting\Transaction;
-use App\Models\Event;
+use App\Models\Event\Event;
+use App\Models\Event\EventTransaction;
 use App\Models\Membership\Member;
+use App\Models\Membership\MemberTransaction;
 use Flux\Flux;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
-use Imagick;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -142,43 +138,65 @@ class Page extends Component
             ->show();
     }
 
+    public function detachMember(int $member_transaction_id): void
+    {
+        $this->checkUser();
+        MemberTransaction::findOrFail($member_transaction_id)->delete();
+        Flux::toast(
+            text: __('transaction.detach-member-success.text'),
+            heading: __('transaction.detach-member-success.heading'),
+            variant: 'success',
+        );
+    }
+    public function detachEvent(int $event_transaction_id): void
+    {
+        $this->checkUser();
+        if (EventTransaction::findOrFail($event_transaction_id)->delete()){
+            Flux::toast(
+                text: __('transaction.detach-event-success.text'),
+                heading: __('transaction.detach-event-success.heading'),
+                variant: 'success',
+            );
+        }
+    }
+
     public function cancelItem(int $transaction_id)
     {
         dd($transaction_id);
     }
 
-    public function appendToEvent(int $transactioId): void
+    public function appendToEvent(int $transaction_id): void
     {
         try {
             $this->authorize('create', Transaction::class);
         } catch (AuthorizationException $e) {
             Flux::toast(
-                text: 'Sie haben keine Berechtigungen Buchungen zu verwalten: '.$e->getMessage(),
+                text: __('transaction.access.denied').$e->getMessage(),
                 heading: 'Forbidden',
                 variant: 'danger',
             );
             return;
         }
 
-        $this->transaction = Transaction::findOrFail($transactioId);
+        $this->transaction = Transaction::findOrFail($transaction_id);
         Flux::modal('append-to-event-transaction')
             ->show();
     }
 
-    public function appendToMember(int $transactioId): void
+    public function appendToMember(int $transaction_id): void
     {
         try {
             $this->authorize('create', Transaction::class);
         } catch (AuthorizationException $e) {
             Flux::toast(
-                text: 'Sie haben keine Berechtigungen Buchungen zu verwalten: '.$e->getMessage(),
+                text: __('transaction.access.denied').$e->getMessage(),
                 heading: 'Forbidden',
                 variant: 'danger',
             );
             return;
         }
 
-        $this->transaction = Transaction::findOrFail($transactioId);
+        $this->transaction = Transaction::findOrFail($transaction_id);
         Flux::modal('append-to-member-transaction')
             ->show();
     }
@@ -201,13 +219,15 @@ class Page extends Component
         if (AppendEventTransaction::handle($this->transaction, $event, $this->event_visitor_name, $this->event_gender)) {
             Flux::toast(
                 text: 'Die Buchung wurde erfolgreich zugeordnet',
-                heading: 'Erfolg',
-                variant: 'sucess',
+                heading: __('transaction.attach-event-success.heading'),
+                variant: 'success',
             );
             Flux::modal('append-to-event-transaction')
                 ->close();
         }
     }
+
+
 
     public function appendMember(): void
     {
@@ -225,8 +245,8 @@ class Page extends Component
         AppendMemberTransaction::handle($this->transaction, $member);
         Flux::toast(
             text: 'Die Buchung wurde erfolgreich zugeordnet',
-            heading: 'Erfolg',
-            variant: 'sucess',
+            heading: __('transaction.detach-event-success.heading'),
+            variant: 'success',
         );
         Flux::modal('append-to-member-transaction')
             ->close();
@@ -238,7 +258,7 @@ class Page extends Component
             $this->authorize('create', Transaction::class);
         } catch (AuthorizationException $e) {
             Flux::toast(
-                text: 'Sie haben keine Berechtigungen zur Erstellung von Konten'.$e->getMessage(),
+                text: __('transaction.access.denied').$e->getMessage(),
                 heading: 'Forbidden',
                 variant: 'danger',
             );
@@ -246,34 +266,35 @@ class Page extends Component
         }
     }
 
-    public function editTransactionText(int $transaction_id): void {
+    public function editTransactionText(int $transaction_id): void
+    {
         $this->transaction = Transaction::findOrFail($transaction_id);
 
         $this->changeTextLabel = $this->transaction->label;
         $this->changeTextReference = $this->transaction->reference;
         $this->changeTextDescription = $this->transaction->description;
 
-        Flux::modal('edit-transaction-text')->show();
+        Flux::modal('edit-transaction-text')
+            ->show();
     }
 
-    public function changeTransactionText():void
+    public function changeTransactionText(): void
     {
         $this->checkUser();
 
-        if($this->transaction->update([
-            'label' => $this->changeTextLabel,
-            'reference' => $this->changeTextReference,
+        if ($this->transaction->update([
+            'label'       => $this->changeTextLabel,
+            'reference'   => $this->changeTextReference,
             'description' => $this->changeTextDescription,
-        ])){
+        ])) {
             Flux::toast(
                 text: __('transaction.edit-text-modal.update-success.text'),
                 heading: __('transaction.edit-text-modal.update-success.heading'),
                 variant: 'success',
             );
-            Flux::modal('edit-transaction-text')->close();
-
+            Flux::modal('edit-transaction-text')
+                ->close();
         }
-
     }
 
     public function render()

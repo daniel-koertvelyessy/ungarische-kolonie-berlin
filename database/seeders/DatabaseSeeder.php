@@ -5,8 +5,9 @@ namespace Database\Seeders;
 use App\Actions\Accounting\CreateBookingAccount;
 use App\Enums\BookingAccountType;
 use App\Enums\Gender;
+use App\Enums\MemberFeeType;
 use App\Enums\MemberType;
-use App\Models\Event;
+use App\Models\Event\Event;
 use App\Models\Membership\Member;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -43,7 +44,8 @@ class DatabaseSeeder extends Seeder
             'address' => 'Grünspechtweg 19',
             'city' => 'Berlin',
             'user_id' => 1,
-            'type' => MemberType::MD->value
+            'type' => MemberType::MD->value,
+            'fee_type' => MemberFeeType::FULL->value,
         ]);
 
 

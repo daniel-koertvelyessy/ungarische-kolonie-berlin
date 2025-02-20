@@ -4,22 +4,25 @@
     <flux:text size="sm">Erstellt am: {{ $member->created_at }} | Zuletzt bearbeitet am: {{ $member->updated_at }}</flux:text>
 
     <flux:tab.group>
-        <flux:tabs>
-            <flux:tab name="profile"
+        <flux:tabs  wire:model.lazy="selectedTab">
+            <flux:tab name="member-show-profile"
                       icon="user"
+                      wire:click="setSelectedTab('member-show-profile')"
             ><span class="hidden sm:flex">Angaben zur </span>Person
             </flux:tab>
-            <flux:tab name="account"
+            <flux:tab name="member-show-account"
                       icon="cog-6-tooth"
+                      wire:click="setSelectedTab('member-show-account')"
             >Mitgliedschaft
             </flux:tab>
-            <flux:tab name="billing"
+            <flux:tab name="member-show-billing"
                       icon="banknotes"
+                      wire:click="setSelectedTab('member-show-billing')"
             >Beiträge
             </flux:tab>
         </flux:tabs>
 
-        <flux:tab.panel name="profile">
+        <flux:tab.panel name="member-show-profile">
 
             <section class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <form wire:submit="updateMemberData">
@@ -146,7 +149,7 @@
             </section>
 
         </flux:tab.panel>
-        <flux:tab.panel name="account">
+        <flux:tab.panel name="member-show-account">
             <section class="grid grid-cols-1 sm:grid-cols-2 gap-6">
 
                 <form wire:submit="updateMembershipData">
@@ -175,10 +178,28 @@
                             </flux:field>
                         @endcan
 
+                            @can('update', $member)
+                                <flux:radio.group wire:model="memberForm.fee_type"
+                                                  label="{{ __('members.fee_type') }}"
+                                                  variant="cards"
+                                                  class="max-sm:flex-col"
+                                >
 
-                        <flux:switch wire:model="memberForm.is_deducted"
-                                     label="Ist rabattiert?"
-                        />
+                                    @foreach(\App\Enums\MemberFeeType::cases() as $key => $type)
+                                        <flux:radio value="{{ $type->value }}"
+                                                    label="{{ \App\Enums\MemberFeeType::value($type->value) }}"
+                                        />
+                                    @endforeach
+                                </flux:radio.group>
+                            @else
+                                <flux:field>
+                                    <flux:label>{{ __('members.fee_type') }}</flux:label>
+                                    <flux:badge size="lg"
+                                                color=" {{ \App\Enums\MemberFeeType::color($member_type) }}"
+                                    > {{ \App\Enums\MemberFeeType::value($member_type) }}</flux:badge>
+                                </flux:field>
+                            @endcan
+
                         <flux:textarea wire:model="memberForm.deduction_reason"
                                        rows="auto"
                         />
@@ -241,6 +262,22 @@
                         @endif
                     </flux:field>
 
+
+                    @if(! $memberForm->user_id)
+                        <flux:field>
+                            @if($invitation_status === 'none')
+                                <flux:button type="button"
+                                             wire:click="sendInvitation"
+                                >{{ __('members.btn.inviteAsUser.label') }}
+                                </flux:button>
+                                <flux:error for="email"/>
+                            @elseif($invitation_status === 'invited')
+                                <flux:badge color="lime" size="lg" icon="envelope">Einladung is verschickt</flux:badge>
+                            @endif
+                        </flux:field>
+                    @endif
+
+
                     <flux:field class="space-y-2">
                         @if($member->left_at)
 
@@ -270,22 +307,15 @@
 
                     </flux:field>
 
-                    @if(! $memberForm->user_id)
-                        <flux:field>
-                            <flux:button type="button"
-                                         wire:click="sendInvitation"
-                            >{{ __('members.btn.inviteAsUser.label') }}
-                            </flux:button>
-                            <flux:error for="email"/>
-                        </flux:field>
-                    @endif
+
+
                 </flux:card>
 
 
             </section>
 
         </flux:tab.panel>
-        <flux:tab.panel name="billing">
+        <flux:tab.panel name="member-show-billing">
 
             <flux:card class="space-y-6">
 
@@ -325,12 +355,15 @@
                                      class="hidden lg:table-cell"
                         >Betrag
                         </flux:column>
+                        <flux:column class="hidden md:table-cell"
+                        >Belege
+                        </flux:column>
                         <flux:column sortable
                                      :sorted="$sortBy === 'transaction.amount'"
                                      :direction="$sortDirection"
                                      wire:click="sort('amount')"
                                      class="hidden md:table-cell"
-                        >Amount
+                        >Status
                         </flux:column>
                     </flux:columns>
 
@@ -366,36 +399,12 @@
                                         -
                                     @endif
                                 </flux:cell>
+
                                 <flux:cell>
-                                    @can('update', \App\Models\Accounting\Account::class)
-                                        <flux:cell>
-                                            <flux:dropdown>
-                                                <flux:button variant="ghost"
-                                                             size="sm"
-                                                             icon="ellipsis-horizontal"
-                                                             inset="top bottom"
-                                                ></flux:button>
-                                                <flux:menu>
-                                                    @if($payment->transaction->status === \App\Enums\TransactionStatus::submitted->value)
-                                                        <flux:menu.item icon="check"
-                                                                        wire:click="bookItem({{ $payment->transaction->id }})"
-                                                        >Buchen
-                                                        </flux:menu.item>
-                                                        <flux:menu.item icon="pencil"
-                                                                        wire:click="editItem({{ $payment->transaction->id }})"
-                                                        >Bearbeiten
-                                                        </flux:menu.item>
-                                                    @else
-                                                        <flux:menu.item icon="trash"
-                                                                        wire:click="cancelItem({{ $payment->transaction->id }})"
-                                                        >Storno
-                                                        </flux:menu.item>
-                                                    @endif
-                                                </flux:menu>
-                                            </flux:dropdown>
-                                        </flux:cell>
-                                    @endcan
+                                    <flux:badge color="{{ \App\Enums\TransactionStatus::color($payment->transaction->status) }}">{{ $payment->transaction->status }}</flux:badge>
+
                                 </flux:cell>
+
                             </flux:row>
                         @endforeach
                     </flux:rows>
@@ -454,5 +463,4 @@
             </div>
         </form>
     </flux:modal>
-
 </div>

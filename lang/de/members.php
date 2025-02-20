@@ -12,6 +12,11 @@ return [
     "con.men.payment"       => 'Einzahlung',
     "con.men.delete"        => 'Löschen',
 
+    "fee-type.free"       => "Befreit",
+    "fee-type.standard"   => "Standard",
+    "fee-type.discounted" => "Reduziert",
+    "fee_type"            => "Beitragszahlungen",
+
     "apply.discount.label"        => "Ich beantrage einen reduzierten Mitgliedsbeitrag",
     "apply.fee.text"              => "Ich bin über den monatlichen Mitgliedsbeitrag von :sum EUR informiert worden und verpflichte mich, diesen zu entrichten.",
     "apply.discount.reason.label" => "Grund der Befreiung",
@@ -45,9 +50,9 @@ return [
     "btn.inviteAsUser.label"         => "Mitglied als Benutzer einladen",
     "accordion.optionals.label"      => "Optionale Angaben",
 
-    "appliance_received.mail.subject" => "Wir haben Ihren Antrag erhalten!",
+    "appliance_received.mail.subject"  => "Wir haben Ihren Antrag erhalten!",
     "appliance_received.mail.greeting" => "Szia :name",
-    "appliance_received.mail.text" => "wir haben Ihren Mitgliedschaftsantrag erhalten und danken Ihnen für Ihr Interesse an unserer Gemeinschaft. Wir werden Ihren Antrag so bald wie möglich prüfen und uns in Kürze mit Ihnen in Verbindung setzen.",
+    "appliance_received.mail.text"     => "wir haben Ihren Mitgliedschaftsantrag erhalten und danken Ihnen für Ihr Interesse an unserer Gemeinschaft. Wir werden Ihren Antrag so bald wie möglich prüfen und uns in Kürze mit Ihnen in Verbindung setzen.",
 
     "cancel.modal.title"              => "Kündigung bestätigen",
     "cancel.modal.text"               => "Bitte bestätigen Sie die Kündigung des Mitgliedes.",
@@ -127,7 +132,10 @@ return [
     "apply.step7.text"  => "Abschließend wird über Ihre Aufnahme im Leitungskreis entschieden und Sie auf dem ausgewählten Weg per E-Mail oder Post benachrichtigen.",
 
 
-    "apply.fee.label"          => "Für zahlende Mitglieder wird ein Beitrag von :sum EUR pro Monat fällig. Mitglieder über 75 Jahre sind von Beitragszahlungen befreit.",
+    "apply.full_fee.label"       => "Für zahlende Mitglieder wird ein Beitrag von :sum EUR pro Monat fällig.",
+    "apply.discounted_fee.label" => "Für Mitglieder ab :age wird ein Beitrag von :sum EUR pro Monat fällig.",
+    "apply.free_fee.label"       => "Mitglieder über :age Jahre sind von Beitragszahlungen befreit.",
+
     "apply.email.none"         => "Ich habe keine E-Mail Adresse!",
     "apply.email.without.text" => "Wenn Sie keine E-Mail-Adresse haben, können Sie dieses Formular auch ausdrucken und unterschrieben per Post an folgende Adresse senden:\nMagyar Kolónia e.V.\nGatterStraße 3",
     "apply.email.benefits"     => "Mitglieder mit einer E-Mail-Adresse erhalten automatisch Benachrichtigungen über Veranstaltungen und erhalten Zugang zum Schwarzen Brett.",

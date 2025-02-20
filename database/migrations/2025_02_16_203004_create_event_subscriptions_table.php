@@ -21,7 +21,7 @@ return new class extends Migration
             $table->boolean('brings_guests')->default(false);
             $table->boolean('consentNotification')->default(false);
             $table->unsignedTinyInteger('amount_guests')->default(0);
-            $table->foreignIdFor(\App\Models\Event::class);
+            $table->foreignIdFor(\App\Models\Event\Event::class);
             $table->unique(['event_id', 'email']);
             $table->timestamp('confirmed_at')->nullable(); // Für die Bestätigung
         });

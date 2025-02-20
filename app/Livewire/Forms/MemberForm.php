@@ -5,6 +5,7 @@ namespace App\Livewire\Forms;
 use App\Actions\Member\CreateMember;
 use App\Enums\Gender;
 use App\Enums\Locale;
+use App\Enums\MemberFeeType;
 use App\Enums\MemberType;
 use App\Models\Membership\Member;
 use Illuminate\Validation\Rule;
@@ -36,6 +37,7 @@ class MemberForm extends Form
     public $locale;
     public $gender;
     public $type;
+    public $fee_type;
     public $user_id;
 
     public $linked_user_name;
@@ -48,6 +50,7 @@ class MemberForm extends Form
         $this->left_at = optional($this->member->left_at)->format('Y-m-d');
         $this->deduction_reason = $this->member->deduction_reason;
         $this->is_deducted = $this->member->is_deducted;
+        $this->fee_type = $this->member->fee_type ?? MemberFeeType::FULL->value;
         $this->applied_at = $this->member->applied_at;
         $this->verified_at = optional($this->member->verified_at)->format('Y-m-d');
         $this->birth_date = $this->member->birth_date;
@@ -92,6 +95,7 @@ class MemberForm extends Form
         $this->member->is_deducted = $this->is_deducted;
         $this->member->deduction_reason = $this->deduction_reason;
         $this->member->type = $this->type;
+        $this->member->fee_type = $this->fee_type;
         $this->member->entered_at = $this->entered_at;
         $this->member->left_at = $this->left_at;
         $this->member->applied_at = $this->applied_at;

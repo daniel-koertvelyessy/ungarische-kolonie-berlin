@@ -134,13 +134,18 @@
             @forelse ($this->transactions as $item)
 
                 <flux:row :key="$item->id">
-                    <flux:cell variant="strong" class="flex items-center justify-start">
+                    <flux:cell variant="strong"
+                               class="flex items-center justify-start"
+                    >
                         <span class="lg:hidden inline-block">{{ \Illuminate\Support\Str::limit($item->label,10,' ..') }}</span>
                         <span class="hidden lg:inline-block">{{ $item->label}}</span>
 
                         @if($item->reference)
                             <flux:tooltip toggleable>
-                                <flux:button icon="chat-bubble-bottom-center-text" size="xs" variant="ghost" />
+                                <flux:button icon="chat-bubble-bottom-center-text"
+                                             size="xs"
+                                             variant="ghost"
+                                />
 
                                 <flux:tooltip.content class="max-w-[20rem] space-y-2">
                                     Referenz: {{ $item->reference }}
@@ -150,7 +155,10 @@
 
                         @if($item->description)
                             <flux:tooltip toggleable>
-                                <flux:button icon="document-text" size="xs" variant="ghost" />
+                                <flux:button icon="document-text"
+                                             size="xs"
+                                             variant="ghost"
+                                />
 
                                 <flux:tooltip.content class="max-w-[20rem] space-y-2">
                                     Beschreibung: {{ $item->description }}
@@ -204,14 +212,18 @@
                                 <flux:tooltip content="Veranstalung zugeordnet: {{ $item->event_transaction->event->title[app()->getLocale()] }}"
                                               position="top"
                                 >
-                                    <flux:icon.calendar-days class="size-4" variant="mini" />
+                                    <flux:icon.calendar-days class="size-4"
+                                                             variant="mini"
+                                    />
                                 </flux:tooltip>
                             @endif
                             @if($item->member_transaction)
                                 <flux:tooltip content="Mitglied zugeordnet {{ $item->member_transaction->member->fullName() }}"
                                               position="top"
                                 >
-                                    <flux:icon.users class="size-4" variant="mini" />
+                                    <flux:icon.users class="size-4"
+                                                     variant="mini"
+                                    />
                                 </flux:tooltip>
                             @endif
                         </aside>
@@ -239,7 +251,8 @@
                                         >Bearbeiten
                                         </flux:menu.item>
                                     @else
-                                        <flux:menu.item icon="trash" variant="danger"
+                                        <flux:menu.item icon="trash"
+                                                        variant="danger"
                                                         wire:click="cancelItem({{ $item->id }})"
                                         >Storno
                                         </flux:menu.item>
@@ -248,7 +261,9 @@
                                         >Texte ändern
                                         </flux:menu.item>
                                     @endif
-                                    <flux:menu.submenu heading="Zuweisen">
+                                    <flux:menu.submenu heading="Zuweisen"
+                                                       icon="link"
+                                    >
                                         <flux:menu.item icon="calendar-days"
                                                         wire:click="appendToEvent({{ $item->id }})"
                                         >Veranstaltung
@@ -258,6 +273,27 @@
                                         >Mitglied
                                         </flux:menu.item>
                                     </flux:menu.submenu>
+                                    @if(isset($item->event_transaction->id) || isset($item->member_transaction->id))
+
+                                        <flux:menu.submenu heading="Lösen"
+                                                           icon="link-slash"
+                                        >
+                                            @if(isset($item->event_transaction->id))
+                                                <flux:menu.item icon="calendar-days"
+                                                                wire:click="detachEvent({{ $item->event_transaction->id }})"
+                                                >Veranstaltung
+                                                </flux:menu.item>
+                                            @endif
+
+                                            @if(isset($item->member_transaction->id))
+                                                <flux:menu.item icon="users"
+                                                                wire:click="detachMember({{ $item->member_transaction->id }})"
+                                                >Mitglied
+                                                </flux:menu.item>
+                                            @endif
+                                        </flux:menu.submenu>
+
+                                    @endif
                                 </flux:menu>
                             </flux:dropdown>
                         </flux:cell>
@@ -321,7 +357,9 @@
 
         <flux:heading class="my-4">Veranstaltung zuordnen</flux:heading>
 
-        <form wire:submit="appendEvent" class="space-y-6">
+        <form wire:submit="appendEvent"
+              class="space-y-6"
+        >
 
             <flux:field>
                 <flux:select wire:model="target_event"
@@ -329,37 +367,37 @@
                              searchable
                              placeholder="Veranstaltung wählen"
                 >
-                    @foreach(\App\Models\Event::select('id', 'title')->get() as $key => $event)
+                    @foreach(\App\Models\Event\Event::select('id', 'title')->get() as $key => $event)
                         <flux:option value="{{ $event->id }}">{{ \Illuminate\Support\Str::limit($event->title['de'],30,'..',true) }}</flux:option>
                     @endforeach
                 </flux:select>
                 <flux:error name="target_event"/>
             </flux:field>
 
-                <flux:accordion transition>
-                    <flux:accordion.item heading="Optional">
-                        <section class=" space-y-4">
-                            <flux:input label="{{ __('event.visitor.name') }}"
-                                        wire:model="event_visitor_name"
-                            />
+            <flux:accordion transition>
+                <flux:accordion.item heading="Optional">
+                    <section class=" space-y-4">
+                        <flux:input label="{{ __('event.visitor.name') }}"
+                                    wire:model="event_visitor_name"
+                        />
 
-                            <flux:radio.group wire:model="event_gender"
-                                              label="{{ __('members.gender') }}"
-                                              variant="segmented"
-                            >
-                                @foreach( App\Enums\Gender::cases() as $gender)
-                                    <flux:radio value="{{ $gender->value }}">{{ \App\Enums\Gender::value($gender->value) }}</flux:radio>
-                                @endforeach
-                            </flux:radio.group>
-                        </section>
+                        <flux:radio.group wire:model="event_gender"
+                                          label="{{ __('members.gender') }}"
+                                          variant="segmented"
+                        >
+                            @foreach( App\Enums\Gender::cases() as $gender)
+                                <flux:radio value="{{ $gender->value }}">{{ \App\Enums\Gender::value($gender->value) }}</flux:radio>
+                            @endforeach
+                        </flux:radio.group>
+                    </section>
 
-                    </flux:accordion.item>
-                </flux:accordion>
+                </flux:accordion.item>
+            </flux:accordion>
 
-                <flux:button variant="primary"
-                             type="submit"
-                >zuordnen
-                </flux:button>
+            <flux:button variant="primary"
+                         type="submit"
+            >zuordnen
+            </flux:button>
         </form>
 
     </flux:modal>
@@ -371,7 +409,9 @@
 
         <flux:heading class="my-4">Veranstaltung zuordnen</flux:heading>
 
-        <form wire:submit="appendMember" class="space-y-6">
+        <form wire:submit="appendMember"
+              class="space-y-6"
+        >
 
             <flux:field>
                 <flux:select wire:model="target_member"
@@ -399,13 +439,21 @@
     >
         <flux:heading size="lg">{{ __('transaction.edit-text-modal.heading') }}</flux:heading>
 
-        <form wire:submit="changeTransactionText" class="space-y-6">
+        <form wire:submit="changeTransactionText"
+              class="space-y-6"
+        >
 
 
-
-            <flux:input wire:model="changeTextLabel" label="{{ __('transaction.edit-text-modal.label') }}" />
-            <flux:input wire:model="changeTextReference" label="{{ __('transaction.edit-text-modal.reference') }}" />
-            <flux:textarea rows="auto" wire:model="changeTextDescription" label="{{ __('transaction.edit-text-modal.description') }}" />
+            <flux:input wire:model="changeTextLabel"
+                        label="{{ __('transaction.edit-text-modal.label') }}"
+            />
+            <flux:input wire:model="changeTextReference"
+                        label="{{ __('transaction.edit-text-modal.reference') }}"
+            />
+            <flux:textarea rows="auto"
+                           wire:model="changeTextDescription"
+                           label="{{ __('transaction.edit-text-modal.description') }}"
+            />
 
             <flux:button variant="primary"
                          type="submit"

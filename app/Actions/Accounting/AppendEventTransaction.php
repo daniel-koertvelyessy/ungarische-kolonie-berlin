@@ -2,11 +2,9 @@
 
 namespace App\Actions\Accounting;
 
-use App\Livewire\Forms\TransactionForm;
-use App\Models\Accounting\Account;
 use App\Models\Accounting\Transaction;
-use App\Models\Event;
-use App\Models\EventTransaction;
+use App\Models\Event\Event;
+use App\Models\Event\EventTransaction;
 use Illuminate\Support\Facades\DB;
 
 class AppendEventTransaction

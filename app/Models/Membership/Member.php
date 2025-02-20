@@ -2,7 +2,10 @@
 
 namespace App\Models\Membership;
 
+use App\Enums\MemberFeeType;
+use App\Enums\MembershipFee;
 use App\Enums\MemberType;
+use App\Enums\TransactionStatus;
 use App\Models\Accounting\Transaction;
 use App\Models\User;
 use Carbon\Carbon;
@@ -19,9 +22,8 @@ class Member extends Model
     /** @use HasFactory<\Database\Factories\Membership\MemberFactory> */
     use HasFactory;
 
-    public static float $fee = 500;
-
-    public static int $minimumAgeForDeduction = 75;
+    public static int $age_discounted = 65;
+    public static int $age_free = 80;
 
     protected $guarded = [];
 
@@ -76,7 +78,7 @@ class Member extends Model
 
     public function feeStatus(): array
     {
-        if ($this->is_deducted){
+        if ($this->fee_type === MemberFeeType::FREE->value){
             return [
                 'paid' => $this->totalFee,
                 'status' => true
@@ -89,19 +91,33 @@ class Member extends Model
                 $query->where('label', 'LIKE', '%beitrag%')->where('label', 'LIKE', '%'.date('Y').'%');
             })
             ->with(['transaction' => function ($query) {
-                $query->select('id', 'amount_gross', 'label'); // Select columns from the transaction table
+                $query->select('id', 'amount_gross', 'label', 'status')->where('status', TransactionStatus::booked->value); // Select columns from the transaction table
             }])
             ->whereBetween('updated_at', [
                 Carbon::today()->startOfYear(), Carbon::now()
             ])
+
             ->get();
 
-        $totalFee = Member::$fee * 12;
+
+        $totalFee = MemberFeeType::fee($this->fee_type) * 12;
         foreach ($payments as $payment) {
             $paidFee += $payment->transaction->amount_gross;
         }
 
-        return ['paid' => $paidFee, 'status' => $paidFee >= $totalFee];
+        return ['paid' => $paidFee, 'total' => $totalFee, 'status' => $paidFee >= $totalFee];
+    }
+
+    public function checkInvitationStatus():string
+    {
+
+        $invitation = Invitation::where('email', $this->email)->first();
+
+        if ($invitation) {
+            return $invitation->accepted === 1 ? 'accepted' : 'invited';
+        }
+        return 'none';
+
     }
 
 }

@@ -3,7 +3,7 @@
 namespace App\Livewire\Dashboard\Widgets;
 
 use App\Enums\EventStatus;
-use App\Models\Event;
+use App\Models\Event\Event;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 

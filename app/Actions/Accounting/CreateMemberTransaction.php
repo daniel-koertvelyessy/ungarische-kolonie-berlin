@@ -11,19 +11,19 @@ use Illuminate\Support\Facades\DB;
 
 class CreateMemberTransaction
 {
-    public static function handle(Transaction $transaction, Member $member): bool
+    public static function handle(TransactionForm $form, Member $member): Transaction
     {
-        DB::transaction(function () use ($transaction, $member)
+        return DB::transaction(function () use ($form, $member)
         {
+            $transaction = CreateTransaction::handle($form);
+
             MemberTransaction::create([
                 'transaction_id' => $transaction->id,
                 'member_id'      => $member->id,
             ]);
 
-            return true;
+            return $transaction;
         });
-
-        return false;
     }
 
 }

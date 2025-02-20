@@ -3,37 +3,30 @@
 namespace App\Livewire\Member\Index;
 
 use App\Enums\MemberType;
+use App\Livewire\Traits\Sortable;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Page extends Component
 {
 
-    use \Livewire\WithPagination;
-
-    public $sortBy = 'date';
-    public $sortDirection = 'desc';
+    use WithPagination;
+    use Sortable;
 
     public $search = '';
 
-    public $filteredBy= [
-      MemberType::AP->value,
-      MemberType::MD->value,
-      MemberType::ST->value,
-      MemberType::AD->value,
+    public $filteredBy = [
+        MemberType::AP->value,
+        MemberType::MD->value,
+        MemberType::ST->value,
+        MemberType::AD->value,
     ];
 
-    public function sort($column)
-    {
-        if ($this->sortBy === $column) {
-            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
-        } else {
-            $this->sortBy = $column;
-            $this->sortDirection = 'asc';
-        }
-    }
 
-    #[\Livewire\Attributes\Computed]
-    public function members()
+    #[Computed]
+    public function members(): LengthAwarePaginator
     {
         return \App\Models\Membership\Member::query()
             ->tap(fn($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)

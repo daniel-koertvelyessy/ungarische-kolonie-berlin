@@ -27,7 +27,10 @@ class CreateTransaction
                 'type'               => $form->type,
                 'status'             => $form->status,
             ]);
+
+
         });
+
     }
 
 }

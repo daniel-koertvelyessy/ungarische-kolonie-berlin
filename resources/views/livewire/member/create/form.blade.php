@@ -132,7 +132,9 @@
 
                 <flux:separator text="{{ __('members.section.fees') }}"/>
 
-                <flux:text>{{ __('members.apply.fee.label', ['sum' => \App\Models\Membership\Member::feeForHumans() ]) }}</flux:text>
+                <flux:text>{{ __('members.apply.full_fee.label', ['sum' => \App\Enums\MembershipFee::FULL->value/100 ]) }}</flux:text>
+                <flux:text>{{ __('members.apply.discounted_fee.label', ['sum' => \App\Enums\MembershipFee::DISCOUNTED->value/100 , 'age' =>  \App\Models\Membership\Member::$age_discounted]) }}</flux:text>
+                <flux:text>{{ __('members.apply.free_fee.label', ['sum' => \App\Enums\MembershipFee::FREE->value/100 , 'age' =>  \App\Models\Membership\Member::$age_free]) }}</flux:text>
 
                 <flux:checkbox wire:model="form.is_deducted"
                                label="{{ __('members.apply.discount.label') }}"

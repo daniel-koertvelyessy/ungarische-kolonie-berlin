@@ -5,12 +5,11 @@ namespace App\Livewire\Forms;
 use App\Actions\Event\CreateEvent;
 use App\Enums\EventStatus;
 use App\Enums\Locale;
-use App\Models\Event;
+use App\Models\Event\Event;
 use App\Rules\UniqueJsonSlug;
 use Flux\Flux;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
-use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 

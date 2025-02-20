@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\RegisterController;
-use App\Models\Event;
-use App\Models\EventSubscription;
+use App\Models\Event\Event;
+use App\Models\Event\EventSubscription;
 use App\Models\Membership\Member;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -32,7 +32,7 @@ Route::get('lang/{locale}', function ($locale)
 Route::get('/', function ()
 {
     return view('welcome', [
-        'events'         => \App\Models\Event::with('venue')
+        'events'         => \App\Models\Event\Event::with('venue')
             ->where('status', '=', \App\Enums\EventStatus::PUBLISHED)
             ->whereBetween('event_date', [
                 Carbon::today(), Carbon::now()
@@ -40,7 +40,7 @@ Route::get('/', function ()
             ])
             ->take(3)
             ->get(),
-        'events_total'   => \App\Models\Event::whereBetween('event_date', [
+        'events_total'   => \App\Models\Event\Event::whereBetween('event_date', [
             Carbon::today(), Carbon::now()
                 ->endOfDecade()
         ])
@@ -58,7 +58,7 @@ Route::get('/', function ()
 Route::get('/events', function ()
 {
     return view('events.index', [
-        'events' => \App\Models\Event::orderBy('event_date')
+        'events' => \App\Models\Event\Event::orderBy('event_date')
             ->where('status', '=', \App\Enums\EventStatus::PUBLISHED->value)
             ->paginate(5),
         'locale' => App::getLocale()
@@ -208,6 +208,9 @@ Route::middleware([
 
         Route::get('/members-create', \App\Livewire\Member\Create\Page::class)
             ->name('members.create');
+
+        Route::get('/members-import', \App\Livewire\Member\Import\Page::class)
+            ->name('members.import');
 
         Route::get('/backend-events', \App\Livewire\Event\Index\Page::class)
             ->name('backend.events.index');

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Event;
 
 use App\Enums\TransactionType;
 use App\Models\Accounting\Transaction;

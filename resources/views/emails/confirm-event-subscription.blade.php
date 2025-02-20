@@ -26,7 +26,7 @@
 <p><a href="{{ $confirmUrl }}">{{ __('event.subscription.mail.link.label') }}</a></p>
 
 @if($subscription->brings_guests)
-<p>{{ __('event.subscription.mail.bring_a_guest', ['num' => ]) }}</p>
+<p>{{ __('event.subscription.mail.bring_a_guest', ['num' => $subscription->amount_guests ]) }}</p>
 @endif
 
 @if($subscription->consentNotification)

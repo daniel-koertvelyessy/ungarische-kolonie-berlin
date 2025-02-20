@@ -2,7 +2,7 @@
 
 namespace App\Livewire\App\Mails;
 
-use App\Mail\InvitationMail;
+use App\Livewire\Traits\Mail\InvitationMail;
 use App\Models\Membership\Invitation;
 use Flux\Flux;
 use Illuminate\Support\Facades\Mail;

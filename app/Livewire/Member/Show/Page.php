@@ -4,8 +4,10 @@ namespace App\Livewire\Member\Show;
 
 use App\Enums\MemberType;
 use App\Livewire\Forms\MemberForm;
-use App\Mail\AcceptMembershipMail;
-use App\Mail\InvitationMail;
+use App\Livewire\Traits\Mail\AcceptMembershipMail;
+use App\Livewire\Traits\Mail\InvitationMail;
+use App\Livewire\Traits\PersistsTabs;
+use App\Livewire\Traits\Sortable;
 use App\Models\Accounting\Account;
 use App\Models\Accounting\Receipt;
 use App\Models\Accounting\Transaction;
@@ -13,14 +15,11 @@ use App\Models\Membership\Invitation;
 use App\Models\Membership\Member;
 use App\Models\Membership\MemberTransaction;
 use App\Models\User;
-use App\Notifications\MemberAcceptedNotification;
-use App\Notifications\NewMemberApplied;
 use Flux\Flux;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -32,7 +31,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 class Page extends Component
 {
 
-    use WithPagination;
+    use WithPagination, Sortable, PersistsTabs;
 
     public $users;
     public int $newUser = 0;
@@ -49,21 +48,12 @@ class Page extends Component
     public $feeStatus;
     public $searchPayment = '';
 
+    public $transaction;
 
-    public $sortBy = 'date';
-    public $sortDirection = 'desc';
-
+    public string $selectedTab = 'member-show-profile';
+    public $invitation_status;
     protected $listeners = ['updated-payments' => 'payments'];
 
-    public function sort($column)
-    {
-        if ($this->sortBy === $column) {
-            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
-        } else {
-            $this->sortBy = $column;
-            $this->sortDirection = 'asc';
-        }
-    }
 
     #[Computed]
     public function payments(): LengthAwarePaginator
@@ -82,9 +72,13 @@ class Page extends Component
 
     public function mount(Member $member): void
     {
+//        $this->mountPersistsTabs('member-show-profile');
+
         $this->memberForm->set($member);
         $this->users = User::select('id', 'name')
             ->get();
+
+        $this->invitation_status = $member->checkInvitationStatus();
 
         $this->feeStatusResults = $member->feeStatus();
 
@@ -99,8 +93,8 @@ class Page extends Component
             if ($this->member->save()) {
                 $this->hasUser = false;
                 Flux::toast(
-                    heading: __('members.show.detached.success.head'),
                     text: __('members.show.detached.success.msg', ['name' => $this->member->name]),
+                    heading: __('members.show.detached.success.head'),
                     variant: 'success',
                 );
             }
@@ -117,16 +111,16 @@ class Page extends Component
                     $this->hasUser = true;
 
                     Flux::toast(
-                        heading: __('members.show.attached.success.head'),
                         text: __('members.show.attached.success.msg', ['name' => $getUser->name]),
+                        heading: __('members.show.attached.success.head'),
                         variant: 'success',
                     );
                     $this->memberForm->user_id = $this->newUser;
                 }
             } else {
                 Flux::toast(
-                    heading: __('members.show.attached.failed.head'),
                     text: __('members.show.attached.failed.msg'),
+                    heading: __('members.show.attached.failed.head'),
                     variant: 'danger',
                 );
             }
@@ -139,8 +133,8 @@ class Page extends Component
 
         if ($this->memberForm->updateData()) {
             Flux::toast(
-                heading: __('members.update.success.title'),
                 text: __('members.update.success.content'),
+                heading: __('members.update.success.title'),
                 variant: 'success',
             );
         }
@@ -152,8 +146,8 @@ class Page extends Component
 
         if ($this->memberForm->updateContact()) {
             Flux::toast(
-                heading: __('members.update.success.title'),
                 text: __('members.update.success.content'),
+                heading: __('members.update.success.title'),
                 variant: 'success',
             );
         }
@@ -165,8 +159,8 @@ class Page extends Component
 
         if ($this->memberForm->updateMembership()){
             Flux::toast(
-                heading: __('members.update.success.title'),
                 text: __('members.update.success.content'),
+                heading: __('members.update.success.title'),
                 variant: 'success',
             );
             }
@@ -175,6 +169,7 @@ class Page extends Component
 
     public function sendInvitation(): void
     {
+
         try {
             $this->validate([
                 'memberForm.email' => 'required|email|unique:invitations,email|unique:users,email',
@@ -187,17 +182,17 @@ class Page extends Component
 
 
             Mail::to($this->memberForm->email)
-                ->send(new InvitationMail($invitation, $this->memberForm->member));
+                ->send(new \App\Mail\InvitationMail($invitation, $this->memberForm->member));
 
             Flux::toast(
-                heading: __('Erfolg'),
                 text: __('Einladung verschickt'),
+                heading: __('Erfolg'),
                 variant: 'success',
             );
         } catch (ValidationException $e) {
             Flux::toast(
-                heading: __('Fehler'),
                 text: __('Wurde nicht verschickt: '.$e->getMessage()),
+                heading: __('Fehler'),
                 variant: 'danger',
             );
         }
@@ -212,8 +207,8 @@ class Page extends Component
 
         if ($this->memberForm->updateMembership()) {
             Flux::toast(
-                heading: __('Erfolg'),
                 text: __('Mitgliedshaft wurde angenommen'),
+                heading: __('Erfolg'),
                 variant: 'success',
             );
             Mail::to($this->memberForm->email)
@@ -227,8 +222,8 @@ class Page extends Component
             $this->authorize('delete', Member::class);
         } catch (AuthorizationException $e) {
             Flux::toast(
-                heading: 'Forbidden',
                 text: 'You have no permission to edit this member! '.$e->getMessage(),
+                heading: 'Forbidden',
                 variant: 'danger',
             );
             return;
@@ -244,8 +239,8 @@ class Page extends Component
             $this->authorize('update', $this->member);
         } catch (AuthorizationException $e) {
             Flux::toast(
-                heading: 'Forbidden',
                 text: 'You have no permission to edit this member! '.$e->getMessage(),
+                heading: 'Forbidden',
                 variant: 'danger',
             );
             return;
@@ -265,8 +260,8 @@ class Page extends Component
 
         if ($this->memberForm->cancelMembership()) {
             Flux::toast(
-                heading: __('Erfolg'),
                 text: __('Mitgliedshaft wurde gekündigt').$msg,
+                heading: __('Erfolg'),
                 variant: 'success',
             );
         }
@@ -278,8 +273,8 @@ class Page extends Component
 
         if ($this->memberForm->reactivateMembership()) {
             Flux::toast(
-                heading: __('Erfolg'),
                 text: __('Mitgliedshaft wurde wiederhergestellt'),
+                heading: __('Erfolg'),
                 variant: 'success',
             );
         }
@@ -301,7 +296,7 @@ class Page extends Component
             ->download($filePath);
     }
 
-    public function bookItem(int $transaction_id): void
+   public function bookItem(int $transaction_id): void
     {
         $this->authorize('book-item', Account::class);
         $this->dispatch('book-transaction', transactionId: $transaction_id);

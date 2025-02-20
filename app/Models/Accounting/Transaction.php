@@ -3,14 +3,13 @@
 namespace App\Models\Accounting;
 
 use App\Enums\TransactionType;
-use App\Models\Event;
-use App\Models\EventTransaction;
+use App\Models\Event\EventTransaction;
+use App\Models\Event\EventVisitor;
 use App\Models\Membership\Member;
 use App\Models\Membership\MemberTransaction;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -51,6 +50,11 @@ class Transaction extends Model
     public function members(): belongsTo
     {
         return $this->belongsTo(Member::class);
+    }
+
+    public function visitors(): HasMany
+    {
+        return $this->hasMany(EventVisitor::class);
     }
 
     public function grossForHumans():string{

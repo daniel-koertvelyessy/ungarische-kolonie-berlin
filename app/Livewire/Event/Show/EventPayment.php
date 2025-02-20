@@ -6,8 +6,7 @@ use App\Actions\Accounting\CreateEventTransaction;
 use App\Enums\TransactionType;
 use App\Livewire\Forms\EventForm;
 use App\Livewire\Forms\TransactionForm;
-use App\Models\Accounting\Transaction;
-use App\Models\Event;
+use App\Models\Event\Event;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 

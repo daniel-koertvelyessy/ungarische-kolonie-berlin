@@ -3,9 +3,8 @@
 namespace App\Livewire\Forms;
 
 use App\Actions\Accounting\CreateMemberTransaction;
-use App\Actions\Accounting\CreateTransaction;
 use App\Models\Accounting\Account;
-use App\Models\Event;
+use App\Models\Event\Event;
 use App\Models\Membership\Member;
 use App\Models\Membership\MemberTransaction;
 use Livewire\Component;

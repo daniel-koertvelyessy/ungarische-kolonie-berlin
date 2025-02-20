@@ -2,14 +2,10 @@
 
 namespace App\Livewire\Event\Create;
 
-use App\Actions\Event\CreateEvent;
-use App\Enums\EventStatus;
 use App\Livewire\Forms\EventForm;
-use App\Models\Event;
+use App\Models\Event\Event;
 use App\Models\Venue;
-use App\Rules\UniqueJsonSlug;
 use Flux\Flux;
-use Illuminate\Validation\Rule;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 

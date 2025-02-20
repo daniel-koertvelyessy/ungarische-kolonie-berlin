@@ -13,6 +13,18 @@ return array(
     'make_ics' => "Naptárbejegyzés létrehozása",
     'buy_tickets' => "Jegyeket vásároljoni",
 
+    "tabs.nav.dates" => "Dátumok",
+    "tabs.nav.texts" => "Szövegek",
+    "tabs.nav.payments" => "Kifizetések",
+    "tabs.nav.subscriptions" => "Előfizetések",
+    "tabs.nav.visitors" => "Látogatók",
+
+    "visitor-table.header.name" => "Név",
+    "visitor-table.header.email" => "E-mail",
+    "visitor-table.header.gender" => "Nem",
+    "visitor-table.header.is_member" => "Tag",
+    "visitor-table.header.is_subscriber" => "Előfizető",
+
     'show.title' => "Esemény áttekintése",
 
     'subscribe' => "Érdekel?",
@@ -35,6 +47,20 @@ return array(
     'email.required' => 'Szükségünk van az e-mail címedre.',
     'email.unique' => 'Ellenőrizd, hogy kaptál-e már tőlünk e-mailt.',
 
+    "visitors.empty_results_msg" => "Még nem regisztráltak látogatókat",
+    "visitor.btn.add.label" => "Új látogató rögzítése",
+    "visitor-modal.heading" => "Látogató regisztrálása",
+    "visitor-modal.select_member" => "Link tag",
+    "visitor-modal.select_subscribers" => "Feliratkozók összekapcsolása",
+    "visitor-modal.name" => "Név, Keresztnév",
+    "visitor-modal.email" => "E-mail cím",
+    "visitor-modal.phone" => "Telefon",
+    "visitor-modal.gender" => "Nem",
+    "visitor-modal.btn.submit" => "Mentés",
+    "visitor-modal.btn.store" => "Mentés + Új létrehozása",
+    "visitor-modal.separator.values" => "Információ",
+    "visitor-modal.separator.optional" => "Opcionális Adatok lekérése innen",
+    "visitor-modal.separator.or" => "vagy",
 
     "index.title" => "Cím",
     "index.table.header.title" => "Cím",
