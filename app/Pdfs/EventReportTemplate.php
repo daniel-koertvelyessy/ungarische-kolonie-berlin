@@ -159,8 +159,8 @@ class EventReportTemplate extends TCPDF
 
         $wText = 66;
         $wReferenz = 45;
-        $wStatus = 30;
-        $wKonto = 20;
+        $wStatus = 20;
+        $wKonto = 25;
 
         $this->SetFont('helvetica', '', 8);
         $this->Cell($wText , 8, 'Text', 'B', 0);
