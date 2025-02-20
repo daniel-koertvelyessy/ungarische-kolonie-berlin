@@ -156,19 +156,25 @@ class EventReportTemplate extends TCPDF
         $this->ln(2);
 
         $w = 30;
+
+        $wText = 66;
+        $wReferenz = 45;
+        $wStatus = 30;
+        $wKonto = 20;
+
         $this->SetFont('helvetica', '', 8);
-        $this->Cell(66, 8, 'Text', 'B', 0);
-        $this->Cell(50, 8, 'Referenz', 'B', 0);
-        $this->Cell(20, 8, 'Status', 'B', 0);
-        $this->Cell($w, 8, 'Konto', 'B', 0);
+        $this->Cell($wText , 8, 'Text', 'B', 0);
+        $this->Cell($wReferenz, 8, 'Referenz', 'B', 0);
+        $this->Cell($wStatus, 8, 'Status', 'B', 0);
+        $this->Cell($wKonto, 8, 'Konto', 'B', 0);
         $this->Cell(0, 8, 'Betrag', 'B', 1, 'R');
 
         $this->SetFont('helvetica', '', $h);
         foreach ($this->incomes as $item) {
-            $this->Cell(66, 8, Str::limit($item->transaction->label,60), 'B', 0);
-            $this->Cell(50, 8, $item->transaction->reference, 'B', 0);
-            $this->Cell(20, 8, $item->transaction->status, 'B', 0);
-            $this->Cell($w, 8, $item->transaction->account->name, 'B', 0);
+            $this->Cell($wText , 8, Str::limit($item->transaction->label,60), 'B', 0);
+            $this->Cell($wReferenz, 8, $item->transaction->reference, 'B', 0);
+            $this->Cell($wStatus, 8, $item->transaction->status, 'B', 0);
+            $this->Cell($wKonto, 8, $item->transaction->account->name, 'B', 0);
             $this->Cell(0, 8, number_format($item->transaction->amount_gross / 100, '2', ',', '.'), 'B', 1, 'R');
         }
         $this->ln(10);
@@ -177,18 +183,18 @@ class EventReportTemplate extends TCPDF
         $this->ln(2);
 
         $this->SetFont('helvetica', '', 8);
-        $this->Cell(66, 8, 'Text', 'B', 0);
-        $this->Cell(50, 8, 'Referenz', 'B', 0);
-        $this->Cell(20, 8, 'Status', 'B', 0);
-        $this->Cell($w, 8, 'Konto', 'B', 0);
+        $this->Cell($wText , 8, 'Text', 'B', 0);
+        $this->Cell($wReferenz, 8, 'Referenz', 'B', 0);
+        $this->Cell($wStatus, 8, 'Status', 'B', 0);
+        $this->Cell($wKonto, 8, 'Konto', 'B', 0);
         $this->Cell(0, 8, 'Betrag', 'B', 1, 'R');
 
         $this->SetFont('helvetica', '', $h);
         foreach ($this->spendings as $item) {
-            $this->Cell(66, 8, Str::limit($item->transaction->label,60), 'B', 0);
-            $this->Cell(50, 8, $item->transaction->reference, 'B', 0);
-            $this->Cell(20, 8, $item->transaction->status, 'B', 0);
-            $this->Cell($w, 8, $item->transaction->account->name, 'B', 0);
+            $this->Cell($wText , 8, Str::limit($item->transaction->label,60), 'B', 0);
+            $this->Cell($wReferenz, 8, $item->transaction->reference, 'B', 0);
+            $this->Cell($wStatus, 8, $item->transaction->status, 'B', 0);
+            $this->Cell($wKonto, 8, $item->transaction->account->name, 'B', 0);
             $this->Cell(0, 8, number_format($item->transaction->amount_gross / 100, '2', ',', '.'), 'B', 1, 'R');
         }
 
