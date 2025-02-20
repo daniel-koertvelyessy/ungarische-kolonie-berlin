@@ -560,7 +560,5 @@
             </div>
         </flux:modal>
     </aside>
-
-    @dump($transaction)
-
+    
 </div>
