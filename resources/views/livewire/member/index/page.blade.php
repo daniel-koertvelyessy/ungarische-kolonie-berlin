@@ -55,10 +55,10 @@
                     <flux:cell class=" hidden sm:table-cell">
                         @php
                             $fee_status = $member->feeStatus();
-                        $color = $fee_status['status'] ? 'lime' : 'orange'
-
+                        $color = $fee_status['status'] ? 'lime' : 'orange';
+                        $paid = $member->fee_type === \App\Enums\MemberFeeType::FREE->value ? __('members.fee-type.free') :  $fee_status['paid'];
                         @endphp
-                        <flux:badge size="sm" color="{{ $color }}" inset="top bottom">{{ $fee_status['paid'] }}</flux:badge>
+                        <flux:badge size="sm" color="{{ $color }}" inset="top bottom">{{ $paid }}</flux:badge>
                     </flux:cell>
                     <flux:cell class=" hidden sm:table-cell" variant="strong">{{ $member->birth_date }}</flux:cell>
                     @can('view', \App\Models\Membership\Member::class)

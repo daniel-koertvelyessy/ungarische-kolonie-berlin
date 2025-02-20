@@ -45,6 +45,7 @@ class MemberForm extends Form
 
     function set(Member $member): void
     {
+
         $this->member = $member;
         $this->entered_at = optional($this->member->entered_at)->format('Y-m-d');
         $this->left_at = optional($this->member->left_at)->format('Y-m-d');
@@ -68,6 +69,8 @@ class MemberForm extends Form
         $this->birth_place = $this->member->birth_place;
         $this->citizenship = $this->member->citizenship;
         $this->family_status = $this->member->family_status;
+        $this->gender = $this->member->gender;
+        $this->locale = $this->member->locale;
         $this->linked_user_name = $this->setUser();
     }
 
@@ -79,42 +82,58 @@ class MemberForm extends Form
             : 'Nicht verknüpft';
     }
 
-    public function updateContact(): bool
-    {
-        $this->member->email = $this->email;
-        $this->member->phone = $this->phone;
-        $this->member->mobile = $this->mobile;
-        return $this->member->save();
+//    public function updateContact(): bool
+//    {
+//        $this->member->email = $this->email;
+//        $this->member->phone = $this->phone;
+//        $this->member->mobile = $this->mobile;
+//        return $this->member->save();
+//
+//
+//    }
 
-
-    }
-
-    public function updateMembership(): bool
-    {
-
-        $this->member->is_deducted = $this->is_deducted;
-        $this->member->deduction_reason = $this->deduction_reason;
-        $this->member->type = $this->type;
-        $this->member->fee_type = $this->fee_type;
-        $this->member->entered_at = $this->entered_at;
-        $this->member->left_at = $this->left_at;
-        $this->member->applied_at = $this->applied_at;
-        return $this->member->save();
-    }
+//    public function updateMembership(): bool
+//    {
+//
+//        $this->member->is_deducted = $this->is_deducted;
+//        $this->member->deduction_reason = $this->deduction_reason;
+//        $this->member->type = $this->type;
+//        $this->member->fee_type = $this->fee_type;
+//        $this->member->entered_at = $this->entered_at;
+//        $this->member->left_at = $this->left_at;
+//        $this->member->applied_at = $this->applied_at;
+//        return $this->member->save();
+//    }
 
 
     public function updateData(): bool
     {
+//        $this->member->is_deducted = $this->is_deducted;
+        $this->member->entered_at = $this->entered_at;
+        $this->member->left_at = $this->left_at;
+        $this->member->deduction_reason = $this->deduction_reason;
+        $this->member->is_deducted = $this->is_deducted;
+        $this->member->fee_type = $this->fee_type;
+        $this->member->applied_at = $this->applied_at;
+        $this->member->verified_at = $this->verified_at;
+        $this->member->birth_date = $this->birth_date;
         $this->member->name = $this->name;
         $this->member->first_name = $this->first_name;
-        $this->member->birth_date = $this->birth_date;
+        $this->member->email = $this->email;
+        $this->member->phone = $this->phone;
+        $this->member->mobile = $this->mobile;
         $this->member->address = $this->address;
         $this->member->zip = $this->zip;
         $this->member->city = $this->city;
         $this->member->country = $this->country;
+        $this->member->user_id = $this->user_id;
+        $this->member->type = $this->type;
         $this->member->birth_place = $this->birth_place;
         $this->member->citizenship = $this->citizenship;
         $this->member->family_status = $this->family_status;
+        $this->member->gender = $this->gender;
+        $this->member->locale = $this->locale;
+
 
         return $this->member->save();
     }

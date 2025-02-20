@@ -33,10 +33,18 @@
                         <flux:input wire:model="memberForm.name"
                                     label="{{ __('members.name') }}"
                         />
-                        <flux:input type="date"
-                                    wire:model="memberForm.birth_date"
-                                    label="Geboren am"
-                        />
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
+                            <flux:input type="date"
+                                        wire:model="memberForm.birth_date"
+                                        wire:blur="checkBirthDate"
+                                        label="{{ __('members.birth_date') }}"
+                                        autocomplete="bday"
+                            />
+                            <flux:input wire:model="memberForm.birth_place"
+                                        label="{{ __('members.birth_place') }}"
+                                        autocomplete="address-level1"
+                            />
+                        </div>
                         <flux:textarea wire:model="memberForm.address"
                                        rows="auto"
                                        label="{{ __('members.address') }}"
@@ -61,7 +69,7 @@
                     </flux:card>
                 </form>
 
-                <form wire:submit="updateContactData">
+                <form wire:submit="updateMemberData">
                     <flux:card class="space-y-6">
                         <flux:input wire:model="memberForm.email"
                                     label="E-Mail"
@@ -79,63 +87,44 @@
                                     autocomplete="tel"
                         />
 
-                        @can('update', $member)
-                            <flux:field class="flex flex-col space-y-3">
-                                @if($memberForm->user_id)
-                                    <flux:label>verknüft mit Benutzer</flux:label>
-                                    <flux:badge color="lime"
-                                                size="lg"
-                                    >{{ $memberForm->linked_user_name }}</flux:badge>
-                                    <flux:button size="sm"
-                                                 variant="danger"
-                                                 wire:click="detachUser({{$memberForm->user_id}})"
-                                    >{{ __('members.unlink_user') }}
 
-                                    </flux:button>
-                                @else
-                                    <flux:button.group>
-                                        <flux:select variant="listbox"
-                                                     wire:model="memberForm.newUser"
-                                                     searchable
-                                                     placeholder="{{ __('members.show.attached.placeholder') }}"
-                                        >
-                                            <flux:option wire:key="0"
-                                                         value="0"
-                                            >Benutzer wählen
-                                            </flux:option>
-                                            @forelse($users as $user)
-                                                <flux:option wire:key="{{ $user->id }}"
-                                                             value="{{ $user->id }}"
-                                                >{{ $user->name }}</flux:option>
-                                            @empty
-                                                <flux:option wire:key="0"
-                                                             value="0"
-                                                >Keine Benutzer gefunden
-                                                </flux:option>
+                        <flux:radio.group wire:model="memberForm.locale"
+                                          label="{{ __('members.locale') }}"
+                                          variant="segmented"
+                                          size="sm"
+                        >
+                            @foreach(\App\Enums\Locale::toArray() as $key => $locale)
+                                <flux:radio :key
+                                            value="{{ $locale }}"
+                                            label="{{ \App\Enums\Locale::value($locale)  }}"
+                                />
+                            @endforeach
+                        </flux:radio.group>
 
-                                            @endforelse
-                                        </flux:select>
-                                        <flux:button square
-                                                     wire:click="attachUser"
-                                        >
-                                            <flux:icon.user-plus variant="micro"
-                                                                 class="text-emerald-500 dark:text-emerald-300"
-                                            />
-                                        </flux:button>
-                                    </flux:button.group>
-                                @endif
-                            </flux:field>
+                        <flux:radio.group wire:model="memberForm.gender"
+                                          label="{{ __('members.gender') }}"
+                                          variant="segmented"
+                                          size="sm"
+                        >
+                            @foreach(\App\Enums\Gender::toArray() as $key => $gender)
+                                <flux:radio :key
+                                            value="{{ $gender }}"
+                                >{{ \App\Enums\Gender::value($gender) }}</flux:radio>
+                            @endforeach
+                        </flux:radio.group>
 
-                        @else
 
-                            <flux:field>
-                                <flux:label>{{ __('members.linked_user') }}</flux:label>
-                                <flux:badge size="lg"
-                                            color="lime"
-                                > {{ $linked_user_name }}</flux:badge>
-                            </flux:field>
-                        @endcan
-
+                        <flux:radio.group wire:model="memberForm.family_status"
+                                          label="{{ __('members.familystatus.label') }}"
+                                          variant="segmented"
+                                          size="sm"
+                        >
+                            @foreach(\App\Enums\MemberFamilyStatus::cases() as $key => $status)
+                                <flux:radio :key
+                                            value="{{ $status->value }}"
+                                >{{ \App\Enums\MemberFamilyStatus::value($status->value) }}</flux:radio>
+                            @endforeach
+                        </flux:radio.group>
 
                         @can('update', $member)
                             <flux:spacer/>
@@ -152,7 +141,7 @@
         <flux:tab.panel name="member-show-account">
             <section class="grid grid-cols-1 sm:grid-cols-2 gap-6">
 
-                <form wire:submit="updateMembershipData">
+                <form wire:submit="updateMemberData">
 
                     <flux:card class="space-y-6">
 
@@ -202,6 +191,7 @@
 
                         <flux:textarea wire:model="memberForm.deduction_reason"
                                        rows="auto"
+                                       label="{{ __('members.apply.discount.reason.label') }}"
                         />
                         <flux:spacer/>
                         <flux:button variant="primary"
@@ -214,7 +204,8 @@
                 <flux:card class="space-y-6">
 
                     <flux:field>
-                        @if($member->is_deducted)
+
+                        @if($feetype === \App\Enums\MemberFeeType::FREE->value )
                             <flux:badge color="lime"
                                         size="lg"
                             >Befreit von Beitragszahlungen
@@ -303,7 +294,67 @@
                             @endif
 
                         @endif
+                            @can('update', $member)
+                                <flux:field >
+                                    @if($memberForm->user_id)
+                                        <flux:label>verknüft mit Benutzer</flux:label>
+                                       <div class="flex">
+                                           <flux:badge color="lime"
+                                                       size="lg"
+                                                       class="flex-1"
+                                           >{{ $memberForm->linked_user_name }}</flux:badge>
+                                           <flux:button size="sm"
+                                                        variant="danger"
+                                                        wire:click="detachUser({{$memberForm->user_id}})"
+                                                        icon="trash"
+                                           >{{ __('members.unlink_user') }}
 
+                                           </flux:button>
+                                       </div>
+
+                                    @else
+                                        <flux:button.group>
+                                            <flux:select variant="listbox"
+                                                         wire:model="memberForm.newUser"
+                                                         searchable
+                                                         placeholder="{{ __('members.show.attached.placeholder') }}"
+                                            >
+                                                <flux:option wire:key="0"
+                                                             value="0"
+                                                >Benutzer wählen
+                                                </flux:option>
+                                                @forelse($users as $user)
+                                                    <flux:option wire:key="{{ $user->id }}"
+                                                                 value="{{ $user->id }}"
+                                                    >{{ $user->name }}</flux:option>
+                                                @empty
+                                                    <flux:option wire:key="0"
+                                                                 value="0"
+                                                    >Keine Benutzer gefunden
+                                                    </flux:option>
+
+                                                @endforelse
+                                            </flux:select>
+                                            <flux:button square
+                                                         wire:click="attachUser"
+                                            >
+                                                <flux:icon.user-plus variant="micro"
+                                                                     class="text-emerald-500 dark:text-emerald-300"
+                                                />
+                                            </flux:button>
+                                        </flux:button.group>
+                                    @endif
+                                </flux:field>
+
+                            @else
+
+                                <flux:field>
+                                    <flux:label>{{ __('members.linked_user') }}</flux:label>
+                                    <flux:badge size="lg"
+                                                color="lime"
+                                    > {{ $linked_user_name }}</flux:badge>
+                                </flux:field>
+                            @endcan
 
                     </flux:field>
 

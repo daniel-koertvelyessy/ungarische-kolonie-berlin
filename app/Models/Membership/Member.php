@@ -78,17 +78,20 @@ class Member extends Model
 
     public function feeStatus(): array
     {
-        if ($this->fee_type === MemberFeeType::FREE->value){
-            return [
-                'paid' => $this->totalFee,
-                'status' => true
-            ];
-        }
+        $totalFee = MemberFeeType::fee($this->fee_type) * 12;
+
+//        if ($this->fee_type === MemberFeeType::FREE->value){
+//            return [
+//                'paid' => $totalFee,
+//                'total' => $totalFee,
+//                'status' => true
+//            ];
+//        }
         $paidFee = 0;
 
         $payments = MemberTransaction::where('member_id', $this->id)
             ->whereHas('transaction', function ($query) {
-                $query->where('label', 'LIKE', '%beitrag%')->where('label', 'LIKE', '%'.date('Y').'%');
+                $query->where('label', 'LIKE', '%beitrag%');
             })
             ->with(['transaction' => function ($query) {
                 $query->select('id', 'amount_gross', 'label', 'status')
@@ -101,7 +104,7 @@ class Member extends Model
             ->get();
 
 
-        $totalFee = MemberFeeType::fee($this->fee_type) * 12;
+
         foreach ($payments as $payment) {
             if ($payment->transaction) {
                 $paidFee += $payment->transaction->amount_gross;

@@ -54,6 +54,8 @@ class Page extends Component
     public $invitation_status;
     protected $listeners = ['updated-payments' => 'payments'];
 
+    public $feetype;
+
 
     #[Computed]
     public function payments(): LengthAwarePaginator
@@ -83,7 +85,9 @@ class Page extends Component
         $this->feeStatusResults = $member->feeStatus();
 
         $this->feeStatus = $this->feeStatusResults['status'];
-        $this->openFees = number_format($this->feeStatusResults['paid'] / 100, 2, ',', '.');
+        $this->openFees =  number_format($this->feeStatusResults['paid'] , 2, ',', '.');
+
+        $this->feetype = $this->memberForm->fee_type;
     }
 
     public function detachUser(int $userid): void
@@ -131,6 +135,8 @@ class Page extends Component
     {
         $this->checkUser();
 
+
+
         if ($this->memberForm->updateData()) {
             Flux::toast(
                 text: __('members.update.success.content'),
@@ -140,32 +146,32 @@ class Page extends Component
         }
     }
 
-    public function updateContactData(): void
-    {
-        $this->checkUser();
+//    public function updateContactData(): void
+//    {
+//        $this->checkUser();
+//
+//        if ($this->memberForm->updateContact()) {
+//            Flux::toast(
+//                text: __('members.update.success.content'),
+//                heading: __('members.update.success.title'),
+//                variant: 'success',
+//            );
+//        }
+//    }
 
-        if ($this->memberForm->updateContact()) {
-            Flux::toast(
-                text: __('members.update.success.content'),
-                heading: __('members.update.success.title'),
-                variant: 'success',
-            );
-        }
-    }
-
-    public function updateMembershipData(): void
-    {
-        $this->checkUser();
-
-        if ($this->memberForm->updateMembership()){
-            Flux::toast(
-                text: __('members.update.success.content'),
-                heading: __('members.update.success.title'),
-                variant: 'success',
-            );
-            }
-
-    }
+//    public function updateMembershipData(): void
+//    {
+//        $this->checkUser();
+//
+//        if ($this->memberForm->updateMembership()){
+//            Flux::toast(
+//                text: __('members.update.success.content'),
+//                heading: __('members.update.success.title'),
+//                variant: 'success',
+//            );
+//            }
+//
+//    }
 
     public function sendInvitation(): void
     {
