@@ -235,7 +235,7 @@ Route::middleware([
                 ->where('event_id', $event->id)
                 ->whereHas('transaction', function ($query)
                 {
-                    $query->where('type', \App\Enums\TransactionType::Deposit->value);
+                    $query->where('type', \App\Enums\TransactionType::Withdrawal->value);
                 })
                 ->get();
 
@@ -243,7 +243,7 @@ Route::middleware([
                 ->where('event_id', $event->id)
                 ->whereHas('transaction', function ($query)
                 {
-                    $query->where('type', \App\Enums\TransactionType::Withdrawal->value);
+                    $query->where('type', \App\Enums\TransactionType::Deposit->value);
                 })
                 ->get();;
 
