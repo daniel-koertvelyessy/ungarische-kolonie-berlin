@@ -171,7 +171,7 @@ class EventReportTemplate extends TCPDF
 
         $this->SetFont('helvetica', '', $h);
         foreach ($this->incomes as $item) {
-            $this->Cell($wText , 8, Str::limit($item->transaction->label . ' - '. $item->id,60), 'B', 0);
+            $this->Cell($wText , 8,$item->id . '-'. Str::limit($item->transaction->label ,60), 'B', 0);
             $this->Cell($wReferenz, 8, $item->transaction->reference, 'B', 0);
             $this->Cell($wStatus, 8, $item->transaction->status, 'B', 0);
             $this->Cell($wKonto, 8, $item->transaction->account->name, 'B', 0);
@@ -191,7 +191,7 @@ class EventReportTemplate extends TCPDF
 
         $this->SetFont('helvetica', '', $h);
         foreach ($this->spendings as $item) {
-            $this->Cell($wText , 8, Str::limit($item->transaction->label . ' - '. $item->id,60), 'B', 0);
+            $this->Cell($wText , 8, $item->id . '-'. Str::limit($item->transaction->label,60), 'B', 0);
             $this->Cell($wReferenz, 8, $item->transaction->reference, 'B', 0);
             $this->Cell($wStatus, 8, $item->transaction->status, 'B', 0);
             $this->Cell($wKonto, 8, $item->transaction->account->name, 'B', 0);
