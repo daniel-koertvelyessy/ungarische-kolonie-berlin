@@ -3,9 +3,7 @@
 namespace App\Livewire\Forms;
 
 use App\Actions\Accounting\CreateBookingAccount;
-use App\Enums\AccountType;
 use App\Enums\BookingAccountType;
-use App\Models\Accounting\BookingAccount;
 use Flux\Flux;
 use Illuminate\Validation\Rule;
 use Livewire\Form;
@@ -13,15 +11,18 @@ use Livewire\Form;
 class BookingAccountForm extends Form
 {
     public $id;
+
     public $type;
+
     public $number;
+
     public $label;
 
     public function create()
     {
         $this->validate();
 
-        $booking_account =  CreateBookingAccount::create([
+        $booking_account = CreateBookingAccount::create([
             'type' => $this->type,
             'number' => $this->number,
             'label' => $this->label,
@@ -39,12 +40,13 @@ class BookingAccountForm extends Form
         Flux::modal('add-account-modal')
             ->close();
     }
+
     protected function rules(): array
     {
         return [
             'type' => ['required', Rule::enum(BookingAccountType::class)],
             'number' => ['required', 'string', Rule::unique('booking_accounts', 'number')],
-            'label'  => ['required', 'string'],
+            'label' => ['required', 'string'],
         ];
     }
 }

@@ -11,20 +11,17 @@ class AppendEventTransaction
 {
     public static function handle(Transaction $transaction, Event $event, $name, $gender): Transaction
     {
-      return  DB::transaction(function () use ($transaction, $event, $name, $gender)
-        {
+        return DB::transaction(function () use ($transaction, $event, $name, $gender) {
 
             EventTransaction::create([
-                'visitor_name'   => $name,
-                'gender'         => $gender,
+                'visitor_name' => $name,
+                'gender' => $gender,
                 'transaction_id' => $transaction->id,
-                'event_id'       => $event->id,
+                'event_id' => $event->id,
             ]);
 
             return $transaction;
         });
 
-
     }
-
 }

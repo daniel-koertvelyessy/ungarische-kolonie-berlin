@@ -11,9 +11,10 @@ use Livewire\WithPagination;
 
 class Page extends Component
 {
-use WithPagination;
+    use WithPagination;
 
     public $sortBy = 'date';
+
     public $sortDirection = 'desc';
 
     protected $listeners = ['receipt-deleted' => '$refresh'];
@@ -28,23 +29,22 @@ use WithPagination;
         }
     }
 
-
     #[Computed]
     public function transactions()
     {
         return Transaction::query()
-            ->where('status','=', TransactionStatus::booked->value)
+            ->where('status', '=', TransactionStatus::booked->value)
             ->tap(fn ($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
             ->paginate(10);
     }
 
     #[Computed]
-    public function accounts(){
+    public function accounts()
+    {
         return Account::query()
             ->tap(fn ($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
             ->paginate(10);
     }
-
 
     public function render()
     {

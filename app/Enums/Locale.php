@@ -2,9 +2,9 @@
 
 namespace App\Enums;
 
-enum Locale:string
+enum Locale: string
 {
-//    case EN = 'en';
+    //    case EN = 'en';
     case DE = 'de';
     case HU = 'hu';
 
@@ -13,12 +13,13 @@ enum Locale:string
         return array_column(Locale::cases(), 'value');
     }
 
-    public static function value(string $value): string{
+    public static function value(string $value): string
+    {
 
         return match ($value) {
             'de' => __('app.locale.de'),
             'hu' => __('app.locale.hu'),
-//          'diverse' => __('app.diverse'),
+            //          'diverse' => __('app.diverse'),
         };
 
     }

@@ -12,8 +12,7 @@ class EventSubscription extends Model
 
     protected $fillable = [
         'name', 'email', 'phone', 'remarks',
-        'brings_guests', 'amount_guests', 'event_id', 'confirmed_at'
-        ,'consentNotification'
+        'brings_guests', 'amount_guests', 'event_id', 'confirmed_at', 'consentNotification',
     ];
 
     protected $casts = [

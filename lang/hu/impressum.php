@@ -1,6 +1,5 @@
 <?php
 
-
 return [
     'title' => 'Impresszum',
     'register_name' => 'Regisztrált név',

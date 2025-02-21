@@ -19,5 +19,4 @@ enum MembershipFee: int
             default => self::FULL->value,
         };
     }
-
 }

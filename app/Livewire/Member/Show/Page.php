@@ -5,7 +5,6 @@ namespace App\Livewire\Member\Show;
 use App\Enums\MemberType;
 use App\Livewire\Forms\MemberForm;
 use App\Livewire\Traits\Mail\AcceptMembershipMail;
-use App\Livewire\Traits\Mail\InvitationMail;
 use App\Livewire\Traits\PersistsTabs;
 use App\Livewire\Traits\Sortable;
 use App\Models\Accounting\Account;
@@ -30,41 +29,45 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class Page extends Component
 {
-
-    use WithPagination, Sortable, PersistsTabs;
+    use PersistsTabs, Sortable, WithPagination;
 
     public $users;
+
     public int $newUser = 0;
+
     public Member $member;
 
     public MemberForm $memberForm;
 
     public $confirm_deletion_text = '';
 
-
     public $hasUser = false;
+
     protected $feeStatusResults = [];
+
     public $openFees;
+
     public $feeStatus;
+
     public $searchPayment = '';
 
     public $transaction;
 
     public string $selectedTab = 'member-show-profile';
+
     public $invitation_status;
+
     protected $listeners = ['updated-payments' => 'payments'];
 
     public $feetype;
-
 
     #[Computed]
     public function payments(): LengthAwarePaginator
     {
         return MemberTransaction::query()
             ->where('member_id', '=', $this->member->id)
-            ->tap(fn($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
-            ->tap(fn($query) => $this->searchPayment ? $query->whereHas('transaction', function ($query)
-            {
+            ->tap(fn ($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
+            ->tap(fn ($query) => $this->searchPayment ? $query->whereHas('transaction', function ($query) {
                 $query->where('label', 'LIKE', '%'.$this->searchPayment.'%')
                     ->orWhere('reference', 'LIKE', '%'.$this->searchPayment.'%')
                     ->orWhere('description', 'LIKE', '%'.$this->searchPayment.'%');
@@ -74,7 +77,7 @@ class Page extends Component
 
     public function mount(Member $member): void
     {
-//        $this->mountPersistsTabs('member-show-profile');
+        //        $this->mountPersistsTabs('member-show-profile');
 
         $this->memberForm->set($member);
         $this->users = User::select('id', 'name')
@@ -85,7 +88,7 @@ class Page extends Component
         $this->feeStatusResults = $member->feeStatus();
 
         $this->feeStatus = $this->feeStatusResults['status'];
-        $this->openFees =  number_format($this->feeStatusResults['paid'] , 2, ',', '.');
+        $this->openFees = number_format($this->feeStatusResults['paid'], 2, ',', '.');
 
         $this->feetype = $this->memberForm->fee_type;
     }
@@ -135,8 +138,6 @@ class Page extends Component
     {
         $this->checkUser();
 
-
-
         if ($this->memberForm->updateData()) {
             Flux::toast(
                 text: __('members.update.success.content'),
@@ -146,32 +147,32 @@ class Page extends Component
         }
     }
 
-//    public function updateContactData(): void
-//    {
-//        $this->checkUser();
-//
-//        if ($this->memberForm->updateContact()) {
-//            Flux::toast(
-//                text: __('members.update.success.content'),
-//                heading: __('members.update.success.title'),
-//                variant: 'success',
-//            );
-//        }
-//    }
+    //    public function updateContactData(): void
+    //    {
+    //        $this->checkUser();
+    //
+    //        if ($this->memberForm->updateContact()) {
+    //            Flux::toast(
+    //                text: __('members.update.success.content'),
+    //                heading: __('members.update.success.title'),
+    //                variant: 'success',
+    //            );
+    //        }
+    //    }
 
-//    public function updateMembershipData(): void
-//    {
-//        $this->checkUser();
-//
-//        if ($this->memberForm->updateMembership()){
-//            Flux::toast(
-//                text: __('members.update.success.content'),
-//                heading: __('members.update.success.title'),
-//                variant: 'success',
-//            );
-//            }
-//
-//    }
+    //    public function updateMembershipData(): void
+    //    {
+    //        $this->checkUser();
+    //
+    //        if ($this->memberForm->updateMembership()){
+    //            Flux::toast(
+    //                text: __('members.update.success.content'),
+    //                heading: __('members.update.success.title'),
+    //                variant: 'success',
+    //            );
+    //            }
+    //
+    //    }
 
     public function sendInvitation(): void
     {
@@ -185,7 +186,6 @@ class Page extends Component
                 'email' => $this->memberForm->email,
                 'token' => Str::random(32),
             ]);
-
 
             Mail::to($this->memberForm->email)
                 ->send(new \App\Mail\InvitationMail($invitation, $this->memberForm->member));
@@ -232,6 +232,7 @@ class Page extends Component
                 heading: 'Forbidden',
                 variant: 'danger',
             );
+
             return;
         }
 
@@ -249,6 +250,7 @@ class Page extends Component
                 heading: 'Forbidden',
                 variant: 'danger',
             );
+
             return;
         }
     }
@@ -293,7 +295,7 @@ class Page extends Component
         $filePath = "accounting/receipts/{$receipt->file_name}";
 
         // Debugging: Check if the file exists
-        if (!Storage::disk('local')
+        if (! Storage::disk('local')
             ->exists($filePath)) {
             abort(404, 'File not found.');
         }
@@ -302,7 +304,7 @@ class Page extends Component
             ->download($filePath);
     }
 
-   public function bookItem(int $transaction_id): void
+    public function bookItem(int $transaction_id): void
     {
         $this->authorize('book-item', Account::class);
         $this->dispatch('book-transaction', transactionId: $transaction_id);

@@ -4,16 +4,15 @@ namespace App\Enums;
 
 enum MemberType: string
 {
-    case AP = "applicant";
-    case ST = "standard";
-    case AD = "advisor";
-    case MD = "board";
+    case AP = 'applicant';
+    case ST = 'standard';
+    case AD = 'advisor';
+    case MD = 'board';
 
     public static function toArray(): array
     {
         return array_column(MemberType::cases(), 'value');
     }
-
 
     public static function value(string $value): string
     {

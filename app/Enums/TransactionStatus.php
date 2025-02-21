@@ -6,7 +6,7 @@ enum TransactionStatus: string
 {
     case submitted = 'eingereicht';
     case booked = 'gebucht';
-    case canceled = 'storniert';
+    //    case canceled = 'storniert';
 
     public static function toArray(): array
     {
@@ -18,7 +18,7 @@ enum TransactionStatus: string
         return match ($value) {
             'eingereicht' => 'gray',
             'gebucht' => 'lime',
-            'storniert' => 'red',
+            //            'storniert' => 'red',
         };
     }
 }

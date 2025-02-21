@@ -22,7 +22,7 @@ class MemberPolicy
      */
     public function view(): bool
     {
-       return $this->checkThis();
+        return $this->checkThis();
 
     }
 
@@ -31,7 +31,7 @@ class MemberPolicy
      */
     public function create(User $user): bool
     {
-      return $this->checkThis();
+        return $this->checkThis();
     }
 
     /**
@@ -40,7 +40,7 @@ class MemberPolicy
     public function update(User $user, Member $member): bool
     {
 
-        if($user->member && $user->member->id == $member->id){
+        if ($user->member && $user->member->id == $member->id) {
             return true;
         }
 
@@ -65,6 +65,7 @@ class MemberPolicy
         if ($user->is_BoardMember) {
             return true;
         }
+
         return false;
     }
 
@@ -92,7 +93,6 @@ class MemberPolicy
         if ($user->is_admin) {
             return true;
         }
-
 
         if ($user->member && $user->member->type === MemberType::MD->value) {
             return true;

@@ -8,13 +8,12 @@ use Illuminate\Notifications\Notifiable;
 class Invitation extends Model
 {
     use Notifiable;
-    protected $fillable =[
+
+    protected $fillable = [
         'email',
         'token',
         'accepted',
     ];
 
-    public function invite(){
-
-    }
+    public function invite() {}
 }

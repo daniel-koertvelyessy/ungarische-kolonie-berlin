@@ -9,23 +9,23 @@ use Livewire\Component;
 
 class Events extends Component
 {
-
     #[Computed]
-    public function draftedEvents(){
+    public function draftedEvents()
+    {
         return Event::where('status', EventStatus::DRAFT->value)->count();
     }
 
     #[Computed]
-    public function publishedEvents(){
+    public function publishedEvents()
+    {
         return Event::where('status', EventStatus::PUBLISHED->value)->count();
     }
 
     #[Computed]
-    public function pendingEvents(){
+    public function pendingEvents()
+    {
         return Event::where('status', EventStatus::PENDING)->count();
     }
-
-
 
     public function render()
     {

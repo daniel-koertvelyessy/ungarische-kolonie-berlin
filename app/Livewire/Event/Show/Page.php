@@ -19,16 +19,19 @@ use Livewire\WithPagination;
 
 class Page extends Component
 {
-    use WithPagination, Sortable, PersistsTabs;
+    use PersistsTabs, Sortable, WithPagination;
 
     public EventForm $form;
+
     public $event_id;
+
     public Event $event;
 
     public string $selectedTab = 'event-show-dates';
+
     protected $listeners = [
         'updated-payments' => 'payments',
-        'event-visitor-added' => 'visitors'
+        'event-visitor-added' => 'visitors',
     ];
 
     #[Computed]
@@ -50,7 +53,7 @@ class Page extends Component
         return EventTransaction::query()
             ->with('transaction')
             ->where('event_id', '=', $this->event_id)
-            ->tap(fn($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
+            ->tap(fn ($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
             ->paginate(10);
     }
 
@@ -60,10 +63,9 @@ class Page extends Component
         return EventVisitor::query()
             ->with('member')
             ->where('event_id', '=', $this->event_id)
-            ->tap(fn($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
+            ->tap(fn ($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
             ->paginate(10);
     }
-
 
     public function mount(Event $event)
     {
@@ -71,7 +73,7 @@ class Page extends Component
         $this->form->setEvent($event);
     }
 
-    public function addVisitor():void
+    public function addVisitor(): void
     {
         try {
             $this->authorize('update', $this->form->event);
@@ -81,6 +83,7 @@ class Page extends Component
                 heading: 'Forbidden',
                 variant: 'danger',
             );
+
             return;
         }
         Flux::modal('add-new-visitor')->show();
@@ -96,6 +99,7 @@ class Page extends Component
                 heading: 'Forbidden',
                 variant: 'danger',
             );
+
             return;
         }
         $this->form->update();
@@ -131,10 +135,7 @@ class Page extends Component
         }
     }
 
-    public function generateEventReport()
-    {
-
-    }
+    public function generateEventReport() {}
 
     public function render()
     {

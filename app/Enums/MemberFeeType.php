@@ -4,15 +4,14 @@ namespace App\Enums;
 
 enum MemberFeeType: string
 {
-    case FREE = "free";
-    case FULL = "full";
-    case DISC = "discounted";
+    case FREE = 'free';
+    case FULL = 'full';
+    case DISC = 'discounted';
 
     public static function toArray(): array
     {
         return array_column(MemberFeeType::cases(), 'value');
     }
-
 
     public static function value(string $value): string
     {

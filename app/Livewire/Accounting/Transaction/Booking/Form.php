@@ -3,7 +3,6 @@
 namespace App\Livewire\Accounting\Transaction\Booking;
 
 use App\Livewire\Forms\TransactionForm;
-use App\Models\Accounting\Receipt;
 use App\Models\Accounting\Transaction;
 use Flux\Flux;
 use Livewire\Component;
@@ -11,7 +10,9 @@ use Livewire\Component;
 class Form extends Component
 {
     public ?Transaction $transaction = null;
+
     public TransactionForm $form;
+
     protected $listeners = ['book-transaction' => 'loadTransaction'];
 
     public function loadTransaction(int $transactionId): void
@@ -29,7 +30,7 @@ class Form extends Component
 
     public function updateBookingStatus(): void
     {
-      $booking =   $this->form->book();
+        $booking = $this->form->book();
         $this->dispatch('transaction-updated');
 
         Flux::toast(

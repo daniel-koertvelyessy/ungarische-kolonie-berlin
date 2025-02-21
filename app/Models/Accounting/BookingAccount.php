@@ -18,6 +18,6 @@ class BookingAccount extends Model
     protected $fillable = [
         'label',
         'number',
-        'type'
+        'type',
     ];
 }

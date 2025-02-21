@@ -11,20 +11,19 @@ final class UpdateAccount extends Action
 {
     public static function handle(AccountForm $account): Account
     {
-        DB::transaction(function () use ($account)
-        {
+        DB::transaction(function () use ($account) {
             Account::where('id', $account->id)
                 ->update([
-                    'name'            => $account->name,
-                    'number'          => $account->number,
-                    'institute'       => $account->institute,
-                    'type'            => $account->type,
-                    'iban'            => $account->iban,
-                    'bic'             => $account->bic,
+                    'name' => $account->name,
+                    'number' => $account->number,
+                    'institute' => $account->institute,
+                    'type' => $account->type,
+                    'iban' => $account->iban,
+                    'bic' => $account->bic,
                     'starting_amount' => Account::makeCentInteger($account->starting_amount),
                 ]);
         });
+
         return Account::find($account->id);
     }
-
 }

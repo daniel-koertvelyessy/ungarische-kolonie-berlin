@@ -3,7 +3,6 @@
 namespace App\Livewire\Accounting\Account\Index;
 
 use App\Enums\TransactionStatus;
-use App\Livewire\Forms\AccountForm;
 use App\Models\Accounting\Account;
 use App\Models\Accounting\Transaction;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -14,12 +13,15 @@ use Livewire\WithPagination;
 class Page extends Component
 {
     use WithPagination;
+
     public Account $account;
+
     public $sortBy = 'date';
+
     public $sortDirection = 'desc';
 
-
     public $selectedAccount;
+
     protected $listeners = ['account-updated' => '$refresh'];
 
     public function sort($column): void
@@ -44,8 +46,8 @@ class Page extends Component
     public function transactions(): LengthAwarePaginator
     {
         return Transaction::query()
-            ->where('account_id',$this->account->id)
-            ->where('status','=', TransactionStatus::booked->value)
+            ->where('account_id', $this->account->id)
+            ->where('status', '=', TransactionStatus::booked->value)
             ->tap(fn ($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
             ->paginate(10);
     }

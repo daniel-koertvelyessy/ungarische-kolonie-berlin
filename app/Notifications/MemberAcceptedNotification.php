@@ -4,7 +4,6 @@ namespace App\Notifications;
 
 use App\Models\Membership\Member;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -13,6 +12,7 @@ class MemberAcceptedNotification extends Notification
     use Queueable;
 
     public $member;
+
     /**
      * Create a new notification instance.
      */
@@ -37,6 +37,7 @@ class MemberAcceptedNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         app()->setLocale($this->member->locale);
+
         return (new MailMessage)
             ->from('szia@magyar-kolonia-berlin.org', 'Daniel Körtvélyessy')
             ->view(
@@ -53,7 +54,7 @@ class MemberAcceptedNotification extends Notification
     {
         return [
             'applied_at' => $this->member->applied_at,
-            'fullName' => $this->member->name . ', ' . $this->member->first_name
+            'fullName' => $this->member->name.', '.$this->member->first_name,
         ];
     }
 }

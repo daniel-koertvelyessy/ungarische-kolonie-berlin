@@ -12,7 +12,7 @@ trait Sortable
     #[url]
     public $sortDirection = 'desc';
 
-    public function sort($column):void
+    public function sort($column): void
     {
         if ($this->sortBy === $column) {
             $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';

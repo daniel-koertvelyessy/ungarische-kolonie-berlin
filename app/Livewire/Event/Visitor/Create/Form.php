@@ -2,28 +2,25 @@
 
 namespace App\Livewire\Event\Visitor\Create;
 
-use App\Enums\Gender;
 use App\Livewire\Forms\EventVisitorForm;
 use App\Models\Event\Event;
 use App\Models\Event\EventSubscription;
 use App\Models\Membership\Member;
 use Flux\Flux;
-use Illuminate\Validation\Rule;
-use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class Form extends Component
 {
-
     public EventVisitorForm $form;
 
-    public $members=[];
-    public $subscribers=[];
+    public $members = [];
 
-    public function mount(Event $event):void
+    public $subscribers = [];
+
+    public function mount(Event $event): void
     {
         $this->form->event_id = $event->id;
-        $this->members=Member::select('id', 'name', 'first_name')->get();
+        $this->members = Member::select('id', 'name', 'first_name')->get();
         $this->subscribers = EventSubscription::select()->get();
 
     }
@@ -38,9 +35,9 @@ class Form extends Component
                 heading: 'Forbidden',
                 variant: 'danger',
             );
+
             return;
         }
-
 
         $this->form->create();
         Flux::toast(__('event.visitor-modal.toast.msg'), __('event.visitor-modal.toast.heading'), variant: 'success');
@@ -58,6 +55,7 @@ class Form extends Component
         $this->reset('form.event_subscription_id');
 
     }
+
     public function setSubscriber()
     {
         $subscription = EventSubscription::findOrFail($this->form->event_subscription_id);
@@ -67,8 +65,6 @@ class Form extends Component
         $this->form->phone = $subscription->phone;
         $this->reset('form.member_id');
     }
-
-
 
     public function render()
     {

@@ -4,10 +4,7 @@ namespace App\Mail;
 
 use App\Models\EventSubscription;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Content;
-use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
 class ConfirmEventSubscription extends Mailable
@@ -20,6 +17,7 @@ class ConfirmEventSubscription extends Mailable
     use SerializesModels;
 
     public $subscription;
+
     public $token;
 
     public function __construct(EventSubscription $subscription, $token)

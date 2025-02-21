@@ -9,15 +9,16 @@ use Livewire\WithPagination;
 
 class Page extends Component
 {
-
-
     use WithPagination;
 
     public $sortBy = 'date';
+
     public $sortDirection = 'desc';
+
     public string $locale;
 
-    public function sort($column) {
+    public function sort($column)
+    {
         if ($this->sortBy === $column) {
             $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
         } else {
@@ -39,6 +40,7 @@ class Page extends Component
             ->tap(fn ($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
             ->paginate(10);
     }
+
     public function render()
     {
         return view('livewire.event.index.page');

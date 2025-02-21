@@ -27,10 +27,10 @@ class EventTransaction extends Model
         return $this->belongsTo(Event::class);
     }
 
-    public function amountForHumans():string
+    public function amountForHumans(): string
     {
-        $value = $this->amount/100 * TransactionType::calc($this->transaction->type);
-        return number_format(($value), 2,',','.');
-    }
+        $value = $this->amount / 100 * TransactionType::calc($this->transaction->type);
 
+        return number_format(($value), 2, ',', '.');
+    }
 }

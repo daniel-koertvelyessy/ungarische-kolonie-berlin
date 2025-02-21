@@ -12,12 +12,10 @@ class Venue extends Model
     /** @use HasFactory<\Database\Factories\VenueFactory> */
     use HasFactory;
 
-    protected $guarded=[];
-
+    protected $guarded = [];
 
     public function events(): HasMany
     {
         return $this->hasMany(Event::class);
     }
-
 }

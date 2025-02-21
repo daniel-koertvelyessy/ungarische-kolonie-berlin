@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('booking_accounts', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->enum('type',BookingAccountType::toArray());
+            $table->enum('type', BookingAccountType::toArray());
             $table->string('number')->unique()->index();
             $table->string('label');
         });

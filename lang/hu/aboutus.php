@@ -1,5 +1,5 @@
 <?php
 
 return [
-    "page.title" => "Minden az egyesületről",
+    'page.title' => 'Minden az egyesületről',
 ];

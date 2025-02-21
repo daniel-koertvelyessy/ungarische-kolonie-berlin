@@ -2,20 +2,18 @@
 
 namespace App\Livewire\App\Global;
 
-use Intervention\Image\ImageManager;
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Storage;
-
-
-
 
 class ImageUpload extends Component
 {
     use WithFileUploads;
 
     public $image;
+
     public $thumbnail;
 
     public function updatedImage(): void
@@ -29,12 +27,12 @@ class ImageUpload extends Component
             $absolutePath = Storage::disk('public')->path($path);
 
             // Debug: Check if the file exists
-            if (!file_exists($absolutePath)) {
-                dd("File not found at: " . $absolutePath);
+            if (! file_exists($absolutePath)) {
+                dd('File not found at: '.$absolutePath);
             }
 
             // Initialize ImageManager with GD driver
-            $manager = new ImageManager(new Driver());
+            $manager = new ImageManager(new Driver);
 
             try {
                 // Read the image file
@@ -42,10 +40,10 @@ class ImageUpload extends Component
 
                 // Define the thumbnail path
                 $thumbnailDir = Storage::disk('public')->path('thumbnails');
-                $thumbnailPath = $thumbnailDir . '/' . basename($path);
+                $thumbnailPath = $thumbnailDir.'/'.basename($path);
 
                 // Ensure the thumbnails directory exists
-                if (!file_exists($thumbnailDir)) {
+                if (! file_exists($thumbnailDir)) {
                     mkdir($thumbnailDir, 0755, true);
                 }
 
@@ -54,11 +52,11 @@ class ImageUpload extends Component
                 $image->save($thumbnailPath);
 
                 // Store the public URL for the thumbnail
-                $this->thumbnail = asset("storage/thumbnails/" . basename($path));
+                $this->thumbnail = asset('storage/thumbnails/'.basename($path));
 
                 $this->dispatch('image-uploaded', file: basename($path));
             } catch (\Exception $e) {
-                dd("Error decoding image: " . $e->getMessage());
+                dd('Error decoding image: '.$e->getMessage());
             }
         }
 

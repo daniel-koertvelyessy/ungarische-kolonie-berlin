@@ -17,7 +17,7 @@ class RegisterController extends Controller
 
         $member = Member::where('email', $invitation->email)->firstOrFail();
 
-        $user = (new CreateNewUser())->create([
+        $user = (new CreateNewUser)->create([
             'locale' => $member->locale,
             'first_name' => $member->first_name,
             'name' => $member->name,
@@ -40,7 +40,6 @@ class RegisterController extends Controller
         return redirect()->intended(route('dashboard'));
     }
 
-
     public function showRegistrationForm(Request $request)
     {
         $token = $request->query('token');
@@ -49,12 +48,12 @@ class RegisterController extends Controller
 
         $member = Member::where('email', $invitation->email)->firstOrFail();
 
-        if (!$member){
+        if (! $member) {
             return redirect('/')->with('error', 'Invalid or non existent member');
 
         }
 
-        if (!$invitation) {
+        if (! $invitation) {
             return redirect('/')->with('error', 'Invalid or expired invitation link.');
         }
 

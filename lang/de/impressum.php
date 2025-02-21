@@ -1,6 +1,5 @@
 <?php
 
-
 return [
     'title' => 'Impressum',
     'register_name' => 'Registierter Name',
@@ -11,7 +10,5 @@ return [
     'represented_by' => 'Gemeinschaftlich vertretungsberechtigt:',
     'president' => '1. Vorsitz',
     'sub_president' => '2. Vorsitz',
-
-
 
 ];

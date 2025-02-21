@@ -5,11 +5,7 @@ namespace App\Livewire\Forms;
 use App\Models\Accounting\Receipt;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
 use Imagick;
-use ImagickException;
-use Livewire\Attributes\Rule;
-use Livewire\Attributes\Validate;
 use Livewire\Form;
 use Livewire\WithFileUploads;
 
@@ -17,10 +13,12 @@ class ReceiptForm extends Form
 {
     use WithFileUploads;
 
-
     public $id;
+
     public $transaction_id;
+
     public $file_name;
+
     public $file_name_original;
 
     public function set(Receipt $receipt)
@@ -29,16 +27,15 @@ class ReceiptForm extends Form
         $this->file_name = $receipt->file_name;
     }
 
-
     public function generatePreview($filename): string
     {
-        $pdfFullPath = storage_path('app/private/accounting/receipts/' . $filename);
-        $outputPath = 'accounting/receipts/previews/' . pathinfo($filename, PATHINFO_FILENAME) . '.png';
-        $outputFullPath = storage_path('app/private/' . $outputPath);
+        $pdfFullPath = storage_path('app/private/accounting/receipts/'.$filename);
+        $outputPath = 'accounting/receipts/previews/'.pathinfo($filename, PATHINFO_FILENAME).'.png';
+        $outputFullPath = storage_path('app/private/'.$outputPath);
 
         // Ensure directory exists
         $outputDir = dirname($outputFullPath);
-        if (!file_exists($outputDir)) {
+        if (! file_exists($outputDir)) {
             mkdir($outputDir, 0755, true);
         }
 
@@ -50,8 +47,8 @@ class ReceiptForm extends Form
         putenv("MAGICK_GS_DELEGATE=$gsPath");
 
         try {
-            $imagick = new Imagick();
-            $imagick->readImage($pdfFullPath . '[0]');
+            $imagick = new Imagick;
+            $imagick->readImage($pdfFullPath.'[0]');
             $w = $imagick->getImageWidth() * 0.3;
             $h = $imagick->getImageHeight() * 0.3;
             $imagick->resizeImage($w, $h, Imagick::FILTER_CATROM, 1);
@@ -63,7 +60,8 @@ class ReceiptForm extends Form
 
             return Storage::url($outputPath);
         } catch (\Exception $e) {
-            \Log::error('PDF Preview Error: ' . $e->getMessage());
+            \Log::error('PDF Preview Error: '.$e->getMessage());
+
             return '';
         }
     }
@@ -82,12 +80,11 @@ class ReceiptForm extends Form
 
         $path = $this->generatePreview($newFilename);
 
-
         // Store receipt in DB
         return Receipt::create([
             'file_name_original' => $originalFilename,
-            'file_name'          => $newFilename,
-            'transaction_id'     => $transaction_id,
+            'file_name' => $newFilename,
+            'transaction_id' => $transaction_id,
         ]);
     }
 
@@ -97,12 +94,12 @@ class ReceiptForm extends Form
 
             'file_name_original' => [
                 'nullable', \Illuminate\Validation\Rule::unique('receipts', 'file_name')
-                    ->ignore($this->transaction_id)
+                    ->ignore($this->transaction_id),
             ],
-            'file_name'        => [
-                'required'
+            'file_name' => [
+                'required',
             ],
-            'transaction_id'   => [
+            'transaction_id' => [
                 'required',
             ],
         ];
@@ -112,10 +109,10 @@ class ReceiptForm extends Form
     {
         return [
             'transaction_id.required' => __('The transaction id field is required.'),
-            'label.required'          => 'Belegbezeichnung fehlt',
-            'file_name.required'      => 'Es wurde noch keine Datei ausgewählt',
-            'number.unique'           => 'Diese Belegnummer wurde bereits gebucht!',
-            'date.required'           => 'Belegdatum fehlt',
+            'label.required' => 'Belegbezeichnung fehlt',
+            'file_name.required' => 'Es wurde noch keine Datei ausgewählt',
+            'number.unique' => 'Diese Belegnummer wurde bereits gebucht!',
+            'date.required' => 'Belegdatum fehlt',
         ];
     }
 }

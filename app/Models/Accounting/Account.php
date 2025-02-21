@@ -28,13 +28,13 @@ class Account extends Model
         return $this->hasMany(Transaction::class);
     }
 
-    public function accountBalance():int
+    public function accountBalance(): int
     {
 
-        $current = $this->starting_amount??0;
+        $current = $this->starting_amount ?? 0;
 
-        foreach (Transaction::where('account_id',$this->id)->get() as $transaction) {
-            $current += $transaction->status === TransactionStatus::booked->value ? $transaction->amount_gross * TransactionType::calc($transaction->type):0;
+        foreach (Transaction::where('account_id', $this->id)->get() as $transaction) {
+            $current += $transaction->status === TransactionStatus::booked->value ? $transaction->amount_gross * TransactionType::calc($transaction->type) : 0;
         }
 
         return $current;
@@ -46,12 +46,12 @@ class Account extends Model
         $value = preg_replace('/[^\d,]/', '', $formattedValue);
 
         // Replace comma with a dot for decimal conversion
-        $n = str_replace(',', '', $value,$count);
+        $n = str_replace(',', '', $value, $count);
 
         return (int) $n;
     }
 
-    public static function formatedAmount(int $value):string
+    public static function formatedAmount(int $value): string
     {
         return number_format($value, 2, ',', '.');
     }

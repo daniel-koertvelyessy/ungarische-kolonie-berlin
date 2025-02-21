@@ -13,7 +13,7 @@ class EventVisitor extends Model
     /** @use HasFactory<\Database\Factories\EventVisitorFactory> */
     use HasFactory;
 
-    protected $fillable=[
+    protected $fillable = [
         'name',
         'email',
         'phone',
@@ -22,7 +22,7 @@ class EventVisitor extends Model
         'member_id',
         'transaction_id',
         'gender',
-        'event_subscription_id'
+        'event_subscription_id',
     ];
 
     public function transaction(): BelongsTo

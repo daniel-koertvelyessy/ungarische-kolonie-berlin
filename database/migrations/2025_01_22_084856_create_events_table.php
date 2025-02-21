@@ -28,5 +28,4 @@ return new class extends Migration
             $table->foreignIdFor(\App\Models\Venue::class)->nullable()->constrained()->nullOnDelete();
         });
     }
-
 };

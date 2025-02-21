@@ -78,13 +78,11 @@ class AccountPolicy
             return true;
         }
 
-
         if ($user->email === env('APP_ACCOUNTANT')) {
             return true;
         }
 
-
-        if ($user->member->type === MemberType::MD->value){
+        if ($user->member->type === MemberType::MD->value) {
             return true;
         }
 

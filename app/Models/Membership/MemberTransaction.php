@@ -26,12 +26,12 @@ class MemberTransaction extends Model
         return $this->belongsTo(Event::class);
     }
 
-    public function amountForHumans():string
+    public function amountForHumans(): string
     {
-        return number_format(($this->amount/100), 2,',','.');
+        return number_format(($this->amount / 100), 2, ',', '.');
     }
 
     protected $casts = [
-        'date'=> 'date',
+        'date' => 'date',
     ];
 }

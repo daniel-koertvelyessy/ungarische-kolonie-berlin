@@ -2,7 +2,6 @@
 
 namespace App\Mail;
 
-use App\Models\Membership\Invitation;
 use App\Models\Membership\Member;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -25,9 +24,8 @@ class AcceptMembershipMail extends Mailable
     {
         return $this->subject(__('mails.acceptance.subject'))
             ->from('szia@magyar-kolonia-berlin.org', 'Körtvélyessy Daniel')
-            ->view('emails.member-acceptance', [ 'member' => $this->member]);
+            ->view('emails.member-acceptance', ['member' => $this->member]);
     }
-
 
     /**
      * Get the message envelope.
@@ -49,6 +47,4 @@ class AcceptMembershipMail extends Mailable
             view: 'emails.member-acceptance',
         );
     }
-
-
 }

@@ -2,17 +2,16 @@
 
 namespace App\Enums;
 
-enum TransactionType:string
+enum TransactionType: string
 {
- case Deposit = 'Einzahlung';
- case Withdrawal = 'Auszahlung';
- case Reversal = 'Storno';
+    case Deposit = 'Einzahlung';
+    case Withdrawal = 'Auszahlung';
+    case Reversal = 'Storno';
 
     public static function toArray(): array
     {
         return array_column(TransactionType::cases(), 'value');
     }
-
 
     public static function calc(string $value): int
     {

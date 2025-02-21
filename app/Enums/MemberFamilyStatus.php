@@ -4,16 +4,15 @@ namespace App\Enums;
 
 enum MemberFamilyStatus: string
 {
-    case SI = "single";
-    case MA = "married";
-    case DI = "divorced";
-    case NN = "n_a";
+    case SI = 'single';
+    case MA = 'married';
+    case DI = 'divorced';
+    case NN = 'n_a';
 
     public static function toArray(): array
     {
         return array_column(MemberFamilyStatus::cases(), 'value');
     }
-
 
     public static function value(string $value): string
     {

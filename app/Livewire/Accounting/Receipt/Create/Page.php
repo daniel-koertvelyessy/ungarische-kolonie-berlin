@@ -8,7 +8,6 @@ use Livewire\Component;
 
 class Page extends Component
 {
-
     public function updateReceipt($file)
     {
         if ($file instanceof \Livewire\TemporaryUploadedFile) {
@@ -16,7 +15,7 @@ class Page extends Component
             $uuid = Str::uuid();
             $originalFilename = $this->receipt_id->getClientOriginalName();
             $extension = $this->receipt_id->getClientOriginalExtension();
-            $newFilename = $uuid . '.' . $extension;
+            $newFilename = $uuid.'.'.$extension;
 
             // Store the file in storage/app/accounting/receipts
             $path = $this->receipt_id->storeAs('accounting/receipts', $newFilename, 'local');
@@ -25,7 +24,7 @@ class Page extends Component
             $receipt = Receipt::create([
                 'uuid' => $uuid,
                 'label' => $this->label,
-                'file_name' =>  $newFilename,
+                'file_name' => $newFilename,
                 'number' => $this->number,
                 'date' => $this->date,
                 'description' => $this->description,
@@ -36,6 +35,4 @@ class Page extends Component
 
         return false;
     }
-
-
 }

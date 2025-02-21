@@ -16,25 +16,39 @@ use Livewire\Form;
 class EventForm extends Form
 {
     public Event $event;
+
     public string $locale;
+
     public array $locales;
+
     public $status = EventStatus::DRAFT->value;
+
     public $id;
+
     public $event_date;
+
     public $start_time;
+
     public $end_time;
+
     public $image;
+
     public $entry_fee;
+
     public $entry_fee_discounted;
+
     public $payment_link;
 
     public array $title;
+
     #[Validate]
     public array $slug;
-    public array $excerpt;
-    public array $description;
-    public $venue_id;
 
+    public array $excerpt;
+
+    public array $description;
+
+    public $venue_id;
 
     public function setEvent(Event $event): void
     {
@@ -56,30 +70,31 @@ class EventForm extends Form
         $this->venue_id = $this->event->venue_id;
     }
 
-    public function create():Event
+    public function create(): Event
     {
         $this->validate();
-       return CreateEvent::handle($this);
+
+        return CreateEvent::handle($this);
     }
 
     protected function rules(): array
     {
         return [
-            'venue_id'             => 'nullable|exists:venues,id',
-            'event_date'           => 'nullable|date',
-            'start_time'           => 'required_with:event_date',
-            'end_time'             => 'required_with:event_date',
-            'title.*'              => [  // Using wildcard for each locale key
-                                         'required',
-                                         new UniqueJsonSlug('events', 'title', $this->id)
+            'venue_id' => 'nullable|exists:venues,id',
+            'event_date' => 'nullable|date',
+            'start_time' => 'required_with:event_date',
+            'end_time' => 'required_with:event_date',
+            'title.*' => [  // Using wildcard for each locale key
+                'required',
+                new UniqueJsonSlug('events', 'title', $this->id),
             ],
-            'slug.*'               => new UniqueJsonSlug('events', 'slug', $this->id),
-            'excerpt'              => 'nullable',
-            'description'          => 'nullable',
-            'image'                => 'nullable',
-            'payment_link'         => 'nullable',
-            'status'               => ['nullable', Rule::enum(EventStatus::class)],
-            'entry_fee'            => 'nullable|numeric',
+            'slug.*' => new UniqueJsonSlug('events', 'slug', $this->id),
+            'excerpt' => 'nullable',
+            'description' => 'nullable',
+            'image' => 'nullable',
+            'payment_link' => 'nullable',
+            'status' => ['nullable', Rule::enum(EventStatus::class)],
+            'entry_fee' => 'nullable|numeric',
             'entry_fee_discounted' => 'nullable|numeric',
         ];
     }
@@ -100,7 +115,6 @@ class EventForm extends Form
         $this->event->payment_link = $this->payment_link;
         $this->event->status = $this->status;
 
-
         if ($this->event->save()) {
             Flux::toast(
                 text: __('event.update.success.content'),
@@ -113,9 +127,9 @@ class EventForm extends Form
     public function storeImage($file): bool
     {
         $this->event->image = $file;
+
         return $this->event->save();
     }
-
 
     public function deleteImage(): bool
     {
@@ -124,6 +138,7 @@ class EventForm extends Form
                 ->delete('/image/images/'.$this->event->image);
             if ($del) {
                 $this->event->image = null;
+
                 return $this->event->save();
             }
         } catch (\Illuminate\Contracts\Filesystem\FileNotFoundException $e) {
@@ -133,6 +148,7 @@ class EventForm extends Form
                 variant: 'danger',
             );
         }
+
         return false;
     }
 }

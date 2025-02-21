@@ -15,6 +15,7 @@ class InvitationMail extends Mailable
     use Queueable, SerializesModels;
 
     public $invitation;
+
     public $member;
 
     public function __construct(Invitation $invitation, Member $member)
@@ -27,12 +28,11 @@ class InvitationMail extends Mailable
     {
         return $this->subject('Meghívás a Magyar Kolónia Berlin e.V.')
             ->from('szia@magyar-kolonia-berlin.org', 'Körtvélyessy Daniel')
-            ->view('emails._invitation', [ 'member' => $this->member])
+            ->view('emails._invitation', ['member' => $this->member])
             ->with([
                 'url' => route('register', ['token' => $this->invitation->token]),
             ]);
     }
-
 
     /**
      * Get the message envelope.
@@ -52,9 +52,7 @@ class InvitationMail extends Mailable
     {
         return new Content(
             view: 'emails.invitation',
-            with:[ 'url' => route('register', ['token' => $this->invitation->token])],
+            with: ['url' => route('register', ['token' => $this->invitation->token])],
         );
     }
-
-
 }

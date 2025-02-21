@@ -7,13 +7,12 @@ use App\Livewire\Forms\AccountForm;
 use App\Models\Accounting\Account;
 use Flux\Flux;
 use Illuminate\Auth\Access\AuthorizationException;
-use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class Form extends Component
 {
-
     public AccountForm $form;
+
     public Account $account;
 
     public function mount(Account $account)
@@ -47,6 +46,7 @@ class Form extends Component
                 text: 'You have no permission to edit this! '.$e->getMessage(),
                 variant: 'danger',
             );
+
             return;
         }
     }

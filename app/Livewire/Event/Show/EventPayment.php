@@ -12,18 +12,18 @@ use Livewire\Component;
 
 class EventPayment extends Component
 {
-
     public EventForm $eventForm;
+
     public TransactionForm $transactionForm;
+
     public $member_id = 'extern';
 
     public bool $setEntryFee = false;
 
-
     #[Computed]
     public function members()
     {
-        return \App\Models\Membership\Member::select('id', 'name','first_name')
+        return \App\Models\Membership\Member::select('id', 'name', 'first_name')
             ->where('left_at', null)
             ->get();
     }
@@ -67,7 +67,8 @@ class EventPayment extends Component
 
     }
 
-    public function addEventPayment() {
+    public function addEventPayment()
+    {
         $this->storePayment();
     }
 

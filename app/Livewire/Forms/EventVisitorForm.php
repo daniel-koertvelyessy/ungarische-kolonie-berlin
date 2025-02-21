@@ -6,22 +6,29 @@ use App\Actions\Event\CreateEventVisitor;
 use App\Enums\Gender;
 use App\Models\Event\EventVisitor;
 use Illuminate\Validation\Rule;
-use Livewire\Attributes\Validate;
 use Livewire\Form;
 
 class EventVisitorForm extends Form
 {
     public EventVisitor $event_visitor;
-    public $id;
-    public $name;
-    public $email;
-    public $phone;
-    public $event_id;
-    public $gender;
-    public $transaction_id;
-    public $member_id;
-    public $event_subscription_id;
 
+    public $id;
+
+    public $name;
+
+    public $email;
+
+    public $phone;
+
+    public $event_id;
+
+    public $gender;
+
+    public $transaction_id;
+
+    public $member_id;
+
+    public $event_subscription_id;
 
     public function set(EventVisitor $visitor): void
     {
@@ -40,21 +47,21 @@ class EventVisitorForm extends Form
     {
 
         $this->validate();
+
         return CreateEventVisitor::handle($this);
     }
 
     protected function rules(): array
     {
         return [
-            'name'                  => 'required',
-            'email'                 => 'nullable|email',
-            'event_id'              => 'nullable|exists:events,id',
-            'gender'                => [Rule::enum(Gender::class)],
-            'transaction_id'        => 'nullable|exists:transactions,id',
-            'member_id'             => 'nullable|exists:members,id',
+            'name' => 'required',
+            'email' => 'nullable|email',
+            'event_id' => 'nullable|exists:events,id',
+            'gender' => [Rule::enum(Gender::class)],
+            'transaction_id' => 'nullable|exists:transactions,id',
+            'member_id' => 'nullable|exists:members,id',
             'event_subscription_id' => 'nullable|exists:event_subscriptions,id',
-            'phone'                 => 'nullable'
+            'phone' => 'nullable',
         ];
     }
-
 }

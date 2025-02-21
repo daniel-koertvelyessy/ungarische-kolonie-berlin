@@ -1,4 +1,4 @@
-<div x-data="{showFilter: false}">
+<div x-data="{showFilter: true}">
     <header class="flex justify-between items-center mb-3 lg:mb-6">
         <flux:heading size="xl">Übersicht der Buchungen</flux:heading>
         <flux:button icon="adjustments-horizontal"
@@ -12,22 +12,22 @@
          x-show="showFilter"
     >
 
-        <flux:checkbox.group wire:model.live="filter_status"
-                             label="Status"
-        >
-            @foreach(\App\Enums\TransactionStatus::cases() as $status)
-                <flux:checkbox value="{{ $status->value }}"
-                               label="{{ $status->value }}"
-                />
-            @endforeach
-        </flux:checkbox.group>
-
         <flux:checkbox.group wire:model.live="filter_type"
                              label="Typ"
         >
             @foreach(\App\Enums\TransactionType::cases() as $type)
                 <flux:checkbox value="{{ $type->value }}"
                                label="{{ $type->value }}"
+                />
+            @endforeach
+        </flux:checkbox.group>
+
+        <flux:checkbox.group wire:model.live="filter_status"
+                             label="Status"
+        >
+            @foreach(\App\Enums\TransactionStatus::cases() as $status)
+                <flux:checkbox value="{{ $status->value }}"
+                               label="{{ $status->value }}"
                 />
             @endforeach
         </flux:checkbox.group>
@@ -459,6 +459,28 @@
                          type="submit"
             >{{ __('transaction.edit-text-modal.btn.label') }}</flux:button>
         </form>
+    </flux:modal>
+
+    <flux:modal name="cancel-transaction"
+                class="w-1/5"
+    >
+
+        <flux:heading size="lg">{{ __('transaction.edit-text-modal.heading') }}</flux:heading>
+
+        <form wire:submit="cancelTransaction"
+              class="space-y-6"
+        >
+
+
+            <flux:input wire:model="changeTextLabel"
+                        label="{{ __('transaction.edit-text-modal.label') }}"
+            />
+            <flux:input wire:model="changeTextReference"
+                        label="{{ __('transaction.edit-text-modal.reference') }}"
+            />
+
+        </form>
+
     </flux:modal>
 
 </div>

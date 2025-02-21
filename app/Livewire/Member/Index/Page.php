@@ -11,9 +11,8 @@ use Livewire\WithPagination;
 
 class Page extends Component
 {
-
-    use WithPagination;
     use Sortable;
+    use WithPagination;
 
     public $search = '';
 
@@ -24,18 +23,17 @@ class Page extends Component
         MemberType::AD->value,
     ];
 
-
     #[Computed]
     public function members(): LengthAwarePaginator
     {
         return \App\Models\Membership\Member::query()
-            ->tap(fn($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
-            ->tap(fn($query) => $this->search ? $query->where('name', 'LIKE', '%'.$this->search.'%')
+            ->tap(fn ($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
+            ->tap(fn ($query) => $this->search ? $query->where('name', 'LIKE', '%'.$this->search.'%')
                 ->orWhere('first_name', 'LIKE', '%'.$this->search.'%')
                 ->orWhere('email', 'LIKE', '%'.$this->search.'%')
                 ->orWhere('bith_place', 'LIKE', '%'.$this->search.'%')
                 : $query)
-            ->tap(fn($query) => $this->filteredBy ? $query->whereIn('type', $this->filteredBy) : $query)
+            ->tap(fn ($query) => $this->filteredBy ? $query->whereIn('type', $this->filteredBy) : $query)
             ->paginate(10);
     }
 

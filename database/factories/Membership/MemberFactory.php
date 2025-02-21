@@ -19,10 +19,11 @@ class MemberFactory extends Factory
     public function definition(): array
     {
 
-        $gen= Gender::ma;
+        $gen = Gender::ma;
+
         return [
-            'applied_at' => fake()->dateTimeBetween('-55 years','now')->format('Y-m-d'),
-            'entered_at' => fake()->dateTimeBetween('-55 years','now')->format('Y-m-d'),
+            'applied_at' => fake()->dateTimeBetween('-55 years', 'now')->format('Y-m-d'),
+            'entered_at' => fake()->dateTimeBetween('-55 years', 'now')->format('Y-m-d'),
             'left_at' => null,
             'is_deducted' => false,
             'birth_date' => fake()->dateTimeBetween('-50 years', '-18 years')->format('Y-m-d'),

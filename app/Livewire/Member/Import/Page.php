@@ -11,15 +11,17 @@ class Page extends Component
     use WithFileUploads;
 
     public $jsonFile;
+
     public $jsonText;
+
     public array $parsedUsers = [];
 
     protected $rules = [
-        'jsonText'                 => 'nullable|string',
-        'jsonFile'                 => 'nullable|file|mimes:json|max:1024',
-        'parsedUsers.*.name'       => 'required|string|max:255',
+        'jsonText' => 'nullable|string',
+        'jsonFile' => 'nullable|file|mimes:json|max:1024',
+        'parsedUsers.*.name' => 'required|string|max:255',
         'parsedUsers.*.first_name' => 'required|string|max:255',
-        'parsedUsers.*.email'      => 'nullable|email|max:255',
+        'parsedUsers.*.email' => 'nullable|email|max:255',
     ];
 
     public function updatedJsonFile()
@@ -41,22 +43,21 @@ class Page extends Component
         try {
             $data = json_decode($json, true);
 
-
-            if (!is_array($data)) {
+            if (! is_array($data)) {
                 throw new \Exception('Invalid JSON format.');
             }
 
             // Validate structure and populate $parsedUsers
             $this->parsedUsers = collect($data)
-                ->map(function ($item)
-                {
-                    if (!isset($item['name'], $item['first_name'], $item['email'])) {
+                ->map(function ($item) {
+                    if (! isset($item['name'], $item['first_name'], $item['email'])) {
                         throw new \Exception('Invalid JSON structure.');
                     }
+
                     return [
-                        'name'       => $item['name'],
+                        'name' => $item['name'],
                         'first_name' => $item['first_name'],
-                        'email'      => $item['email'],
+                        'email' => $item['email'],
                     ];
                 })
                 ->toArray();
@@ -72,11 +73,12 @@ class Page extends Component
 
         if (empty($this->parsedUsers)) {
             $this->addError('jsonText', 'No valid data to import.');
+
             return;
         }
 
         foreach ($this->parsedUsers as $user) {
-          Member::updateOrCreate(
+            Member::updateOrCreate(
                 ['email' => $user['email']],
                 ['name' => $user['name'], 'first_name' => $user['first_name']]
             );
@@ -86,7 +88,6 @@ class Page extends Component
         $this->reset(['jsonFile', 'jsonText', 'parsedUsers']);
         session()->flash('success', 'Users imported successfully!');
     }
-
 
     public function render()
     {

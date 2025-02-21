@@ -19,10 +19,12 @@ class Transaction extends Model
     use HasFactory;
 
     protected int $decimals = 2;
+
     protected string $komma = ',';
+
     protected string $tausender = '.';
 
-    protected $guarded=[];
+    protected $guarded = [];
 
     protected $casts = [
         'date' => 'datetime',
@@ -42,6 +44,7 @@ class Transaction extends Model
     {
         return $this->hasOne(EventTransaction::class);
     }
+
     public function member_transaction(): HasOne
     {
         return $this->hasOne(MemberTransaction::class);
@@ -57,17 +60,24 @@ class Transaction extends Model
         return $this->hasMany(EventVisitor::class);
     }
 
-    public function grossForHumans():string{
-        return number_format(($this->amount_gross/100),$this->decimals,$this->komma,$this->tausender);
+    public function grossForHumans(): string
+    {
+        return number_format(($this->amount_gross / 100), $this->decimals, $this->komma, $this->tausender);
     }
-    public function taxForHumans():string{
-        return number_format(($this->tax/100),$this->decimals,$this->komma,$this->tausender);
+
+    public function taxForHumans(): string
+    {
+        return number_format(($this->tax / 100), $this->decimals, $this->komma, $this->tausender);
     }
-    public function netForHumans():string{
-        return number_format(($this->amount_net/100),$this->decimals,$this->komma,$this->tausender);
+
+    public function netForHumans(): string
+    {
+        return number_format(($this->amount_net / 100), $this->decimals, $this->komma, $this->tausender);
     }
-    public function grossColor():string{
-        if ($this->type === TransactionType::Deposit->value){
+
+    public function grossColor(): string
+    {
+        if ($this->type === TransactionType::Deposit->value) {
             return 'positive';
         } else {
             return 'negative';

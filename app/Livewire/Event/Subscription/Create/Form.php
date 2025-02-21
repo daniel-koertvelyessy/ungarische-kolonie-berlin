@@ -13,12 +13,19 @@ use Livewire\Component;
 class Form extends Component
 {
     public $eventId;
+
     public $name;
+
     public $email;
+
     public $phone;
+
     public $remarks;
+
     public $bringsGuests = false;
+
     public $consentNotification = false;
+
     public $amountGuests = 0;
 
     protected $rules = [

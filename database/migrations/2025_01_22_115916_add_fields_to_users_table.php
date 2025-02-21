@@ -12,13 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-        $table->string('first_name')->after('name')->nullable();
-        $table->enum('gender',\App\Enums\Gender::toArray())->after('name')->nullable()->default(\App\Enums\Gender::ma);
-        $table->string('username')->after('name')->nullable();
-        $table->string('phone')->after('email')->nullable();
-        $table->string('mobile')->after('email')->nullable();
-        $table->boolean('is_admin')->after('password')->nullable();
-        $table->enum('locale', \App\Enums\Locale::toArray())->after('name')->nullable()->default(\App\Enums\Locale::DE);
+            $table->string('first_name')->after('name')->nullable();
+            $table->enum('gender', \App\Enums\Gender::toArray())->after('name')->nullable()->default(\App\Enums\Gender::ma);
+            $table->string('username')->after('name')->nullable();
+            $table->string('phone')->after('email')->nullable();
+            $table->string('mobile')->after('email')->nullable();
+            $table->boolean('is_admin')->after('password')->nullable();
+            $table->enum('locale', \App\Enums\Locale::toArray())->after('name')->nullable()->default(\App\Enums\Locale::DE);
         });
     }
 

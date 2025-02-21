@@ -2,12 +2,11 @@
 
 namespace App\Enums;
 
-enum AccountType:string
+enum AccountType: string
 {
     case cash = 'Barkasse';
     case bank = 'Bankkonto';
     case paypal = 'PayPal';
-
 
     public static function toArray(): array
     {

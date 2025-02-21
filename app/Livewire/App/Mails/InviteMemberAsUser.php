@@ -32,6 +32,7 @@ class InviteMemberAsUser extends Component
             variant: 'success',
         );
     }
+
     public function render()
     {
         return view('livewire.app.mails.invite-member-as-user');

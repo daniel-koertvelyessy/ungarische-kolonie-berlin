@@ -12,17 +12,22 @@ class VenueForm extends Form
     public Venue $venue;
 
     #[validate]
-    public string $name='';
+    public string $name = '';
 
     #[validate]
-    public string $address='';
+    public string $address = '';
 
-    public string $city='';
-    public string $country='';
-    public string $postal_code='';
-    public string $phone='';
-    public string $website='';
-    public string $geolocation='';
+    public string $city = '';
+
+    public string $country = '';
+
+    public string $postal_code = '';
+
+    public string $phone = '';
+
+    public string $website = '';
+
+    public string $geolocation = '';
 
     public function setVenue(Venue $venue): void
     {
@@ -41,21 +46,21 @@ class VenueForm extends Form
     protected function rules(): array
     {
         return [
-            'name'    => [
+            'name' => [
                 'required',
                 'string',
                 'max:255',
-                Rule::unique('venues')->ignore($this->name)
+                Rule::unique('venues')->ignore($this->name),
             ],
             'address' => ['required', 'string'],
         ];
     }
 
-    public function store():int
+    public function store(): int
     {
         $this->validate();
 
-        $venue = new Venue();
+        $venue = new Venue;
 
         $venue->name = $this->name;
         $venue->address = $this->address;
@@ -69,7 +74,8 @@ class VenueForm extends Form
         return $venue->save() ? $venue->id : 0;
     }
 
-    public function update() {
+    public function update()
+    {
 
         $this->validate();
 
@@ -84,7 +90,5 @@ class VenueForm extends Form
             'geolocation' => $this->geolocation,
         ]);
 
-
     }
-
 }

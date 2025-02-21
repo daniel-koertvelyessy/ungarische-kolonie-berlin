@@ -12,43 +12,40 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 
-//use Spatie\Browsershot\Browsershot;
+// use Spatie\Browsershot\Browsershot;
 
-
-Route::get('/mailer-test', function ()
-{
+Route::get('/mailer-test', function () {
     app()->setLocale('hu');
 
     return view('emails.invitation', ['member' => Member::find(1)]);
 })
     ->name('mail-tester');
 
-Route::get('lang/{locale}', function ($locale)
-{
+Route::get('lang/{locale}', function ($locale) {
     App::setLocale($locale);
     session()->put('locale', $locale);
+
     return redirect()->back();
 });
 
-Route::get('/', function ()
-{
+Route::get('/', function () {
     return view('welcome', [
-        'events'         => \App\Models\Event\Event::with('venue')
+        'events' => \App\Models\Event\Event::with('venue')
             ->where('status', '=', \App\Enums\EventStatus::PUBLISHED)
             ->whereBetween('event_date', [
                 Carbon::today(), Carbon::now()
-                    ->endOfYear()
+                    ->endOfYear(),
             ])
             ->take(3)
             ->get(),
-        'events_total'   => \App\Models\Event\Event::whereBetween('event_date', [
+        'events_total' => \App\Models\Event\Event::whereBetween('event_date', [
             Carbon::today(), Carbon::now()
-                ->endOfDecade()
+                ->endOfDecade(),
         ])
             ->where('status', '=', \App\Enums\EventStatus::PUBLISHED->value)
             ->get()
             ->count(),
-        'articles'       => \App\Models\Article::take(3)
+        'articles' => \App\Models\Article::take(3)
             ->get(),
         'articles_total' => \App\Models\Article::all()
             ->count(),
@@ -56,24 +53,22 @@ Route::get('/', function ()
 })
     ->name('home');
 
-Route::get('/events', function ()
-{
+Route::get('/events', function () {
     return view('events.index', [
         'events' => \App\Models\Event\Event::orderBy('event_date')
             ->where('status', '=', \App\Enums\EventStatus::PUBLISHED->value)
             ->paginate(5),
-        'locale' => App::getLocale()
+        'locale' => App::getLocale(),
     ]);
 })
     ->name('events');
 
-Route::get('/events/{slug}', function (string $slug)
-{
+Route::get('/events/{slug}', function (string $slug) {
     return view('events.show', [
-        'event'  => Event::with('venue')
+        'event' => Event::with('venue')
             ->whereJsonContains('slug', $slug)
             ->firstOrFail(),
-        'locale' => App::getLocale()
+        'locale' => App::getLocale(),
     ]);
 })
     ->name('events.show');
@@ -81,8 +76,7 @@ Route::get('/events/{slug}', function (string $slug)
 Route::get('/articles', \App\Livewire\Article\Index\Page::class)
     ->name('articles.index');
 
-Route::get('/ics/{slug}', function (string $slug)
-{
+Route::get('/ics/{slug}', function (string $slug) {
     $locale = App::getLocale();
 
     // Find the event by JSON slug field
@@ -90,10 +84,8 @@ Route::get('/ics/{slug}', function (string $slug)
         ->firstOrFail();
     // Combine the event_date with start_time to form a full DateTime string
 
-
     $startDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $event->event_date->format('Y-m-d').' '.$event->start_time->format('H:i:s'), 'Europe/Berlin');
     $endDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $event->event_date->format('Y-m-d').' '.$event->end_time->format('H:i:s'), 'Europe/Berlin');
-
 
     // Convert to UTC timezone
     $startDateTime->setTimezone('UTC');
@@ -119,21 +111,20 @@ Route::get('/ics/{slug}', function (string $slug)
     $icsContent .= "VERSION:2.0\r\n";
     $icsContent .= "PRODID:-//Your Company//NONSGML v1.0//EN\r\n";
     $icsContent .= "BEGIN:VEVENT\r\n";
-    $icsContent .= "SUMMARY:".$title."\r\n";
-    $icsContent .= "LOCATION:".$location."\r\n";
-    $icsContent .= "DTSTART:".$startFormatted."\r\n";
-    $icsContent .= "DTEND:".$endFormatted."\r\n";
+    $icsContent .= 'SUMMARY:'.$title."\r\n";
+    $icsContent .= 'LOCATION:'.$location."\r\n";
+    $icsContent .= 'DTSTART:'.$startFormatted."\r\n";
+    $icsContent .= 'DTEND:'.$endFormatted."\r\n";
     $icsContent .= "DESCRIPTION:$description\r\n";
     $icsContent .= "STATUS:CONFIRMED\r\n";
-    $icsContent .= "DTSTAMP:".$dtStamp."\r\n";  // Add DTSTAMP property
-    $icsContent .= "UID:".$uid."\r\n";  // Add UID property
+    $icsContent .= 'DTSTAMP:'.$dtStamp."\r\n";  // Add DTSTAMP property
+    $icsContent .= 'UID:'.$uid."\r\n";  // Add UID property
     $icsContent .= "END:VEVENT\r\n";
     $icsContent .= "END:VCALENDAR\r\n";
 
-
     // Create and store the .ics file
     $fileName = 'event_'.$event->event_date->format('Y-m-d').'.ics';
-//    Storage::disk('public')->put($fileName, $icsContent);
+    //    Storage::disk('public')->put($fileName, $icsContent);
 
     // Alternatively, return the file as a response for immediate download
     return response($icsContent, 200)
@@ -141,14 +132,12 @@ Route::get('/ics/{slug}', function (string $slug)
         ->header('Content-Disposition', 'attachment; filename="'.$fileName.'"');
 });
 
-Route::get('/impressum', function ()
-{
+Route::get('/impressum', function () {
     return view('impressum');
 })
     ->name('impressum');
 
-Route::get('/der-verein', function ()
-{
+Route::get('/der-verein', function () {
     return view('about-us');
 })
     ->name('about-us');
@@ -156,11 +145,10 @@ Route::get('/der-verein', function ()
 Route::get('/mitglied-werden', \App\Livewire\Member\Apply\Page::class)
     ->name('members.application');
 
-Route::get('/print-member-application/{member}', function (\App\Models\Membership\Member $member)
-{
+Route::get('/print-member-application/{member}', function (\App\Models\Membership\Member $member) {
     $html = view('pdf.membership-application', ['member' => $member])->render();
     $filename = __('members.apply.print.filename', ['tm' => date('YmdHis'), 'id' => $member->id]);
-    $pdf = new TCPDF();
+    $pdf = new TCPDF;
 
     // Set document information
     $pdf->SetTitle(__('members.apply.print.title'));
@@ -199,8 +187,7 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])
-    ->group(function ()
-    {
+    ->group(function () {
         Route::get('/members', \App\Livewire\Member\Index\Page::class)
             ->name('members.index');
 
@@ -222,8 +209,7 @@ Route::middleware([
         Route::get('/backend-events/{event}', \App\Livewire\Event\Show\Page::class)
             ->name('backend.events.show');
 
-        Route::get('/backend-events/report/{event}', function (Event $event)
-        {
+        Route::get('/backend-events/report/{event}', function (Event $event) {
             $ets = \App\Models\Event\EventTransaction::where('event_id', $event->id)
                 ->with('transaction')
                 ->get();
@@ -233,19 +219,17 @@ Route::middleware([
             $spending = 0;
             $spendings = \App\Models\Event\EventTransaction::with('transaction.account')
                 ->where('event_id', $event->id)
-                ->whereHas('transaction', function ($query)
-                {
+                ->whereHas('transaction', function ($query) {
                     $query->where('type', \App\Enums\TransactionType::Withdrawal->value);
                 })
                 ->get();
 
             $incomes = \App\Models\Event\EventTransaction::with('transaction')
                 ->where('event_id', $event->id)
-                ->whereHas('transaction', function ($query)
-                {
+                ->whereHas('transaction', function ($query) {
                     $query->where('type', \App\Enums\TransactionType::Deposit->value);
                 })
-                ->get();;
+                ->get();
 
             foreach ($ets as $et) {
                 if ($et->transaction->type === \App\Enums\TransactionType::Deposit->value) {
@@ -260,26 +244,26 @@ Route::middleware([
             $visitors = \App\Models\Event\EventVisitor::all();
 
             $html = view('pdf.event-report', [
-                'event'        => $event,
-                'income'       => $income / 100,
-                'incomes'      => $incomes,
-                'spending'     => $spending / 100,
-                'spendings'    => $spendings,
-                'visitors'     => $visitors,
+                'event' => $event,
+                'income' => $income / 100,
+                'incomes' => $incomes,
+                'spending' => $spending / 100,
+                'spendings' => $spendings,
+                'visitors' => $visitors,
                 'num-visitors' => $visitors->count(),
             ])->render();
             $content = "
         <h1>Event Report: {$event->title['de']}</h1>
-        <p><strong>Income:</strong> €" . number_format($income / 100, 2) . "</p>
-        <p><strong>Spending:</strong> €" . number_format($spending / 100, 2) . "</p>
+        <p><strong>Income:</strong> €".number_format($income / 100, 2).'</p>
+        <p><strong>Spending:</strong> €'.number_format($spending / 100, 2).'</p>
         <h2>Visitors</h2>
-        <ul>";
+        <ul>';
 
             foreach ($visitors as $visitor) {
                 $content .= "<li>{$visitor['name']}</li>";
             }
 
-            $content .= "</ul>";
+            $content .= '</ul>';
 
             // Generate the PDF
             $pdf = new EventReportTemplate(
@@ -293,7 +277,7 @@ Route::middleware([
             );
             $pdf->setContent($content);
 
-            $filename = 'event-report-' . $event->title['de'] . '.pdf';
+            $filename = 'event-report-'.$event->title['de'].'.pdf';
 
             return $pdf->generatePdf($filename);
         })
@@ -309,39 +293,33 @@ Route::middleware([
         Route::get('/accounts', \App\Livewire\Accounting\Account\Index\Page::class)
             ->name('accounts.index');
 
-
-        Route::get('/dashboard', function ()
-        {
+        Route::get('/dashboard', function () {
             return view('dashboard');
         })
             ->name('dashboard');
 
-
-        Route::get('/secure-image/{filename}', function (Request $request, $filename)
-        {
+        Route::get('/secure-image/{filename}', function (Request $request, $filename) {
             // Ensure user is authenticated
-            if (!auth()->check()) {
+            if (! auth()->check()) {
                 abort(403); // Forbidden
             }
 
             // Build full path
             $path = storage_path('app/private/accounting/receipts/previews/'.pathinfo($filename, PATHINFO_FILENAME).'.png');
 
-
             // Check if file exists
-            if (!file_exists($path)) {
+            if (! file_exists($path)) {
                 abort(404);
             }
 
             // Serve the file as a response
             return Response::file($path, [
-                'Content-Type' => 'image/png'
+                'Content-Type' => 'image/png',
             ]);
         });
     });
 
-Route::get('/event-subscription/confirm/{id}/{token}', function ($id, $token)
-{
+Route::get('/event-subscription/confirm/{id}/{token}', function ($id, $token) {
     $subscription = EventSubscription::findOrFail($id);
 
     $storedToken = cache()->get("event_subscription_{$subscription->id}_token");

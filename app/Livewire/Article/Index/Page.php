@@ -13,9 +13,11 @@ class Page extends Component
     use WithPagination;
 
     public $sortBy = 'date';
+
     public $sortDirection = 'desc';
 
-    public function sort($column) {
+    public function sort($column)
+    {
         if ($this->sortBy === $column) {
             $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
         } else {

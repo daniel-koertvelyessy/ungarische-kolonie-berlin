@@ -10,22 +10,25 @@ use Illuminate\Support\Facades\DB;
 class UniqueJsonSlug implements ValidationRule
 {
     protected string $table;
+
     protected string $column;
+
     protected string $locale;
+
     protected ?int $ignoreId;
 
     public function __construct(string $table, string $column, ?int $ignoreId = null)
     {
         $this->table = $table;
         $this->column = $column;
-//        $this->locale = $lang;
+        //        $this->locale = $lang;
         $this->ignoreId = $ignoreId;
     }
 
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         // Extract only the locale key from attribute (e.g., "title.de" -> "de")
-//        $locale = last(explode('.', $attribute));
+        //        $locale = last(explode('.', $attribute));
 
         foreach (Locale::cases() as $locale) {
             $exists = DB::table($this->table)
@@ -42,8 +45,7 @@ class UniqueJsonSlug implements ValidationRule
                 $fail("The :attribute must be unique for the {$locale->value} locale.");
             }
 
-    }
+        }
 
     }
-
 }

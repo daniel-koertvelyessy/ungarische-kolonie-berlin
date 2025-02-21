@@ -4,7 +4,6 @@ namespace App\Notifications;
 
 use App\Models\Membership\Member;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -13,6 +12,7 @@ class ApplianceReceivedNotification extends Notification
     use Queueable;
 
     protected Member $member;
+
     /**
      * Create a new notification instance.
      */
@@ -36,7 +36,7 @@ class ApplianceReceivedNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        app()->setLocale($this->member->locale??'de');
+        app()->setLocale($this->member->locale ?? 'de');
 
         return (new MailMessage)
             ->subject(__('members.appliance_received.mail.subject'))

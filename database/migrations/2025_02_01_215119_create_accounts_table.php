@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique()->index();
             $table->string('number')->unique()->index();
-            $table->enum('type',\App\Enums\AccountType::toArray());
+            $table->enum('type', \App\Enums\AccountType::toArray());
             $table->string('institute')->nullable();
             $table->string('iban')->nullable();
             $table->string('bic')->nullable();

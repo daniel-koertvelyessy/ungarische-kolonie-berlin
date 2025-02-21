@@ -11,7 +11,6 @@ use Livewire\Component;
 
 class Page extends Component
 {
-
     public EventForm $form;
 
     #[Computed]
@@ -30,9 +29,9 @@ class Page extends Component
             heading: __('event.store_image.success.title'),
             variant: 'success',
         );
-//        $this->dispatch('navigate-to', route('backend.events.index'));
-$this->redirect(route('backend.events.index'));
-   }
+        //        $this->dispatch('navigate-to', route('backend.events.index'));
+        $this->redirect(route('backend.events.index'));
+    }
 
     public function render()
     {

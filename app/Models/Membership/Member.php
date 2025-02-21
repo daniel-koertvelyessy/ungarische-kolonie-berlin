@@ -3,7 +3,6 @@
 namespace App\Models\Membership;
 
 use App\Enums\MemberFeeType;
-use App\Enums\MembershipFee;
 use App\Enums\MemberType;
 use App\Enums\TransactionStatus;
 use App\Models\Accounting\Transaction;
@@ -17,16 +16,16 @@ use Illuminate\Notifications\Notifiable;
 
 class Member extends Model
 {
-    use Notifiable;
-
     /** @use HasFactory<\Database\Factories\Membership\MemberFactory> */
     use HasFactory;
 
+    use Notifiable;
+
     public static int $age_discounted = 65;
+
     public static int $age_free = 80;
 
     protected $guarded = [];
-
 
     protected $casts = [
         'applied_at' => 'datetime',
@@ -43,7 +42,7 @@ class Member extends Model
 
     public static function feeForHumans(): string
     {
-        return number_format(Member::$fee/100, 2, ',', '.');
+        return number_format(Member::$fee / 100, 2, ',', '.');
     }
 
     public static function getBoardMembers(): object
@@ -51,7 +50,6 @@ class Member extends Model
         return Member::whereIn('type', [MemberType::AD->value, MemberType::MD->value])
             ->get();
     }
-
 
     public static function countNewApplicants(): int
     {
@@ -80,13 +78,13 @@ class Member extends Model
     {
         $totalFee = MemberFeeType::fee($this->fee_type) * 12;
 
-//        if ($this->fee_type === MemberFeeType::FREE->value){
-//            return [
-//                'paid' => $totalFee,
-//                'total' => $totalFee,
-//                'status' => true
-//            ];
-//        }
+        //        if ($this->fee_type === MemberFeeType::FREE->value){
+        //            return [
+        //                'paid' => $totalFee,
+        //                'total' => $totalFee,
+        //                'status' => true
+        //            ];
+        //        }
         $paidFee = 0;
 
         $payments = MemberTransaction::where('member_id', $this->id)
@@ -99,11 +97,9 @@ class Member extends Model
                     ->where('status', TransactionStatus::booked->value); // Select columns from the transaction table
             }])
             ->whereBetween('updated_at', [
-                Carbon::today()->startOfYear(), Carbon::now()
+                Carbon::today()->startOfYear(), Carbon::now(),
             ])
             ->get();
-
-
 
         foreach ($payments as $payment) {
             if ($payment->transaction) {
@@ -114,7 +110,7 @@ class Member extends Model
         return ['paid' => $paidFee / 100, 'total' => $totalFee / 100, 'status' => $paidFee >= $totalFee];
     }
 
-    public function checkInvitationStatus():string
+    public function checkInvitationStatus(): string
     {
 
         $invitation = Invitation::where('email', $this->email)->first();
@@ -122,8 +118,8 @@ class Member extends Model
         if ($invitation) {
             return $invitation->accepted === 1 ? 'accepted' : 'invited';
         }
+
         return 'none';
 
     }
-
 }

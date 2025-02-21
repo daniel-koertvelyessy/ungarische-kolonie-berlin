@@ -38,7 +38,7 @@ class TransactionPolicy
      */
     public function update(): bool
     {
-      return $this->checkThis();
+        return $this->checkThis();
 
     }
 
@@ -72,6 +72,7 @@ class TransactionPolicy
         if ($user->email === env('APP_ACCOUNTANT')) {
             return true;
         }
+
         return false;
     }
 
@@ -79,8 +80,6 @@ class TransactionPolicy
     {
 
         $user = Auth::user();
-
-
 
         if ($user->is_admin) {
             return true;

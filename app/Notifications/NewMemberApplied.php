@@ -6,7 +6,7 @@ use App\Models\Membership\Member;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewMemberApplied extends Notification //implements ShouldQueue
+class NewMemberApplied extends Notification // implements ShouldQueue
 {
     // use Queueable;
 
@@ -39,8 +39,8 @@ class NewMemberApplied extends Notification //implements ShouldQueue
         return (new MailMessage)
             ->from('szia@magyar-kolonia-berlin.org', 'Daniel Körtvélyessy')
             ->view(
-            'emails.member-application', ['member' => $this->member]
-        );
+                'emails.member-application', ['member' => $this->member]
+            );
     }
 
     /**
@@ -52,7 +52,7 @@ class NewMemberApplied extends Notification //implements ShouldQueue
     {
         return [
             'applied_at' => $this->member->applied_at,
-            'fullName' => $this->member->name . ', ' . $this->member->first_name
+            'fullName' => $this->member->name.', '.$this->member->first_name,
         ];
     }
 }

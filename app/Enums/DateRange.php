@@ -6,7 +6,7 @@ use Carbon\Carbon;
 
 enum DateRange: string
 {
-    case All = "Alle";
+    case All = 'Alle';
     case Today = 'Heute';
     case Week = 'Woche';
     case Last_7 = 'last7';
@@ -16,16 +16,17 @@ enum DateRange: string
     public function label(): string
     {
         return match ($this) {
-            self::All => "Alle",
-            self::Today => "Heute",
-            self::Week => "Diese Woche",
-            self::Last_7 => "Letzten 7 Tage",
-            self::Last_30 => "Letzten 30 Tage",
-            self::Year => "Dieses Jahr",
+            self::All => 'Alle',
+            self::Today => 'Heute',
+            self::Week => 'Diese Woche',
+            self::Last_7 => 'Letzten 7 Tage',
+            self::Last_30 => 'Letzten 30 Tage',
+            self::Year => 'Dieses Jahr',
         };
     }
 
-    public function dates(): array{
+    public function dates(): array
+    {
         return match ($this) {
             self::Today => [Carbon::today(), Carbon::now()],
             self::Week => [Carbon::today()->startOfWeek(), Carbon::today()->endOfWeek()],

@@ -30,9 +30,9 @@ return new class extends Migration
             $table->string('zip')->nullable();
             $table->string('city')->nullable();
             $table->string('country')->nullable();
-            $table->enum('locale',\App\Enums\Locale::toArray())->nullable()->default(\App\Enums\Locale::DE->value);
-            $table->enum('gender',\App\Enums\Gender::toArray())->nullable()->default(\App\Enums\Gender::ma->value);
-            $table->enum('type',\App\Enums\MemberType::toArray())->default(\App\Enums\MemberType::ST->value);
+            $table->enum('locale', \App\Enums\Locale::toArray())->nullable()->default(\App\Enums\Locale::DE->value);
+            $table->enum('gender', \App\Enums\Gender::toArray())->nullable()->default(\App\Enums\Gender::ma->value);
+            $table->enum('type', \App\Enums\MemberType::toArray())->default(\App\Enums\MemberType::ST->value);
             $table->foreignIdFor(\App\Models\User::class)->nullable()->constrained()->nullOnDelete();
         });
     }

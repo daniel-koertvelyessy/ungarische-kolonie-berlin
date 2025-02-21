@@ -20,6 +20,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory;
+
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
@@ -50,7 +51,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
         'two_factor_recovery_codes',
         'two_factor_secret',
-        'is_admin'
+        'is_admin',
     ];
 
     /**
@@ -78,10 +79,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected function defaultProfilePhotoUrl(): string
     {
-        return 'https://ui-avatars.com/api/?name=' . urlencode($this->first_name. ' ' . $this->name) . '&color=7F9CF5&background=EBF4FF';
+        return 'https://ui-avatars.com/api/?name='.urlencode($this->first_name.' '.$this->name).'&color=7F9CF5&background=EBF4FF';
     }
 
-    public function isBoardMember():bool
+    public function isBoardMember(): bool
     {
         return $this->member->type === MemberType::MD->value;
     }

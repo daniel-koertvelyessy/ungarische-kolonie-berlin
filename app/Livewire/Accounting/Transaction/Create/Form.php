@@ -31,17 +31,25 @@ class Form extends Component
     use WithFileUploads;
 
     public Event $event;
+
     public $visitor_name;
+
     public $gender = Gender::ma->value;
+
     public $visitor_has_member_id;
+
     public $external_visitor_name;
 
     public Member $member;
+
     public TransactionForm $form;
 
     public AccountForm $account;
+
     public ReceiptForm $receiptForm;
+
     public BookingAccountForm $booking;
+
     public ?Transaction $transaction = null;
 
     public $previewImagePath;
@@ -49,6 +57,7 @@ class Form extends Component
     public $selectedMember;
 
     public $entry_fee;
+
     public $entry_fee_discounted;
 
     public $visitors = [];
@@ -73,7 +82,6 @@ class Form extends Component
             ->get();
     }
 
-
     public function updatedSelectedMember($value): void
     {
         if ($value === 'extern') {
@@ -85,7 +93,6 @@ class Form extends Component
             $this->visitor_has_member_id = $value;
         }
     }
-
 
     public function loadTransaction($transactionId): void
     {
@@ -111,7 +118,6 @@ class Form extends Component
         }
     }
 
-
     public function submitTransaction(): void
     {
         $this->checkUser();
@@ -120,9 +126,8 @@ class Form extends Component
 
         $this->transaction = $this->handleTransaction();
 
-
         $this->dispatch('updated-payments');
-//        $this->redirect(route('transaction.index'));
+        //        $this->redirect(route('transaction.index'));
 
     }
 
@@ -145,7 +150,6 @@ class Form extends Component
     protected function handleTransaction(): Transaction
     {
 
-
         if (isset($this->transaction)) {
 
             UpdateTransaction::handle($this->form);
@@ -164,11 +168,9 @@ class Form extends Component
             );
         }
 
-
         if (isset($this->receiptForm->file_name)) {
             $this->submitReceipt();
         }
-
 
         return $this->transaction;
     }
@@ -177,18 +179,17 @@ class Form extends Component
     {
         $this->validate([
             'form.account_id' => ['required', 'doesnt_start_with:new'],
-            'transaction.id'  => 'unique:event_transactions,transaction_id',
-            'event'           => 'required',
-            'visitor_name'    => 'required',
-            'gender'          => 'required',
+            'transaction.id' => 'unique:event_transactions,transaction_id',
+            'event' => 'required',
+            'visitor_name' => 'required',
+            'gender' => 'required',
         ], [
-            'form.account_id.required'          => 'Bitte Zahlungskonto angeben',
+            'form.account_id.required' => 'Bitte Zahlungskonto angeben',
             'form.account_id.doesnt_start_with' => 'Bitte Zahlungskonto angeben oder anlegen',
-            'event.required'                    => 'Event is required.',
-            'visitor_name.required'             => 'Der Gast hat noch keinen Namen',
-            'transaction.id.unique'             => 'Diese Buchung wurde bereits vergeben.',
+            'event.required' => 'Event is required.',
+            'visitor_name.required' => 'Der Gast hat noch keinen Namen',
+            'transaction.id.unique' => 'Diese Buchung wurde bereits vergeben.',
         ]);
-
 
         /*      if (isset($this->transaction)){
                   try {
@@ -232,8 +233,7 @@ class Form extends Component
             );
             Log::error('Transaction creation failed', ['error' => $e->getMessage()]);
         }
-//        }
-
+        //        }
 
         if (isset($this->receiptForm->file_name)) {
             $this->submitReceipt();
@@ -265,12 +265,12 @@ class Form extends Component
         }
     }
 
-
     public function submitReceipt(): void
     {
         if (empty($this->transaction->id)) {
             Flux::modal('missing-transaction-modal')
                 ->show();
+
             return;
         }
 
@@ -282,14 +282,12 @@ class Form extends Component
 
         $this->reset('receiptForm');
 
-
         Flux::toast(
             text: 'Der Beleg wurde eingereicht',
             heading: 'Erfolg',
             variant: 'success',
         );
     }
-
 
     public function fileDropped($file)
     {
@@ -301,7 +299,7 @@ class Form extends Component
         $receipt = Receipt::find($receipt_id);
         $file = $receipt->file_name;
 
-        # Delete receipt model instance
+        // Delete receipt model instance
         $receipt->delete();
 
         Storage::disk('local')
@@ -311,8 +309,8 @@ class Form extends Component
             ->delete(storage_path('accounting/receipts/previews/'.pathinfo($file, PATHINFO_FILENAME).'.png'));
 
         if (Storage::disk('local')
-                ->missing('accounting/receipts/'.$file) && Storage::disk('local')
-                ->missing('accounting/receipts/previews/'.$file)) {
+            ->missing('accounting/receipts/'.$file) && Storage::disk('local')
+            ->missing('accounting/receipts/previews/'.$file)) {
             $this->dispatch('receipt-deleted');
             Flux::toast(
                 text: 'Die Datei wurde gelöscht',
@@ -346,7 +344,6 @@ class Form extends Component
         $this->reset('account');
     }
 
-
     public function addBookingAccount(): void
     {
         $this->checkUser();
@@ -376,6 +373,7 @@ class Form extends Component
                 heading: 'Forbidden',
                 variant: 'danger',
             );
+
             return;
         }
     }

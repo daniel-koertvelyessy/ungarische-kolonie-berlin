@@ -12,15 +12,18 @@ use Livewire\WithPagination;
 
 class Applicants extends Component
 {
-
     use WithPagination;
 
     public array $selectedApplicants = [];
+
     public array $applicantsOnPage = [];
+
     public array $allApplicants = [];
 
     public $sortBy = 'date';
+
     public $sortDirection = 'desc';
+
     public string $search = '';
 
     public int $numApplicants;
@@ -50,10 +53,10 @@ class Applicants extends Component
         return $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query;
     }
 
+    public function deleteSelectedApplicants(): void
+    {
 
-    public function deleteSelectedApplicants(): void{
-
-        if (count($this->selectedApplicants) > 0 && Auth()->user()->is_admin)  {
+        if (count($this->selectedApplicants) > 0 && Auth()->user()->is_admin) {
 
             foreach ($this->selectedApplicants as $applicant) {
                 Member::find($applicant)->delete();
@@ -68,22 +71,19 @@ class Applicants extends Component
 
         }
 
-
     }
 
     public function editSelectedApplicants()
     {
         if (count($this->selectedApplicants) > 1) {
-        /**
-         * TODO   make confirmation model to open n tabs with members to be edited
-         *        or to choose one
-         *
-         */
+            /**
+             * TODO   make confirmation model to open n tabs with members to be edited
+             *        or to choose one
+             */
             exit;
         }
 
         return $this->redirect(route('members.show', $this->selectedApplicants[0]));
-
 
     }
 
@@ -95,8 +95,8 @@ class Applicants extends Component
 
         $applicantList = \App\Models\Membership\Member::query()
             ->whereIn('type', [MemberType::AP->value])
-            ->tap(fn($query) => $this->search !== '' ? $query->where('name', 'like', '%'.$this->search.'%') : $query)
-            ->tap(fn($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
+            ->tap(fn ($query) => $this->search !== '' ? $query->where('name', 'like', '%'.$this->search.'%') : $query)
+            ->tap(fn ($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
             ->paginate(5);
 
         $this->applicantsOnPage = $applicantList->map(fn ($member) => (string) $member->id)->toArray();

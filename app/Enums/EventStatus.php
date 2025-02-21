@@ -2,18 +2,18 @@
 
 namespace App\Enums;
 
-enum EventStatus:string
+enum EventStatus: string
 {
     case DRAFT = 'draft';
     case PENDING = 'pending';
     case PUBLISHED = 'published';
     case REJECTED = 'rejected';
     case RETRACTED = 'retracted';
+
     public static function toArray(): array
     {
         return array_column(EventStatus::cases(), 'value');
     }
-
 
     public static function value(string $value): string
     {

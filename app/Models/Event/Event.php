@@ -13,7 +13,7 @@ class Event extends Model
     /** @use HasFactory<\Database\Factories\EventFactory> */
     use HasFactory;
 
-    protected $fillable=[
+    protected $fillable = [
         'event_date',
         'start_time',
         'end_time',
@@ -25,8 +25,9 @@ class Event extends Model
         'status',
         'entry_fee',
         'entry_fee_discounted',
-        'venue_id'
+        'venue_id',
     ];
+
     protected $casts = [
 
         'title' => 'array',
@@ -38,10 +39,10 @@ class Event extends Model
         'end_time' => 'datetime:H:i:s',
     ];
 
- /*   public function getRouteKeyName(): string
-    {
-        return 'slug';
-    }*/
+    /*   public function getRouteKeyName(): string
+       {
+           return 'slug';
+       }*/
 
     public function venue(): BelongsTo
     {
@@ -59,7 +60,6 @@ class Event extends Model
     }
 
     /**
-     *
      * <!-- JSON-LD-Markup generiert von Google Strukturierte Daten: Markup-Hilfe -->
      * <script type="application/ld+json">
      * {
@@ -81,7 +81,5 @@ class Event extends Model
      * "description": "Herzlich laden wir unsere Mitglieder und Freunde zu unserem Faschingsfest ein.</P><P>Üppiges Büfett und Kuchen. Live Musik von György Csányi. Das Volkstanzensemble Berlin Fono wird im Laufe des Abends ebenfalls auftreten.</P><P>Kostüme bitte nicht vergessen, die besten werden prämiert!</P><P>Getränke werden von uns zu fairen Preisen verkauft."
      * }
      * </script>
-     *
      */
-
 }

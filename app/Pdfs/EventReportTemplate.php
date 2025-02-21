@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Pdfs;
 
 use Illuminate\Support\Str;
@@ -11,11 +10,17 @@ class EventReportTemplate extends TCPDF
     protected $content;
 
     protected $event;
+
     protected $income;
+
     protected $incomes;
+
     protected $spending;
+
     protected $spendings;
+
     protected $visitors;
+
     protected $locale;
 
     public function __construct(
@@ -36,7 +41,6 @@ class EventReportTemplate extends TCPDF
         $this->spendings = $spendings;
         $this->visitors = $visitors;
         $this->locale = $locale;
-
 
         // Set document information
         $this->SetTitle(__('event.report.title'));
@@ -106,8 +110,7 @@ class EventReportTemplate extends TCPDF
         $h = 9;
         $this->AddPage();
         $this->SetFont('helvetica', '', $h);
-//        $this->writeHTML($this->content, true, false, true, false, '');
-
+        //        $this->writeHTML($this->content, true, false, true, false, '');
 
         $this->SetFont('helvetica', '', $hH1);
         $this->Cell(0, 10, 'Finanzen ', 0, 1);
@@ -144,7 +147,6 @@ class EventReportTemplate extends TCPDF
         $this->Cell(30, 8, 'Datum ', 'T', 0);
         $this->Cell(50, 8, 'Kassenwart', 'T', 1, 'C');
 
-
         $this->AddPage();
 
         $this->SetFont('helvetica', '', $hH1);
@@ -163,7 +165,7 @@ class EventReportTemplate extends TCPDF
         $wKonto = 25;
 
         $this->SetFont('helvetica', '', 8);
-        $this->Cell($wText , 8, 'Text', 'B', 0);
+        $this->Cell($wText, 8, 'Text', 'B', 0);
         $this->Cell($wReferenz, 8, 'Referenz', 'B', 0);
         $this->Cell($wStatus, 8, 'Status', 'B', 0);
         $this->Cell($wKonto, 8, 'Konto', 'B', 0);
@@ -171,7 +173,7 @@ class EventReportTemplate extends TCPDF
 
         $this->SetFont('helvetica', '', $h);
         foreach ($this->incomes as $item) {
-            $this->Cell($wText , 8,$item->id . '-'. Str::limit($item->transaction->label ,60), 'B', 0);
+            $this->Cell($wText, 8, Str::limit($item->transaction->label, 60), 'B', 0);
             $this->Cell($wReferenz, 8, $item->transaction->reference, 'B', 0);
             $this->Cell($wStatus, 8, $item->transaction->status, 'B', 0);
             $this->Cell($wKonto, 8, $item->transaction->account->name, 'B', 0);
@@ -183,7 +185,7 @@ class EventReportTemplate extends TCPDF
         $this->ln(2);
 
         $this->SetFont('helvetica', '', 8);
-        $this->Cell($wText , 8, 'Text', 'B', 0);
+        $this->Cell($wText, 8, 'Text', 'B', 0);
         $this->Cell($wReferenz, 8, 'Referenz', 'B', 0);
         $this->Cell($wStatus, 8, 'Status', 'B', 0);
         $this->Cell($wKonto, 8, 'Konto', 'B', 0);
@@ -191,7 +193,7 @@ class EventReportTemplate extends TCPDF
 
         $this->SetFont('helvetica', '', $h);
         foreach ($this->spendings as $item) {
-            $this->Cell($wText , 8, $item->id . '-'. Str::limit($item->transaction->label,60), 'B', 0);
+            $this->Cell($wText, 8, Str::limit($item->transaction->label, 60), 'B', 0);
             $this->Cell($wReferenz, 8, $item->transaction->reference, 'B', 0);
             $this->Cell($wStatus, 8, $item->transaction->status, 'B', 0);
             $this->Cell($wKonto, 8, $item->transaction->account->name, 'B', 0);
@@ -213,16 +215,14 @@ class EventReportTemplate extends TCPDF
         $this->Cell($ws, 8, 'FE', 'B', 1, 'R');
 
         $this->SetFont('helvetica', '', $h);
-    foreach($this->visitors as $visitor){
-        $this->Cell(50, 8, $visitor->name, 'B', 0);
-        $this->Cell(60, 8, $visitor->email, 'B', 0);
-        $this->Cell($ws, 8, $visitor->member ? 'x' : '', 'B', 0,'C');
-        $this->Cell($ws, 8, $visitor->subscription ? 'x' : '', 'B', 0,'C');
-        $this->Cell($ws, 8, $visitor->gender === \App\Enums\Gender::ma->value ? 'x' : '', 'B', 0,'C');
-        $this->Cell($ws, 8, $visitor->gender === \App\Enums\Gender::fe->value ? 'x' : '', 'B', 1,'C');
-    }
-
-
+        foreach ($this->visitors as $visitor) {
+            $this->Cell(50, 8, $visitor->name, 'B', 0);
+            $this->Cell(60, 8, $visitor->email, 'B', 0);
+            $this->Cell($ws, 8, $visitor->member ? 'x' : '', 'B', 0, 'C');
+            $this->Cell($ws, 8, $visitor->subscription ? 'x' : '', 'B', 0, 'C');
+            $this->Cell($ws, 8, $visitor->gender === \App\Enums\Gender::ma->value ? 'x' : '', 'B', 0, 'C');
+            $this->Cell($ws, 8, $visitor->gender === \App\Enums\Gender::fe->value ? 'x' : '', 'B', 1, 'C');
+        }
 
         return $this->Output($filename); // 'D' = Download, 'I' = Inline
     }

@@ -11,26 +11,23 @@ class CreateTransaction
 {
     public static function handle(TransactionForm $form): Transaction
     {
-        return DB::transaction(function () use ($form)
-        {
+        return DB::transaction(function () use ($form) {
             return Transaction::create([
-                'date'               => $form->date,
-                'label'              => $form->label,
-                'reference'          => $form->reference,
-                'description'        => $form->description,
-                'amount_gross'       => Account::makeCentInteger($form->amount_gross),
-                'vat'                => $form->vat,
-                'tax'                => Account::makeCentInteger($form->tax),
-                'amount_net'         => Account::makeCentInteger($form->amount_net),
-                'account_id'         => $form->account_id,
+                'date' => $form->date,
+                'label' => $form->label,
+                'reference' => $form->reference,
+                'description' => $form->description,
+                'amount_gross' => Account::makeCentInteger($form->amount_gross),
+                'vat' => $form->vat,
+                'tax' => Account::makeCentInteger($form->tax),
+                'amount_net' => Account::makeCentInteger($form->amount_net),
+                'account_id' => $form->account_id,
                 'booking_account_id' => $form->booking_account_id,
-                'type'               => $form->type,
-                'status'             => $form->status,
+                'type' => $form->type,
+                'status' => $form->status,
             ]);
-
 
         });
 
     }
-
 }

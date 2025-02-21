@@ -3,10 +3,8 @@
 namespace App\Policies;
 
 use App\Enums\MemberType;
-use App\Models\Membership\Member;
 use App\Models\Membership\MemberTransaction;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 use Illuminate\Support\Facades\Auth;
 
 class MemberTransactionPolicy
@@ -74,7 +72,6 @@ class MemberTransactionPolicy
         if ($user->is_admin) {
             return true;
         }
-
 
         if ($user->member && $user->member->type === MemberType::MD->value) {
             return true;

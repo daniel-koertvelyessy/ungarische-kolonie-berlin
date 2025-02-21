@@ -24,14 +24,14 @@ class CreateNewUser implements CreatesNewUsers
         Validator::make($input, [
             'locale' => [Rule::enum(Locale::class)],
             'name' => ['required', 'string', 'max:255'],
-            'first_name' => [ 'string', 'max:255'],
+            'first_name' => ['string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
 
         return User::create([
-            'locale' => $input['locale']??'de',
+            'locale' => $input['locale'] ?? 'de',
             'first_name' => $input['first_name'],
             'name' => $input['name'],
             'email' => $input['email'],
