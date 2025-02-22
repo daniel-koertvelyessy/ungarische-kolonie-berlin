@@ -4,10 +4,14 @@ namespace App\Livewire\Accounting\Transaction\Index;
 
 use App\Actions\Accounting\AppendEventTransaction;
 use App\Actions\Accounting\AppendMemberTransaction;
+use App\Actions\Accounting\TransferTransaction;
 use App\Enums\DateRange;
 use App\Enums\Gender;
 use App\Enums\TransactionType;
+use App\Livewire\Forms\EditTextTransactionForm;
 use App\Livewire\Forms\ReceiptForm;
+use App\Livewire\Forms\TransferTransactionForm;
+use App\Livewire\Traits\HasPrivileges;
 use App\Livewire\Traits\Sortable;
 use App\Models\Accounting\Account;
 use App\Models\Accounting\Receipt;
@@ -17,10 +21,11 @@ use App\Models\Event\EventTransaction;
 use App\Models\Membership\Member;
 use App\Models\Membership\MemberTransaction;
 use Flux\Flux;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -29,7 +34,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class Page extends Component
 {
-    use Sortable, WithPagination;
+    use HasPrivileges, Sortable, WithPagination;
 
     protected $listeners = ['transaction-updated'];
 
@@ -37,8 +42,11 @@ class Page extends Component
 
     public ?Transaction $transaction = null;
 
-    #[Url]
-    public $search;
+    public EditTextTransactionForm $edit_text_form;
+
+    public TransferTransactionForm $transfer_transaction_form;
+
+    public $search = '';
 
     #[Url]
     public array $filter_status = ['eingereicht', 'gebucht'];
@@ -65,23 +73,18 @@ class Page extends Component
 
     public $event_gender;
 
-    public $changeTextLabel;
+    public $transfer_account_id;
 
-    public $changeTextReference;
+    public $transfer_transaction_id;
 
-    public $changeTextDescription;
+    public $transfer_reason;
 
-    public function sort($column): void
+    public function updatedSearch(): void
     {
-        if ($this->sortBy === $column) {
-            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
-        } else {
-            $this->sortBy = $column;
-            $this->sortDirection = 'asc';
-        }
+        $this->resetPage();
     }
 
-    #[\Livewire\Attributes\Computed]
+    #[Computed]
     public function transactions(): LengthAwarePaginator
     {
         $this->allTransactions = Transaction::all()
@@ -91,9 +94,10 @@ class Page extends Component
         $date_range = DateRange::from($this->filter_date_range)
             ->dates();
 
-        $transactionList = \App\Models\Accounting\Transaction::query()
+        $transactionList = Transaction::query()
             ->with('event_transaction')
             ->with('member_transaction')
+            ->with('account')
             ->tap(fn ($query) => $this->search ? $query->where('label', 'LIKE', '%'.$this->search.'%') : $query)
             ->whereIn('status', $this->filter_status)
             ->whereIn('type', $this->filter_type)
@@ -151,7 +155,7 @@ class Page extends Component
 
     public function detachMember(int $member_transaction_id): void
     {
-        $this->checkUser();
+        $this->checkPrivilege(Transaction::class);
         MemberTransaction::findOrFail($member_transaction_id)
             ->delete();
         Flux::toast(
@@ -163,7 +167,7 @@ class Page extends Component
 
     public function detachEvent(int $event_transaction_id): void
     {
-        $this->checkUser();
+        $this->checkPrivilege(Transaction::class);
         if (EventTransaction::findOrFail($event_transaction_id)
             ->delete()) {
             Flux::toast(
@@ -174,29 +178,9 @@ class Page extends Component
         }
     }
 
-    public function cancelItem(int $transaction_id)
-    {
-
-        $this->checkUser();
-
-        $transaction = Transaction::findOrFail($transaction_id);
-        Flux::modal('cancel-transaction')->show();
-
-    }
-
     public function appendToEvent(int $transaction_id): void
     {
-        try {
-            $this->authorize('create', Transaction::class);
-        } catch (AuthorizationException $e) {
-            Flux::toast(
-                text: __('transaction.access.denied').$e->getMessage(),
-                heading: 'Forbidden',
-                variant: 'danger',
-            );
-
-            return;
-        }
+        $this->checkPrivilege(Transaction::class);
 
         $this->transaction = Transaction::findOrFail($transaction_id);
         Flux::modal('append-to-event-transaction')
@@ -205,17 +189,7 @@ class Page extends Component
 
     public function appendToMember(int $transaction_id): void
     {
-        try {
-            $this->authorize('create', Transaction::class);
-        } catch (AuthorizationException $e) {
-            Flux::toast(
-                text: __('transaction.access.denied').$e->getMessage(),
-                heading: 'Forbidden',
-                variant: 'danger',
-            );
-
-            return;
-        }
+        $this->checkPrivilege(Transaction::class);
 
         $this->transaction = Transaction::findOrFail($transaction_id);
         Flux::modal('append-to-member-transaction')
@@ -224,7 +198,8 @@ class Page extends Component
 
     public function appendEvent(): void
     {
-        $this->checkUser();
+        $this->checkPrivilege(Transaction::class);
+
         $this->validate([
             'transaction.id' => ['unique:event_transactions,transaction_id'],
             'target_event' => 'required',
@@ -250,7 +225,7 @@ class Page extends Component
 
     public function appendMember(): void
     {
-        $this->checkUser();
+        $this->checkPrivilege(Transaction::class);
         $this->validate([
             'transaction.id' => ['unique:member_transactions,transaction_id'],
             'target_member' => 'required',
@@ -271,28 +246,11 @@ class Page extends Component
             ->close();
     }
 
-    protected function checkUser(): void
-    {
-        try {
-            $this->authorize('create', Transaction::class);
-        } catch (AuthorizationException $e) {
-            Flux::toast(
-                text: __('transaction.access.denied').$e->getMessage(),
-                heading: 'Forbidden',
-                variant: 'danger',
-            );
-
-            return;
-        }
-    }
-
     public function editTransactionText(int $transaction_id): void
     {
         $this->transaction = Transaction::findOrFail($transaction_id);
 
-        $this->changeTextLabel = $this->transaction->label;
-        $this->changeTextReference = $this->transaction->reference;
-        $this->changeTextDescription = $this->transaction->description;
+        $this->edit_text_form->set($this->transaction);
 
         Flux::modal('edit-transaction-text')
             ->show();
@@ -300,13 +258,9 @@ class Page extends Component
 
     public function changeTransactionText(): void
     {
-        $this->checkUser();
+        $this->checkPrivilege(Transaction::class);
 
-        if ($this->transaction->update([
-            'label' => $this->changeTextLabel,
-            'reference' => $this->changeTextReference,
-            'description' => $this->changeTextDescription,
-        ])) {
+        if ($this->edit_text_form->update()) {
             Flux::toast(
                 text: __('transaction.edit-text-modal.update-success.text'),
                 heading: __('transaction.edit-text-modal.update-success.heading'),
@@ -315,6 +269,49 @@ class Page extends Component
             Flux::modal('edit-transaction-text')
                 ->close();
         }
+    }
+
+    public function startCancelItem(int $transaction_id): void
+    {
+        $this->transaction = Transaction::find($transaction_id);
+        $this->checkPrivilege(Transaction::class);
+        $this->dispatch('cancel-transaction', transactionId: $transaction_id);
+        Flux::modal('cancel-transaction')
+            ->show();
+    }
+
+    public function changeAccount(int $transaction_id): void
+    {
+        $this->checkPrivilege(Transaction::class);
+        $this->transaction = Transaction::find($transaction_id);
+        $this->transfer_transaction_form->set($this->transaction);
+        Flux::modal('account-transfer-modal')
+            ->show();
+    }
+
+    public function transferAccount(): void
+    {
+        $this->checkPrivilege(Transaction::class);
+
+        $this->validate([
+            'transfer_transaction_form.transaction_id' => ['required', Rule::exists('transactions', 'id')],
+            'transfer_transaction_form.account_id' => ['required', Rule::notIn([$this->transaction->account_id])],
+            'transfer_transaction_form.reason' => 'required',
+        ],[
+            'transfer_transaction_form.transaction_id.required' => __('transaction.account-transfer-modal.error.transaction_id'),
+            'transfer_transaction_form.account_id.required' => __('transaction.account-transfer-modal.error.account_id'),
+            'transfer_transaction_form.account_id.not_in' => __('transaction.account-transfer-modal.error.identical'),
+            'transfer_transaction_form.reason.required' => __('transaction.account-transfer-modal.error.reason'),
+        ]);
+
+        TransferTransaction::handle($this->transaction,$this->transfer_transaction_form);
+
+        $this->dispatch('transaction-updated');
+        Flux::toast(
+            text: 'Die Buchung '.$this->transaction->label.' wurde geändert',
+            heading: 'Erfolg',
+            variant: 'success',
+        );
     }
 
     public function render()

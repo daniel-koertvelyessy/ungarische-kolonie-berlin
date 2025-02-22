@@ -6,7 +6,7 @@ use App\Models\Accounting\Transaction;
 use App\Models\User;
 use App\Policies\Traits\HasAdminPrivileges;
 
-class TransactionPolicy
+class CancelTransactionPolicy
 {
     use HasAdminPrivileges;
 
@@ -23,7 +23,8 @@ class TransactionPolicy
      */
     public function view(User $user, Transaction $transaction): bool
     {
-        return false;
+        return $this->getAdminPrivileges($user);
+
     }
 
     /**
@@ -32,12 +33,13 @@ class TransactionPolicy
     public function create(User $user): bool
     {
         return $this->getAdminPrivileges($user);
+
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user): bool
+    public function update(User $user, Transaction $transaction): bool
     {
         return $this->getAdminPrivileges($user);
 
@@ -48,7 +50,7 @@ class TransactionPolicy
      */
     public function delete(User $user, Transaction $transaction): bool
     {
-        return false;
+        return $this->getAdminPrivileges($user);
     }
 
     /**
@@ -65,11 +67,5 @@ class TransactionPolicy
     public function forceDelete(User $user, Transaction $transaction): bool
     {
         return false;
-    }
-
-    public function addAccount(User $user): bool
-    {
-
-        return $this->getAdminPrivileges($user);
     }
 }

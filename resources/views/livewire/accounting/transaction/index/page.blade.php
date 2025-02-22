@@ -11,9 +11,27 @@
          x-cloak
          x-show="showFilter"
     >
+        <flux:input wire:model.live="search"
+                    clearable
+                    size="sm"
+                    icon="magnifying-glass"
+                    placeholder="Suche ..."
+                    class=""
+        />
+        <flux:separator vertical/>
+        <flux:select variant="listbox"
+                     placeholder="nach Status filtern"
+                     wire:model.live="filter_date_range"
+                     size="sm"
+        >
+            @foreach(\App\Enums\DateRange::cases() as $range)
+                <flux:option value="{{ $range->value }}">{{ $range->label() }}</flux:option>
+            @endforeach
+        </flux:select>
+        <flux:separator vertical/>
 
         <flux:checkbox.group wire:model.live="filter_type"
-                             label="Typ"
+                             class="flex space-x-4"
         >
             @foreach(\App\Enums\TransactionType::cases() as $type)
                 <flux:checkbox value="{{ $type->value }}"
@@ -21,9 +39,9 @@
                 />
             @endforeach
         </flux:checkbox.group>
-
+        <flux:separator vertical/>
         <flux:checkbox.group wire:model.live="filter_status"
-                             label="Status"
+                             class="flex space-x-4"
         >
             @foreach(\App\Enums\TransactionStatus::cases() as $status)
                 <flux:checkbox value="{{ $status->value }}"
@@ -33,22 +51,7 @@
         </flux:checkbox.group>
 
         <flux:fieldset class="space-y-3">
-            <flux:input wire:model.live.debounce="search"
-                        clearable
-                        size="sm"
-                        icon="magnifying-glass"
-                        placeholder="Suche ..."
-                        class="flex-1 mt-4"
-            />
-            <flux:select variant="listbox"
-                         placeholder="nach Status filtern"
-                         wire:model.live="filter_date_range"
-                         size="sm"
-            >
-                @foreach(\App\Enums\DateRange::cases() as $range)
-                    <flux:option value="{{ $range->value }}">{{ $range->label() }}</flux:option>
-                @endforeach
-            </flux:select>
+
         </flux:fieldset>
     </nav>
 
@@ -110,6 +113,15 @@
                          class="hidden md:table-cell"
             >Status
             </flux:column>
+
+            <flux:column sortable
+                         :sorted="$sortBy === 'account_id'"
+                         :direction="$sortDirection"
+                         wire:click="sort('account')"
+                         class="hidden sm:table-cell"
+
+            >Konto
+            </flux:column>
             <flux:column align="right"
                          sortable
                          :sorted="$sortBy === 'amount'"
@@ -125,6 +137,7 @@
 
             >Art
             </flux:column>
+
             <flux:column class="hidden lg:table-cell">Beleg</flux:column>
             <flux:column class="hidden lg:table-cell">Verknüpft</flux:column>
 
@@ -135,13 +148,24 @@
 
                 <flux:row :key="$item->id">
                     <flux:cell variant="strong"
-                               class="flex items-center justify-start"
+                               class="flex lg:items-center justify-start  flex-col lg:flex-row space-y-3 lg:space-y-0 items-start"
                     >
-                        <span class="lg:hidden inline-block">{{ \Illuminate\Support\Str::limit($item->label,10,' ..') }}</span>
+                        <span class="lg:hidden inline-flex">{{ \Illuminate\Support\Str::limit($item->label,20,' ..') }}</span>
                         <span class="hidden lg:inline-block">{{ $item->label}}</span>
 
+                        <span class="lg:hidden inline-block">
+                             <flux:badge size="sm"
+                                         :color="\App\Enums\TransactionStatus::color($item->status)"
+                                         inset="top bottom"
+                             >{{ $item->status }}</flux:badge>
+                        </span>
+                        <span class="lg:hidden inline-block">
+                            <span class="mr-1 text-xs">EUR</span>
+                            <span class="{{ $item->grossColor() }}">{{ $item->grossForHumans() }}</span>
+                        </span>
+                        <span class="flex">
                         @if($item->reference)
-                            <flux:tooltip toggleable>
+                                <flux:tooltip toggleable>
                                 <flux:button icon="chat-bubble-bottom-center-text"
                                              size="xs"
                                              variant="ghost"
@@ -151,10 +175,10 @@
                                     Referenz: {{ $item->reference }}
                                 </flux:tooltip.content>
                             </flux:tooltip>
-                        @endif
+                            @endif
 
-                        @if($item->description)
-                            <flux:tooltip toggleable>
+                            @if($item->description)
+                                <flux:tooltip toggleable>
                                 <flux:button icon="document-text"
                                              size="xs"
                                              variant="ghost"
@@ -164,8 +188,8 @@
                                     Beschreibung: {{ $item->description }}
                                 </flux:tooltip.content>
                             </flux:tooltip>
-                        @endif
-
+                            @endif
+                        </span>
                     </flux:cell>
 
                     <flux:cell class="hidden md:table-cell">{{ $item->date->diffForHumans() }}</flux:cell>
@@ -178,7 +202,7 @@
                                     inset="top bottom"
                         >{{ $item->status }}</flux:badge>
                     </flux:cell>
-
+                    <flux:cell class="hidden sm:table-cell">{{ $item->account->name . ' - ' . $item->account->number }}</flux:cell>
                     <flux:cell variant="strong"
                                align="end"
                     ><span class="{{ $item->grossColor() }}">{{ $item->grossForHumans() }}</span></flux:cell>
@@ -243,34 +267,43 @@
 
                                         <flux:menu.item icon="check"
                                                         wire:click="bookItem({{ $item->id }})"
-                                        >Buchen
+                                        >{{ __('transaction.index.menu-item.book') }}
                                         </flux:menu.item>
 
                                         <flux:menu.item icon="pencil"
                                                         wire:click="editItem({{ $item->id }})"
-                                        >Bearbeiten
+                                        >{{ __('transaction.index.menu-item.edit') }}
                                         </flux:menu.item>
                                     @else
+
                                         <flux:menu.item icon="trash"
                                                         variant="danger"
-                                                        wire:click="cancelItem({{ $item->id }})"
-                                        >Storno
+                                                        wire:click="startCancelItem({{ $item->id }})"
+                                                        :disabled="$item->type === \App\Enums\TransactionType::Reversal->value"
+                                        >{{ __('transaction.index.menu-item.cancel') }}
                                         </flux:menu.item>
                                         <flux:menu.item icon="document"
                                                         wire:click="editTransactionText({{ $item->id }})"
-                                        >Texte ändern
+                                                        :disabled="$item->type === \App\Enums\TransactionType::Reversal->value"
+                                        >{{ __('transaction.index.menu-item.edit_text') }}
+                                        </flux:menu.item>
+                                        <flux:menu.item icon="arrows-right-left"
+                                                        wire:click="changeAccount({{ $item->id }})"
+                                                        :disabled="$item->type === \App\Enums\TransactionType::Reversal->value"
+                                        >{{ __('transaction.index.menu-item.rebook') }}
                                         </flux:menu.item>
                                     @endif
+                                    <flux:menu.separator/>
                                     <flux:menu.submenu heading="Zuweisen"
                                                        icon="link"
                                     >
                                         <flux:menu.item icon="calendar-days"
                                                         wire:click="appendToEvent({{ $item->id }})"
-                                        >Veranstaltung
+                                        >{{ __('transaction.index.menu-item.attach_event') }}
                                         </flux:menu.item>
                                         <flux:menu.item icon="users"
                                                         wire:click="appendToMember({{ $item->id }})"
-                                        >Mitglied
+                                        >{{ __('transaction.index.menu-item.attach_member') }}
                                         </flux:menu.item>
                                     </flux:menu.submenu>
                                     @if(isset($item->event_transaction->id) || isset($item->member_transaction->id))
@@ -281,14 +314,14 @@
                                             @if(isset($item->event_transaction->id))
                                                 <flux:menu.item icon="calendar-days"
                                                                 wire:click="detachEvent({{ $item->event_transaction->id }})"
-                                                >Veranstaltung
+                                                >{{ __('transaction.index.menu-item.detach_event') }}
                                                 </flux:menu.item>
                                             @endif
 
                                             @if(isset($item->member_transaction->id))
                                                 <flux:menu.item icon="users"
                                                                 wire:click="detachMember({{ $item->member_transaction->id }})"
-                                                >Mitglied
+                                                >{{ __('transaction.index.menu-item.detach_member') }}
                                                 </flux:menu.item>
                                             @endif
                                         </flux:menu.submenu>
@@ -304,7 +337,7 @@
                     <flux:cell colspan="6"
                                class=" space-y-2"
                     >
-                        <flux:text>Keine Buchungen gefunden</flux:text>
+                        <flux:text>{{ __('transaction.index.table.empty-results') }}</flux:text>
 
                     </flux:cell>
 
@@ -444,14 +477,14 @@
         >
 
 
-            <flux:input wire:model="changeTextLabel"
+            <flux:input wire:model="edit_text_form.label"
                         label="{{ __('transaction.edit-text-modal.label') }}"
             />
-            <flux:input wire:model="changeTextReference"
+            <flux:input wire:model="edit_text_form.reference"
                         label="{{ __('transaction.edit-text-modal.reference') }}"
             />
             <flux:textarea rows="auto"
-                           wire:model="changeTextDescription"
+                           wire:model="edit_text_form.description"
                            label="{{ __('transaction.edit-text-modal.description') }}"
             />
 
@@ -461,26 +494,55 @@
         </form>
     </flux:modal>
 
-    <flux:modal name="cancel-transaction"
-                class="w-1/5"
+
+    <flux:modal name="account-transfer-modal"
+                variant="flyout"
+                position="right"
+                class="space-y-6 w-full lg:w-64"
     >
-
-        <flux:heading size="lg">{{ __('transaction.edit-text-modal.heading') }}</flux:heading>
-
-        <form wire:submit="cancelTransaction"
+        <flux:heading size="lg">{{ __('transaction.account-transfer-modal.heading') }}</flux:heading>
+        <flux:text>{{ __('transaction.account-transfer-modal.content') }}</flux:text>
+        <form wire:submit="transferAccount"
               class="space-y-6"
         >
 
+            <flux:select wire:model="transfer_transaction_form.account_id"
+                         size="sm"
+                         placeholder="Zahlungskonto z.B. Barkasse, Bankkonto usw"
+                         variant="listbox"
+                         label="{{ __('transaction.account-transfer-modal.new_account') }}"
+                         clearable
+                         searchable
+            >
+                @foreach(App\Models\Accounting\Account::select('id', 'name')->get() as $key => $account)
+                    <flux:option :key
+                                 value="{{ $account->id }}"
+                    >{{ $account->name }}</flux:option>
+                @endforeach
+            </flux:select>
 
-            <flux:input wire:model="changeTextLabel"
-                        label="{{ __('transaction.edit-text-modal.label') }}"
+            <input type="hidden"
+                   wire:model="transfer_transaction_form.transaction_id"
+            >
+            <flux:textarea wire:model="transfer_transaction_form.reason"
+                           label="{{ __('transaction.account-transfer-modal.reason') }}"
             />
-            <flux:input wire:model="changeTextReference"
-                        label="{{ __('transaction.edit-text-modal.reference') }}"
-            />
-
+            <flux:button variant="primary"
+                         type="submit"
+            >{{ __('transaction.account-transfer-modal.btn.submit') }}</flux:button>
         </form>
+        <x-debug/>
+    </flux:modal>
 
+
+    <flux:modal name="cancel-transaction"
+                class="w-1/5 pt-6 space-y-6"
+    >
+
+        <flux:heading size="lg"><span class="text-red-600">{{ __('transaction.cancel-transaction-modal.heading') }}</span></flux:heading>
+        @if($transaction)
+            <livewire:accounting.transaction.cancel.form :transaction-id="$transaction->id"/>
+        @endif
     </flux:modal>
 
 </div>

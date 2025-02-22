@@ -32,6 +32,7 @@ class Member extends Model
         'verified_at' => 'datetime',
         'entered_at' => 'datetime',
         'left_at' => 'datetime',
+        'birth_date' => 'datetime',
         'is_deducted' => 'boolean',
     ];
 
@@ -121,5 +122,18 @@ class Member extends Model
 
         return 'none';
 
+    }
+
+    public function thisBirthday()
+    {
+
+        return Carbon::create(date('Y'), $this->birth_date->format('m'), $this->birth_date->format('d'))
+            ->isoFormat('Do dddd');
+
+    }
+
+    public function age()
+    {
+        return (int) $this->birth_date->diffInYears();
     }
 }

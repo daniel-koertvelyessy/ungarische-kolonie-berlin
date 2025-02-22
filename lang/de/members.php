@@ -12,6 +12,11 @@ return [
     'con.men.payment' => 'Einzahlung',
     'con.men.delete' => 'Löschen',
 
+    'widget.birthday.card.table.header.member' => 'Mitglied',
+    'widget.birthday.card.table.header.birthday' => 'am',
+    'widget.birthday.card.table.header.newage' => 'Wird',
+    'widget.birthday.card.heading' => 'Anstehende Geburtstage im :name',
+
     'fee-type.free' => 'Befreit',
     'fee-type.standard' => 'Standard',
     'fee-type.discounted' => 'Reduziert',

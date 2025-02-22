@@ -16,6 +16,11 @@ return [
     'fee-type.discounted' => 'Kedvezményes',
     'fee_type' => 'Tagdij típus',
 
+    'widget.birthday.card.table.header.member' => 'Tag',
+    'widget.birthday.card.table.header.birthday' => 'Dátum',
+    'widget.birthday.card.table.header.newage' => 'Betölti',
+    'widget.birthday.card.heading' => 'Tagi születésnapok  :name',
+
     'apply.discount.label' => 'Csökkentett tagsági díjat kérek',
     'apply.full_fee.label' => 'A fizető tagoknak :sum EUR havi díjat kell fizetniük.',
     'apply.discounted_fee.label' => 'A :kor és annál idősebb tagok esetén :sum EUR havi díjat kell fizetni.',

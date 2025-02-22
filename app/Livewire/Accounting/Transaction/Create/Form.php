@@ -12,6 +12,7 @@ use App\Livewire\Forms\AccountForm;
 use App\Livewire\Forms\BookingAccountForm;
 use App\Livewire\Forms\ReceiptForm;
 use App\Livewire\Forms\TransactionForm;
+use App\Livewire\Traits\HasPrivileges;
 use App\Models\Accounting\Account;
 use App\Models\Accounting\BookingAccount;
 use App\Models\Accounting\Receipt;
@@ -19,7 +20,6 @@ use App\Models\Accounting\Transaction;
 use App\Models\Event\Event;
 use App\Models\Membership\Member;
 use Flux\Flux;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Computed;
@@ -28,7 +28,7 @@ use Livewire\WithFileUploads;
 
 class Form extends Component
 {
-    use WithFileUploads;
+    use HasPrivileges, WithFileUploads;
 
     public Event $event;
 
@@ -120,7 +120,7 @@ class Form extends Component
 
     public function submitTransaction(): void
     {
-        $this->checkUser();
+        $this->checkPrivilege(Transaction::class);
 
         $this->form->validate();
 
@@ -133,7 +133,7 @@ class Form extends Component
 
     public function submitEventTransaction(): void
     {
-        $this->checkUser();
+        $this->checkPrivilege(Transaction::class);
         $this->handleEventTransaction();
 
         if ($this->visitor_has_member_id) {
@@ -143,7 +143,7 @@ class Form extends Component
 
     public function submitMemberTransaction(): void
     {
-        $this->checkUser();
+        $this->checkPrivilege(Transaction::class);
         $this->handleMemberTransaction($this->form, $this->member);
     }
 
@@ -332,28 +332,28 @@ class Form extends Component
 
     public function addAccount(): void
     {
-        $this->checkUser();
+        $this->checkPrivilege(Transaction::class);
         $this->account->create();
         $this->form->account_id = $this->account->id;
     }
 
     public function createAccount(): void
     {
-        $this->checkUser();
+        $this->checkPrivilege(Transaction::class);
         $this->account->create();
         $this->reset('account');
     }
 
     public function addBookingAccount(): void
     {
-        $this->checkUser();
+        $this->checkPrivilege(Transaction::class);
         $this->booking->create();
         $this->form->booking_id = $this->booking->id;
     }
 
     public function createBookingAccount(): void
     {
-        $this->checkUser();
+        $this->checkPrivilege(Transaction::class);
         $this->booking->create();
         $this->reset('booking');
     }
@@ -361,20 +361,5 @@ class Form extends Component
     public function addVisitor(): void
     {
         $this->visitors[] = $this->visitors->name;
-    }
-
-    protected function checkUser(): void
-    {
-        try {
-            $this->authorize('create', Account::class);
-        } catch (AuthorizationException $e) {
-            Flux::toast(
-                text: 'Sie haben keine Berechtigungen zur Erstellung von Konten'.$e->getMessage(),
-                heading: 'Forbidden',
-                variant: 'danger',
-            );
-
-            return;
-        }
     }
 }

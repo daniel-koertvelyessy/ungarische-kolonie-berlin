@@ -23,6 +23,11 @@ class Page extends Component
         MemberType::AD->value,
     ];
 
+    public function updatedSearch(): void
+    {
+        $this->resetPage();
+    }
+
     #[Computed]
     public function members(): LengthAwarePaginator
     {

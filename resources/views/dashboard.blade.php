@@ -6,5 +6,6 @@
             <flux:heading size="lg">Kontostände</flux:heading>
             <x-balance-sheet/>
         </flux:card>
+        <livewire:dashboard.widgets.upcomming-birthday-list />
     </div>
 </x-app-layout>
