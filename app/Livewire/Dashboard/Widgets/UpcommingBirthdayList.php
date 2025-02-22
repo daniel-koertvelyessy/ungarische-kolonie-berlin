@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Dashboard\Widgets;
 
-use App\Livewire\Traits\Sortable;
 use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Livewire\Attributes\Computed;
@@ -11,7 +10,7 @@ use Livewire\WithPagination;
 
 class UpcommingBirthdayList extends Component
 {
-    use Sortable, WithPagination;
+    use  WithPagination;
 
     public $monthName;
 
@@ -23,6 +22,8 @@ class UpcommingBirthdayList extends Component
 
         return \App\Models\Membership\Member::query()
             ->whereMonth('birth_date', $this->currentMonth)
+            ->orderByRaw("strftime('%d', birth_date) ASC")   // only for sqlite
+//            ->orderByRaw('DAY(birth_date) ASC')
             ->paginate(5);
 
     }
