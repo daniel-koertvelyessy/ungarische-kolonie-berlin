@@ -37,7 +37,7 @@
                         <flux:badge size="sm"
                                     color="lime"
                                     inset="top bottom"
-                        >{{ $member->age()+1 }}</flux:badge>
+                        >{{ $member->age() }}</flux:badge>
                     </flux:cell>
                 </flux:row>
             @endforeach
