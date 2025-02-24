@@ -1,5 +1,5 @@
 <flux:card>
-    <header class="flex items-center justify-between">
+    <header class="flex items-center justify-between gap-3">
         <flux:button wire:click="previousMonth"
                      icon="arrow-left"
                      square
@@ -16,7 +16,7 @@
     <flux:table :paginate="$this->members">
         <flux:columns>
             <flux:column>{{ __('members.widget.birthday.card.table.header.member') }}</flux:column>
-            <flux:column class="hidden sm:table-cell">{{ __('members.widget.birthday.card.table.header.birthday') }}</flux:column>
+            <flux:column>{{ __('members.widget.birthday.card.table.header.birthday') }}</flux:column>
             <flux:column class="hidden sm:table-cell"
                          align="right"
             >{{ __('members.widget.birthday.card.table.header.newage') }}</flux:column>
@@ -30,7 +30,7 @@
                             {{ \Illuminate\Support\Str::limit($member->name . ', '. $member->first_name,20) }}
                         </span>
                     </flux:cell>
-                    <flux:cell class="whitespace-nowrap hidden sm:table-cell">{{ $member->thisBirthday() }}</flux:cell>
+                    <flux:cell class="whitespace-nowrap">{{ $member->thisBirthday() }}</flux:cell>
                     <flux:cell class=" hidden sm:table-cell"
                                align="end"
                     >
