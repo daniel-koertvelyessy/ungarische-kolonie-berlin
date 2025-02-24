@@ -141,4 +141,18 @@ return [
     'widgets.applicants.tab.header.from' => 'Mikor',
     'widgets.applicants.tab.header.name' => 'Név',
 
+
+    'show.created_at' => 'Létrehozva',
+    'show.updated_at' => 'Utoljára szerkesztve:',
+    'show.about' => 'Személyes adatok',
+    'show.membership' => 'Tagság',
+    'show.payments' => 'Hozzájárulás',
+    'show.store' => 'Mentés',
+    'show.fee_msg.exempted' => 'Tagdij mentes',
+    'show.fee_msg.paid' => 'Fizetett',
+    'show.invitation_sent' => 'Meghívó úton van',
+    'show.member.reactivate' => 'Újraaktiválás',
+    'show.select_user' => 'Felhasználó kiválasztása',
+    'show.empty_user_list' => 'Nincsen felhasználó ???',
+
 ];

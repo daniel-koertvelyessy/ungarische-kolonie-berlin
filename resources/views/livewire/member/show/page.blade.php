@@ -1,24 +1,24 @@
 <div class="space-y-6">
 
     <flux:heading size="xl">{{ __('members.show.title',['name' => $member->first_name . ' ' . $member->name]) }}</flux:heading>
-    <flux:text size="sm">Erstellt am: {{ $member->created_at }} | Zuletzt bearbeitet am: {{ $member->updated_at }}</flux:text>
+    <flux:text size="sm">{{ __('members.show.created_at') }}: {{ $member->created_at }} | {{ __('members.show.updated_at') }}: {{ $member->updated_at }}</flux:text>
 
     <flux:tab.group>
         <flux:tabs  wire:model.lazy="selectedTab">
             <flux:tab name="member-show-profile"
                       icon="user"
                       wire:click="setSelectedTab('member-show-profile')"
-            ><span class="hidden sm:flex">Angaben zur </span>Person
+            ><span class="hidden sm:flex">{{ __('members.show.about') }}</span>
             </flux:tab>
             <flux:tab name="member-show-account"
                       icon="cog-6-tooth"
                       wire:click="setSelectedTab('member-show-account')"
-            >Mitgliedschaft
+            ><span class="hidden sm:flex">{{ __('members.show.membership') }}</span>
             </flux:tab>
             <flux:tab name="member-show-billing"
                       icon="banknotes"
                       wire:click="setSelectedTab('member-show-billing')"
-            >Beiträge
+            ><span class="hidden sm:flex">{{ __('members.show.payments') }}</span>
             </flux:tab>
         </flux:tabs>
 
@@ -63,7 +63,7 @@
                         @can('update', $member)
                             <flux:button variant="primary"
                                          type="submit"
-                            >Speichern
+                            >{{ __('members.show.store') }}
                             </flux:button>
                         @endcan
                     </flux:card>
@@ -130,7 +130,7 @@
                             <flux:spacer/>
                             <flux:button variant="primary"
                                          type="submit"
-                            >Speichern
+                            >{{ __('members.show.store') }}
                             </flux:button>
                         @endcan
                     </flux:card>
@@ -196,7 +196,7 @@
                         <flux:spacer/>
                         <flux:button variant="primary"
                                      type="submit"
-                        >Speichern
+                        >{{ __('members.show.store') }}
                         </flux:button>
                     </flux:card>
                 </form>
@@ -208,18 +208,18 @@
                         @if($feetype === \App\Enums\MemberFeeType::FREE->value )
                             <flux:badge color="lime"
                                         size="lg"
-                            >Befreit von Beitragszahlungen
+                            >{{ __('members.') }}
                                 <flux:icon.check-circle variant="mini"/>
                             </flux:badge>
                         @else
                             @if($feeStatus)
                                 <flux:badge color="lime"
                                             size="lg"
-                                >Bezahlt: <span class="mx-1.5 text-sm">EUR</span> {{$openFees}}
+                                >{{ __('members.show.fee_msg.paid') }}: <span class="mx-1.5 text-sm">EUR</span> {{$openFees}}
                                     <flux:icon.check-circle variant="mini"/>
                                 </flux:badge>
                             @else
-                                <flux:badge color="orange">Bezahlt: <span class="mx-1.5 text-sm">EUR</span> {{$openFees}}
+                                <flux:badge color="orange">{{ __('members.show.fee_msg.paid') }}: <span class="mx-1.5 text-sm">EUR</span> {{$openFees}}
                                     <flux:icon.bolt variant="mini"/>
                                 </flux:badge>
                             @endif
@@ -263,7 +263,7 @@
                                 </flux:button>
                                 <flux:error for="email"/>
                             @elseif($invitation_status === 'invited')
-                                <flux:badge color="lime" size="lg" icon="envelope">Einladung is verschickt</flux:badge>
+                                <flux:badge color="lime" size="lg" icon="envelope">{{ __('members.show.invitation_sent') }}</flux:badge>
                             @endif
                         </flux:field>
                     @endif
@@ -280,7 +280,7 @@
                             @can('delete',$this->member)
                                 <flux:button variant="primary"
                                              wire:click="reactivateMembership"
-                                >Reaktivieren
+                                >{{ __('members.show.member.reactivate') }}
                                 </flux:button>
                             @endcan
                         @else
@@ -298,7 +298,7 @@
                                 <flux:field >
                                     @if($memberForm->user_id)
                                         <flux:label>verknüft mit Benutzer</flux:label>
-                                       <div class="flex">
+                                       <div class="flex gap-3">
                                            <flux:badge color="lime"
                                                        size="lg"
                                                        class="flex-1"
@@ -307,7 +307,7 @@
                                                         variant="danger"
                                                         wire:click="detachUser({{$memberForm->user_id}})"
                                                         icon="trash"
-                                           >{{ __('members.unlink_user') }}
+                                           ><span class="hidden lg:flex">{{ __('members.unlink_user') }}</span>
 
                                            </flux:button>
                                        </div>
@@ -321,7 +321,7 @@
                                             >
                                                 <flux:option wire:key="0"
                                                              value="0"
-                                                >Benutzer wählen
+                                                >{{ __('members.show.select_user') }}
                                                 </flux:option>
                                                 @forelse($users as $user)
                                                     <flux:option wire:key="{{ $user->id }}"
@@ -330,7 +330,7 @@
                                                 @empty
                                                     <flux:option wire:key="0"
                                                                  value="0"
-                                                    >Keine Benutzer gefunden
+                                                    >{{ __('members.show.empty_user_list') }}
                                                     </flux:option>
 
                                                 @endforelse

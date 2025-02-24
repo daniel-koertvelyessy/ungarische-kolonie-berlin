@@ -78,7 +78,7 @@ class MemberForm extends Form
         $this->fee_type = $this->member->fee_type ?? MemberFeeType::FULL->value;
         $this->applied_at = $this->member->applied_at;
         $this->verified_at = optional($this->member->verified_at)->format('Y-m-d');
-        $this->birth_date = $this->member->birth_date;
+        $this->birth_date = $this->member->birth_date->format('Y-m-d');
         $this->name = $this->member->name;
         $this->first_name = $this->member->first_name;
         $this->email = $this->member->email;
