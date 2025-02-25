@@ -5,7 +5,8 @@
         @can('create',\App\Models\Event\Event::class)
             <flux:button href="{{ route('backend.events.create') }}"
                          variant="primary"
-            >Neu erstellen
+                         icon-trailing="plus"
+            >{{ __('event.index.btn.start_new') }}
             </flux:button>
         @endcan
     </header>
@@ -13,6 +14,11 @@
     <flux:table :paginate="$this->events">
 
         <flux:columns>
+            <flux:column sortable
+                         :sorted="$sortBy === 'name'"
+                         :direction="$sortDirection"
+                         wire:click="sort('name')"
+            >{{ __('event.index.table.header.name') }}</flux:column>
             <flux:column sortable
                          :sorted="$sortBy === 'title'"
                          :direction="$sortDirection"
@@ -58,10 +64,13 @@
         <flux:rows>
             @foreach ($this->events as $event)
                 <flux:row :key="$event->id">
-                    <flux:cell>
+                    <flux:cell variant="strong">
                         <a class="underline text-emerald-600"
                            href="{{ route('backend.events.show',$event) }}"
-                        >{{ Str::limit($event->title[$locale], 45, preserveWords: true)  }}</a>
+                        >{{ Str::limit($event->name??'öffnen', 45, preserveWords: true)  }}</a>
+                    </flux:cell>
+                    <flux:cell>
+                     {{ Str::limit($event->title[$locale], 45, preserveWords: true)  }}
                     </flux:cell>
                     <flux:cell>
                         @if($event->image)

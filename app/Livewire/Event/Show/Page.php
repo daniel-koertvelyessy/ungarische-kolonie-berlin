@@ -3,6 +3,7 @@
 namespace App\Livewire\Event\Show;
 
 use App\Livewire\Forms\EventForm;
+use App\Livewire\Traits\HasPrivileges;
 use App\Livewire\Traits\PersistsTabs;
 use App\Livewire\Traits\Sortable;
 use App\Models\Event\Event;
@@ -19,7 +20,7 @@ use Livewire\WithPagination;
 
 class Page extends Component
 {
-    use PersistsTabs, Sortable, WithPagination;
+    use PersistsTabs, Sortable, WithPagination, HasPrivileges;
 
     public EventForm $form;
 
@@ -75,33 +76,14 @@ class Page extends Component
 
     public function addVisitor(): void
     {
-        try {
-            $this->authorize('update', $this->form->event);
-        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
-            Flux::toast(
-                text: 'You have no permission to edit this member! '.$e->getMessage(),
-                heading: 'Forbidden',
-                variant: 'danger',
-            );
 
-            return;
-        }
+        $this->checkPrivilege(Event::class);
         Flux::modal('add-new-visitor')->show();
     }
 
     public function updateEventData(): void
     {
-        try {
-            $this->authorize('update', $this->form->event);
-        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
-            Flux::toast(
-                text: 'You have no permission to edit this member! '.$e->getMessage(),
-                heading: 'Forbidden',
-                variant: 'danger',
-            );
-
-            return;
-        }
+        $this->checkPrivilege(Event::class);
         $this->form->update();
     }
 

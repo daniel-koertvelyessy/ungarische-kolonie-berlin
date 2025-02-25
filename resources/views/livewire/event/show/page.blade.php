@@ -3,7 +3,7 @@
                   size="lg"
     >{{ __('event.show.page.title') }}</flux:heading>
     <flux:heading class="lg:mb-9 lg:flex hidden">{{ __('event.show.page.title') }}</flux:heading>
-    <flux:subheading size="xl">{{ $form->title[app()->getLocale()] }}</flux:subheading>
+    <flux:subheading size="xl">{{ $form->name ?? $form->title[app()->getLocale()] }}</flux:subheading>
 
 
     <flux:tab.group class="mt-3">
@@ -36,6 +36,10 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-3"
                 >
                     <section class="space-y-6">
+
+                        <flux:input wire:model="form.name" label="{{ __('event.name') }}" />
+
+
                         <flux:input type="date"
                                     wire:model="form.event_date"
                                     label="{{__('event.form.event_date')}}"
@@ -85,11 +89,13 @@
                                      label="{{__('event.form.status')}}"
                         >
                             @foreach(\App\Enums\EventStatus::cases() as $status)
-                                <flux:option value="{{ $status->value }}">
+                                <flux:option value="{{ $status }}">
                                     <flux:badge color="{{ \App\Enums\EventStatus::color($status->value) }}">{{ \App\Enums\EventStatus::value($status->value) }}</flux:badge>
                                 </flux:option>
                             @endforeach
                         </flux:select>
+
+
                     </section>
 
                     <section class="space-y-6">

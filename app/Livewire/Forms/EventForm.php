@@ -22,7 +22,7 @@ class EventForm extends Form
     public array $locales;
 
     public $status = EventStatus::DRAFT->value;
-
+    public $name;
     public $id;
 
     public $event_date;
@@ -55,11 +55,12 @@ class EventForm extends Form
         $this->event = $event;
         $this->locale = session('locale') ?? app()->getLocale();
         $this->locales = Locale::cases();
-
+        $this->name = $this->event->name;
         $this->event_date = $this->event->event_date->format('Y-m-d');
         $this->id = $this->event->id;
         $this->start_time = $this->event->start_time->format('H:i');
         $this->end_time = $this->event->end_time->format('H:i');
+        $this->status = $this->event->status;
         $this->title = $this->event->title;
         $this->excerpt = $this->event->excerpt;
         $this->slug = $this->event->slug;
@@ -80,21 +81,22 @@ class EventForm extends Form
     protected function rules(): array
     {
         return [
-            'venue_id' => 'nullable|exists:venues,id',
-            'event_date' => 'nullable|date',
-            'start_time' => 'required_with:event_date',
-            'end_time' => 'required_with:event_date',
-            'title.*' => [  // Using wildcard for each locale key
-                'required',
-                new UniqueJsonSlug('events', 'title', $this->id),
+            'name'                 => 'required',
+            'venue_id'             => 'nullable|exists:venues,id',
+            'event_date'           => 'nullable|date',
+            'start_time'           => 'required_with:event_date',
+            'end_time'             => 'required_with:event_date',
+            'title.*'              => [  // Using wildcard for each locale key
+                                         'required',
+                                         new UniqueJsonSlug('events', 'title', $this->id),
             ],
-            'slug.*' => new UniqueJsonSlug('events', 'slug', $this->id),
-            'excerpt' => 'nullable',
-            'description' => 'nullable',
-            'image' => 'nullable',
-            'payment_link' => 'nullable',
-            'status' => ['nullable', Rule::enum(EventStatus::class)],
-            'entry_fee' => 'nullable|numeric',
+            'slug.*'               => new UniqueJsonSlug('events', 'slug', $this->id),
+            'excerpt'              => 'nullable',
+            'description'          => 'nullable',
+            'image'                => 'nullable',
+            'payment_link'         => 'nullable',
+            'status'               => ['nullable', Rule::enum(EventStatus::class)],
+            'entry_fee'            => 'nullable|numeric',
             'entry_fee_discounted' => 'nullable|numeric',
         ];
     }
@@ -114,6 +116,7 @@ class EventForm extends Form
         $this->event->venue_id = $this->venue_id;
         $this->event->payment_link = $this->payment_link;
         $this->event->status = $this->status;
+        $this->event->name = $this->name;
 
         if ($this->event->save()) {
             Flux::toast(

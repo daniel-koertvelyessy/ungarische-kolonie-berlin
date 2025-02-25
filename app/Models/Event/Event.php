@@ -14,6 +14,7 @@ class Event extends Model
     use HasFactory;
 
     protected $fillable = [
+        'name',
         'event_date',
         'start_time',
         'end_time',
@@ -29,7 +30,6 @@ class Event extends Model
     ];
 
     protected $casts = [
-
         'title' => 'array',
         'excerpt' => 'array',
         'slug' => 'array',

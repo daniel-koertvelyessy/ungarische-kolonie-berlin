@@ -28,6 +28,7 @@ class EventFactory extends Factory
         $disc_fee = round($fee * 0.7, 0);
 
         return [
+            'name' => $this->faker->domainName,
             'event_date' => $event_date->format('Y-m-d'),
             'start_time' => $start,
             'end_time' => $end,
@@ -49,7 +50,7 @@ class EventFactory extends Factory
                 'de' => fake()->sentences(10, true),
                 'hu' => fake()->sentences(10, true),
             ],
-            'status' => EventStatus::DRAFT->value,
+            'status' => $this->faker->randomElement(EventStatus::cases())->value,
             'venue_id' => Venue::factory()->create(),
         ];
     }

@@ -23,14 +23,14 @@ class Page extends Component
     public function createEventData()
     {
         $this->authorize('create', Event::class);
-        $this->form->create();
+       $new_event =  $this->form->create();
         Flux::toast(
-            text: __('event.store_image.success.content'),
-            heading: __('event.store_image.success.title'),
+            text: __('event.store.success.content'),
+            heading: __('event.store.success.title'),
             variant: 'success',
         );
         //        $this->dispatch('navigate-to', route('backend.events.index'));
-        $this->redirect(route('backend.events.index'));
+        $this->redirect(route('backend.events.show', $new_event));
     }
 
     public function render()

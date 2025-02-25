@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'name' => 'Name (intern)',
     'more' => 'weiterlesen',
     'page.title' => 'Übersicht aller Veranstaltungen',
     'date' => 'Datum',
@@ -18,6 +19,7 @@ return [
     'tabs.nav.payments' => 'Zahlungen',
     'tabs.nav.subscriptions' => 'Anmeldungen',
     'tabs.nav.visitors' => 'Besucher',
+    'tabs.nav.planing' => 'Planung',
 
     'visitor-table.header.name' => 'Name',
     'visitor-table.header.email' => 'E-Mail',
@@ -66,11 +68,15 @@ return [
     'report.subject' => 'Auswertung der Veranstaltung :name',
 
     'index.title' => 'Title',
-    'index.table.header.title' => 'Title',
+    'index.table.header.name' => 'Name (intern)',
+    'index.btn.start_new' => 'Neu erstellen',
+    'index.table.header.title' => 'Titel',
     'index.table.header.image' => 'Titelbild',
 
     'create.slug.notice' => 'Der slug wird als Link in zwei Sprachen angelegt. Dieser kann nachträglich nicht mehr geändert werden!',
     'create.page.title' => 'Neue Veranstaltung erstellen',
+    'store.success.content' => 'Die Veranstaltung wurde erfolgreich erstellt.',
+    'store.success.title' => 'Erfolg',
 
     'show.page.title' => 'Veranstaltung',
     'visitor.name' => 'Besucher',

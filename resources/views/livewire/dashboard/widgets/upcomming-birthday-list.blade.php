@@ -29,8 +29,10 @@
                         <span>
                             {{ \Illuminate\Support\Str::limit($member->name . ', '. $member->first_name,20) }}
                         </span>
+
+                        @if($member->hasBirthdayToday()) <x-ping/> @endif
                     </flux:cell>
-                    <flux:cell class="whitespace-nowrap">{{ $member->thisBirthday() }}</flux:cell>
+                    <flux:cell class="whitespace-nowrap">{{ $member->birthDayInMonth() }}</flux:cell>
                     <flux:cell class=" hidden sm:table-cell"
                                align="end"
                     >

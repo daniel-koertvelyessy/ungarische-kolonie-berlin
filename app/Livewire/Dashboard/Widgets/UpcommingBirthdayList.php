@@ -37,6 +37,7 @@ class UpcommingBirthdayList extends Component
         }
         $this->dispatch('$refresh');
         $this->setMonthName();
+        $this->resetPage();
     }
 
     public function previousMonth(): void
@@ -48,6 +49,7 @@ class UpcommingBirthdayList extends Component
         }
         $this->members();
         $this->setMonthName();
+        $this->resetPage();
     }
 
     public function mount(): void

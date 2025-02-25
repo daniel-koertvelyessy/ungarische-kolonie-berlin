@@ -8,7 +8,7 @@ return [
     'begins' => 'Kezdet',
     'ends' => 'Vége',
     'show.label' => 'Részletek',
-    'venue' => 'helyszín',
+    'venue' => 'Helyszín',
     'status' => 'Statusz',
     'make_ics' => 'Naptárbejegyzés létrehozása',
     'buy_tickets' => 'Jegyeket vásároljoni',
@@ -62,6 +62,8 @@ return [
     'visitor-modal.separator.optional' => 'Opcionális Adatok lekérése innen',
     'visitor-modal.separator.or' => 'vagy',
 
+    'index.table.header.name' => 'Név (intern)',
+    'index.btn.start_new' => 'Uj esemény',
     'index.title' => 'Cím',
     'index.table.header.title' => 'Cím',
     'index.table.header.image' => 'Címkép',

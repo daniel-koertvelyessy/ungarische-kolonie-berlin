@@ -9,53 +9,8 @@
 
     >
         <section class="grid grid-cols-1 lg:grid-cols-2 gap-3 mb-3">
-
-            @foreach(\App\Enums\Locale::cases() as $locale)
-                <flux:card class="space-y-6">
-
-                    <flux:field>
-                        <flux:label>Titel für Sprache
-                            <flux:badge color="lime">{{ $locale->value }}</flux:badge>
-                        </flux:label>
-                        <flux:input wire:model="form.title.{{$locale->value}}"
-                                    description="Der Titel wird für die Seite verwendet"
-                        />
-                        <flux:error name="form.title"/>
-                    </flux:field>
-
-                    <div>
-                        <flux:label>Slug für Sprache
-                            <flux:badge color="lime">{{ $locale->value }}</flux:badge>
-                        </flux:label>
-
-                        <flux:input wire:model="form.slug.{{$locale->value}}"
-                                    description="{{ __('event.create.slug.notice') }}"
-                        />
-                        <flux:error name="form.slug"/>
-
-                    </div>
-
-                    <flux:field>
-                        <flux:label>Text Auszug für Sprache
-                            <flux:badge color="lime">{{ $locale->value }}</flux:badge>
-                        </flux:label>
-                        <flux:description>Wird für die Vorschau verwendet. Bitte max 200 Zeichen</flux:description>
-                        <flux:editor class="[&_[data-slot=content]]:min-h-[100px]"
-                                     wire:model="form.excerpt.{{$locale->value}}"
-                        />
-                    </flux:field>
-
-                    <flux:field>
-                        <flux:label>Inhalt/Beschreibung für Sprache
-                            <flux:badge color="lime">{{ $locale->value }}</flux:badge>
-                        </flux:label>
-                        <flux:editor wire:model="form.description.{{$locale->value}}"/>
-                    </flux:field>
-
-                </flux:card>
-            @endforeach
-
             <flux:card class="col-span-1">
+                <flux:input wire:model="form.name" label="{{ __('event.name') }}" class="mb-3" />
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
                     <flux:field class="space-y-6">
                         <flux:input type="date"
@@ -79,7 +34,6 @@
                             <flux:label>{{__('event.form.entry_fee')}}</flux:label>
                             <flux:input.group>
                                 <flux:input type="number"
-                                            min="1"
                                             wire:model="form.entry_fee"
                                             placeholder="entry_fee"
                                 />
@@ -138,7 +92,7 @@
                                 @foreach(\App\Enums\EventStatus::cases() as $key => $status)
                                     <flux:option value="{{ $status->value }}"
                                                  :key
-                                    ><flux:badge color="{{ \App\Enums\EventStatus::color($status->value) }}">{{ $status->name }}</flux:badge></flux:option>
+                                    ><flux:badge color="{{ \App\Enums\EventStatus::color($status->value) }}">{{ \App\Enums\EventStatus::value($status->value) }}</flux:badge></flux:option>
                                 @endforeach
 
                             </flux:select>
@@ -156,6 +110,52 @@
                 <livewire:app.global.image-upload/>
 
             </flux:card>
+
+            @foreach(\App\Enums\Locale::cases() as $locale)
+                <flux:card class="space-y-6">
+
+                    <flux:field>
+                        <flux:label>Titel für Sprache
+                            <flux:badge color="lime">{{ $locale->value }}</flux:badge>
+                        </flux:label>
+                        <flux:input wire:model="form.title.{{$locale->value}}"
+                                    description="Der Titel wird für die Seite verwendet"
+                        />
+                        <flux:error name="form.title"/>
+                    </flux:field>
+
+                    <div>
+                        <flux:label>Slug für Sprache
+                            <flux:badge color="lime">{{ $locale->value }}</flux:badge>
+                        </flux:label>
+
+                        <flux:input wire:model="form.slug.{{$locale->value}}"
+                                    description="{{ __('event.create.slug.notice') }}"
+                        />
+                        <flux:error name="form.slug"/>
+
+                    </div>
+
+                    <flux:field>
+                        <flux:label>Text Auszug für Sprache
+                            <flux:badge color="lime">{{ $locale->value }}</flux:badge>
+                        </flux:label>
+                        <flux:description>Wird für die Vorschau verwendet. Bitte max 200 Zeichen</flux:description>
+                        <flux:editor class="[&_[data-slot=content]]:min-h-[100px]"
+                                     wire:model="form.excerpt.{{$locale->value}}"
+                        />
+                    </flux:field>
+
+                    <flux:field>
+                        <flux:label>Inhalt/Beschreibung für Sprache
+                            <flux:badge color="lime">{{ $locale->value }}</flux:badge>
+                        </flux:label>
+                        <flux:editor wire:model="form.description.{{$locale->value}}"/>
+                    </flux:field>
+
+                </flux:card>
+            @endforeach
+
 
 
         </section>

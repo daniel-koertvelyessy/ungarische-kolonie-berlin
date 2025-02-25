@@ -13,6 +13,7 @@ class CreateEvent
     {
         return DB::transaction(function () use ($eventForm) {
             return Event::create([
+                'name' => $eventForm->name,
                 'venue_id' => $eventForm->venue_id,
                 'event_date' => $eventForm->event_date,
                 'start_time' => $eventForm->start_time,
