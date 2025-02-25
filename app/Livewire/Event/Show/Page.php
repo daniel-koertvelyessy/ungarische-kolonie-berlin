@@ -20,7 +20,7 @@ use Livewire\WithPagination;
 
 class Page extends Component
 {
-    use PersistsTabs, Sortable, WithPagination, HasPrivileges;
+    use HasPrivileges, PersistsTabs, Sortable, WithPagination;
 
     public EventForm $form;
 
@@ -72,11 +72,11 @@ class Page extends Component
     {
         $this->event_id = $event->id;
         $this->form->setEvent($event);
+        $this->selectedTab = $this->getSelectedTab();
     }
 
     public function addVisitor(): void
     {
-
         $this->checkPrivilege(Event::class);
         Flux::modal('add-new-visitor')->show();
     }

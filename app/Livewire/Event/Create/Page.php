@@ -23,7 +23,7 @@ class Page extends Component
     public function createEventData()
     {
         $this->authorize('create', Event::class);
-       $new_event =  $this->form->create();
+        $new_event = $this->form->create();
         Flux::toast(
             text: __('event.store.success.content'),
             heading: __('event.store.success.title'),

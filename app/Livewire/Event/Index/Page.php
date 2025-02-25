@@ -11,11 +11,11 @@ use Livewire\WithPagination;
 
 class Page extends Component
 {
-    use WithPagination, Sortable;
+    use Sortable, WithPagination;
 
     public string $locale;
 
-       public function mount():void
+    public function mount(): void
     {
         $this->locale = session('locale') ?? app()->getLocale();
     }

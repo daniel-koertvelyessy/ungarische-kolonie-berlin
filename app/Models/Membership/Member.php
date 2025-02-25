@@ -124,12 +124,12 @@ class Member extends Model
 
     }
 
-    public function hasBirthdayToday():bool
+    public function hasBirthdayToday(): bool
     {
         return $this->birth_date->format('d') === Carbon::today()->format('d');
     }
 
-    public function birthDayInMonth():string
+    public function birthDayInMonth(): string
     {
 
         return Carbon::create(date('Y'), $this->birth_date->format('m'), $this->birth_date->format('d'))
@@ -137,7 +137,7 @@ class Member extends Model
 
     }
 
-    public function age():int
+    public function age(): int
     {
         return (int) $this->birth_date->diffInYears();
     }

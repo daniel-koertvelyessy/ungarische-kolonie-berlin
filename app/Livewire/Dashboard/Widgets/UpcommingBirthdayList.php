@@ -10,7 +10,7 @@ use Livewire\WithPagination;
 
 class UpcommingBirthdayList extends Component
 {
-    use  WithPagination;
+    use WithPagination;
 
     public $monthName;
 

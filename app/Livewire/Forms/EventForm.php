@@ -22,7 +22,9 @@ class EventForm extends Form
     public array $locales;
 
     public $status = EventStatus::DRAFT->value;
+
     public $name;
+
     public $id;
 
     public $event_date;
@@ -81,22 +83,22 @@ class EventForm extends Form
     protected function rules(): array
     {
         return [
-            'name'                 => 'required',
-            'venue_id'             => 'nullable|exists:venues,id',
-            'event_date'           => 'nullable|date',
-            'start_time'           => 'required_with:event_date',
-            'end_time'             => 'required_with:event_date',
-            'title.*'              => [  // Using wildcard for each locale key
-                                         'required',
-                                         new UniqueJsonSlug('events', 'title', $this->id),
+            'name' => 'required',
+            'venue_id' => 'nullable|exists:venues,id',
+            'event_date' => 'nullable|date',
+            'start_time' => 'required_with:event_date',
+            'end_time' => 'required_with:event_date',
+            'title.*' => [  // Using wildcard for each locale key
+                'required',
+                new UniqueJsonSlug('events', 'title', $this->id),
             ],
-            'slug.*'               => new UniqueJsonSlug('events', 'slug', $this->id),
-            'excerpt'              => 'nullable',
-            'description'          => 'nullable',
-            'image'                => 'nullable',
-            'payment_link'         => 'nullable',
-            'status'               => ['nullable', Rule::enum(EventStatus::class)],
-            'entry_fee'            => 'nullable|numeric',
+            'slug.*' => new UniqueJsonSlug('events', 'slug', $this->id),
+            'excerpt' => 'nullable',
+            'description' => 'nullable',
+            'image' => 'nullable',
+            'payment_link' => 'nullable',
+            'status' => ['nullable', Rule::enum(EventStatus::class)],
+            'entry_fee' => 'nullable|numeric',
             'entry_fee_discounted' => 'nullable|numeric',
         ];
     }

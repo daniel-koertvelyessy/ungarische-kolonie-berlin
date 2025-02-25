@@ -7,7 +7,7 @@
 
 
     <flux:tab.group class="mt-3">
-        <flux:tabs wire:model.lazy="selectedTab">
+        <flux:tabs wire:model="selectedTab">
             <flux:tab name="event-show-dates"
                       icon="calendar-days"
                       wire:click="setSelectedTab('event-show-dates')"
@@ -28,8 +28,11 @@
                       icon="users"
                       wire:click="setSelectedTab('event-show-visitors')"
             ><span class="hidden md:inline">{{ __('event.tabs.nav.visitors') }}</span></flux:tab>
+            <flux:tab name="event-show-planing"
+                      icon="queue-list"
+                      wire:click="setSelectedTab('event-show-planing')"
+            ><span class="hidden md:inline">{{ __('event.tabs.nav.planing') }}</span></flux:tab>
         </flux:tabs>
-
 
         <flux:tab.panel name="event-show-dates">
             <form wire:submit="updateEventData">
@@ -436,6 +439,13 @@
                     @endforelse
                 </flux:rows>
             </flux:table>
+        </flux:tab.panel>
+
+        <flux:tab.panel name="event-show-planing">
+            Planung
+            <section class="grid grid-cols-1">
+
+            </section>
         </flux:tab.panel>
     </flux:tab.group>
 

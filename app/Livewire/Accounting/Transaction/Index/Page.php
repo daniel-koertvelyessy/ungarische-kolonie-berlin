@@ -22,7 +22,6 @@ use App\Models\Membership\Member;
 use App\Models\Membership\MemberTransaction;
 use Flux\Flux;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Computed;
@@ -297,14 +296,14 @@ class Page extends Component
             'transfer_transaction_form.transaction_id' => ['required', Rule::exists('transactions', 'id')],
             'transfer_transaction_form.account_id' => ['required', Rule::notIn([$this->transaction->account_id])],
             'transfer_transaction_form.reason' => 'required',
-        ],[
+        ], [
             'transfer_transaction_form.transaction_id.required' => __('transaction.account-transfer-modal.error.transaction_id'),
             'transfer_transaction_form.account_id.required' => __('transaction.account-transfer-modal.error.account_id'),
             'transfer_transaction_form.account_id.not_in' => __('transaction.account-transfer-modal.error.identical'),
             'transfer_transaction_form.reason.required' => __('transaction.account-transfer-modal.error.reason'),
         ]);
 
-        TransferTransaction::handle($this->transaction,$this->transfer_transaction_form);
+        TransferTransaction::handle($this->transaction, $this->transfer_transaction_form);
 
         $this->dispatch('transaction-updated');
         Flux::toast(

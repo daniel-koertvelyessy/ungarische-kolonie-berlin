@@ -141,7 +141,6 @@ return [
     'widgets.applicants.tab.header.from' => 'Mikor',
     'widgets.applicants.tab.header.name' => 'Név',
 
-
     'show.created_at' => 'Létrehozva',
     'show.updated_at' => 'Utoljára szerkesztve:',
     'show.about' => 'Személyes adatok',

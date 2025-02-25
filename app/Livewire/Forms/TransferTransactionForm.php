@@ -11,8 +11,11 @@ class TransferTransactionForm extends Form
     public ?Transaction $transaction = null;
 
     public $account_id;
+
     public $transaction_id;
+
     public $user_id;
+
     public $reason;
 
     public function set(Transaction $transaction)
