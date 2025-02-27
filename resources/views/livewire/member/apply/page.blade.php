@@ -3,7 +3,7 @@
     <flex:text>{{ __('members.apply.text') }}</flex:text>
 
     <flux:accordion transition
-                    class="bg-white dark:bg-zinc-600 p-2 rounded"
+                    class="bg-white dark:bg-zinc-600 p-2 rounded-sm"
     >
         <flux:accordion.item>
             <flux:accordion.heading>{{ __('members.apply.process') }}</flux:accordion.heading>

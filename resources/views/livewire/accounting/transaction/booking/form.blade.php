@@ -22,12 +22,12 @@
                      searchable
         >
             @can('create', \App\Models\Accounting\Account::class)
-                <flux:option value="new">Neues SKR 49 Buchungskonto</flux:option>
+                <flux:select.option value="new">Neues SKR 49 Buchungskonto</flux:select.option>
             @endcan
             @foreach(\App\Models\Accounting\BookingAccount::select('id', 'label', 'number')->get() as $key => $account)
-                <flux:option :key
+                <flux:select.option :key
                              value="{{ $account->id }}"
-                >{{ $account->number }} - {{ $account->label }}</flux:option>
+                >{{ $account->number }} - {{ $account->label }}</flux:select.option>
             @endforeach
         </flux:select>
         <flux:button type="submit" variant="primary" >Buchung abschließen</flux:button>

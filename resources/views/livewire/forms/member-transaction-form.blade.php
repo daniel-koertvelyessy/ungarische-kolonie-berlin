@@ -26,9 +26,9 @@
                 >
 
                     @foreach(\App\Models\Accounting\Account::select('id', 'name')->get() as $key => $account)
-                        <flux:option :key
+                        <flux:select.option :key
                                      value="{{ $account->id }}"
-                        >{{ $account->name }}</flux:option>
+                        >{{ $account->name }}</flux:select.option>
                     @endforeach
                 </flux:select>
 
@@ -45,9 +45,9 @@ Buchungskonto nach SKR 49
                          searchable
             >
                 @foreach(\App\Models\Accounting\BookingAccount::select('id', 'label', 'number')->get() as $key => $account)
-                    <flux:option :key
+                    <flux:select.option :key
                                  value="{{ $account->id }}"
-                    >{{ $account->number }} - {{ $account->label }}</flux:option>
+                    >{{ $account->number }} - {{ $account->label }}</flux:select.option>
                 @endforeach
             </flux:select>
 
@@ -57,7 +57,7 @@ Buchungskonto nach SKR 49
                 <flux:label>Veranstaltung zuordnen (optional)</flux:label>
                 <flux:select wire:model="event_id" variant="listbox" searchable clearable placeholder="Veranstaltung wählen">
                     @foreach($events as $key => $event)
-                        <flux:option value="{{ $event->id }}">{{$event->title['de']}}</flux:option>
+                        <flux:select.option value="{{ $event->id }}">{{$event->title['de']}}</flux:select.option>
                     @endforeach
                 </flux:select>
             </flux:field>

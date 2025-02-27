@@ -7,7 +7,7 @@
             <flux:select wire:model="selectedAccount" variant="listbox" searchable placeholder="Konto auswählen ..." class="w-52">
 
                 @foreach($this->accounts as $item)
-                    <flux:option wire:key="{{ $item->id }}" value="{{ $item->id }}">{{ $item->name }}</flux:option>
+                    <flux:select.option wire:key="{{ $item->id }}" value="{{ $item->id }}">{{ $item->name }}</flux:select.option>
                 @endforeach
 
             </flux:select>
@@ -36,20 +36,20 @@
                     $sub = 0;
  @endphp
             <flux:table :paginate="$this->transactions">
-                <flux:columns>
-                    <flux:column>Bezeichnung</flux:column>
-                    <flux:column align="right">Betrag</flux:column>
-                    <flux:column>Typ</flux:column>
-                    <flux:column>Status</flux:column>
-                </flux:columns>
+                <flux:table.columns>
+                    <flux:table.column>Bezeichnung</flux:table.column>
+                    <flux:table.column align="right">Betrag</flux:table.column>
+                    <flux:table.column>Typ</flux:table.column>
+                    <flux:table.column>Status</flux:table.column>
+                </flux:table.columns>
 
-                <flux:rows>
+                <flux:table.rows>
                     @foreach ($this->transactions as $item)
-                        <flux:row :key="$item->id">
-                            <flux:cell>
+                        <flux:table.row :key="$item->id">
+                            <flux:table.cell>
                                 {{ $item->label }}
-                            </flux:cell>
-                            <flux:cell align="end">
+                            </flux:table.cell>
+                            <flux:table.cell align="end">
                                <span class="{{ $item->grossColor() }}">
                                     {{ $item->grossForHumans()}}
                                </span>
@@ -57,16 +57,16 @@
                                     $sub += $item->amount_gross/100 *  \App\Enums\TransactionType::calc($item->type);
                                     $total += $item->amount_gross/100 ;
                                 @endphp
-                            </flux:cell>
-                            <flux:cell>
+                            </flux:table.cell>
+                            <flux:table.cell>
                                 {{ $item->type }}
-                            </flux:cell>
-                            <flux:cell>
+                            </flux:table.cell>
+                            <flux:table.cell>
                                 {{ $item->status }}
-                            </flux:cell>
-                        </flux:row>
+                            </flux:table.cell>
+                        </flux:table.row>
                     @endforeach
-                </flux:rows>
+                </flux:table.rows>
             </flux:table>
 
                <aside class="flex">

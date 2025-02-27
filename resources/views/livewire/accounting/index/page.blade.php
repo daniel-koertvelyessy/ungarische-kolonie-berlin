@@ -9,26 +9,26 @@
             <flux:heading>Buchungen</flux:heading>
 
             <flux:table :paginate="$this->transactions">
-                <flux:columns>
-                    <flux:column>Bezeichnung</flux:column>
-                    <flux:column>Summe</flux:column>
-                </flux:columns>
+                <flux:table.columns>
+                    <flux:table.column>Bezeichnung</flux:table.column>
+                    <flux:table.column>Summe</flux:table.column>
+                </flux:table.columns>
 
-                <flux:rows>
+                <flux:table.rows>
                     @foreach ($this->transactions as $items)
-                        <flux:row :key="$items->id">
-                            <flux:cell>
+                        <flux:table.row :key="$items->id">
+                            <flux:table.cell>
                                 {{ $items->label }}
-                            </flux:cell>
-                            <flux:cell>
+                            </flux:table.cell>
+                            <flux:table.cell>
                                 <span class="{{ $items->grossColor() }}">
                                     {{ $items->grossForHumans() }}
                                 </span>
-                            </flux:cell>
+                            </flux:table.cell>
 
-                        </flux:row>
+                        </flux:table.row>
                     @endforeach
-                </flux:rows>
+                </flux:table.rows>
             </flux:table>
 
 

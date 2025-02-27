@@ -31,65 +31,65 @@
                      selected-suffix="{{ __('gewählt') }}"
         >
             @foreach(\App\Enums\EventStatus::cases() as $type)
-                <flux:option value="{{ $type->value }}">{{ \App\Enums\EventStatus::value($type->value) }}</flux:option>
+                <flux:select.option value="{{ $type->value }}">{{ \App\Enums\EventStatus::value($type->value) }}</flux:select.option>
             @endforeach
         </flux:select>
 
     </nav>
 
     <flux:table :paginate="$this->events">
-        <flux:columns>
-            <flux:column sortable
+        <flux:table.columns>
+            <flux:table.column sortable
                          :sorted="$sortBy === 'name'"
                          :direction="$sortDirection"
                          wire:click="sort('name')"
-            >{{ __('event.index.table.header.name') }}</flux:column>
-            <flux:column sortable
+            >{{ __('event.index.table.header.name') }}</flux:table.column>
+            <flux:table.column sortable
                          :sorted="$sortBy === 'image'"
                          :direction="$sortDirection"
                          wire:click="sort('image')"
                          class="hidden sm:table-cell"
-            >{{ __('event.index.table.header.image') }}</flux:column>
-            <flux:column sortable
+            >{{ __('event.index.table.header.image') }}</flux:table.column>
+            <flux:table.column sortable
                          :sorted="$sortBy === 'starts_at'"
                          :direction="$sortDirection"
                          wire:click="sort('starts_at')"
                          class="hidden sm:table-cell"
-            >{{ __('event.date')}}</flux:column>
-            <flux:column sortable
+            >{{ __('event.date')}}</flux:table.column>
+            <flux:table.column sortable
                          :sorted="$sortBy === 'starts_at'"
                          :direction="$sortDirection"
                          wire:click="sort('starts_at')"
                          class="hidden sm:table-cell"
-            >{{ __('event.begins')}}</flux:column>
-            <flux:column sortable
+            >{{ __('event.begins')}}</flux:table.column>
+            <flux:table.column sortable
                          :sorted="$sortBy === 'ends_at'"
                          :direction="$sortDirection"
                          wire:click="sort('ends_at')"
                          class="hidden md:table-cell"
-            >{{ __('event.ends')  }}</flux:column>
-            <flux:column sortable
+            >{{ __('event.ends')  }}</flux:table.column>
+            <flux:table.column sortable
                          :sorted="$sortBy === 'venue'"
                          :direction="$sortDirection"
                          wire:click="sort('venue_id')"
                          class="hidden lg:table-cell"
-            >{{ __('event.venue') }}</flux:column>
-            <flux:column sortable
+            >{{ __('event.venue') }}</flux:table.column>
+            <flux:table.column sortable
                          :sorted="$sortBy === 'status'"
                          :direction="$sortDirection"
                          wire:click="sort('status')"
-            >{{ __('event.status') }}</flux:column>
-        </flux:columns>
+            >{{ __('event.status') }}</flux:table.column>
+        </flux:table.columns>
 
-        <flux:rows>
+        <flux:table.rows>
             @foreach ($this->events as $event)
-                <flux:row :key="$event->id">
-                    <flux:cell variant="strong">
+                <flux:table.row :key="$event->id">
+                    <flux:table.cell variant="strong">
                         <a class="underline text-emerald-600"
                            href="{{ route('backend.events.show',$event) }}"
                         >{{ Str::limit($event->name??'öffnen', 45, preserveWords: true)  }}</a>
-                    </flux:cell>
-                    <flux:cell class="hidden sm:table-cell" >
+                    </flux:table.cell>
+                    <flux:table.cell class="hidden sm:table-cell" >
                         @if($event->image)
                             <flux:icon icon="photo"
                                        class="size-6 ml-3"
@@ -99,32 +99,32 @@
                                        class="size-4 ml-3"
                             />
                         @endif
-                    </flux:cell>
+                    </flux:table.cell>
 
 
-                    <flux:cell class="hidden sm:table-cell">
+                    <flux:table.cell class="hidden sm:table-cell">
                         {{ optional($event->event_date)->format('Y-m-d') }}
-                    </flux:cell>
+                    </flux:table.cell>
 
-                    <flux:cell class="hidden sm:table-cell">
+                    <flux:table.cell class="hidden sm:table-cell">
                         {{ optional($event->start_time)->format('H:i') }}
-                    </flux:cell>
+                    </flux:table.cell>
 
-                    <flux:cell class=" hidden md:table-cell">
+                    <flux:table.cell class=" hidden md:table-cell">
                         {{optional($event->end_time)->format('H:i')}}
-                    </flux:cell>
+                    </flux:table.cell>
 
-                    <flux:cell class=" hidden lg:table-cell"
+                    <flux:table.cell class=" hidden lg:table-cell"
                                variant="strong"
                     >
                         {{ optional( $event->venue)->name }}
-                    </flux:cell>
-                    <flux:cell>
+                    </flux:table.cell>
+                    <flux:table.cell>
                         <flux:badge size="sm" color="{{ \App\Enums\EventStatus::color($event->status) }}">{{ \App\Enums\EventStatus::value($event->status) }}</flux:badge>
-                    </flux:cell>
-                </flux:row>
+                    </flux:table.cell>
+                </flux:table.row>
             @endforeach
-        </flux:rows>
+        </flux:table.rows>
     </flux:table>
 </div>
 

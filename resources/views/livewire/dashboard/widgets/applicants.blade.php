@@ -34,41 +34,41 @@
 
             @if($this->applicants->total()>0 )
                 <flux:table :paginate="$this->applicants">
-                    <flux:columns>
-                        <flux:column class="w-1/6">
+                    <flux:table.columns>
+                        <flux:table.column class="w-1/6">
                             <x-selectAllApplicants/>
-                        </flux:column>
-                        <flux:column sortable
+                        </flux:table.column>
+                        <flux:table.column sortable
                                      :sorted="$sortBy === 'name'"
                                      :direction="$sortDirection"
                                      wire:click="sort('name')"
                         >{{ __('members.widgets.applicants.tab.header.name') }}
-                        </flux:column>
-                        <flux:column sortable
+                        </flux:table.column>
+                        <flux:table.column sortable
                                      :sorted="$sortBy === 'applied_at'"
                                      :direction="$sortDirection"
                                      wire:click="sort('applied_at')"
                         >{{ __('members.widgets.applicants.tab.header.from') }}
-                        </flux:column>
-                    </flux:columns>
+                        </flux:table.column>
+                    </flux:table.columns>
 
-                    <flux:rows>
+                    <flux:table.rows>
                         @foreach ($this->applicants as $applicant)
-                            <flux:row :key="$applicant->id">
-                                <flux:cell>
+                            <flux:table.row :key="$applicant->id">
+                                <flux:table.cell>
                                     <flux:checkbox :value="$applicant->id"
                                                    wire:model="selectedApplicants"
                                     />
-                                </flux:cell>
-                                <flux:cell class="whitespace-nowrap">
+                                </flux:table.cell>
+                                <flux:table.cell class="whitespace-nowrap">
                                     {{ $applicant->name }}
-                                </flux:cell>
+                                </flux:table.cell>
 
-                                <flux:cell>{{ $applicant->applied_at->diffForHumans() }}</flux:cell>
+                                <flux:table.cell>{{ $applicant->applied_at->diffForHumans() }}</flux:table.cell>
 
-                            </flux:row>
+                            </flux:table.row>
                         @endforeach
-                    </flux:rows>
+                    </flux:table.rows>
                 </flux:table>
             @else
                 <flux:text class="my-36 justify-center flex gap-3">{{ __('members.widgets.applicants.empty_search') }}</flux:text>

@@ -70,7 +70,7 @@ class AssignmentForm extends Form
             'task' => ['required', 'string'],
             'status' => ['required', Rule::enum(AssignmentStatus::class)],
             'due_at' => 'date|nullable',
-            'amount' => 'integer|nullable',
+            'amount' => 'nullable',
             'event_id' => 'required|nullable',
             'member_id' => 'nullable|exists:members,id',
             'description' => 'string|nullable',

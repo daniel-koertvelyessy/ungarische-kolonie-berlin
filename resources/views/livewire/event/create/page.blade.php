@@ -65,11 +65,11 @@
                                          placeholder="Choose venue_id"
                                          wire:model="form.venue_id"
                             >
-                                <flux:option value="new">Neu</flux:option>
+                                <flux:select.option value="new">Neu</flux:select.option>
                                 @foreach($this->venues as $key => $venue)
-                                    <flux:option value="{{ $venue->id }}"
+                                    <flux:select.option value="{{ $venue->id }}"
                                                  :key
-                                    >{{ $venue->name }}</flux:option>
+                                    >{{ $venue->name }}</flux:select.option>
                                 @endforeach
 
                             </flux:select>
@@ -90,9 +90,9 @@
                                          wire:model="form.status"
                             >
                                 @foreach(\App\Enums\EventStatus::cases() as $key => $status)
-                                    <flux:option value="{{ $status->value }}"
+                                    <flux:select.option value="{{ $status->value }}"
                                                  :key
-                                    ><flux:badge color="{{ \App\Enums\EventStatus::color($status->value) }}">{{ \App\Enums\EventStatus::value($status->value) }}</flux:badge></flux:option>
+                                    ><flux:badge color="{{ \App\Enums\EventStatus::color($status->value) }}">{{ \App\Enums\EventStatus::value($status->value) }}</flux:badge></flux:select.option>
                                 @endforeach
 
                             </flux:select>
@@ -141,7 +141,7 @@
                             <flux:badge color="lime">{{ $locale->value }}</flux:badge>
                         </flux:label>
                         <flux:description>Wird für die Vorschau verwendet. Bitte max 200 Zeichen</flux:description>
-                        <flux:editor class="[&_[data-slot=content]]:min-h-[100px]"
+                        <flux:editor class="**:data-[slot=content]:min-h-[100px]"
                                      wire:model="form.excerpt.{{$locale->value}}"
                         />
                     </flux:field>

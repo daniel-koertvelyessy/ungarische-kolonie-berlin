@@ -319,19 +319,19 @@
                                                          searchable
                                                          placeholder="{{ __('members.show.attached.placeholder') }}"
                                             >
-                                                <flux:option wire:key="0"
+                                                <flux:select.option wire:key="0"
                                                              value="0"
                                                 >{{ __('members.show.select_user') }}
-                                                </flux:option>
+                                                </flux:select.option>
                                                 @forelse($users as $user)
-                                                    <flux:option wire:key="{{ $user->id }}"
+                                                    <flux:select.option wire:key="{{ $user->id }}"
                                                                  value="{{ $user->id }}"
-                                                    >{{ $user->name }}</flux:option>
+                                                    >{{ $user->name }}</flux:select.option>
                                                 @empty
-                                                    <flux:option wire:key="0"
+                                                    <flux:select.option wire:key="0"
                                                                  value="0"
                                                     >{{ __('members.show.empty_user_list') }}
-                                                    </flux:option>
+                                                    </flux:select.option>
 
                                                 @endforelse
                                             </flux:select>
@@ -389,51 +389,51 @@
                 <flux:subheading>Getätigte Zahlungen</flux:subheading>
 
                 <flux:table :paginate="$this->payments">
-                    <flux:columns>
-                        <flux:column>Text</flux:column>
-                        <flux:column sortable
+                    <flux:table.columns>
+                        <flux:table.column>Text</flux:table.column>
+                        <flux:table.column sortable
                                      :sorted="$sortBy === 'transaction.date'"
                                      :direction="$sortDirection"
                                      wire:click="sort('date')"
                                      class="hidden md:table-cell"
                         >Datum
-                        </flux:column>
-                        <flux:column sortable
+                        </flux:table.column>
+                        <flux:table.column sortable
                                      :sorted="$sortBy === 'transaction.status'"
                                      :direction="$sortDirection"
                                      wire:click="sort('status')"
                                      align="right"
                                      class="hidden lg:table-cell"
                         >Betrag
-                        </flux:column>
-                        <flux:column class="hidden md:table-cell"
+                        </flux:table.column>
+                        <flux:table.column class="hidden md:table-cell"
                         >Belege
-                        </flux:column>
-                        <flux:column sortable
+                        </flux:table.column>
+                        <flux:table.column sortable
                                      :sorted="$sortBy === 'transaction.amount'"
                                      :direction="$sortDirection"
                                      wire:click="sort('amount')"
                                      class="hidden md:table-cell"
                         >Status
-                        </flux:column>
-                    </flux:columns>
+                        </flux:table.column>
+                    </flux:table.columns>
 
-                    <flux:rows>
+                    <flux:table.rows>
                         @foreach ($this->payments as $payment)
-                            <flux:row :key="$payment->id">
+                            <flux:table.row :key="$payment->id">
 
-                                <flux:cell variant="strong" >
+                                <flux:table.cell variant="strong" >
 
                                     {{ $payment->transaction->label }}
-                                </flux:cell>
+                                </flux:table.cell>
 
-                                <flux:cell class="hidden lg:table-cell">{{ $payment->transaction->date->diffForHumans() }}</flux:cell>
+                                <flux:table.cell class="hidden lg:table-cell">{{ $payment->transaction->date->diffForHumans() }}</flux:table.cell>
 
-                                <flux:cell variant="strong"
+                                <flux:table.cell variant="strong"
                                            align="end"
                                            class="hidden md:table-cell"
-                                >{{ $payment->transaction->grossForHumans() }}</flux:cell>
-                                <flux:cell class="hidden lg:table-cell">
+                                >{{ $payment->transaction->grossForHumans() }}</flux:table.cell>
+                                <flux:table.cell class="hidden lg:table-cell">
 
                                     @if($payment->transaction->receipts->count() > 0)
                                         @foreach($payment->transaction->receipts as $key => $receipt)
@@ -449,16 +449,16 @@
                                     @else
                                         -
                                     @endif
-                                </flux:cell>
+                                </flux:table.cell>
 
-                                <flux:cell>
+                                <flux:table.cell>
                                     <flux:badge color="{{ \App\Enums\TransactionStatus::color($payment->transaction->status) }}">{{ $payment->transaction->status }}</flux:badge>
 
-                                </flux:cell>
+                                </flux:table.cell>
 
-                            </flux:row>
+                            </flux:table.row>
                         @endforeach
-                    </flux:rows>
+                    </flux:table.rows>
                 </flux:table>
 
             </flux:card>

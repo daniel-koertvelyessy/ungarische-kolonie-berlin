@@ -57,7 +57,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <!-- Styles -->
-    @fluxStyles
+    @fluxAppearance
 </head>
 <body class="font-sans antialiased min-h-screen bg-white dark:bg-zinc-800">
 <flux:sidebar sticky

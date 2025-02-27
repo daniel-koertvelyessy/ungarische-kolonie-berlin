@@ -3,6 +3,7 @@
 namespace App\Actions\Event;
 
 use App\Livewire\Forms\AssignmentForm;
+use App\Models\Accounting\Account;
 use App\Models\EventAssignment;
 use Illuminate\Support\Facades\DB;
 
@@ -20,7 +21,7 @@ class CreateAssignment
                 'status'      => $form->status,
                 'description' => $form->description,
                 'due_at'      => $form->due_at,
-                'amount'      => $form->amount,
+                'amount'      => Account::makeCentInteger($form->amount),
                 'event_id'    => $form->event_id,
                 'member_id'   => $form->member_id,
                 'user_id'     => $form->user_id,

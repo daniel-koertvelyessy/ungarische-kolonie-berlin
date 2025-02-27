@@ -55,7 +55,7 @@
                      class=" lg:hidden"
         >
             @foreach(\App\Enums\MemberType::cases() as $type)
-                <flux:option value="{{ $type->value }}">{{ \App\Enums\MemberType::value($type->value) }}</flux:option>
+                <flux:select.option value="{{ $type->value }}">{{ \App\Enums\MemberType::value($type->value) }}</flux:select.option>
             @endforeach
 
         </flux:select>
@@ -63,50 +63,50 @@
 
     </nav>
     <flux:table :paginate="$this->members">
-        <flux:columns>
-            <flux:column sortable
+        <flux:table.columns>
+            <flux:table.column sortable
                          :sorted="$sortBy === 'name'"
                          :direction="$sortDirection"
                          wire:click="sort('name')"
-            >{{ __('members.table.header.name') }}</flux:column>
-            <flux:column sortable
+            >{{ __('members.table.header.name') }}</flux:table.column>
+            <flux:table.column sortable
                          :sorted="$sortBy === 'mobile'"
                          :direction="$sortDirection"
                          wire:click="sort('mobile')"
                          class="hidden sm:table-cell"
-            >{{ __('members.table.header.phone') }}</flux:column>
-            <flux:column sortable
+            >{{ __('members.table.header.phone') }}</flux:table.column>
+            <flux:table.column sortable
                          :sorted="$sortBy === 'status'"
                          :direction="$sortDirection"
                          wire:click="sort('status')"
                          class="hidden sm:table-cell"
-            >{{ __('members.table.header.status') }}</flux:column>
-            <flux:column class="hidden sm:table-cell"
-            >{{ __('members.table.header.fee_status') }}</flux:column>
-            <flux:column sortable
+            >{{ __('members.table.header.status') }}</flux:table.column>
+            <flux:table.column class="hidden sm:table-cell"
+            >{{ __('members.table.header.fee_status') }}</flux:table.column>
+            <flux:table.column sortable
                          :sorted="$sortBy === 'birthdate'"
                          :direction="$sortDirection"
                          wire:click="sort('birth_date')"
                          class="hidden sm:table-cell"
-            >{{ __('members.table.header.birthday') }}</flux:column>
-        </flux:columns>
+            >{{ __('members.table.header.birthday') }}</flux:table.column>
+        </flux:table.columns>
 
-        <flux:rows>
+        <flux:table.rows>
             @foreach ($this->members as $member)
-                <flux:row :key="$member->id">
-                    <flux:cell class="flex items-center gap-3">
+                <flux:table.row :key="$member->id">
+                    <flux:table.cell class="flex items-center gap-3">
                         {{ $member->first_name }}
                         {{ $member->name }}
-                    </flux:cell>
+                    </flux:table.cell>
 
-                    <flux:cell class="whitespace-nowrap hidden sm:table-cell">{{ $member->mobile }}</flux:cell>
-                    <flux:cell class=" hidden sm:table-cell">
+                    <flux:table.cell class="whitespace-nowrap hidden sm:table-cell">{{ $member->mobile }}</flux:table.cell>
+                    <flux:table.cell class=" hidden sm:table-cell">
                         <flux:badge size="sm"
                                     :color="\App\Enums\MemberType::color($member->type)"
                                     inset="top bottom"
                         >{{ \App\Enums\MemberType::value($member->type) }}</flux:badge>
-                    </flux:cell>
-                    <flux:cell class=" hidden sm:table-cell">
+                    </flux:table.cell>
+                    <flux:table.cell class=" hidden sm:table-cell">
                         @php
                             $fee_status = $member->feeStatus();
                         $color = $fee_status['status'] ? 'lime' : 'orange';
@@ -116,13 +116,13 @@
                                     color="{{ $color }}"
                                     inset="top bottom"
                         >{{ $paid }}</flux:badge>
-                    </flux:cell>
-                    <flux:cell class=" hidden sm:table-cell">
+                    </flux:table.cell>
+                    <flux:table.cell class=" hidden sm:table-cell">
                         {{ $member->birth_date->format('Y-m-d') }}
-                    </flux:cell>
+                    </flux:table.cell>
 
                     @can('view', \App\Models\Membership\Member::class)
-                        <flux:cell>
+                        <flux:table.cell>
                             <flux:dropdown :key="$member->id">
                                 <flux:button variant="ghost"
                                              size="sm"
@@ -138,10 +138,10 @@
                                     <flux:menu.item icon="trash">{{ __('members.con.men.delete') }}</flux:menu.item>
                                 </flux:menu>
                             </flux:dropdown>
-                        </flux:cell>
+                        </flux:table.cell>
                     @endcan
-                </flux:row>
+                </flux:table.row>
             @endforeach
-        </flux:rows>
+        </flux:table.rows>
     </flux:table>
 </div>

@@ -25,7 +25,7 @@
                      size="sm"
         >
             @foreach(\App\Enums\DateRange::cases() as $range)
-                <flux:option value="{{ $range->value }}">{{ $range->label() }}</flux:option>
+                <flux:select.option value="{{ $range->value }}">{{ $range->label() }}</flux:select.option>
             @endforeach
         </flux:select>
         <flux:separator vertical/>
@@ -66,7 +66,7 @@
                      size="sm"
         >
             @foreach(\App\Enums\TransactionStatus::cases() as $status)
-                <flux:option value="{{ $status->value }}">{{ $status->value }}</flux:option>
+                <flux:select.option value="{{ $status->value }}">{{ $status->value }}</flux:select.option>
             @endforeach
         </flux:select>
 
@@ -78,7 +78,7 @@
 
         >
             @foreach(\App\Enums\Transactiontype::cases() as $status)
-                <flux:option value="{{ $status->value }}">{{ $status->value }}</flux:option>
+                <flux:select.option value="{{ $status->value }}">{{ $status->value }}</flux:select.option>
             @endforeach
         </flux:select>
         <flux:input wire:model.live.debounce="search"
@@ -90,64 +90,64 @@
     </nav>
 
     <flux:table :paginate="$this->transactions">
-        <flux:columns>
-            <flux:column>Buchung</flux:column>
-            <flux:column sortable
+        <flux:table.columns>
+            <flux:table.column>Buchung</flux:table.column>
+            <flux:table.column sortable
                          :sorted="$sortBy === 'date'"
                          :direction="$sortDirection"
                          wire:click="sort('date')"
                          class="hidden md:table-cell"
             >Erfolgt am
-            </flux:column>
-            <flux:column sortable
+            </flux:table.column>
+            <flux:table.column sortable
                          :sorted="$sortBy === 'created'"
                          :direction="$sortDirection"
                          wire:click="sort('created_at')"
                          class="hidden md:table-cell"
             >Eingereicht
-            </flux:column>
-            <flux:column sortable
+            </flux:table.column>
+            <flux:table.column sortable
                          :sorted="$sortBy === 'status'"
                          :direction="$sortDirection"
                          wire:click="sort('status')"
                          class="hidden md:table-cell"
             >Status
-            </flux:column>
+            </flux:table.column>
 
-            <flux:column sortable
+            <flux:table.column sortable
                          :sorted="$sortBy === 'account_id'"
                          :direction="$sortDirection"
                          wire:click="sort('account')"
                          class="hidden sm:table-cell"
 
             >Konto
-            </flux:column>
-            <flux:column align="right"
+            </flux:table.column>
+            <flux:table.column align="right"
                          sortable
                          :sorted="$sortBy === 'amount'"
                          :direction="$sortDirection"
                          wire:click="sort('amount_gross')"
             >Betrag [EUR]
-            </flux:column>
-            <flux:column sortable
+            </flux:table.column>
+            <flux:table.column sortable
                          :sorted="$sortBy === 'type'"
                          :direction="$sortDirection"
                          wire:click="sort('type')"
                          class="hidden sm:table-cell"
 
             >Art
-            </flux:column>
+            </flux:table.column>
 
-            <flux:column class="hidden lg:table-cell">Beleg</flux:column>
-            <flux:column class="hidden lg:table-cell">Verknüpft</flux:column>
+            <flux:table.column class="hidden lg:table-cell">Beleg</flux:table.column>
+            <flux:table.column class="hidden lg:table-cell">Verknüpft</flux:table.column>
 
-        </flux:columns>
+        </flux:table.columns>
 
-        <flux:rows>
+        <flux:table.rows>
             @forelse ($this->transactions as $item)
 
-                <flux:row :key="$item->id">
-                    <flux:cell variant="strong"
+                <flux:table.row :key="$item->id">
+                    <flux:table.cell variant="strong"
                                class="flex lg:items-center justify-start  flex-col lg:flex-row space-y-3 lg:space-y-0 items-start"
                     >
                         <span class="lg:hidden inline-flex">{{ \Illuminate\Support\Str::limit($item->label,20,' ..') }}</span>
@@ -190,29 +190,29 @@
                             </flux:tooltip>
                             @endif
                         </span>
-                    </flux:cell>
+                    </flux:table.cell>
 
-                    <flux:cell class="hidden md:table-cell">{{ $item->date->diffForHumans() }}</flux:cell>
+                    <flux:table.cell class="hidden md:table-cell">{{ $item->date->diffForHumans() }}</flux:table.cell>
 
-                    <flux:cell class="hidden md:table-cell">{{ $item->created_at->diffForHumans() }}</flux:cell>
+                    <flux:table.cell class="hidden md:table-cell">{{ $item->created_at->diffForHumans() }}</flux:table.cell>
 
-                    <flux:cell class="hidden md:table-cell">
+                    <flux:table.cell class="hidden md:table-cell">
                         <flux:badge size="sm"
                                     :color="\App\Enums\TransactionStatus::color($item->status)"
                                     inset="top bottom"
                         >{{ $item->status }}</flux:badge>
-                    </flux:cell>
-                    <flux:cell class="hidden sm:table-cell">{{ $item->account->name . ' - ' . $item->account->number }}</flux:cell>
-                    <flux:cell variant="strong"
+                    </flux:table.cell>
+                    <flux:table.cell class="hidden sm:table-cell">{{ $item->account->name . ' - ' . $item->account->number }}</flux:table.cell>
+                    <flux:table.cell variant="strong"
                                align="end"
-                    ><span class="{{ $item->grossColor() }}">{{ $item->grossForHumans() }}</span></flux:cell>
-                    <flux:cell class="hidden sm:table-cell">
+                    ><span class="{{ $item->grossColor() }}">{{ $item->grossForHumans() }}</span></flux:table.cell>
+                    <flux:table.cell class="hidden sm:table-cell">
                         <flux:badge size="sm"
                                     :color="\App\Enums\TransactionType::color($item->type)"
                                     inset="top bottom"
                         >{{ $item->type }}</flux:badge>
-                    </flux:cell>
-                    <flux:cell class="hidden lg:table-cell">
+                    </flux:table.cell>
+                    <flux:table.cell class="hidden lg:table-cell">
 
                         @if($item->receipts->count() > 0)
                             @foreach($item->receipts as $key => $receipt)
@@ -229,8 +229,8 @@
                         @else
                             -
                         @endif
-                    </flux:cell>
-                    <flux:cell class="hidden lg:table-cell">
+                    </flux:table.cell>
+                    <flux:table.cell class="hidden lg:table-cell">
                         <aside class="flex gap-2">
                             @if($item->event_transaction)
                                 <flux:tooltip content="Veranstalung zugeordnet: {{ $item->event_transaction->event->title[app()->getLocale()] }}"
@@ -252,9 +252,9 @@
                             @endif
                         </aside>
 
-                    </flux:cell>
+                    </flux:table.cell>
                     @can('update', \App\Models\Accounting\Account::class)
-                        <flux:cell>
+                        <flux:table.cell>
                             <flux:dropdown>
                                 <flux:button variant="ghost"
                                              size="sm"
@@ -329,21 +329,21 @@
                                     @endif
                                 </flux:menu>
                             </flux:dropdown>
-                        </flux:cell>
+                        </flux:table.cell>
                     @endcan
-                </flux:row>
+                </flux:table.row>
             @empty
-                <flux:row key="0">
-                    <flux:cell colspan="6"
+                <flux:table.row key="0">
+                    <flux:table.cell colspan="6"
                                class=" space-y-2"
                     >
                         <flux:text>{{ __('transaction.index.table.empty-results') }}</flux:text>
 
-                    </flux:cell>
+                    </flux:table.cell>
 
-                </flux:row>
+                </flux:table.row>
             @endforelse
-        </flux:rows>
+        </flux:table.rows>
     </flux:table>
     @can('create', \App\Models\Accounting\Account::class)
         <div class="flex mt-3">
@@ -401,7 +401,7 @@
                              placeholder="Veranstaltung wählen"
                 >
                     @foreach(\App\Models\Event\Event::select('id', 'title')->get() as $key => $event)
-                        <flux:option value="{{ $event->id }}">{{ \Illuminate\Support\Str::limit($event->title['de'],30,'..',true) }}</flux:option>
+                        <flux:select.option value="{{ $event->id }}">{{ \Illuminate\Support\Str::limit($event->title['de'],30,'..',true) }}</flux:select.option>
                     @endforeach
                 </flux:select>
                 <flux:error name="target_event"/>
@@ -453,7 +453,7 @@
                              placeholder="Mitglied wählen"
                 >
                     @foreach(\App\Models\Membership\Member::select('id', 'name', 'first_name')->get() as $key => $member)
-                        <flux:option value="{{ $member->id }}">{{ $member->fullName() }}</flux:option>
+                        <flux:select.option value="{{ $member->id }}">{{ $member->fullName() }}</flux:select.option>
                     @endforeach
                 </flux:select>
                 <flux:error name="target_member"/>
@@ -515,9 +515,9 @@
                          searchable
             >
                 @foreach(App\Models\Accounting\Account::select('id', 'name')->get() as $key => $account)
-                    <flux:option :key
+                    <flux:select.option :key
                                  value="{{ $account->id }}"
-                    >{{ $account->name }}</flux:option>
+                    >{{ $account->name }}</flux:select.option>
                 @endforeach
             </flux:select>
 

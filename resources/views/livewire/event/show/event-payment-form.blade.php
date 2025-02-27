@@ -34,9 +34,9 @@
                              searchable
                 >
                     @foreach($this->accounts as $key => $account)
-                        <flux:option :key
+                        <flux:select.option :key
                                      value="{{ $account->id }}"
-                        >{{ $account->name }}</flux:option>
+                        >{{ $account->name }}</flux:select.option>
                     @endforeach
                 </flux:select>
                 <flex:flux:error name="form.account_id"/>
@@ -50,9 +50,9 @@
                          searchable
             >
                 @foreach($this->booking_accounts as $key => $account)
-                    <flux:option :key
+                    <flux:select.option :key
                                  value="{{ $account->id }}"
-                    >{{ $account->number }} - {{ $account->label }}</flux:option>
+                    >{{ $account->number }} - {{ $account->label }}</flux:select.option>
                 @endforeach
             </flux:select>
 
@@ -72,9 +72,9 @@
 
             <flux:field>
                 <flux:select wire:model="member_id" variant="listbox" searchable placeholder="Mitgliedsliste">
-                    <flux:option value="extern">Extern</flux:option>
+                    <flux:select.option value="extern">Extern</flux:select.option>
                     @foreach($this->members as $member)
-                    <flux:option value="{{ $member->id }}" wire:key="{{ $member->id }}">{{ $member->fullName() }}</flux:option>
+                    <flux:select.option value="{{ $member->id }}" wire:key="{{ $member->id }}">{{ $member->fullName() }}</flux:select.option>
                     @endforeach
                 </flux:select>
             </flux:field>

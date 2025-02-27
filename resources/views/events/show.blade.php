@@ -9,7 +9,7 @@
             @if($event->image)
                 <img src="{{ asset('storage/images/'.$event->image) }}"
                      alt=""
-                     class="my-3 lg:my-9 rounded-md shadow"
+                     class="my-3 lg:my-9 rounded-md shadow-sm"
                 >
             @endif
         </article>

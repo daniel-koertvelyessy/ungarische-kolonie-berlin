@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Event\Show;
 
+use App\Enums\AssignmentStatus;
 use App\Livewire\Forms\AssignmentForm;
 use App\Livewire\Forms\EventForm;
 use App\Livewire\Traits\HasPrivileges;
@@ -85,6 +86,7 @@ class Page extends Component
         $this->form->setEvent($event);
         $this->selectedTab = $this->getSelectedTab();
         $this->assignmentForm->due_at = Carbon::today()->format('Y-m-d');
+        $this->assignmentForm->status = AssignmentStatus::draft->value;
     }
 
     public function addVisitor(): void

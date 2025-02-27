@@ -47,9 +47,9 @@
                      wire:change="setMember"
         >
             @foreach($members as $member)
-                <flux:option value="{{ $member->id }}"
+                <flux:select.option value="{{ $member->id }}"
                              wire:key="{{ $member->id }}"
-                >{{ $member->fullName() }}</flux:option>
+                >{{ $member->fullName() }}</flux:select.option>
             @endforeach
         </flux:select>
         <flux:separator text="oder"/>
@@ -62,9 +62,9 @@
                      wire:change="setSubscriber"
         >
             @foreach($subscribers as $subscriber)
-                <flux:option value="{{ $subscriber->id }}"
+                <flux:select.option value="{{ $subscriber->id }}"
                              wire:key="{{ $subscriber->id }}"
-                >{{ $subscriber->name }}</flux:option>
+                >{{ $subscriber->name }}</flux:select.option>
             @endforeach
         </flux:select>
 

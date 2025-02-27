@@ -51,12 +51,12 @@
                                                  searchable
                                     >
                                         @can('create', \App\Models\Accounting\Account::class)
-                                            <flux:option value="new">Neues Zahlungskonto</flux:option>
+                                            <flux:select.option value="new">Neues Zahlungskonto</flux:select.option>
                                         @endcan
                                         @foreach($this->accounts as $key => $account)
-                                            <flux:option :key
+                                            <flux:select.option :key
                                                          value="{{ $account->id }}"
-                                            >{{ $account->name }}</flux:option>
+                                            >{{ $account->name }}</flux:select.option>
                                         @endforeach
                                     </flux:select>
                                     @can('create', \App\Models\Accounting\Account::class)
@@ -87,12 +87,12 @@
                                              searchable
                                 >
                                     @can('create', \App\Models\Accounting\Account::class)
-                                        <flux:option value="new">Neues Buchungskonto</flux:option>
+                                        <flux:select.option value="new">Neues Buchungskonto</flux:select.option>
                                     @endcan
                                     @foreach($this->booking_accounts as $key => $account)
-                                        <flux:option :key
+                                        <flux:select.option :key
                                                      value="{{ $account->id }}"
-                                        >{{ $account->number }} - {{ $account->label }}</flux:option>
+                                        >{{ $account->number }} - {{ $account->label }}</flux:select.option>
                                     @endforeach
                                 </flux:select>
 
@@ -272,9 +272,9 @@
                                      searchable
                                      placeholder="Mitglied auswählen ..."
                         >
-                            <flux:option value="extern">Externer Gast</flux:option>
+                            <flux:select.option value="extern">Externer Gast</flux:select.option>
                             @foreach(\App\Models\Membership\Member::select('id', 'name', 'first_name')->get() as $key => $member)
-                                <flux:option value="{{ $member->id }}">{{ $member->fullName() }}</flux:option>
+                                <flux:select.option value="{{ $member->id }}">{{ $member->fullName() }}</flux:select.option>
                             @endforeach
                         </flux:select>
 
@@ -447,8 +447,8 @@
                                  variant="listbox"
                     >
                         @foreach(\App\Enums\AccountType::cases() as $type)
-                            <flux:option value="{{ $type->value }}"
-                            >{{ $type->value }}</flux:option>
+                            <flux:select.option value="{{ $type->value }}"
+                            >{{ $type->value }}</flux:select.option>
                         @endforeach
                     </flux:select>
                     <flux:error name="account.type"/>
@@ -517,8 +517,8 @@
                                  clearable=""
                     >
                         @foreach(\App\Enums\BookingAccountType::cases() as $type)
-                            <flux:option value="{{ $type->value }}"
-                            >{{ $type->value }}</flux:option>
+                            <flux:select.option value="{{ $type->value }}"
+                            >{{ $type->value }}</flux:select.option>
                         @endforeach
                     </flux:select>
                     <flux:error for="booking.type"/>

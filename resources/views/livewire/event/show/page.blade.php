@@ -45,10 +45,9 @@
                         />
 
 
-                        <flux:input type="date"
-                                    wire:model="form.event_date"
-                                    label="{{__('event.form.event_date')}}"
-                        />
+
+                        <flux:date-picker with-today selectable-header wire:model="form.event_date"
+                                           label="{{__('event.form.event_date')}}" />
 
                         <section class="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-9">
                             <flux:input type="time"
@@ -70,11 +69,11 @@
                                          placeholder="Choose venue_id"
                                          wire:model="form.venue_id"
                             >
-                                <flux:option value="new">Neu</flux:option>
+                                <flux:select.option value="new">Neu</flux:select.option>
                                 @foreach($this->venues as $key => $venue)
-                                    <flux:option value="{{ $venue->id }}"
+                                    <flux:select.option value="{{ $venue->id }}"
                                                  :key
-                                    >{{ $venue->name }}</flux:option>
+                                    >{{ $venue->name }}</flux:select.option>
                                 @endforeach
 
                             </flux:select>
@@ -94,9 +93,9 @@
                                      label="{{__('event.form.status')}}"
                         >
                             @foreach(\App\Enums\EventStatus::cases() as $status)
-                                <flux:option value="{{ $status }}">
+                                <flux:select.option value="{{ $status }}">
                                     <flux:badge color="{{ \App\Enums\EventStatus::color($status->value) }}">{{ \App\Enums\EventStatus::value($status->value) }}</flux:badge>
-                                </flux:option>
+                                </flux:select.option>
                             @endforeach
                         </flux:select>
 
@@ -138,7 +137,7 @@
                         @if($form->event->image)
                             <img src="{{ asset('storage/images/'.$form->event->image) }}"
                                  alt=""
-                                 class="my-3 lg:my-9 rounded-md shadow"
+                                 class="my-3 lg:my-9 rounded-md shadow-sm"
                             >
                             @can('update',\App\Models\Event\Event::class)
                                 <flux:button size="sm"
@@ -194,7 +193,7 @@
                                     <flux:badge color="lime">{{ $locale->value }}</flux:badge>
                                 </flux:label>
                                 <flux:description>Wird für die Vorschau verwendet. Bitte max 200 Zeichen</flux:description>
-                                <flux:editor class="[&_[data-slot=content]]:min-h-[100px]"
+                                <flux:editor class="**:data-[slot=content]:min-h-[100px]"
                                              wire:model="form.excerpt.{{$locale->value}}"
                                 />
                             </flux:field>
@@ -222,81 +221,81 @@
 
         <flux:tab.panel name="event-show-subscriptions">
             <flux:table :paginate="$this->subscriptions">
-                <flux:columns>
-                    <flux:column>Name</flux:column>
-                    <flux:column sortable
+                <flux:table.columns>
+                    <flux:table.column>Name</flux:table.column>
+                    <flux:table.column sortable
                                  :sorted="$sortBy === 'date'"
                                  :direction="$sortDirection"
                                  wire:click="sort('date')"
                     >Datum
-                    </flux:column>
-                    <flux:column sortable
+                    </flux:table.column>
+                    <flux:table.column sortable
                                  :sorted="$sortBy === 'status'"
                                  :direction="$sortDirection"
                                  wire:click="sort('status')"
                     >E-Mail
-                    </flux:column>
-                    <flux:column sortable
+                    </flux:table.column>
+                    <flux:table.column sortable
                                  :sorted="$sortBy === 'amount'"
                                  :direction="$sortDirection"
                                  wire:click="sort('amount')"
                     >Benachritigungen
-                    </flux:column>
-                    <flux:column sortable
+                    </flux:table.column>
+                    <flux:table.column sortable
                                  :sorted="$sortBy === 'amount'"
                                  :direction="$sortDirection"
                                  wire:click="sort('amount')"
                     >Telefon
-                    </flux:column>
-                    <flux:column sortable
+                    </flux:table.column>
+                    <flux:table.column sortable
                                  :sorted="$sortBy === 'amount'"
                                  :direction="$sortDirection"
                                  wire:click="sort('amount')"
                     ># Gäste
-                    </flux:column>
-                    <flux:column sortable
+                    </flux:table.column>
+                    <flux:table.column sortable
                                  :sorted="$sortBy === 'amount'"
                                  :direction="$sortDirection"
                                  wire:click="sort('amount')"
                     >E-Mail bestätigt am
-                    </flux:column>
-                </flux:columns>
+                    </flux:table.column>
+                </flux:table.columns>
 
-                <flux:rows>
+                <flux:table.rows>
                     @forelse ($this->subscriptions as $subscription)
-                        <flux:row :key="$subscription->id">
-                            <flux:cell>
+                        <flux:table.row :key="$subscription->id">
+                            <flux:table.cell>
                                 {{ $subscription->name }}
-                            </flux:cell>
-                            <flux:cell>
+                            </flux:table.cell>
+                            <flux:table.cell>
                                 {{ $subscription->created_at->diffForHumans() }}
-                            </flux:cell>
-                            <flux:cell>
+                            </flux:table.cell>
+                            <flux:table.cell>
                                 {{ $subscription->email }}
-                            </flux:cell>
-                            <flux:cell>
+                            </flux:table.cell>
+                            <flux:table.cell>
                                 @if($subscription->consentNotification)
                                     <flux:icon.check-circle class="size-4 text-lime-700"/>
                                 @else
                                     <flux:icon.minus-circle class="size-4 text-orange-700"/>
                                 @endif
-                            </flux:cell>
-                            <flux:cell>
+                            </flux:table.cell>
+                            <flux:table.cell>
                                 {{ $subscription->phone }}
-                            </flux:cell>
-                            <flux:cell>
+                            </flux:table.cell>
+                            <flux:table.cell>
                                 {{ $subscription->amount_guests }}
-                            </flux:cell>
-                            <flux:cell>
+                            </flux:table.cell>
+                            <flux:table.cell>
                                 {{ optional($subscription->confirmed_at)->diffForHumans() }}
-                            </flux:cell>
+                            </flux:table.cell>
 
 
-                        </flux:row>
+                        </flux:table.row>
                     @empty
 
                     @endforelse
-                </flux:rows>
+                </flux:table.rows>
             </flux:table>
 
 
@@ -304,52 +303,52 @@
 
         <flux:tab.panel name="event-show-payments">
             <flux:table :paginate="$this->payments">
-                <flux:columns>
-                    <flux:column>Text</flux:column>
-                    <flux:column sortable
+                <flux:table.columns>
+                    <flux:table.column>Text</flux:table.column>
+                    <flux:table.column sortable
                                  :sorted="$sortBy === 'date'"
                                  :direction="$sortDirection"
                                  wire:click="sort('date')"
                     >Datum
-                    </flux:column>
-                    <flux:column sortable
+                    </flux:table.column>
+                    <flux:table.column sortable
                                  :sorted="$sortBy === 'member_id'"
                                  :direction="$sortDirection"
                                  wire:click="sort('member')"
                     >Besucher
-                    </flux:column>
-                    <flux:column sortable
+                    </flux:table.column>
+                    <flux:table.column sortable
                                  :sorted="$sortBy === 'amount'"
                                  :direction="$sortDirection"
                                  wire:click="sort('amount')"
                                  align="right"
                     >Betrag
-                    </flux:column>
-                </flux:columns>
-                <flux:rows>
+                    </flux:table.column>
+                </flux:table.columns>
+                <flux:table.rows>
                     @foreach ($this->payments as $payment)
 
-                        <flux:row :key="$payment->transaction->id">
+                        <flux:table.row :key="$payment->transaction->id">
 
-                            <flux:cell variant="strong">
+                            <flux:table.cell variant="strong">
                                 {{ $payment->transaction->label }}
-                            </flux:cell>
+                            </flux:table.cell>
 
-                            <flux:cell>{{ $payment->transaction->date->diffForHumans() }}</flux:cell>
-                            <flux:cell>{{ $payment->visitor_name }}</flux:cell>
+                            <flux:table.cell>{{ $payment->transaction->date->diffForHumans() }}</flux:table.cell>
+                            <flux:table.cell>{{ $payment->visitor_name }}</flux:table.cell>
 
-                            <flux:cell variant="strong"
+                            <flux:table.cell variant="strong"
                                        align="end"
                             >
                                 <span class="text-{{ \App\Enums\TransactionType::color($payment->transaction->type) }}-600">
                                     {{ $payment->transaction->grossForHumans() }}
                                 </span>
-                            </flux:cell>
+                            </flux:table.cell>
 
-                        </flux:row>
+                        </flux:table.row>
 
                     @endforeach
-                </flux:rows>
+                </flux:table.rows>
             </flux:table>
 
             @can('create',\App\Models\Event\Event::class)
@@ -382,67 +381,67 @@
 
 
             <flux:table :paginate="$this->visitors">
-                <flux:columns>
-                    <flux:column sortable
+                <flux:table.columns>
+                    <flux:table.column sortable
                                  :sorted="$sortBy === 'name'"
                                  :direction="$sortDirection"
                                  wire:click="sort('name')"
                     >{{ __('event.visitor-table.header.name') }}
-                    </flux:column>
-                    <flux:column sortable
+                    </flux:table.column>
+                    <flux:table.column sortable
                                  :sorted="$sortBy === 'email'"
                                  :direction="$sortDirection"
                                  wire:click="sort('email')"
                                  class="hidden md:table-cell"
                     >{{ __('event.visitor-table.header.email') }}
-                    </flux:column>
+                    </flux:table.column>
 
-                    <flux:column sortable
+                    <flux:table.column sortable
                                  :sorted="$sortBy === 'member_id'"
                                  :direction="$sortDirection"
                                  wire:click="sort('is_member')"
                                  class="hidden md:table-cell"
                     >{{ __('event.visitor-table.header.is_member') }}
-                    </flux:column>
-                    <flux:column sortable
+                    </flux:table.column>
+                    <flux:table.column sortable
                                  :sorted="$sortBy === 'subscription_id'"
                                  :direction="$sortDirection"
                                  wire:click="sort('is_subscriber')"
                                  class="hidden md:table-cell"
                     >{{ __('event.visitor-table.header.is_subscriber') }}
-                    </flux:column>
-                </flux:columns>
-                <flux:rows>
+                    </flux:table.column>
+                </flux:table.columns>
+                <flux:table.rows>
                     @forelse ($this->visitors as $visitor)
 
-                        <flux:row :key="$visitor->id">
-                            <flux:cell variant="strong">
+                        <flux:table.row :key="$visitor->id">
+                            <flux:table.cell variant="strong">
                                 {{ $visitor->name }}
-                            </flux:cell>
-                            <flux:cell class="hidden md:table-cell">
+                            </flux:table.cell>
+                            <flux:table.cell class="hidden md:table-cell">
                                 {{ $visitor->email }}
-                            </flux:cell>
-                            <flux:cell class="hidden md:table-cell">
+                            </flux:table.cell>
+                            <flux:table.cell class="hidden md:table-cell">
                                 @if($visitor->member_id)
                                     <flux:icon.user-circle size="4"/>
                                 @endif
-                            </flux:cell>
-                            <flux:cell class="hidden md:table-cell">
+                            </flux:table.cell>
+                            <flux:table.cell class="hidden md:table-cell">
                                 @if($visitor->event_subscription_id)
                                     <flux:icon.chat-bubble-left-ellipsis size="4"/>
                                 @endif
-                            </flux:cell>
+                            </flux:table.cell>
 
-                        </flux:row>
+                        </flux:table.row>
 
                     @empty
-                        <flux:row>
-                            <flux:cell variant="strong">
+                        <flux:table.row>
+                            <flux:table.cell variant="strong">
                                 {{ __('event.visitors.empty_results_msg') }}
-                            </flux:cell>
-                        </flux:row>
+                            </flux:table.cell>
+                        </flux:table.row>
                     @endforelse
-                </flux:rows>
+                </flux:table.rows>
             </flux:table>
         </flux:tab.panel>
 
@@ -462,41 +461,41 @@
                     </header>
 
                     <flux:table :paginate="$this->assignments">
-                        <flux:columns>
-                            <flux:column sortable
+                        <flux:table.columns>
+                            <flux:table.column sortable
                                          :sorted="$sortBy === 'task'"
                                          :direction="$sortDirection"
                                          wire:click="sort('task')"
-                            >{{ __('assignment.table.header.task') }}</flux:column>
-                            <flux:column sortable
+                            >{{ __('assignment.table.header.task') }}</flux:table.column>
+                            <flux:table.column sortable
                                          :sorted="$sortBy === 'member_id'"
                                          :direction="$sortDirection"
                                          wire:click="sort('member')"
                                          class="hidden sm:table-cell"
-                            >{{ __('assignment.table.header.lead') }}</flux:column>
-                            <flux:column sortable
+                            >{{ __('assignment.table.header.lead') }}</flux:table.column>
+                            <flux:table.column sortable
                                          :sorted="$sortBy === 'status'"
                                          :direction="$sortDirection"
                                          wire:click="sort('status')"
-                            >{{ __('assignment.table.header.status') }}</flux:column>
-                            <flux:column sortable
+                            >{{ __('assignment.table.header.status') }}</flux:table.column>
+                            <flux:table.column sortable
                                          :sorted="$sortBy === 'due_at'"
                                          :direction="$sortDirection"
                                          wire:click="sort('due_at')"
                                          class="hidden sm:table-cell"
-                            >{{ __('assignment.table.header.due_at')}}</flux:column>
-                            <flux:column sortable
+                            >{{ __('assignment.table.header.due_at')}}</flux:table.column>
+                            <flux:table.column sortable
                                          :sorted="$sortBy === 'amount'"
                                          :direction="$sortDirection"
                                          wire:click="sort('amount')"
                                          class="hidden sm:table-cell"
                                          align="right"
-                            >{{ __('assignment.table.header.amount')}}</flux:column>
-                        </flux:columns>
-                        <flux:rows>
+                            >{{ __('assignment.table.header.amount')}}</flux:table.column>
+                        </flux:table.columns>
+                        <flux:table.rows>
                             @forelse ($this->assignments as $assignment)
-                                <flux:row :key="$event->id">
-                                    <flux:cell variant="strong" class="flex items-center gap-2">
+                                <flux:table.row :key="$event->id">
+                                    <flux:table.cell variant="strong" class="flex items-center gap-2">
                                         {{ $assignment->task }}
                                         @if($assignment->description)
                                             <flux:tooltip toggleable>
@@ -507,26 +506,26 @@
                                                 </flux:tooltip.content>
                                             </flux:tooltip>
                                         @endif
-                                    </flux:cell>
-                                    <flux:cell class="hidden sm:table-cell">
+                                    </flux:table.cell>
+                                    <flux:table.cell class="hidden sm:table-cell">
                                         {{ $assignment->member->fullName() }}
-                                    </flux:cell>
-                                    <flux:cell>
+                                    </flux:table.cell>
+                                    <flux:table.cell>
                                         <flux:badge color="{{ $assignment->statusColor() }}" size="sm">{{ $assignment->statusLabel() }}</flux:badge>
-                                    </flux:cell>
-                                    <flux:cell class="hidden sm:table-cell">
+                                    </flux:table.cell>
+                                    <flux:table.cell class="hidden sm:table-cell">
                                         {{ $assignment->getDueString() }}
-                                    </flux:cell>
-                                    <flux:cell class="hidden sm:table-cell" align="end">
+                                    </flux:table.cell>
+                                    <flux:table.cell class="hidden sm:table-cell" align="end">
                                         {{ $assignment->amountString() }}
-                                    </flux:cell>
-                                </flux:row>
+                                    </flux:table.cell>
+                                </flux:table.row>
                             @empty
-                                <flux:row>
-                                    <flux:cell colspan="3">Keine Aufgaben</flux:cell>
-                                </flux:row>
+                                <flux:table.row>
+                                    <flux:table.cell colspan="3">Keine Aufgaben</flux:table.cell>
+                                </flux:table.row>
                             @endforelse
-                        </flux:rows>
+                        </flux:table.rows>
                     </flux:table>
 
 
@@ -585,24 +584,27 @@
 
         <form wire:submit="addAssignment">
             <section class="space-y-6">
+
                 <flux:heading size="lg">{{ __('assignment.modal.heading') }}</flux:heading>
+
                 <flux:select wire:model="assignmentForm.member_id"
                              variant="listbox"
                              searchable
                              label="{{__('assignment.lead')}}"
                 >
                     @foreach(\App\Models\Membership\Member::select('id', 'name', 'first_name')->get() as $member)
-                        <flux:option value="{{ $member->id }}">{{ $member->fullName() }}</flux:option>
+                        <flux:select.option value="{{ $member->id }}">{{ $member->fullName() }}</flux:select.option>
                     @endforeach
                 </flux:select>
+
                 <flux:input wire:model="assignmentForm.task"
                             label="{{__('assignment.task')}}"
                 />
-                <flux:select wire:model="assignmentForm.status"
-                             label="{{__('assignment.status')}}"
-                >
+
+                <flux:select variant="listbox" wire:model="assignmentForm.status"
+                             label="{{__('assignment.status')}}">
                     @foreach(\App\Enums\AssignmentStatus::cases() as $status)
-                        <flux:option value="{{$status->value}}">{{ \App\Enums\AssignmentStatus::value($status->value) }}</flux:option>
+                        <flux:select.option value="{{$status->value}}">{{ \App\Enums\AssignmentStatus::value($status->value) }}</flux:select.option>
                     @endforeach
                 </flux:select>
 
@@ -610,16 +612,14 @@
                                wire:model="assignmentForm.description"
                                label="{{__('assignment.description')}}"
                 />
-                <flux:input type="date"
-                            wire:model="assignmentForm.due_at"
-                            label="{{__('assignment.due_at')}}"
-                />
+
+                <flux:date-picker wire:model="assignmentForm.due_at"
+                                  label="{{__('assignment.due_at')}}" />
 
                 <flux:field>
                     <flux:label>{{__('assignment.amount')}}</flux:label>
-
                     <flux:input.group>
-                        <flux:input type="number" wire:model="assignmentForm.amount"
+                        <flux:input wire:model="assignmentForm.amount" x-mask:dynamic="$money($input, ',', '.')"
                         />
                         <flux:input.group.suffix>EUR</flux:input.group.suffix>
                     </flux:input.group>
