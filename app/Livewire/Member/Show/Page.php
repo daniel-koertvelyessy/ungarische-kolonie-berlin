@@ -4,9 +4,10 @@ namespace App\Livewire\Member\Show;
 
 use App\Enums\MemberType;
 use App\Livewire\Forms\MemberForm;
-use App\Livewire\Traits\Mail\AcceptMembershipMail;
+use App\Livewire\Traits\HasPrivileges;
 use App\Livewire\Traits\PersistsTabs;
 use App\Livewire\Traits\Sortable;
+use App\Mail\AcceptMembershipMail;
 use App\Models\Accounting\Account;
 use App\Models\Accounting\Receipt;
 use App\Models\Accounting\Transaction;
@@ -29,7 +30,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class Page extends Component
 {
-    use PersistsTabs, Sortable, WithPagination;
+    use HasPrivileges, PersistsTabs, Sortable, WithPagination;
 
     public $users;
 
@@ -77,8 +78,7 @@ class Page extends Component
 
     public function mount(Member $member): void
     {
-        //        $this->mountPersistsTabs('member-show-profile');
-
+        $this->selectedTab = $this->getSelectedTab();
         $this->memberForm->set($member);
         $this->users = User::select('id', 'name')
             ->get();
@@ -136,7 +136,7 @@ class Page extends Component
 
     public function updateMemberData(): void
     {
-        $this->checkUser();
+        $this->checkPrivilege(Member::class);
 
         if ($this->memberForm->updateData()) {
             Flux::toast(
@@ -146,33 +146,6 @@ class Page extends Component
             );
         }
     }
-
-    //    public function updateContactData(): void
-    //    {
-    //        $this->checkUser();
-    //
-    //        if ($this->memberForm->updateContact()) {
-    //            Flux::toast(
-    //                text: __('members.update.success.content'),
-    //                heading: __('members.update.success.title'),
-    //                variant: 'success',
-    //            );
-    //        }
-    //    }
-
-    //    public function updateMembershipData(): void
-    //    {
-    //        $this->checkUser();
-    //
-    //        if ($this->memberForm->updateMembership()){
-    //            Flux::toast(
-    //                text: __('members.update.success.content'),
-    //                heading: __('members.update.success.title'),
-    //                variant: 'success',
-    //            );
-    //            }
-    //
-    //    }
 
     public function sendInvitation(): void
     {
@@ -206,12 +179,12 @@ class Page extends Component
 
     public function acceptApplication(): void
     {
-        $this->checkUser();
+        $this->checkPrivilege(Member::class);
 
         $this->memberForm->type = MemberType::ST->value;
         $this->memberForm->entered_at = now();
 
-        if ($this->memberForm->updateMembership()) {
+        if ($this->memberForm->updateData()) {
             Flux::toast(
                 text: __('Mitgliedshaft wurde angenommen'),
                 heading: __('Erfolg'),
@@ -238,21 +211,6 @@ class Page extends Component
 
         Flux::modal('delete-membership')
             ->show();
-    }
-
-    protected function checkUser(): void
-    {
-        try {
-            $this->authorize('update', $this->member);
-        } catch (AuthorizationException $e) {
-            Flux::toast(
-                text: 'You have no permission to edit this member! '.$e->getMessage(),
-                heading: 'Forbidden',
-                variant: 'danger',
-            );
-
-            return;
-        }
     }
 
     public function deleteMembershipForSure()

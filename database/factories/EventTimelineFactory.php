@@ -1,13 +1,13 @@
 <?php
 
-namespace Database\Factories\Event;
+namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Event\EventVisitor>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\EventTimeline>
  */
-class EventVisitorFactory extends Factory
+class EventTimelineFactory extends Factory
 {
     /**
      * Define the model's default state.

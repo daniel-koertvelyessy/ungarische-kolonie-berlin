@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Event\Index;
 
+use App\Enums\EventStatus;
 use App\Livewire\Traits\Sortable;
 use App\Models\Event\Event;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -15,6 +16,18 @@ class Page extends Component
 
     public string $locale;
 
+    public $search = '';
+
+    public $filteredBy = [
+        EventStatus::DRAFT->value,
+        EventStatus::PUBLISHED->value,
+    ];
+
+    public function updatedSearch(): void
+    {
+        $this->resetPage();
+    }
+
     public function mount(): void
     {
         $this->locale = session('locale') ?? app()->getLocale();
@@ -26,6 +39,10 @@ class Page extends Component
         return Event::query()
             ->with('venue')
             ->tap(fn ($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
+            ->tap(fn ($query) => $this->search ? $query->where('title', 'LIKE', '%'.$this->search.'%')
+                ->orWhere('name', 'LIKE', '%'.$this->search.'%')
+                : $query)
+            ->tap(fn ($query) => $this->filteredBy ? $query->whereIn('status', $this->filteredBy) : $query)
             ->paginate(10);
     }
 

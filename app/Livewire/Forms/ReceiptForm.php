@@ -3,6 +3,7 @@
 namespace App\Livewire\Forms;
 
 use App\Models\Accounting\Receipt;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Imagick;
@@ -60,7 +61,7 @@ class ReceiptForm extends Form
 
             return Storage::url($outputPath);
         } catch (\Exception $e) {
-            \Log::error('PDF Preview Error: '.$e->getMessage());
+            Log::error('PDF Preview Error: '.$e->getMessage());
 
             return '';
         }

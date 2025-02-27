@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\DB;
 
 class CreateEvent
 {
+    /**
+     * @throws \Throwable
+     */
     public static function handle(EventForm $eventForm): Event
     {
         return DB::transaction(function () use ($eventForm) {

@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Event\Subscription\Create;
 
-use App\Livewire\Traits\Mail\ConfirmEventSubscription;
+use App\Mail\ConfirmEventSubscription;
 use App\Models\Event\EventSubscription;
 use Flux\Flux;
 use Illuminate\Support\Facades\Mail;

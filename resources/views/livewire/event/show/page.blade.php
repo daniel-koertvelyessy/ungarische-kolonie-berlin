@@ -40,7 +40,9 @@
                 >
                     <section class="space-y-6">
 
-                        <flux:input wire:model="form.name" label="{{ __('event.name') }}" />
+                        <flux:input wire:model="form.name"
+                                    label="{{ __('event.name') }}"
+                        />
 
 
                         <flux:input type="date"
@@ -356,7 +358,10 @@
                         <flux:button variant="primary">Neue Zahlung erfassen</flux:button>
                     </flux:modal.trigger>
 
-                    <flux:button href="{{ route('backend.events.report', $event) }}" wire:click="generateEventReport">Bericht erstellen</flux:button>
+                    <flux:button href="{{ route('backend.events.report', $event) }}"
+                                 wire:click="generateEventReport"
+                    >Bericht erstellen
+                    </flux:button>
                 </aside>
             @endcan
         </flux:tab.panel>
@@ -442,9 +447,98 @@
         </flux:tab.panel>
 
         <flux:tab.panel name="event-show-planing">
-            Planung
-            <section class="grid grid-cols-1">
+            <section class="grid grid-cols-1 gap-3 lg:gap-6 lg:grid-cols-2">
+                <flux:card>
 
+                    <header class="flex justify-between items-center mb-3 lg:mb-6">
+                        <flux:heading size="lg">{{ __('event.assignments.heading') }}</flux:heading>
+
+                        <flux:modal.trigger name="assignment-modal">
+                            <flux:button size="sm"
+                                         icon-trailing="plus"
+                            >neue Aufgabe
+                            </flux:button>
+                        </flux:modal.trigger>
+                    </header>
+
+                    <flux:table :paginate="$this->assignments">
+                        <flux:columns>
+                            <flux:column sortable
+                                         :sorted="$sortBy === 'task'"
+                                         :direction="$sortDirection"
+                                         wire:click="sort('task')"
+                            >{{ __('assignment.table.header.task') }}</flux:column>
+                            <flux:column sortable
+                                         :sorted="$sortBy === 'member_id'"
+                                         :direction="$sortDirection"
+                                         wire:click="sort('member')"
+                                         class="hidden sm:table-cell"
+                            >{{ __('assignment.table.header.lead') }}</flux:column>
+                            <flux:column sortable
+                                         :sorted="$sortBy === 'status'"
+                                         :direction="$sortDirection"
+                                         wire:click="sort('status')"
+                            >{{ __('assignment.table.header.status') }}</flux:column>
+                            <flux:column sortable
+                                         :sorted="$sortBy === 'due_at'"
+                                         :direction="$sortDirection"
+                                         wire:click="sort('due_at')"
+                                         class="hidden sm:table-cell"
+                            >{{ __('assignment.table.header.due_at')}}</flux:column>
+                            <flux:column sortable
+                                         :sorted="$sortBy === 'amount'"
+                                         :direction="$sortDirection"
+                                         wire:click="sort('amount')"
+                                         class="hidden sm:table-cell"
+                                         align="right"
+                            >{{ __('assignment.table.header.amount')}}</flux:column>
+                        </flux:columns>
+                        <flux:rows>
+                            @forelse ($this->assignments as $assignment)
+                                <flux:row :key="$event->id">
+                                    <flux:cell variant="strong" class="flex items-center gap-2">
+                                        {{ $assignment->task }}
+                                        @if($assignment->description)
+                                            <flux:tooltip toggleable>
+                                                <flux:button icon="document-text" size="xs" variant="ghost" />
+
+                                                <flux:tooltip.content class="max-w-[20rem] space-y-2">
+                                                    {{ $assignment->description }}
+                                                </flux:tooltip.content>
+                                            </flux:tooltip>
+                                        @endif
+                                    </flux:cell>
+                                    <flux:cell class="hidden sm:table-cell">
+                                        {{ $assignment->member->fullName() }}
+                                    </flux:cell>
+                                    <flux:cell>
+                                        <flux:badge color="{{ $assignment->statusColor() }}" size="sm">{{ $assignment->statusLabel() }}</flux:badge>
+                                    </flux:cell>
+                                    <flux:cell class="hidden sm:table-cell">
+                                        {{ $assignment->getDueString() }}
+                                    </flux:cell>
+                                    <flux:cell class="hidden sm:table-cell" align="end">
+                                        {{ $assignment->amountString() }}
+                                    </flux:cell>
+                                </flux:row>
+                            @empty
+                                <flux:row>
+                                    <flux:cell colspan="3">Keine Aufgaben</flux:cell>
+                                </flux:row>
+                            @endforelse
+                        </flux:rows>
+                    </flux:table>
+
+
+                </flux:card>
+                <flux:card>
+                    <flux:heading>{{ __('event.timeline.heading') }}</flux:heading>
+                    start
+                    ende
+                    Title
+                    Verantwortlich
+                    Notes
+                </flux:card>
             </section>
         </flux:tab.panel>
     </flux:tab.group>
@@ -480,6 +574,66 @@
 
 
         <livewire:event.visitor.create.form :event="$form->event"/>
+
+    </flux:modal>
+
+    <flux:modal name="assignment-modal"
+                class="md:w-96 space-y-6"
+                variant="flyout"
+                position="right"
+    >
+
+        <form wire:submit="addAssignment">
+            <section class="space-y-6">
+                <flux:heading size="lg">{{ __('assignment.modal.heading') }}</flux:heading>
+                <flux:select wire:model="assignmentForm.member_id"
+                             variant="listbox"
+                             searchable
+                             label="{{__('assignment.lead')}}"
+                >
+                    @foreach(\App\Models\Membership\Member::select('id', 'name', 'first_name')->get() as $member)
+                        <flux:option value="{{ $member->id }}">{{ $member->fullName() }}</flux:option>
+                    @endforeach
+                </flux:select>
+                <flux:input wire:model="assignmentForm.task"
+                            label="{{__('assignment.task')}}"
+                />
+                <flux:select wire:model="assignmentForm.status"
+                             label="{{__('assignment.status')}}"
+                >
+                    @foreach(\App\Enums\AssignmentStatus::cases() as $status)
+                        <flux:option value="{{$status->value}}">{{ \App\Enums\AssignmentStatus::value($status->value) }}</flux:option>
+                    @endforeach
+                </flux:select>
+
+                <flux:textarea rows="auto"
+                               wire:model="assignmentForm.description"
+                               label="{{__('assignment.description')}}"
+                />
+                <flux:input type="date"
+                            wire:model="assignmentForm.due_at"
+                            label="{{__('assignment.due_at')}}"
+                />
+
+                <flux:field>
+                    <flux:label>{{__('assignment.amount')}}</flux:label>
+
+                    <flux:input.group>
+                        <flux:input type="number" wire:model="assignmentForm.amount"
+                        />
+                        <flux:input.group.suffix>EUR</flux:input.group.suffix>
+                    </flux:input.group>
+                    <flux:error name="assignmentForm.amount"/>
+                </flux:field>
+
+                <flux:button type="submit"
+                             variant="primary"
+                >{{ __('assignment.btn.submit.label') }}
+                </flux:button>
+
+            </section>
+        </form>
+
 
     </flux:modal>
 </div>

@@ -18,7 +18,7 @@ class UpdateEventTransaction extends Action
     /**
      * @throws \Throwable
      */
-    public static function handle(Transaction $transaction, Event $event, $name, $gender): Transaction
+    public function handle(Transaction $transaction, Event $event, $name, $gender): Transaction
     {
         return DB::transaction(function () use ($transaction, $event, $name, $gender) {
 

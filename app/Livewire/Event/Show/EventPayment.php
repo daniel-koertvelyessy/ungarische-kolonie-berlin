@@ -58,11 +58,7 @@ class EventPayment extends Component
 
     public function storePayment()
     {
-        CreateEventTransaction::handle([
-            'event' => $this->eventForm,
-            'transaction' => $this->transactionForm,
-            'member_id' => $this->member_id,
-        ]);
+        // TODO correct CreateEventTransaction or this form
         $this->dispatch('updated-payments');
 
     }

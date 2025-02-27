@@ -5,12 +5,13 @@ namespace App\Livewire\Accounting\Receipt\Create;
 use App\Models\Accounting\Receipt;
 use Illuminate\Support\Str;
 use Livewire\Component;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 class Page extends Component
 {
     public function updateReceipt($file)
     {
-        if ($file instanceof \Livewire\TemporaryUploadedFile) {
+        if ($file instanceof TemporaryUploadedFile) {
             // Generate a unique filename
             $uuid = Str::uuid();
             $originalFilename = $this->receipt_id->getClientOriginalName();

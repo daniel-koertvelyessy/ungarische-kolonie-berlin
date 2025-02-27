@@ -7,9 +7,15 @@ use App\Models\Accounting\Account;
 use App\Models\Accounting\Transaction;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class CancelTransaction
 {
+    /**
+     * @param  array  $data  [ int $user_id, string $reason ]
+     *
+     * @throws Throwable
+     */
     public static function handle(Transaction $transaction, array $data): Transaction
     {
 

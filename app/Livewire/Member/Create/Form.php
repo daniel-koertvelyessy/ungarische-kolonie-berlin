@@ -39,9 +39,9 @@ class Form extends Component
     {
         $birthDate = new Carbon($this->form->birth_date);
 
-        if ($birthDate->diffInYears(now()) > Member::$minimumAgeForDeduction) {
+        if ($birthDate->diffInYears(now()) > Member::$age_discounted) {
             $this->form->is_deducted = true;
-            $this->form->deduction_reason = 'Älter als '.Member::$minimumAgeForDeduction;
+            $this->form->deduction_reason = 'Älter als '.Member::$age_discounted;
         } else {
             $this->form->is_deducted = false;
             $this->form->deduction_reason = '';

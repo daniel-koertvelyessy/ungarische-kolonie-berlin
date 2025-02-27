@@ -2,15 +2,20 @@
 
 namespace App\Models\Event;
 
+use App\Models\EventAssignment;
+use App\Models\EventTimeline;
 use App\Models\Venue;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @method static Event create(array $attributes)
+ *
+ */
 class Event extends Model
 {
-    /** @use HasFactory<\Database\Factories\EventFactory> */
     use HasFactory;
 
     protected $fillable = [
@@ -58,6 +63,18 @@ class Event extends Model
     {
         return $this->hasMany(EventVisitor::class);
     }
+
+    public function timelines(): HasMany
+    {
+        return $this->hasMany(EventTimeline::class);
+    }
+
+    public function assignments(): HasMany
+    {
+        return $this->hasMany(EventAssignment::class);
+    }
+
+
 
     /**
      * <!-- JSON-LD-Markup generiert von Google Strukturierte Daten: Markup-Hilfe -->

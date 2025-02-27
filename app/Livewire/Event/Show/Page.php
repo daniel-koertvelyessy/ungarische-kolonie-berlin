@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Event\Show;
 
+use App\Livewire\Forms\AssignmentForm;
 use App\Livewire\Forms\EventForm;
 use App\Livewire\Traits\HasPrivileges;
 use App\Livewire\Traits\PersistsTabs;
@@ -10,7 +11,9 @@ use App\Models\Event\Event;
 use App\Models\Event\EventSubscription;
 use App\Models\Event\EventTransaction;
 use App\Models\Event\EventVisitor;
+use App\Models\EventAssignment;
 use App\Models\Venue;
+use Carbon\Carbon;
 use Flux\Flux;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Livewire\Attributes\Computed;
@@ -23,6 +26,8 @@ class Page extends Component
     use HasPrivileges, PersistsTabs, Sortable, WithPagination;
 
     public EventForm $form;
+
+    public AssignmentForm $assignmentForm;
 
     public $event_id;
 
@@ -39,6 +44,12 @@ class Page extends Component
     public function subscriptions()
     {
         return EventSubscription::where('event_id', $this->event_id)->paginate(10);
+    }
+
+    #[Computed]
+    public function assignments()
+    {
+        return EventAssignment::where('event_id', $this->event_id)->paginate(10);
     }
 
     #[Computed]
@@ -73,6 +84,7 @@ class Page extends Component
         $this->event_id = $event->id;
         $this->form->setEvent($event);
         $this->selectedTab = $this->getSelectedTab();
+        $this->assignmentForm->due_at = Carbon::today()->format('Y-m-d');
     }
 
     public function addVisitor(): void
@@ -115,6 +127,14 @@ class Page extends Component
         } else {
             dd('fehler');
         }
+    }
+
+    public function addAssignment():void
+    {
+        $this->checkPrivilege(Event::class);
+        $this->assignmentForm->event_id = $this->event_id;
+        $this->assignmentForm->user_id = auth()->user()->id;
+        $this->assignmentForm->create();
     }
 
     public function generateEventReport() {}

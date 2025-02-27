@@ -17,9 +17,7 @@ use Illuminate\Notifications\Notifiable;
 class Member extends Model
 {
     /** @use HasFactory<\Database\Factories\Membership\MemberFactory> */
-    use HasFactory;
-
-    use Notifiable;
+    use HasFactory, Notifiable;
 
     public static int $age_discounted = 65;
 
@@ -41,9 +39,9 @@ class Member extends Model
         return $this->name.', '.$this->first_name;
     }
 
-    public static function feeForHumans(): string
+    public static function feeForHumans(int $value): string
     {
-        return number_format(Member::$fee / 100, 2, ',', '.');
+        return number_format($value / 100, 2, ',', '.');
     }
 
     public static function getBoardMembers(): object

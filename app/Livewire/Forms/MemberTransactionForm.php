@@ -11,6 +11,8 @@ use Livewire\Component;
 
 class MemberTransactionForm extends Component
 {
+    public TransactionForm $form;
+
     public $date;
 
     public $label;
@@ -35,7 +37,7 @@ class MemberTransactionForm extends Component
 
     public $booking_account_id;
 
-    public function mount(Member $member)
+    public function mount(Member $member): void
     {
         $this->member_id = $member->id;
         $this->date = now()->format('Y-m-d');
@@ -43,7 +45,7 @@ class MemberTransactionForm extends Component
             ->get();
     }
 
-    public function addTransaction()
+    public function addTransaction(): void
     {
         $this->authorize('create', MemberTransaction::class);
 
@@ -51,18 +53,8 @@ class MemberTransactionForm extends Component
 
         $amountInCents = Account::makeCentInteger($this->amount);
 
-        $memberTransaction = CreateMemberTransaction::handle([
-            'date' => $this->date,
-            'label' => $this->label,
-            'member_id' => $this->member_id,
-            'event_id' => $this->event_id,
-            'amount' => $amountInCents,
-            'amount_net' => $amountInCents,
-            'vat' => 0,
-            'tax' => 0,
-            'account_id' => $this->account_id,
-            'booking_account_id' => $this->booking_account_id,
-        ]);
+        $memberTransaction = CreateMemberTransaction::handle($this->form, Member::find($this->member_id)
+        );
 
         $this->dispatch('updated-payments');
     }

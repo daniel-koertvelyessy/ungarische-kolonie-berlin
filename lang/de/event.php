@@ -110,4 +110,7 @@ return [
     'type.rejected' => 'Abgelehnt',
     'type.retracted' => 'Zurückgezogen',
 
+    'assignments.heading' => 'Aufgaben',
+    'timeline.heading' => 'Zeitlinie',
+
 ];

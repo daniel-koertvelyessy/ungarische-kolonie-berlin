@@ -2,6 +2,7 @@
 
 namespace App\Actions\Accounting;
 
+use App\Enums\Gender;
 use App\Livewire\Forms\TransactionForm;
 use App\Models\Accounting\Transaction;
 use App\Models\Event\Event;
@@ -10,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class CreateEventTransaction
 {
-    public static function handle(TransactionForm $form, Event $event, $name, $gender): Transaction
+    public static function handle(TransactionForm $form, Event $event, ?string $name, ?Gender $gender): Transaction
     {
         return DB::transaction(function () use ($form, $event, $name, $gender) {
             $transaction = CreateTransaction::handle($form);
