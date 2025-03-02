@@ -16,5 +16,9 @@
     "Resend Verification Email": "Bestätigungs-E-Mail erneut senden",
     "Edit Profile": "Mein Konto",
     "Log Out": "Abmelden",
-    "A new verification link has been sent to the email address you provided in your profile settings.": "Ein neuer Bestätigungslink wurde an die E-Mail-Adresse gesendet, die Sie in Ihren Profileinstellungen angegeben haben."
+    "A new verification link has been sent to the email address you provided in your profile settings.": "Ein neuer Bestätigungslink wurde an die E-Mail-Adresse gesendet, die Sie in Ihren Profileinstellungen angegeben haben.",
+    "Showing": "Zeige",
+    "to": "bis",
+    "of": "von",
+    "results": "Treffer"
 }

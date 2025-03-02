@@ -1,0 +1,86 @@
+<?php
+
+namespace App\Livewire\Forms;
+
+use App\Actions\Event\CreateTimeline;
+use App\Actions\Event\UpdateTimeline;
+use App\Models\EventTimeline;
+use Livewire\Form;
+
+class EventTimelineForm extends Form
+{
+    public EventTimeline $eventTimeline;
+
+    public $start;
+
+    public $duration;
+
+    public $end;
+
+    public $event_id;
+
+    public $title;
+
+    public $description;
+
+    public $notes;
+
+    public $member_id;
+
+    public $user_id;
+
+    public $id;
+
+    public function set(EventTimeline $eventTimeline): void
+    {
+        $this->start = $eventTimeline->start;
+        $this->duration = $eventTimeline->duration;
+        $this->end = $eventTimeline->end;
+        $this->event_id = $eventTimeline->event_id;
+        $this->title = $eventTimeline->title;
+        $this->description = $eventTimeline->description;
+        $this->notes = $eventTimeline->notes;
+        $this->member_id = $eventTimeline->member_id;
+        $this->user_id = $eventTimeline->user_id;
+        $this->id = $eventTimeline->id;
+    }
+
+    public function create():void
+    {
+        $this->validate();
+        CreateTimeline::handle($this);
+
+    }
+
+    public function update()
+    {
+        $this->validate();
+        UpdateTimeline::handle($this);
+    }
+
+    protected function rules(): array
+    {
+        return [
+            'start' => ['required', 'string'],
+            'duration' => ['nullable'],
+            'end' => 'required|after:start',
+            'event_id' => 'required|exists:events,id',
+            'title' => 'required',
+            'description' => 'string|nullable',
+            'notes' => 'string|nullable',
+            'member_id' => 'nullable|exists:members,id',
+            'user_id' => 'required|nullable|exists:users,id',
+        ];
+    }
+
+    protected function messages(){
+        return [
+            'title.required' => __('timeline.validation_error.title.required'),
+            'start.required' => __('timeline.validation_error.start.required'),
+            'end.required' => __('timeline.validation_error.end.required'),
+            'end.after' => __('timeline.validation_error.end.after'),
+            'event_id.required' => __('timeline.validation_error.event_id.required'),
+            'user_id.required' => __('timeline.validation_error.user_id.required'),
+        ];
+    }
+}

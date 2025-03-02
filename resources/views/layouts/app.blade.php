@@ -141,9 +141,7 @@
         />
 
         <flux:menu>
-            <flux:menu.item wire:navigate
-                            icon="envelope"
-            >{{ __('nav.notifications') }}</flux:menu.item>
+
             <flux:menu.item wire:navigate
                             icon="user"
                             href="{{ route('profile.show') }}"
@@ -154,17 +152,20 @@
             >{{ __('nav.profile.api') }}</flux:menu.item>
 
 
+            <livewire:app.global.notifications-menu/>
+ {{--           <flux:menu.separator/>
+            <livewire:app.global.dark-mode-toggle />--}}
             <flux:menu.separator/>
-
+            <livewire:app.gloabel.language-switcher />
+            <flux:menu.separator/>
             <form method="POST"
                   action="{{ route('logout') }}"
             >
                 @csrf
 
-                <flux:button type="submit"
-                             variant="ghost"
+                <flux:menu.item type="submit"
                              icon="arrow-right-start-on-rectangle"
-                >{{ __('nav.logout') }}</flux:button>
+                >{{ __('nav.logout') }}</flux:menu.item>
             </form>
         </flux:menu>
     </flux:dropdown>
@@ -186,7 +187,8 @@
         />
 
         <flux:menu>
-            <flux:menu.item icon="envelope">{{ __('nav.notifications') }}</flux:menu.item>
+            <livewire:app.global.notifications-menu/>
+            <livewire:app.gloabel.language-switcher />
             <flux:menu.item icon="user"
                             href="{{ route('profile.show') }}"
             >{{ Auth::user()->first_name. ' '. Auth::user()->name }}</flux:menu.item>
@@ -202,10 +204,9 @@
             >
                 @csrf
 
-                <flux:button type="submit"
+                <flux:menu.item type="submit"
                              icon="arrow-right-start-on-rectangle"
-                             variant="ghost"
-                >{{ __('nav.logout') }}</flux:button>
+                >{{ __('nav.logout') }}</flux:menu.item>
             </form>
 
 

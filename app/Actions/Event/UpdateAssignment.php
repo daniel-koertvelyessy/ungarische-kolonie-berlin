@@ -7,7 +7,7 @@ use App\Models\Accounting\Account;
 use App\Models\EventAssignment;
 use Illuminate\Support\Facades\DB;
 
-class CreateAssignment
+class UpdateAssignment
 {
     /**
      * @throws \Throwable
@@ -15,7 +15,8 @@ class CreateAssignment
     public static function handle(AssignmentForm $form): EventAssignment
     {
         return DB::transaction(function () use ($form) {
-            return EventAssignment::create([
+            $eventAssignment = EventAssignment::findOrFail($form->id);
+            if ($eventAssignment->update([
                 'task' => $form->task,
                 'status' => $form->status,
                 'description' => $form->description,
@@ -24,7 +25,11 @@ class CreateAssignment
                 'event_id' => $form->event_id,
                 'member_id' => $form->member_id,
                 'user_id' => $form->user_id,
-            ]);
+            ])) {
+                return $eventAssignment;
+            } else {
+                return null;
+            }
         });
     }
 }

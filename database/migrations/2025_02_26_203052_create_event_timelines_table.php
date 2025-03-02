@@ -20,18 +20,11 @@ return new class extends Migration
             $table->string('title')->index();
             $table->string('description')->nullable();
             $table->text('notes')->nullable();
-            $table->foreignId('member_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('member_id')->nullable();
             $table->foreignId('user_id')->constrained()->nullOnDelete();
 
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('event_timelines');
-    }
 };

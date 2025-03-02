@@ -54,7 +54,9 @@ class Page extends Component
 
     public $transaction;
 
-    public string $selectedTab = 'member-show-profile';
+    public string $defaultTab = 'member-show-profile';
+
+    public string $selectedTab;
 
     public $invitation_status;
 

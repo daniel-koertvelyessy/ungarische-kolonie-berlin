@@ -111,6 +111,6 @@ return [
     'type.retracted' => 'Zurückgezogen',
 
     'assignments.heading' => 'Aufgaben',
-    'timeline.heading' => 'Zeitlinie',
+    'timeline.heading' => 'Ablaufplan',
 
 ];

@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @method static Event create(array $attributes)
- *
  */
 class Event extends Model
 {
@@ -73,8 +72,6 @@ class Event extends Model
     {
         return $this->hasMany(EventAssignment::class);
     }
-
-
 
     /**
      * <!-- JSON-LD-Markup generiert von Google Strukturierte Daten: Markup-Hilfe -->

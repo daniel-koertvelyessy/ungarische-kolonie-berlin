@@ -16,7 +16,6 @@ enum AssignmentStatus: string
         return array_column(AssignmentStatus::cases(), 'value');
     }
 
-
     public static function value(string $value): string
     {
         return match ($value) {

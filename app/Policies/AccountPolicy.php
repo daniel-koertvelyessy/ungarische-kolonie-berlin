@@ -21,7 +21,11 @@ class AccountPolicy
      */
     public function view(User $user): bool
     {
-        return $user->hasVerifiedEmail() && $user->member->email === $user->email;
+        // Check if user has verified email and has a member relationship with matching email
+        return $user->hasVerifiedEmail() && 
+            $user->member !== null && 
+            property_exists($user->member, 'email') && 
+            $user->member->email === $user->email;
     }
 
     /**
@@ -74,15 +78,20 @@ class AccountPolicy
     {
         $user = Auth::user();
 
-        if ($user->is_admin) {
+        // Check if user is admin
+        if (property_exists($user, 'is_admin') && $user->is_admin) {
             return true;
         }
 
-        if ($user->email === env('APP_ACCOUNTANT')) {
+        // Check if user is the accountant
+        if ($user->email === config('app.accountant')) {
             return true;
         }
 
-        if ($user->member->type === MemberType::MD->value) {
+        // Check if user is managing director
+        if ($user->member !== null && 
+            property_exists($user->member, 'type') && 
+            $user->member->type === MemberType::MD->value) {
             return true;
         }
 

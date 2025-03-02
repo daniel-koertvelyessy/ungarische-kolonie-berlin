@@ -16,8 +16,7 @@ class EventTimeline extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'start' => 'time',
-        'end' => 'time',
+
     ];
 
     public function event(): BelongsTo
@@ -34,5 +33,4 @@ class EventTimeline extends Model
     {
         return $this->belongsTo(User::class);
     }
-
 }

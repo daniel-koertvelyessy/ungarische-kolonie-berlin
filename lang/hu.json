@@ -16,6 +16,9 @@
     "Resend Verification Email": "Megerősítés e-mailt újraküldése",
     "Edit Profile": "Profil szerkesztése",
     "Log Out": "Jelentkezzen ki",
-    "A new verification link has been sent to the email address you provided in your profile settings.": "Új Megerősítési linket küldtünk a profilbeállításokban megadott e-mail címre."
-
+    "A new verification link has been sent to the email address you provided in your profile settings.": "Új Megerősítési linket küldtünk a profilbeállításokban megadott e-mail címre.",
+    "Showing": "",
+    "to": "tól",
+    "of": "",
+    "results": "eredménybol"
 }
