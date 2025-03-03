@@ -11,6 +11,13 @@ class TransactionSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        /*        date
+        label
+        amount_gross
+        vat
+        amount_net
+        Account
+        type
+        status*/
     }
 }

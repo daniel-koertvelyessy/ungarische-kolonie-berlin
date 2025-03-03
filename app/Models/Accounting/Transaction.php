@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Transaction extends Model
 {
-    /** @use HasFactory<\Database\Factories\TransactionFactory> */
+    /** @use HasFactory<\Database\Factories\Accounting\TransactionFactory> */
     use HasFactory;
 
     protected int $decimals = 2;
@@ -28,6 +28,8 @@ class Transaction extends Model
 
     protected $casts = [
         'date' => 'datetime',
+        'amount_gross' => 'integer',
+        'amount_net' => 'integer',
     ];
 
     public function account(): BelongsTo

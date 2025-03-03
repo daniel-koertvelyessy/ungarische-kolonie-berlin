@@ -68,6 +68,18 @@ class Member extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function hasUser(): bool
+    {
+
+        if ($this->user->hasAttribute('email')) {
+            if ($this->user->email) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function transactions(): hasMany
     {
         return $this->hasMany(Transaction::class);

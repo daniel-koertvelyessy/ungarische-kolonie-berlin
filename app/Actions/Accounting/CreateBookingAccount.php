@@ -5,7 +5,7 @@ namespace App\Actions\Accounting;
 use App\Models\Accounting\BookingAccount;
 use Illuminate\Support\Facades\DB;
 
-class CreateBookingAccount
+final class CreateBookingAccount
 {
     public static function create(array $data): BookingAccount
     {

@@ -30,9 +30,9 @@ return [
     'verification.btn.label' => '',
     'verification.' => '',
 
-    '' => '',
-    '' => '',
-    '' => '',
+    'audit_invitation.header' => 'Wir brauchen Dich!',
+    'audit_invitation.text' => 'Du bist eingeladen, den monatlichen Kassenbericht vom :range zu prüfen. Du kannst entweder mit einem Klick auf den Link unten die Prüfung starten, oder im Portal über Kasse -> Berichte und dann im entsprechendem Bericht auf den Button "jetzt prüfen" drücken. Vielen Dank für Deine Mühen!',
+    'audit.invitation.subject' => 'Prüfung des monatlichen Kassenberichtes',
     '' => '',
     '' => '',
 

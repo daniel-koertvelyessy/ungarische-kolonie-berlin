@@ -361,6 +361,7 @@
 
                     <flux:button href="{{ route('backend.events.report', $event) }}"
                                  wire:click="generateEventReport"
+                                 target="_blank"
                     >Bericht erstellen
                     </flux:button>
                 </aside>
@@ -589,6 +590,18 @@
                                                wire:click="sort('title')"
                             >{{ __('timeline.table.header.title') }}</flux:table.column>
                             <flux:table.column sortable
+                                               :sorted="$sortBy === 'performer'"
+                                               :direction="$sortDirection"
+                                               wire:click="sort('performer')"
+                                               class="hidden sm:table-cell"
+                            >{{ __('timeline.table.header.performer') }}</flux:table.column>
+                            <flux:table.column sortable
+                                               :sorted="$sortBy === 'place'"
+                                               :direction="$sortDirection"
+                                               wire:click="sort('place')"
+                                               class="hidden sm:table-cell"
+                            >{{ __('timeline.table.header.place') }}</flux:table.column>
+                            <flux:table.column sortable
                                                :sorted="$sortBy === 'start'"
                                                :direction="$sortDirection"
                                                wire:click="sort('start')"
@@ -603,7 +616,7 @@
                                                :sorted="$sortBy === 'member_id'"
                                                :direction="$sortDirection"
                                                wire:click="sort('member')"
-                                               class="hidden sm:table-cell"
+                                               class="hidden lg:table-cell"
                             >{{ __('timeline.table.header.member')}}</flux:table.column>
 
                         </flux:table.columns>
@@ -637,12 +650,18 @@
                                         @endif
                                     </flux:table.cell>
                                     <flux:table.cell class="hidden sm:table-cell">
+                                        {{ $timeItem->place }}
+                                    </flux:table.cell>
+                                    <flux:table.cell class="hidden sm:table-cell">
+                                        {{ $timeItem->performer }}
+                                    </flux:table.cell>
+                                    <flux:table.cell class="hidden sm:table-cell">
                                         {{ $timeItem->start }}
                                     </flux:table.cell>
                                     <flux:table.cell class="hidden sm:table-cell">
                                         {{ $timeItem->end }}
                                     </flux:table.cell>
-                                    <flux:table.cell class="hidden sm:table-cell">
+                                    <flux:table.cell class="hidden lg:table-cell">
                                         {{ optional($timeItem->member)->fullName() }}
                                     </flux:table.cell>
 
@@ -821,6 +840,12 @@
                 <flux:input type="time"
                             wire:model="timelineForm.end"
                             label="{{ __('timeline.end') }}"
+                />
+                <flux:input wire:model="timelineForm.place"
+                            label="{{ __('timeline.place') }}"
+                />
+                <flux:input wire:model="timelineForm.performer"
+                            label="{{ __('timeline.performer') }}"
                 />
                 <flux:input wire:model="timelineForm.duration"
                             label="{{ __('timeline.duration') }}"

@@ -89,6 +89,7 @@ class Page extends Component
             ->tap(fn ($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
             ->paginate(10);
     }
+
     #[Computed]
     public function timelineItems(): LengthAwarePaginator
     {
@@ -156,7 +157,7 @@ class Page extends Component
 
     public function generateEventReport() {}
 
-    public function startNewAssigment():void
+    public function startNewAssigment(): void
     {
         $this->checkPrivilege(Event::class);
 
@@ -164,11 +165,11 @@ class Page extends Component
         Flux::modal('assignment-modal')->show();
     }
 
-    public function startNewTimelineItem():void
+    public function startNewTimelineItem(): void
     {
         $this->checkPrivilege(Event::class);
 
-        $this->reset('timelineForm');
+//        $this->reset('timelineForm');
         Flux::modal('timeline-modal')->show();
     }
 
@@ -201,7 +202,7 @@ class Page extends Component
     public function deleteAssignment(int $assignmentId): void
     {
         $this->checkPrivilege(Event::class);
-        if(EventAssignment::find($assignmentId)->delete()) {
+        if (EventAssignment::find($assignmentId)->delete()) {
             Flux::toast(
                 text: __('assignment.deletion_success.msg'),
                 heading: __('assignment.deletion_success.header'),
@@ -220,8 +221,8 @@ class Page extends Component
             $this->timelineForm->event_id = $this->event_id;
             $this->timelineForm->user_id = auth()->user()->id;
             $this->timelineForm->create();
-            $this->timelineForm->start=$this->timelineForm->end;
-            $this->timelineForm->end='';
+            $this->timelineForm->start = $this->timelineForm->end;
+            $this->timelineForm->end = '';
         }
     }
 
@@ -231,10 +232,11 @@ class Page extends Component
         $this->timelineForm->set(EventTimeline::findOrFail($timelineId));
         Flux::modal('timeline-modal')->show();
     }
+
     public function deleteTimeline(int $timelineId): void
     {
         $this->checkPrivilege(Event::class);
-        if(EventTimeline::find($timelineId)->delete()) {
+        if (EventTimeline::find($timelineId)->delete()) {
             Flux::toast(
                 text: __('timeline.deletion_success.msg'),
                 heading: __('timeline.deletion_success.header'),

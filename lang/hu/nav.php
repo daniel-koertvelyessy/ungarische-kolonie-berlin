@@ -2,6 +2,7 @@
 
 return [
     'dashboard' => 'Irányítópult',
+    'tools' => 'Adatok',
     'members' => 'Tagok',
     'events' => 'Események',
     'blogs' => 'Blog',

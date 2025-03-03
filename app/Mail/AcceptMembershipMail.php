@@ -20,12 +20,12 @@ class AcceptMembershipMail extends Mailable
         $this->member = $member;
     }
 
-    public function build(): AcceptMembershipMail
-    {
-        return $this->subject(__('mails.acceptance.subject'))
-            ->from('szia@magyar-kolonia-berlin.org', 'Körtvélyessy Daniel')
-            ->view('emails.member-acceptance', ['member' => $this->member]);
-    }
+    /*    public function build(): AcceptMembershipMail
+        {
+            return $this->subject(__('mails.acceptance.subject'))
+                ->from('szia@magyar-kolonia-berlin.org', 'Körtvélyessy Daniel')
+                ->view('emails.member-acceptance', ['member' => $this->member]);
+        }*/
 
     /**
      * Get the message envelope.
@@ -45,6 +45,7 @@ class AcceptMembershipMail extends Mailable
     {
         return new Content(
             view: 'emails.member-acceptance',
+            with: ['member' => $this->member]
         );
     }
 }

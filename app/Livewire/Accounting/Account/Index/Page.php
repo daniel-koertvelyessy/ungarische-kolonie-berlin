@@ -3,8 +3,10 @@
 namespace App\Livewire\Accounting\Account\Index;
 
 use App\Enums\TransactionStatus;
+use App\Livewire\Traits\HasPrivileges;
 use App\Models\Accounting\Account;
 use App\Models\Accounting\Transaction;
+use Flux\Flux;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -12,7 +14,7 @@ use Livewire\WithPagination;
 
 class Page extends Component
 {
-    use WithPagination;
+    use HasPrivileges,WithPagination;
 
     public Account $account;
 
@@ -52,10 +54,21 @@ class Page extends Component
             ->paginate(10);
     }
 
-    public function editAccount(): void
+    public function updatedSelectedAccount()
     {
         $this->account = Account::find($this->selectedAccount);
+    }
 
+    public function editAccount(): void
+    {
+        $this->checkPrivilege(Account::class);
+        $this->account = Account::find($this->selectedAccount);
+    }
+
+    public function createReport()
+    {
+        $this->checkPrivilege(Account::class);
+        Flux::modal('create-monthly-report')->show();
     }
 
     public function render()

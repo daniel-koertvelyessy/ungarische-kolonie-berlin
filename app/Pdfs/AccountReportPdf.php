@@ -1,0 +1,195 @@
+<?php
+
+namespace App\Pdfs;
+
+use App\Enums\TransactionStatus;
+use App\Enums\TransactionType;
+use App\Models\Accounting\Account;
+use App\Models\Accounting\Transaction;
+use Illuminate\Support\Str;
+
+class AccountReportPdf extends BasePdfTemplate
+{
+    protected $report;
+
+    protected $filename;
+
+    public function __construct(\App\Models\Accounting\AccountReport $accountReport, $locale, $filename)
+    {
+        parent::__construct($locale, __('reports.account.title')); // Pass locale & title
+        $this->report = $accountReport;
+        $this->filename = $filename;
+
+        // Set document metadata
+        $this->SetTitle(__('reports.account.title'));
+        $this->SetSubject(__('reports.account.title'));
+    }
+
+    public function generateContent(): string
+    {
+        $hH1 = 12;
+        $h = 9;
+        $sm = 7;
+        $wHeading = 40;
+        $width_Datum = 15;
+        $width_Buchung = 48;
+        $width_Referenz = 37;
+        $width_Einnahme = 16;
+        $width_Ausgabe = 16;
+        $width_Typ = 20;
+        $width_Stand = 0;
+
+        $created_by = $this->report->user->member->fullName();
+
+        $this->AddPage();
+        $this->SetFont('helvetica', 'B', $hH1);
+        $this->Cell(0, 6, 'Übersicht', 0, 1, 'L');
+
+        $this->SetFont('helvetica', 'B', $sm);
+        $this->Cell($wHeading, 3, 'Finanzkonto', 0, 0, 'L');
+        $this->Cell($wHeading, 3, 'Nummer:', 0, 0, 'L');
+        $this->Cell($wHeading, 3, 'Institut:', 0, 0, 'L');
+        $this->Cell($wHeading, 3, 'Typ:', 0, 0, 'L');
+        $this->Cell(0, 3, 'Startguthaben:', 0, 1, 'R');
+        $this->SetFont('helvetica', '', $h);
+
+        $account = Account::find($this->report->account_id);
+        $this->Cell($wHeading, 4, $account->name, 0, 0, 'L');
+        $this->Cell($wHeading, 4, $account->number, 0, 0, 'L');
+        if ($account->institute) {
+            $this->Cell($wHeading, 4, $account->institute.' / '.$account->iban, 0, 1, 'L');
+        } else {
+            $this->Cell($wHeading, 4, '-', 0, 0, 'L');
+        }
+        $this->Cell($wHeading, 3, $account->type, 0, 0, 'L');
+        $this->Cell(0, 4, $this->nf($account->starting_amount), 0, 1, 'R');
+
+        $this->ln(5);
+
+        $this->SetFont('helvetica', 'B', $sm);
+        $this->Cell($wHeading, 3, 'Erstellt am:', 0, 0, 'L');
+        $this->Cell($wHeading, 3, 'Erstellt von:', 0, 0, 'L');
+        $this->Cell($wHeading, 3, 'Begin der Erfassung:', 0, 0, 'L');
+        $this->Cell(0, 3, 'Ende der Erfassung:', 0, 1, 'L');
+
+        $this->SetFont('helvetica', '', $h);
+        $this->Cell($wHeading, 5, $this->report->created_at, 0, 0, 'L');
+        $this->Cell($wHeading, 5, $created_by, 0, 0, 'L');
+        $this->Cell($wHeading, 5, $this->report->period_start->locale($this->locale)->isoFormat('LLL'), 0, 0, 'L');
+        $this->Cell(0, 5, $this->report->period_end->locale($this->locale)->isoFormat('LLL'), 0, 1, 'L');
+
+        $this->ln(5);
+
+        $this->SetFont('helvetica', 'B', $hH1);
+        $this->Cell(0, 6, 'Buchungsliste', 0, 1, 'L');
+
+        $html = '<table cellpadding="3" cellspacing="0" style="font-size: 10pt; font-weight: normal;" ><thead><tr>
+        <th style="border-bottom: 1px solid grey; font-size: 8pt; font-weight: bold;" width="40">Datum</th>
+        <th style="border-bottom: 1px solid grey; font-size: 8pt; font-weight: bold;" width="120">Buchung</th>
+        <th style="border-bottom: 1px solid grey; font-size: 8pt; font-weight: bold;" width="100">Referenz</th>
+        <th style="border-bottom: 1px solid grey; font-size: 8pt; font-weight: bold;" width="52" align="right">Einnahme</th>
+        <th style="border-bottom: 1px solid grey; font-size: 8pt; font-weight: bold;" width="52"  align="right">Ausgabe</th>
+        <th style="border-bottom: 1px solid grey; font-size: 8pt; font-weight: bold;" width="53" >Typ</th>
+        <th style="border-bottom: 1px solid grey; font-size: 8pt; font-weight: bold;" align="right">Stand EUR</th>
+        </tr></thead><tbody>
+        <tr>
+        <td width="40"></td>
+        <td width="384" colspan="5">Übernahme aus Vormonat</td>
+        <td align="right">'.$this->nf($this->report->starting_amount).'</td>
+        </tr>';
+
+        /* $this->SetFont('helvetica', 'B', $sm);
+         $this->cell($width_Datum,4,'Datum',0,0,'L');
+         $this->cell($width_Buchung,4,'Buchung',0,0,'L');
+         $this->cell($width_Referenz,4,'Referenz',0,0,'L');
+         $this->cell($width_Einnahme,4,'Einnahme',0,0,'R');
+         $this->cell($width_Ausgabe,4,'Ausgabe',0,0,'R');
+         $this->cell($width_Typ,4,'Typ',0,0,'L');
+         $this->cell($width_Stand,4,'Stand EUR',0,1,'R');
+
+
+         $this->SetFont('helvetica', '', $h);
+         $this->cell($width_Datum,4,$this->report->period_start->locale($this->locale)->isoFormat('Do MMMM'),1,0,'L');
+         $this->cell($width_Buchung,4,'Übernahme aus Vormonat',1,0,'L');
+         $this->cell($width_Referenz,4,'',1,0,'L');
+         $this->cell($width_Einnahme,4,'',1,0,'R');
+         $this->cell($width_Ausgabe,4,'',1,0,'R');
+         $this->cell($width_Typ,4,'',1,0,'L');
+         $this->cell($width_Stand,4,$a,1,1,'R');*/
+
+        $transactions = Transaction::where('account_id', '=', $this->report->account_id)
+            ->where('status', TransactionStatus::booked->value)
+            ->whereBetween('date', [$this->report->period_start, $this->report->period_end])
+            ->orderBy('date')
+            ->get();
+
+        $sub = $this->report->starting_amount;
+        $total_in = 0;
+        $total_out = 0;
+
+        foreach ($transactions as $transaction) {
+
+            if ($transaction->type === TransactionType::Deposit->value) {
+                $in = $transaction->amount_gross * TransactionType::calc($transaction->type);
+                $out = 0;
+                $sub += $in;
+                $total_in += $in;
+            } else {
+                $out = $transaction->amount_gross * TransactionType::calc($transaction->type);
+                $in = 0;
+                $sub += $out;
+                $total_out += $out;
+            }
+
+            /*            $this->cell($width_Datum,5,$transaction->date->locale($this->locale)->isoFormat('Do MMMM'),1,0,'L');
+                        $this->cell($width_Buchung,5,Str::limit($transaction->label,25),1,0,'L');
+                        $this->cell($width_Referenz,5,Str::limit($transaction->reference,20),1,0,'L');
+                        $this->cell($width_Einnahme,5,$this->nf($in),1,0,'R');
+                        $this->cell($width_Ausgabe,5,$this->nf($out),1,0,'R');
+                        $this->cell($width_Typ,5,TransactionType::from($transaction->type)->value,1,0,'L');
+                        $this->cell($width_Stand,5,$this->nf($sub),1,1,'R');*/
+            $html .= '
+<tr>
+    <td width="40">'.$transaction->date->locale($this->locale)->isoFormat('Do MMMM').' </td>
+    <td width="120">'.$transaction->label.'</td>
+    <td width="100">'.$transaction->reference.'</td>
+    <td width="52" align="right">'.$this->nf($in).'</td>
+    <td width="52" align="right">'.$this->nf($out).'</td>
+    <td width="60">'.TransactionType::from($transaction->type)->value.'</td>
+    <td align="right">'.$this->nf($sub).'</td>
+</tr>
+';
+
+        }
+        $html .= '</tbody></table>';
+        $this->writeHTML($html, true, false, true, false, '');
+
+        $this->ln(15);
+        $this->SetFont('helvetica', 'B', $hH1);
+        $this->Cell(0, 6, 'Zusammenfassung', 0, 1, 'L');
+
+        $this->SetFont('helvetica', '', $h);
+        $this->Cell($width_Referenz, 6, 'Stand bei Übernahme', 0, 0, 'L');
+        $this->Cell($width_Typ, 6, $this->nf($this->report->starting_amount).' EUR', 0, 1, 'R');
+
+        $this->Cell($width_Referenz, 6, 'Summe Einnahmen', 0, 0, 'L');
+        $this->Cell($width_Typ, 6, $this->nf($total_in).' EUR', 0, 1, 'R');
+
+        $this->Cell($width_Referenz, 6, 'Summe Ausgaben', 0, 0, 'L');
+        $this->Cell($width_Typ, 6, $this->nf($total_out).' EUR', 0, 1, 'R');
+
+        $this->Cell($width_Referenz, 6, 'Neuer Stand', 'T', 0, 'L');
+        $this->Cell($width_Typ, 6, $this->nf($sub).' EUR', 'T', 1, 'R');
+
+        $this->SetFont('helvetica', 'B', $sm);
+        $this->setY(-45);
+        $this->Cell(40, 7, 'Berlin, '.$this->report->created_at->isoFormat('LLLL'), '', 0, 'C');
+        $this->Cell(40, 7, $created_by, '', 0, 'C');
+        $this->Cell(40, 7, '', '', 1, 'C');
+        $this->Cell(40, 7, 'Ort, Datum', 'T', 0, 'C');
+        $this->Cell(40, 7, 'Erstell von', 'T', 0, 'C');
+        $this->Cell(40, 7, 'Geprüft', 'T', 1, 'C');
+
+        return $this->Output($this->filename); // 'D' = Download, 'I' = Inline
+    }
+}

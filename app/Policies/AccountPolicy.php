@@ -2,12 +2,14 @@
 
 namespace App\Policies;
 
-use App\Enums\MemberType;
 use App\Models\User;
+use App\Policies\Traits\HasAdminPrivileges;
 use Illuminate\Support\Facades\Auth;
 
 class AccountPolicy
 {
+    use HasAdminPrivileges;
+
     /**
      * Determine whether the user can view any models.
      */
@@ -22,9 +24,9 @@ class AccountPolicy
     public function view(User $user): bool
     {
         // Check if user has verified email and has a member relationship with matching email
-        return $user->hasVerifiedEmail() && 
-            $user->member !== null && 
-            property_exists($user->member, 'email') && 
+        return $user->hasVerifiedEmail() &&
+            $user->member !== null &&
+            property_exists($user->member, 'email') &&
             $user->member->email === $user->email;
     }
 
@@ -34,7 +36,7 @@ class AccountPolicy
     public function create(): bool
     {
 
-        return $this->checkThis();
+        return $this->getAdminPrivileges(Auth::user());
     }
 
     /**
@@ -42,7 +44,7 @@ class AccountPolicy
      */
     public function update(): bool
     {
-        return $this->checkThis();
+        return $this->getAdminPrivileges(Auth::user());
     }
 
     /**
@@ -71,30 +73,6 @@ class AccountPolicy
 
     public function bookItem()
     {
-        return $this->checkThis();
-    }
-
-    private function checkThis(): bool
-    {
-        $user = Auth::user();
-
-        // Check if user is admin
-        if (property_exists($user, 'is_admin') && $user->is_admin) {
-            return true;
-        }
-
-        // Check if user is the accountant
-        if ($user->email === config('app.accountant')) {
-            return true;
-        }
-
-        // Check if user is managing director
-        if ($user->member !== null && 
-            property_exists($user->member, 'type') && 
-            $user->member->type === MemberType::MD->value) {
-            return true;
-        }
-
-        return false;
+        return $this->getAdminPrivileges(Auth::user());
     }
 }

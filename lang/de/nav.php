@@ -2,6 +2,7 @@
 
 return [
     'dashboard' => 'Dashboard',
+    'tools' => 'Werkzeuge',
     'members' => 'Mitglieder',
     'events' => 'Veranstaltungen',
     'event.overview' => 'Übersicht',

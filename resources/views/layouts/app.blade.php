@@ -94,6 +94,15 @@
                            :current="request()->is('dashboard')"
         >{{ __('nav.dashboard') }}</flux:navlist.item>
 
+        @can('create',\App\Models\Membership\Member::class)
+            <flux:navlist.item wire:navigate
+                               icon="cog-6-tooth"
+                               href="{{ route('tools.index')  }}"
+                               :current="request()->is('*tools*')"
+            >{{ __('nav.tools') }}</flux:navlist.item>
+
+        @endcan
+
         <flux:navlist.item wire:navigate
                            icon="users"
                            href="{{ route('members.index')  }}"
@@ -115,12 +124,12 @@
         <flux:navlist.group heading="{{ __('nav.kasse') }}"
                             expandable
         >
-            <flux:navlist.item href="{{ route('accounting.index') }}">Übersicht</flux:navlist.item>
-            <flux:navlist.item href="{{ route('transaction.index') }}">Buchungen</flux:navlist.item>
-            <flux:navlist.item href="#">Belege</flux:navlist.item>
-            <flux:navlist.item href="#">Berichte</flux:navlist.item>
+            <flux:navlist.item wire:navigate href="{{ route('accounting.index') }}">Übersicht</flux:navlist.item>
+            <flux:navlist.item wire:navigate href="{{ route('transaction.index') }}">Buchungen</flux:navlist.item>
+            <flux:navlist.item wire:navigate href="{{ route('receipts.index') }}">Belege</flux:navlist.item>
+            <flux:navlist.item wire:navigate href="{{ route('accounts.report.index') }}">Berichte</flux:navlist.item>
             @can('create', \App\Models\Accounting\Account::class)
-                <flux:navlist.item href="{{ route('accounts.index') }}"
+                <flux:navlist.item wire:navigate href="{{ route('accounts.index') }}"
                                    :current="request()->is('accounts*')"
                 >Konten
                 </flux:navlist.item>
@@ -156,7 +165,7 @@
  {{--           <flux:menu.separator/>
             <livewire:app.global.dark-mode-toggle />--}}
             <flux:menu.separator/>
-            <livewire:app.gloabel.language-switcher />
+            <livewire:app.global.language-switcher />
             <flux:menu.separator/>
             <form method="POST"
                   action="{{ route('logout') }}"
@@ -188,7 +197,7 @@
 
         <flux:menu>
             <livewire:app.global.notifications-menu/>
-            <livewire:app.gloabel.language-switcher />
+            <livewire:app.global.language-switcher />
             <flux:menu.item icon="user"
                             href="{{ route('profile.show') }}"
             >{{ Auth::user()->first_name. ' '. Auth::user()->name }}</flux:menu.item>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\App\Gloabel;
+namespace App\Livewire\App\Global;
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
@@ -17,7 +17,7 @@ class LanguageSwitcher extends Component
 
     public function switchLanguage(string $locale)
     {
-        if (!in_array($locale, ['en', 'de', 'hu'])) {
+        if (! in_array($locale, ['en', 'de', 'hu'])) {
             abort(404);
         }
 
@@ -31,6 +31,6 @@ class LanguageSwitcher extends Component
 
     public function render()
     {
-        return view('livewire.app.gloabel.language-switcher');
+        return view('livewire.app.global.language-switcher');
     }
 }

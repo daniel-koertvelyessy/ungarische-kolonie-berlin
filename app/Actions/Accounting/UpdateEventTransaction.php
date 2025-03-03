@@ -9,7 +9,7 @@ use App\Models\Event\EventTransaction;
 use Illuminate\Notifications\Action;
 use Illuminate\Support\Facades\DB;
 
-class UpdateEventTransaction extends Action
+final class UpdateEventTransaction extends Action
 {
     protected bool $updateTransaction;
 

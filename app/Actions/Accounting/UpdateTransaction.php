@@ -8,7 +8,7 @@ use App\Models\Accounting\Transaction;
 use Illuminate\Notifications\Action;
 use Illuminate\Support\Facades\DB;
 
-class UpdateTransaction extends Action
+final class UpdateTransaction extends Action
 {
     public static function handle(TransactionForm $form): Transaction
     {

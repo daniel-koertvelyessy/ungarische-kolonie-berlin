@@ -11,20 +11,20 @@ trait HasPrivileges
 {
     use AuthorizesRequests;
 
-    protected function checkPrivilege(string|Model $resource): void
+    protected function checkPrivilege(string|Model $resource): bool
     {
         try {
             $this->authorize('create', $resource);
-        } catch (AuthorizationException $e) {
-            $resourceName = is_string($resource) ? $resource : get_class($resource);
 
+            return true;
+        } catch (AuthorizationException $e) {
             Flux::toast(
-                text: 'Sie haben keine Berechtigungen zur Erstellung von '.$resourceName.'. => '.$e->getMessage(),
+                text: 'Sie haben keine Berechtigungen zur Erstellung von '.(is_string($resource) ? $resource : get_class($resource)).'. => '.$e->getMessage(),
                 heading: 'Forbidden',
                 variant: 'danger',
             );
 
-            return;
+            return false; // Prevent further execution
         }
     }
 }

@@ -3,10 +3,12 @@
 namespace Database\Seeders;
 
 use App\Actions\Accounting\CreateBookingAccount;
+use App\Enums\AccountType;
 use App\Enums\BookingAccountType;
 use App\Enums\Gender;
 use App\Enums\MemberFeeType;
 use App\Enums\MemberType;
+use App\Models\Accounting\Account;
 use App\Models\Event\Event;
 use App\Models\Membership\Member;
 use App\Models\User;
@@ -131,6 +133,25 @@ class DatabaseSeeder extends Seeder
             Event::factory(10)
                 ->create();
         }
+
+        Account::create([
+            'name' => 'Vereinskasse',
+            'number' => 'VK1',
+            'institute' => '',
+            'iban' => '',
+            'bic' => '',
+            'starting_amount' => 15840,
+            'type' => AccountType::cash->value,
+        ]);
+        Account::create([
+            'name' => 'PayPal',
+            'number' => 'PP1',
+            'institute' => '',
+            'iban' => '',
+            'bic' => '',
+            'starting_amount' => 0,
+            'type' => AccountType::paypal->value,
+        ]);
 
     }
 }

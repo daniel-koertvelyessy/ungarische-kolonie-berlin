@@ -3,7 +3,6 @@
 namespace App\Actions\Event;
 
 use App\Livewire\Forms\EventTimelineForm;
-use App\Models\EventAssignment;
 use App\Models\EventTimeline;
 use Illuminate\Support\Facades\DB;
 
@@ -25,6 +24,8 @@ class CreateTimeline
                 'notes' => $form->notes,
                 'member_id' => $form->member_id,
                 'user_id' => $form->user_id,
+                'place' => $form->place,
+                'performer' => $form->performer,
             ]);
         });
     }

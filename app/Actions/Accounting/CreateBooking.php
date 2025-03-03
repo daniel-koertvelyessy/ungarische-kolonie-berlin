@@ -6,7 +6,7 @@ use App\Models\Accounting\Transaction;
 use Illuminate\Notifications\Action;
 use Illuminate\Support\Facades\DB;
 
-class CreateBooking extends Action
+final class CreateBooking extends Action
 {
     public static function handle(array $data): Transaction
     {

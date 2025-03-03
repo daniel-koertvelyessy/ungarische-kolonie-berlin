@@ -16,12 +16,12 @@ class NotificationsMenu extends Component
         $this->loadNotifications();
     }
 
-    public function loadNotifications():void
+    public function loadNotifications(): void
     {
         $this->notifications = Auth::user()->unreadNotifications;
     }
 
-    public function markAsRead($notificationId):void
+    public function markAsRead($notificationId): void
     {
         $notification = Auth::user()->notifications()->find($notificationId);
         if ($notification) {

@@ -31,6 +31,9 @@ class EventTimelineForm extends Form
 
     public $id;
 
+    public $place;
+    public $performer;
+
     public function set(EventTimeline $eventTimeline): void
     {
         $this->start = $eventTimeline->start;
@@ -42,10 +45,12 @@ class EventTimelineForm extends Form
         $this->notes = $eventTimeline->notes;
         $this->member_id = $eventTimeline->member_id;
         $this->user_id = $eventTimeline->user_id;
+        $this->place = $eventTimeline->place;
+        $this->performer = $eventTimeline->performer;
         $this->id = $eventTimeline->id;
     }
 
-    public function create():void
+    public function create(): void
     {
         $this->validate();
         CreateTimeline::handle($this);
@@ -68,12 +73,15 @@ class EventTimelineForm extends Form
             'title' => 'required',
             'description' => 'string|nullable',
             'notes' => 'string|nullable',
+            'place' => 'string|nullable',
+            'performer' => 'string|nullable',
             'member_id' => 'nullable|exists:members,id',
             'user_id' => 'required|nullable|exists:users,id',
         ];
     }
 
-    protected function messages(){
+    protected function messages()
+    {
         return [
             'title.required' => __('timeline.validation_error.title.required'),
             'start.required' => __('timeline.validation_error.start.required'),

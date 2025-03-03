@@ -2,58 +2,29 @@
 
 namespace App\Pdfs;
 
-use Illuminate\Support\Str;
 use TCPDF;
 
-class EventReportTemplate extends TCPDF
+abstract class BasePdfTemplate extends TCPDF
 {
-    protected $content;
+    protected string $locale;
 
-    protected $event;
+    protected string $pdfTitle;
 
-    protected $income;
-
-    protected $incomes;
-
-    protected $spending;
-
-    protected $spendings;
-
-    protected $visitors;
-
-    protected $locale;
-
-    public function __construct(
-        $event,
-        $income,
-        $incomes,
-        $spending,
-        $spendings,
-        $visitors,
-        $locale
-    ) {
+    public function __construct($locale = 'en', $title = '')
+    {
         parent::__construct();
 
-        $this->event = $event;
-        $this->income = $income;
-        $this->incomes = $incomes;
-        $this->spending = $spending;
-        $this->spendings = $spendings;
-        $this->visitors = $visitors;
         $this->locale = $locale;
+        $this->pdfTitle = $title;
 
-        // Set document information
-        $this->SetTitle(__('event.report.title'));
-        $this->SetSubject(__('event.visitor.name', ['name' => $event->title[$locale]]));
-
-        // Set margins
+        // Set document properties
         $this->SetMargins(23, 30, 15);
         $this->setPrintHeader(true);
         $this->setPrintFooter(true);
         $this->SetAutoPageBreak(true, 30);
     }
 
-    // Define the header
+    // Standard header
     public function Header()
     {
         $this->setY(10);
@@ -61,7 +32,8 @@ class EventReportTemplate extends TCPDF
         $this->Cell(0, 10, 'Magyar Kolónia Berlin e. V.', 0, 1, 'C');
         $this->SetFont('helvetica', '', 10);
 
-        $this->Cell(0, 5, 'Event-Report:'.$this->event->title[$this->locale], 0, 1, 'C');
+        $this->Cell(0, 5, $this->pdfTitle, 0, 1, 'C');
+
         $this->ImageSVG('@<svg width="100%" height="100%" viewBox="0 0 400 400" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
     <g transform="matrix(3.2205,0,0,3.2205,-843.614,2.43121)">
         <path d="M289.293,0.236C282.618,7.589 278.333,15.667 276,23C273.878,29.67 272.98,35.152 276,44C278.432,51.126 286.136,60.996 294,68C300.437,73.319 307.027,81.042 310,88C314.145,97.701 309.967,106.029 305.289,109.711C297.919,115.512 289.881,115.579 284.318,111.977C274.666,105.729 273.29,100.496 272,92C270.38,81.333 270.636,70.667 272,60C267.426,70.029 265.833,85.333 267,95C268.919,112.27 279.213,118.57 284.579,120.91C298.249,126.87 328.471,115.882 316.943,83.619C313.831,74.91 301.594,65.806 296.689,60.116C275.616,41.774 276.196,24.004 289.293,0.236Z" style="fill:rgb(210,41,41);"/>
@@ -97,133 +69,19 @@ class EventReportTemplate extends TCPDF
         $this->Cell(0, 10, 'Seite '.$this->getAliasNumPage().' - '.$this->getAliasNbPages(), 0, 0, 'C');
     }
 
-    // Method to set content dynamically
-    public function setContent($content)
-    {
-        $this->content = $content;
-    }
+    // Abstract method to define content (child class must implement it)
+    abstract protected function generateContent();
 
-    // Method to generate the PDF
+    // Generate and return PDF
     public function generatePdf($filename)
     {
-        $hH1 = 14;
-        $h = 9;
-        $this->AddPage();
-        $this->SetFont('helvetica', '', $h);
-        //        $this->writeHTML($this->content, true, false, true, false, '');
+        $this->generateContent();
 
-        $this->SetFont('helvetica', '', $hH1);
-        $this->Cell(0, 10, 'Finanzen ', 0, 1);
-        $this->ln(2);
+        return $this->Output($filename);
+    }
 
-        $this->SetFont('helvetica', '', $h);
-        $this->Cell(60, 8, 'Einnahmen ', 0, 0);
-        $this->Cell(80, 8, number_format($this->income, '2', ',', '.'), 0, 1, 'R');
-        $this->Cell(60, 8, 'Ausgaben ', 0, 0);
-        $this->Cell(80, 8, number_format($this->spending, '2', ',', '.'), 0, 1, 'R');
-        $this->Cell(60, 8, 'Gesamt ', 'T', 0);
-        $this->Cell(80, 8, number_format($this->income - $this->spending, '2', ',', '.'), 'T', 1, 'R');
-        $this->ln(10);
-        $this->SetFont('helvetica', '', $hH1);
-        $this->Cell(0, 10, 'Besucher ', 0, 1);
-        $this->ln(2);
-
-        $this->SetFont('helvetica', '', $h);
-        $this->Cell(30, 8, 'Gesamt : ', 0, 0);
-        $this->Cell(50, 8, $this->visitors->count(), 0, 1, 'R');
-        $this->Cell(30, 8, 'Männlich ', 0, 0);
-        $this->Cell(50, 8, '30', 0, 1, 'R');
-        $this->Cell(30, 8, 'Weiblich ', 0, 0);
-        $this->Cell(50, 8, '30', 0, 1, 'R');
-
-        $this->ln(5);
-        $this->Cell(30, 8, 'Mitglieder ', 0, 0);
-        $this->Cell(50, 8, '30', 0, 1, 'R');
-        $this->Cell(30, 8, 'Über die Webseite angemeldet ', 0, 0);
-        $this->Cell(50, 8, '30', 0, 1, 'R');
-
-        $this->setY(-50);
-
-        $this->Cell(30, 8, 'Datum ', 'T', 0);
-        $this->Cell(50, 8, 'Kassenwart', 'T', 1, 'C');
-
-        $this->AddPage();
-
-        $this->SetFont('helvetica', '', $hH1);
-        $this->Cell(0, 10, 'Details ', 0, 1);
-        $this->ln(2);
-
-        $this->SetFont('helvetica', '', $hH1);
-        $this->Cell(0, 10, 'Einnahmen ', 0, 1);
-        $this->ln(2);
-
-        $w = 30;
-
-        $wText = 66;
-        $wReferenz = 45;
-        $wStatus = 20;
-        $wKonto = 25;
-
-        $this->SetFont('helvetica', '', 8);
-        $this->Cell($wText, 8, 'Text', 'B', 0);
-        $this->Cell($wReferenz, 8, 'Referenz', 'B', 0);
-        $this->Cell($wStatus, 8, 'Status', 'B', 0);
-        $this->Cell($wKonto, 8, 'Konto', 'B', 0);
-        $this->Cell(0, 8, 'Betrag', 'B', 1, 'R');
-
-        $this->SetFont('helvetica', '', $h);
-        foreach ($this->incomes as $item) {
-            $this->Cell($wText, 8, Str::limit($item->transaction->label, 60), 'B', 0);
-            $this->Cell($wReferenz, 8, $item->transaction->reference, 'B', 0);
-            $this->Cell($wStatus, 8, $item->transaction->status, 'B', 0);
-            $this->Cell($wKonto, 8, $item->transaction->account->name, 'B', 0);
-            $this->Cell(0, 8, number_format($item->transaction->amount_gross / 100, '2', ',', '.'), 'B', 1, 'R');
-        }
-        $this->ln(10);
-        $this->SetFont('helvetica', '', $hH1);
-        $this->Cell(0, 10, 'Ausgaben ', 0, 1);
-        $this->ln(2);
-
-        $this->SetFont('helvetica', '', 8);
-        $this->Cell($wText, 8, 'Text', 'B', 0);
-        $this->Cell($wReferenz, 8, 'Referenz', 'B', 0);
-        $this->Cell($wStatus, 8, 'Status', 'B', 0);
-        $this->Cell($wKonto, 8, 'Konto', 'B', 0);
-        $this->Cell(0, 8, 'Betrag', 'B', 1, 'R');
-
-        $this->SetFont('helvetica', '', $h);
-        foreach ($this->spendings as $item) {
-            $this->Cell($wText, 8, Str::limit($item->transaction->label, 60), 'B', 0);
-            $this->Cell($wReferenz, 8, $item->transaction->reference, 'B', 0);
-            $this->Cell($wStatus, 8, $item->transaction->status, 'B', 0);
-            $this->Cell($wKonto, 8, $item->transaction->account->name, 'B', 0);
-            $this->Cell(0, 8, number_format($item->transaction->amount_gross / 100, '2', ',', '.'), 'B', 1, 'R');
-        }
-
-        $this->ln(10);
-        $this->SetFont('helvetica', '', $hH1);
-        $this->Cell(0, 10, 'Besucher ', 0, 1);
-        $this->ln(2);
-
-        $ws = 10;
-        $this->SetFont('helvetica', '', 8);
-        $this->Cell(50, 8, 'Name', 'B', 0);
-        $this->Cell(60, 8, 'E-Mail', 'B', 0);
-        $this->Cell($ws, 8, 'MI', 'B', 0);
-        $this->Cell($ws, 8, 'AN', 'B', 0);
-        $this->Cell($ws, 8, 'MA', 'B', 0);
-        $this->Cell($ws, 8, 'FE', 'B', 1, 'R');
-
-        $this->SetFont('helvetica', '', $h);
-        foreach ($this->visitors as $visitor) {
-            $this->Cell(50, 8, $visitor->name, 'B', 0);
-            $this->Cell(60, 8, $visitor->email, 'B', 0);
-            $this->Cell($ws, 8, $visitor->member ? 'x' : '', 'B', 0, 'C');
-            $this->Cell($ws, 8, $visitor->subscription ? 'x' : '', 'B', 0, 'C');
-            $this->Cell($ws, 8, $visitor->gender === \App\Enums\Gender::ma->value ? 'x' : '', 'B', 0, 'C');
-            $this->Cell($ws, 8, $visitor->gender === \App\Enums\Gender::fe->value ? 'x' : '', 'B', 1, 'C');
-        }
-
-        return $this->Output($filename); // 'D' = Download, 'I' = Inline
+    public function nf(int $value): string
+    {
+        return number_format($value / 100, 2, ',', '.');
     }
 }

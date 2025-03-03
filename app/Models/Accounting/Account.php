@@ -16,10 +16,10 @@ class Account extends Model
     protected $fillable = [
         'name',
         'number',
+        'type',
         'institute',
         'iban',
-        'swift',
-        'type',
+        'bic',
         'starting_amount',
     ];
 
@@ -53,6 +53,11 @@ class Account extends Model
 
     public static function formatedAmount(int $value): string
     {
-        return number_format($value, 2, ',', '.');
+        return number_format($value/100, 2, ',', '.');
+    }
+
+    public function reports(): HasMany
+    {
+        return $this->hasMany(AccountReport::class);
     }
 }

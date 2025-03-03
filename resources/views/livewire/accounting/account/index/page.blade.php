@@ -12,6 +12,7 @@
 
             </flux:select>
             <flux:button variant="primary" wire:click="editAccount">Hole Daten</flux:button>
+            <flux:button wire:click="createReport">Bericht erstellen</flux:button>
         </aside>
 
     </header>
@@ -29,12 +30,6 @@
         <flux:card>
             <flux:heading>Bewegungen</flux:heading>
             @if($selectedAccount)
-
-                @php
-
-                    $total = $account->starting_amount/100;
-                    $sub = 0;
- @endphp
             <flux:table :paginate="$this->transactions">
                 <flux:table.columns>
                     <flux:table.column>Bezeichnung</flux:table.column>
@@ -53,10 +48,6 @@
                                <span class="{{ $item->grossColor() }}">
                                     {{ $item->grossForHumans()}}
                                </span>
-                                @php
-                                    $sub += $item->amount_gross/100 *  \App\Enums\TransactionType::calc($item->type);
-                                    $total += $item->amount_gross/100 ;
-                                @endphp
                             </flux:table.cell>
                             <flux:table.cell>
                                 {{ $item->type }}
@@ -68,16 +59,16 @@
                     @endforeach
                 </flux:table.rows>
             </flux:table>
-
-               <aside class="flex">
-                   <flux:spacer />
-                   <div>
-                       <flux:subheading>Gesamt {{ number_format($sub, 2,',','.') }}</flux:subheading>
-                       <flux:heading>Stand Konto {{ number_format($total, 2,',','.') }}</flux:heading>
-                   </div>
-               </aside>
             @endif
         </flux:card>
 
     </section>
+
+    @if($selectedAccount)
+    <flux:modal name="create-monthly-report" class="w-full">
+        Bericht erstellen
+
+        <livewire:accounting.report.create.form :account-id="$selectedAccount" />
+    </flux:modal>
+@endif
 </div>

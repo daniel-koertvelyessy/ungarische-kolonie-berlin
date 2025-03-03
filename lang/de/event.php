@@ -64,9 +64,6 @@ return [
     'email.required' => 'Wir benötigen Ihre E-Mail Adresse',
     'email.unique' => 'Überprüfe, ob du schon eine E-Mail von uns erhalten hast.',
 
-    'report.title' => 'Veranstalungsbericht',
-    'report.subject' => 'Auswertung der Veranstaltung :name',
-
     'index.title' => 'Title',
     'index.table.header.name' => 'Name (intern)',
     'index.btn.start_new' => 'Neu erstellen',
@@ -79,7 +76,6 @@ return [
     'store.success.title' => 'Erfolg',
 
     'show.page.title' => 'Veranstaltung',
-    'visitor.name' => 'Besucher',
     'form.event_date' => 'Datum',
     'form.start_time' => 'Startet um',
     'form.end_time' => 'Endet um',

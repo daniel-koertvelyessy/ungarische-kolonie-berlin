@@ -7,7 +7,7 @@ use App\Models\Accounting\Account;
 use App\Models\Accounting\Transaction;
 use Illuminate\Support\Facades\DB;
 
-class CreateTransaction
+final class CreateTransaction
 {
     public static function handle(TransactionForm $form): Transaction
     {

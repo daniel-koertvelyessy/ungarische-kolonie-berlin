@@ -9,7 +9,7 @@ use App\Models\Accounting\Transaction;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
-class TransferTransaction
+final class TransferTransaction
 {
     public static function handle(Transaction $transaction, TransferTransactionForm $from): Transaction
     {

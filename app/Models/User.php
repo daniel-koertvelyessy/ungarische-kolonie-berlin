@@ -79,6 +79,11 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
+    public function mailHistoryEntry(): HasMany
+    {
+        return $this->hasMany(MailHistoryEntry::class);
+    }
+
     public function canceled_transactions(): HasMany
     {
         return $this->hasMany(CancelTransaction::class);

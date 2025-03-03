@@ -5,7 +5,7 @@ namespace App\Actions\Accounting;
 use App\Models\Accounting\Account;
 use Illuminate\Support\Facades\DB;
 
-class CreateAccount
+final class CreateAccount
 {
     public static function handle(array $data): Account
     {

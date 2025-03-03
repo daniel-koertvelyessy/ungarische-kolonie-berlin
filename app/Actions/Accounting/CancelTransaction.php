@@ -9,7 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
-class CancelTransaction
+final class CancelTransaction
 {
     /**
      * @param  array  $data  [ int $user_id, string $reason ]

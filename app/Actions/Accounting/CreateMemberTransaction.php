@@ -8,7 +8,7 @@ use App\Models\Membership\Member;
 use App\Models\Membership\MemberTransaction;
 use Illuminate\Support\Facades\DB;
 
-class CreateMemberTransaction
+final class CreateMemberTransaction
 {
     public static function handle(TransactionForm $form, Member $member): Transaction
     {
