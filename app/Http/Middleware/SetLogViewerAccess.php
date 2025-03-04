@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
-class UserHasAdminPrivilege
+class SetLogViewerAccess
 {
     /**
      * Handle an incoming request.
