@@ -23,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         LogViewer::auth(function ($request) {
+            dd($request->user());
             if($request->user()) {
                 if ($request->user()->email ==='daniel@thermo-control.com') {
                     return true;
