@@ -74,8 +74,8 @@ return [
     'middleware' => [
         'web',
         'auth',
-        \Opcodes\LogViewer\Http\Middleware\AuthorizeLogViewer::class,
-        \App\Http\Middleware\UserHasAdminPrivilege::class,
+//        \Opcodes\LogViewer\Http\Middleware\AuthorizeLogViewer::class,
+//        \App\Http\Middleware\UserHasAdminPrivilege::class,
     ],
 
     /*
