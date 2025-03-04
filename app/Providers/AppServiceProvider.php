@@ -23,8 +23,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         LogViewer::auth(function ($request) {
-            if($request->user()->is_admin){
-                return true;
+            if($request->user()) {
+                if ($request->user()->is_admin) {
+                    return true;
+                }
             }
             Log::alert('Attempt to access log-viewer without Admin privileges',['user' => $request->user()]);
             return false;
