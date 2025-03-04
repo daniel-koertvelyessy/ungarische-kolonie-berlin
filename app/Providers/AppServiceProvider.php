@@ -22,14 +22,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        LogViewer::auth(function ($request) {
-            dd($request->user());
-            if($request->user()) {
-                if ($request->user()->email ==='daniel@thermo-control.com') {
-                    return true;
-                }
+        LogViewer::auth(function ($request)
+        {
+            dd($request->user()->email === 'daniel@thermo-control.com');
+
+            if ($request->user()->email === 'daniel@thermo-control.com') {
+                return true;
             }
-            Log::alert('Attempt to access log-viewer without Admin privileges',['user' => $request->user()]);
+
+            Log::alert('Attempt to access log-viewer without Admin privileges', ['user' => $request->user()]);
             return false;
         });
     }
