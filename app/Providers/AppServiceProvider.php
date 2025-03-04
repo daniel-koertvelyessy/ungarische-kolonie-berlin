@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
     {
         LogViewer::auth(function ($request) {
             if($request->user()) {
-                if ($request->user()->is_admin) {
+                if ($request->user()->email ==='daniel@thermo-control.com') {
                     return true;
                 }
             }
