@@ -75,7 +75,7 @@ return [
         'web',
         'auth',
         \Opcodes\LogViewer\Http\Middleware\AuthorizeLogViewer::class,
-//        \App\Http\Middleware\UserHasAdminPrivilege::class,
+        \App\Http\Middleware\UserHasAdminPrivilege::class,
     ],
 
     /*

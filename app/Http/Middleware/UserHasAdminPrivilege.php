@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use http\Client\Curl\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
