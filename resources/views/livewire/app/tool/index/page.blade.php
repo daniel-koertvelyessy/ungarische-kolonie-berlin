@@ -1,6 +1,6 @@
 <div>
     <flux:heading size="xl">{{ __('nav.tools') }}</flux:heading>
-    <section class="grid grid-cols-2 gap-3 my-6">
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-3 my-6">
 
         <flux:card>
             <flux:heading size="lg"
@@ -11,7 +11,7 @@
             <form wire:submit="sendMembersMail"
                   class="space-y-6"
             >
-                <div class="grid grid-cols-2 gap-3 my-3">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 my-3">
                     <section class="space-y-6">
                         <flux:subheading>Maygar szöveg</flux:subheading>
 
@@ -52,7 +52,7 @@
                     <flux:error name="website"/>
                 </flux:field>
 
-                <div class="grid grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
                     <section class="space-y-6">
                         <flux:input label="Maygar link szöveg"
                                     wire:model="url_label.hu"
@@ -69,7 +69,7 @@
 
                 <flux:separator text="{{ __('mails.member.separator.attachments') }}" class="my-6"/>
 
-                <div class="grid grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
                     <flux:field class="flex-col flex">
                         <flux:label>Csatolt fájl</flux:label>
                         <input type="file"
