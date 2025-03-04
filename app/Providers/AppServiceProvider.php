@@ -24,8 +24,6 @@ class AppServiceProvider extends ServiceProvider
     {
         LogViewer::auth(function ($request)
         {
-            dd($request->user()->email === 'daniel@thermo-control.com');
-
             if ($request->user()->email === 'daniel@thermo-control.com') {
                 return true;
             }
