@@ -9,6 +9,11 @@ class MailHistoryEntry extends Model
 {
     protected $guarded = [];
 
+    protected $casts = [
+        'subject' => 'array',
+        'message' => 'array',
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

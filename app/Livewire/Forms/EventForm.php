@@ -148,8 +148,8 @@ class EventForm extends Form
             }
         } catch (\Illuminate\Contracts\Filesystem\FileNotFoundException $e) {
             Flux::toast(
-                heading: 'Fehler',
                 text: 'Die Datei konnte nicht gelköscht werden => '.$e->getMessage(),
+                heading: 'Fehler',
                 variant: 'danger',
             );
         }

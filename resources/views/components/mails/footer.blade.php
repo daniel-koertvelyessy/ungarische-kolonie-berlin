@@ -46,7 +46,7 @@ FOOTER
                     </td>
                     <td valign="top"
                         width="50%"
-                        style="padding-top: 20px; padding-left:50px;"
+                        style="padding-top: 20px; padding-left:20px;"
                     >
                         <h3 class="heading">Internet</h3>
                         <ul>

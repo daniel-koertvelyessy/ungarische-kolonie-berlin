@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\RegisterController;
+use App\Mail\SendMemberMassMail;
 use App\Models\Event\Event;
 use App\Models\Event\EventSubscription;
 use App\Models\Membership\Member;
@@ -251,8 +252,22 @@ Route::middleware([
 
         Route::get('/dashboard', function () {
             return view('dashboard');
-        })
-            ->name('dashboard');
+        })->name('dashboard');
+
+        Route::get('/test-mail-preview', function () {
+            $mailable = new SendMemberMassMail(
+                'Daniel',
+                request('subject'),
+                request('message'),
+                request('locale'),
+                request('url'),
+                request('url_label'),
+                []
+            );
+
+            return $mailable->render();
+        })->name('test-mail-preview');
+
 
         Route::get('/secure-image/{filename}', function (Request $request, $filename) {
             // Ensure user is authenticated

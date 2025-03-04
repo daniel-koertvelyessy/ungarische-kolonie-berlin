@@ -268,7 +268,7 @@
             font-size: 16pt;
             text-transform: uppercase;
             letter-spacing: 2px;
-            color: rgba(0, 0, 0, .4);
+            /*color: rgba(0, 0, 0, .4);*/
             position: relative;
         }
 
@@ -325,7 +325,12 @@
 
         .footer .heading {
             color: #000;
-            font-size: 20px;
+            font-size: 17px;
+        }
+
+
+        .footer .text{
+            font-size: 10px;
         }
 
         .footer ul {
@@ -336,6 +341,7 @@
         .footer ul li {
             list-style: none;
             margin-bottom: 10px;
+            font-size: 10px;
         }
 
         .footer ul li a {
@@ -348,9 +354,9 @@
 </head>
 
 <body width="100%"
-      style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; background-color: #f1f1f1;"
+      style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly;"
 >
-<center style="width: 100%; background-color: #f1f1f1;">
+<center style="width: 100%;">
     <div style="display: none; font-size: 1px;max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden; mso-hide: all; font-family: sans-serif;">
         &zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
     </div>
@@ -366,9 +372,9 @@
                style="margin: auto;"
         >
             <tr>
-                <td>
-                    <svg width="100"
-                         height="100"
+                <td style="padding-left:5px;">
+                    <svg width="95"
+                         height="95"
                          viewBox="0 0 400 400"
                          version="1.1"
                          xmlns="http://www.w3.org/2000/svg"
@@ -405,9 +411,9 @@
 </svg>
                 </td>
                 <td align="center">
-                    <span style="font-size:20pt;">Magyar Kolónia Berlin e. V.</span>
+                    <span style="font-size:15pt;">Magyar Kolónia Berlin e. V.</span>
                 </td>
-                <td align="right">
+                <td align="right" style="padding-right: 5px;">
                     <svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
                          xmlns="http://www.w3.org/2000/svg"
                          enable-background="new 161.5 13.5 273 561"

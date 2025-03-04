@@ -2,21 +2,29 @@
 
 namespace App\Mail;
 
-use App\Models\Accounting\AccountReport;
-use App\Models\Accounting\AccountReportAudit;
-use App\Models\Membership\Member;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class SendMemberMassMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    public function __construct(public Member $member, public $subject, public $message) {}
+    public function __construct(
+        public string $mail_name,
+        public string $mail_subject,
+        public string $mail_message,
+        public string $mail_locale,
+        public string $url,
+        public string $url_label,
+        public ?array $mail_attachments = null,
+    ) {}
 
     /**
      * Get the message envelope.
@@ -25,7 +33,7 @@ class SendMemberMassMail extends Mailable implements ShouldQueue
     {
         return new Envelope(
             from: 'szia@magyar-kolonia-berlin.org',
-            subject: __('mails.audit.invitation.subject'),
+            subject: $this->mail_subject,
         );
     }
 
@@ -35,12 +43,50 @@ class SendMemberMassMail extends Mailable implements ShouldQueue
     public function content(): Content
     {
         return new Content(
-            view: 'emails.invite-audit-member',
+            view: 'emails.email-to-all-members',
             with: [ // Pass variables here
-                'member' => $this->member,
-                'subject' => $this->subject,
-                'message' => $this->message,
-            ],
+                    'url'          => $this->url,
+                    'url_label'    => $this->url_label,
+                    'mail_name'    => $this->mail_name,
+                    'mail_subject' => $this->mail_subject,
+                    'mail_message' => $this->mail_message,
+            ]
         );
+    }
+
+    /**
+     * Attachments for the message.
+     */
+    public function attachments(): array
+    {
+        $emailAttachments = [];
+
+        foreach ($this->mail_attachments as $key => $filePath) {
+
+            // Extract the relative path from the absolute file path
+            $relativeFilePath = str_replace(storage_path('app/private') . '/', '', $filePath['local']);
+            Log::info("relativeFilePath: {$relativeFilePath}");
+
+            // Check if the relative file path exists in the storage
+            if (!Storage::exists($relativeFilePath)) {
+                Log::error("Attachment file missing!", ['filePath' => $relativeFilePath]);
+                throw new \Exception("Attachment file missing! Aborting");
+            }
+
+            // Get the MIME type of the file
+            $mimeType = Storage::mimeType($relativeFilePath) ?? 'application/octet-stream';
+
+            Log::info("Attaching file: {$relativeFilePath}, MIME: {$mimeType}");
+
+            // Attach the file using the relative path
+            $emailAttachments[] = Attachment::fromPath(storage_path("app/private/{$relativeFilePath}"))
+                ->as(basename($filePath['original']))  // Use basename for the file name
+                ->withMime($mimeType);              // Set MIME type for the file
+
+            Log::info("Attachment added: {$relativeFilePath}");
+        }
+
+        Log::info("Final attachments being sent:", ['attachments' => $emailAttachments]);
+        return $emailAttachments;
     }
 }

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->json('subject');
             $table->json('message');
+            $table->json('attachments')->nullable();
             $table->timestamps();
         });
     }

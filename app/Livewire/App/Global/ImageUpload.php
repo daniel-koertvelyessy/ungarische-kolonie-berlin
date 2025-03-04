@@ -2,6 +2,7 @@
 
 namespace App\Livewire\App\Global;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
@@ -25,10 +26,11 @@ class ImageUpload extends Component
 
             // Get the correct absolute path
             $absolutePath = Storage::disk('public')->path($path);
+            Log::debug('absolutePath : '.$absolutePath);
 
             // Debug: Check if the file exists
             if (! file_exists($absolutePath)) {
-                dd('File not found at: '.$absolutePath);
+                Log::error('File not found at: '.$absolutePath);
             }
 
             // Initialize ImageManager with GD driver
@@ -56,7 +58,7 @@ class ImageUpload extends Component
 
                 $this->dispatch('image-uploaded', file: basename($path));
             } catch (\Exception $e) {
-                dd('Error decoding image: '.$e->getMessage());
+                Log::error('Error decoding image: '.$e->getMessage());
             }
         }
 
