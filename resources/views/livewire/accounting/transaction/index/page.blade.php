@@ -1,4 +1,4 @@
-<div x-data="{showFilter: true}">
+©<div x-data="{showFilter: true}">
     <header class="flex justify-between items-center mb-3 lg:mb-6">
         <flux:heading size="xl">Übersicht der Buchungen</flux:heading>
         <flux:button icon="adjustments-horizontal"
@@ -401,7 +401,7 @@
                              placeholder="Veranstaltung wählen"
                 >
                     @foreach(\App\Models\Event\Event::select('id', 'title')->get() as $key => $event)
-                        <flux:select.option value="{{ $event->id }}">{{ \Illuminate\Support\Str::limit($event->title['de'],30,'..',true) }}</flux:select.option>
+                        <flux:select.option value="{{ $event->id }}">{{ $event->name }}</flux:select.option>
                     @endforeach
                 </flux:select>
                 <flux:error name="target_event"/>
