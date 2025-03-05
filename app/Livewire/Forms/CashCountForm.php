@@ -9,31 +9,46 @@ use Livewire\Form;
 class CashCountForm extends Form
 {
     public CashCount $cashCount;
+
     public $account_id;
+
     public $user_id;
+
     public $counted_at;
+
     public $label;
+
     public $notes;
+
     public $euro_two_hundred;
+
     public $euro_one_hundred;
+
     public $euro_fifty;
+
     public $euro_twenty;
+
     public $euro_ten;
+
     public $euro_five;
+
     public $euro_two;
+
     public $euro_one;
+
     public $cent_fifty;
+
     public $cent_twenty;
+
     public $cent_ten;
+
     public $cent_five;
+
     public $cent_two;
+
     public $cent_one;
 
-
-
-
-
-    public function set(int $id):void
+    public function set(int $id): void
     {
         $this->cashCount = CashCount::query()->findOrFail($id);
         $this->counted_at = $this->cashCount->counted_at;
@@ -57,19 +72,17 @@ class CashCountForm extends Form
         $this->cent_one = $this->cashCount->cent_one;
     }
 
-    public function create():CashCount
+    public function create(): CashCount
     {
         $this->validate();
-       return CreateCashCountReport::handle($this);
+
+        return CreateCashCountReport::handle($this);
     }
 
-    public function update()
+    public function update() {}
+
+    protected function rules(): array
     {
-
-    }
-
-
-    protected function rules(): array{
         return [
             'account_id' => 'required',
             'user_id' => 'required',

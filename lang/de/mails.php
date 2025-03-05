@@ -34,7 +34,6 @@ return [
     'audit_invitation.text' => 'Du bist eingeladen, den monatlichen Kassenbericht vom :range zu prüfen. Du kannst entweder mit einem Klick auf den Link unten die Prüfung starten, oder im Portal über Kasse -> Berichte und dann im entsprechendem Bericht auf den Button "jetzt prüfen" drücken. Vielen Dank für Deine Mühen!',
     'audit.invitation.subject' => 'Prüfung des monatlichen Kassenberichtes',
 
-
     'members.heading' => 'E-Mail an alle Mitglieder mit hinterlegter E-Mail Adresse',
     'members.content' => 'Die E-Mail wird in der Sprache erstellt, welche der jeweilige Nutzer in seinem Profil angegeben hat.',
     'member.separator.text' => 'Texte',

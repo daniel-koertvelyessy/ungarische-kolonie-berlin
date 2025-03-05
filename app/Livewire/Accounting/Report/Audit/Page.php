@@ -11,9 +11,12 @@ use Livewire\Component;
 class Page extends Component
 {
     public int $accountReportAuditId;
+
     public $transactions;
+
     protected AccountReportAudit $audit;
-    public AccountReport  $report;
+
+    public AccountReport $report;
 
     public function mount(int $accountReportAuditId)
     {

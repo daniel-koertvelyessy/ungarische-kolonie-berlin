@@ -7,7 +7,6 @@ use Livewire\Component;
 
 class Page extends Component
 {
-
     public function startNewCount(): void
     {
         $this->redirect(Form::class);

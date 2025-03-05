@@ -235,9 +235,9 @@ Route::middleware([
         })->name('accounts.report.print');
 
         Route::get('/account-report/audit/{account_report_audit}', function (\App\Models\Accounting\AccountReportAudit $accountReportAudit) {
-            if (Auth::user()->id === $accountReportAudit->user_id){
+            if (Auth::user()->id === $accountReportAudit->user_id) {
                 return view('accounts.reports.audit', [
-                    'accountReportAuditId' => $accountReportAudit->id
+                    'accountReportAuditId' => $accountReportAudit->id,
                 ]);
             } else {
                 return redirect()->route('accounts.report.index');
@@ -267,7 +267,6 @@ Route::middleware([
 
             return $mailable->render();
         })->name('test-mail-preview');
-
 
         Route::get('/secure-image/{filename}', function (Request $request, $filename) {
             // Ensure user is authenticated

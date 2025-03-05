@@ -169,7 +169,7 @@ class Page extends Component
     {
         $this->checkPrivilege(Event::class);
 
-//        $this->reset('timelineForm');
+        //        $this->reset('timelineForm');
         Flux::modal('timeline-modal')->show();
     }
 

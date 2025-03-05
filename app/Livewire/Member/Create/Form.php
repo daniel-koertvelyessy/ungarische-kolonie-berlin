@@ -3,6 +3,8 @@
 namespace App\Livewire\Member\Create;
 
 use App\Enums\Gender;
+use App\Enums\MemberFamilyStatus;
+use App\Enums\MemberType;
 use App\Livewire\Forms\MemberForm;
 use App\Models\Membership\Member;
 use App\Notifications\ApplianceReceivedNotification;
@@ -26,6 +28,9 @@ class Form extends Component
         $this->form->locale = app()->getLocale() ?? 'de';
         $this->form->gender = Gender::ma->value;
         $this->form->applied_at = Carbon::now();
+        $this->form->family_status = MemberFamilyStatus::NN->value;
+        $this->form->type = MemberType::AP->value;
+        $this->form->country = 'Deutschland';
     }
 
     public function checkEmail(): void
@@ -78,8 +83,8 @@ class Form extends Component
             }
 
             Flux::toast(
-                heading: __('members.apply.submission.success.head'),
                 text: __('members.apply.submission.success.msg'),
+                heading: __('members.apply.submission.success.head'),
                 variant: 'success',
             );
 
@@ -92,12 +97,12 @@ class Form extends Component
             $member = $this->form->create();
 
             Flux::toast(
-                heading: __('members.apply.submission.success.head'),
                 text: __('members.apply.submission.success.msg'),
+                heading: __('members.apply.submission.success.head'),
                 variant: 'success',
             );
 
-            $this->redirect(route('members.show', ['member' => $member]));
+            $this->redirect(route('members.show', ['member' => $member]),true);
         }
 
     }
@@ -108,8 +113,8 @@ class Form extends Component
             $this->authorize('create', Member::class);
         } catch (AuthorizationException $e) {
             Flux::toast(
-                heading: 'Forbidden',
                 text: 'Sie haben keine Berechtigungen zur Erstellung von Mitgliedern'.$e->getMessage(),
+                heading: 'Forbidden',
                 variant: 'danger',
             );
 

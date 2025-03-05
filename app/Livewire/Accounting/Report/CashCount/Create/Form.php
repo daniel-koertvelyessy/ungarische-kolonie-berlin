@@ -12,10 +12,10 @@ use Livewire\Component;
 
 class Form extends Component
 {
-
     use HasPrivileges;
 
     public CashCountForm $form;
+
     public $accountId;
 
     public function mount(int $accountId)

@@ -17,15 +17,18 @@ class SetLogViewerAccess
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(! Auth::check()) {
-            Log::alert('Attempt to access log-viewer from non-authed user',['data' => $request]);
+        if (! Auth::check()) {
+            Log::alert('Attempt to access log-viewer from non-authed user', ['data' => $request]);
+
             return redirect()->route('dashboard');
         }
 
-     if(! $request->user()->is_admin){
-         Log::alert('Attempt to access log-viewer without Admin privileges',['user' => $request->user()]);
-         return redirect()->route('dashboard');
-     }
+        if (! $request->user()->is_admin) {
+            Log::alert('Attempt to access log-viewer without Admin privileges', ['user' => $request->user()]);
+
+            return redirect()->route('dashboard');
+        }
+
         return $next($request);
     }
 }

@@ -53,7 +53,7 @@ class Account extends Model
 
     public static function formatedAmount(int $value): string
     {
-        return number_format($value/100, 2, ',', '.');
+        return number_format($value / 100, 2, ',', '.');
     }
 
     public function reports(): HasMany

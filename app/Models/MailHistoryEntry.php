@@ -18,6 +18,4 @@ class MailHistoryEntry extends Model
     {
         return $this->belongsTo(User::class);
     }
-
-
 }

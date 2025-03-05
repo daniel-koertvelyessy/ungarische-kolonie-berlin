@@ -16,18 +16,15 @@ use Livewire\WithPagination;
 
 class Page extends Component
 {
-    use HasPrivileges,WithPagination, Sortable;
+    use HasPrivileges,Sortable, WithPagination;
 
     public Account $account;
 
-    public $sortBy = 'date';
-
-    public $sortDirection = 'desc';
-
     public $selectedAccount;
 
-  public bool $is_cash_account;
-  public bool $account_is_set = false;
+    public bool $is_cash_account;
+
+    public bool $account_is_set = false;
 
     protected $listeners = ['account-updated' => '$refresh'];
 
@@ -49,10 +46,10 @@ class Page extends Component
             ->paginate(10);
     }
 
-    public function updatedSelectedAccount()
+    public function updatedSelectedAccount(): void
     {
         $this->account = Account::query()->findOrFail($this->selectedAccount);
-$this->account_is_set=true;
+        $this->account_is_set = true;
         $this->is_cash_account = $this->account->type == AccountType::cash->value;
     }
 
@@ -62,13 +59,13 @@ $this->account_is_set=true;
         $this->account = Account::query()->find($this->selectedAccount);
     }
 
-    public function createCashCountReport()
+    public function createCashCountReport(): void
     {
         $this->checkPrivilege(Account::class);
         Flux::modal('create-cash-count')->show();
     }
 
-    public function createReport()
+    public function createReport(): void
     {
         $this->checkPrivilege(Account::class);
         Flux::modal('create-monthly-report')->show();

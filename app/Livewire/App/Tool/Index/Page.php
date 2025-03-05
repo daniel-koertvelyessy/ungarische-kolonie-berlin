@@ -4,7 +4,6 @@ namespace App\Livewire\App\Tool\Index;
 
 use App\Jobs\DeleteEmailAttachments;
 use App\Livewire\Traits\HasPrivileges;
-use App\Mail\InviteAccountAuditMemberMail;
 use App\Mail\SendMemberMassMail;
 use App\Models\MailHistoryEntry;
 use App\Models\Mailinglist;
@@ -13,21 +12,21 @@ use Flux\Flux;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
 class Page extends Component
 {
-
     use HasPrivileges, WithFileUploads;
 
-
     public array $subject;
+
     public array $message;
+
     public array $attachments;
+
     public array $url_label;
+
     public string $url;
 
     public function sendMembersMail(): void
@@ -38,35 +37,34 @@ class Page extends Component
         MailHistoryEntry::create([
             'user_id' => Auth::user()->id,
             'subject' => $this->subject,
-            'message' => $this->message
+            'message' => $this->message,
         ]);
 
         $savedFiles = [];
-        foreach ($this->attachments as $locale=> $file) {
+        foreach ($this->attachments as $locale => $file) {
             if ($file instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile) {
                 $originalFileName = $file->getClientOriginalName();
                 $path = $file->store('mail_attachments'); // Save file
                 $fullPath = storage_path("app/private/{$path}"); // Get absolute path
                 $savedFiles[$locale] = [
                     'local' => $fullPath,
-                    'original' => $originalFileName
-                    ]; // Store full path
+                    'original' => $originalFileName,
+                ]; // Store full path
 
             } else {
-                Log::error("Invalid file detected:", ['file' => $file]);
+                Log::error('Invalid file detected:', ['file' => $file]);
             }
         }
 
         if (empty($savedFiles)) {
-            Log::error("No valid attachments were saved!");
+            Log::error('No valid attachments were saved!');
         }
 
-
-        $counter =0;
+        $counter = 0;
         foreach (Member::all() as $member) {
             if ($member->email) {
 
-                Log::info("Sending email with attachments: " . json_encode([$savedFiles[$member->locale]]));
+                Log::info('Sending email with attachments: '.json_encode([$savedFiles[$member->locale]]));
                 Mail::to($member->email)
                     ->queue(new SendMemberMassMail(
                         $member->fullName(),
@@ -81,7 +79,7 @@ class Page extends Component
             }
         }
 
-        Flux::toast('Die E-Mail wurde an ' . $counter. ' verschickt!','Erfolg', 6000, 'success');
+        Flux::toast('Die E-Mail wurde an '.$counter.' verschickt!', 'Erfolg', 6000, 'success');
 
         DeleteEmailAttachments::dispatch($savedFiles)->delay(now()->addMinutes(5));
     }
@@ -91,9 +89,9 @@ class Page extends Component
         $this->checkPrivilege(Mailinglist::class);
         $user = Auth::user();
 
-//        if (!is_string($this->subject[$user->locale])) {
-//            throw new \Exception('Subject must be a string, but '.gettype($this->subject[$user->locale]).' given.');
-//        }
+        //        if (!is_string($this->subject[$user->locale])) {
+        //            throw new \Exception('Subject must be a string, but '.gettype($this->subject[$user->locale]).' given.');
+        //        }
 
         try {
             Mail::to($user->email)
@@ -112,15 +110,14 @@ class Page extends Component
         }
     }
 
-
     public function previewEMail(): void
     {
         $previewUrl = route('test-mail-preview', [
-            'name'      => 'Daniel',
-            'subject'   => $this->subject['de'] ?? 'Testbetreff',
-            'message'   => $this->message['de'] ?? 'Kein Inhalt???',
-            'locale'    => 'de',
-            'url'       => $this->url ?? 'www-popo',
+            'name' => 'Daniel',
+            'subject' => $this->subject['de'] ?? 'Testbetreff',
+            'message' => $this->message['de'] ?? 'Kein Inhalt???',
+            'locale' => 'de',
+            'url' => $this->url ?? 'www-popo',
             'url_label' => $this->url_label['de'] ?? 'nix label',
         ]);
 
@@ -131,13 +128,13 @@ class Page extends Component
     {
         return [
             'attachments.*' => 'file|max:20480',  // 20MB max
-            'subject.hu'    => 'required',
-            'subject.de'    => 'required',
-            'message.hu'    => 'required',
-            'message.de'    => 'required',
-            'url'           => 'nullable',
-            'url_label.de'  => 'nullable',
-            'url_label.hu'  => 'nullable',
+            'subject.hu' => 'required',
+            'subject.de' => 'required',
+            'message.hu' => 'required',
+            'message.de' => 'required',
+            'url' => 'nullable',
+            'url_label.de' => 'nullable',
+            'url_label.hu' => 'nullable',
         ];
     }
 

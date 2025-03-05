@@ -35,8 +35,6 @@ return [
     'audit_invitation.text' => 'Meghívást kaptál a havi pénztári jelentés ellenőrzésére :range időszakra. Az ellenőrzést az alábbi linkre kattintva indíthatod el, vagy a portálon a Pénztár -> Jelentések menüpontban a megfelelő jelentésnél a "Most ellenőrizni" gombra kattintva végezheted el. Köszönjük a segítségedet!',
     'audit.invitation.subject' => 'A havi pénztári jelentés ellenőrzése',
 
-
-
     'members.heading' => 'E-mail küldése minden tagnak, akik rendelkeznek e-mail címmel',
     'members.content' => 'Az e-mail azon a nyelven lesz létrehozva, amelyet az adott felhasználó a profiljában megadott.',
     'member.separator.text' => 'Szövegek',
@@ -50,7 +48,6 @@ return [
     'members.confirm.info' => 'A küldés előtt a rendszer rögzíti a történetben, hogy ki, mikor és milyen e-mailt küldött.',
     'members.btn.cancel' => 'Mégsem',
     'members.btn.final' => 'Biztos vagyok benne, küldés!',
-
 
     '' => '',
 ];

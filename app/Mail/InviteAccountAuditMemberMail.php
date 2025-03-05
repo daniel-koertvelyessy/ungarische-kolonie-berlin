@@ -39,7 +39,7 @@ class InviteAccountAuditMemberMail extends Mailable implements ShouldQueue
             with: [ // Pass variables here
                 'member' => $this->member,
                 'accountReport' => $this->accountReport,
-                'url' => route('account-report.audit',['account_report_audit' => $this->accountReportAudit]),
+                'url' => route('account-report.audit', ['account_report_audit' => $this->accountReportAudit]),
             ],
         );
     }

@@ -45,11 +45,11 @@ class SendMemberMassMail extends Mailable implements ShouldQueue
         return new Content(
             view: 'emails.email-to-all-members',
             with: [ // Pass variables here
-                    'url'          => $this->url,
-                    'url_label'    => $this->url_label,
-                    'mail_name'    => $this->mail_name,
-                    'mail_subject' => $this->mail_subject,
-                    'mail_message' => $this->mail_message,
+                'url' => $this->url,
+                'url_label' => $this->url_label,
+                'mail_name' => $this->mail_name,
+                'mail_subject' => $this->mail_subject,
+                'mail_message' => $this->mail_message,
             ]
         );
     }
@@ -64,13 +64,13 @@ class SendMemberMassMail extends Mailable implements ShouldQueue
         foreach ($this->mail_attachments as $key => $filePath) {
 
             // Extract the relative path from the absolute file path
-            $relativeFilePath = str_replace(storage_path('app/private') . '/', '', $filePath['local']);
+            $relativeFilePath = str_replace(storage_path('app/private').'/', '', $filePath['local']);
             Log::info("relativeFilePath: {$relativeFilePath}");
 
             // Check if the relative file path exists in the storage
-            if (!Storage::exists($relativeFilePath)) {
-                Log::error("Attachment file missing!", ['filePath' => $relativeFilePath]);
-                throw new \Exception("Attachment file missing! Aborting");
+            if (! Storage::exists($relativeFilePath)) {
+                Log::error('Attachment file missing!', ['filePath' => $relativeFilePath]);
+                throw new \Exception('Attachment file missing! Aborting');
             }
 
             // Get the MIME type of the file
@@ -86,7 +86,8 @@ class SendMemberMassMail extends Mailable implements ShouldQueue
             Log::info("Attachment added: {$relativeFilePath}");
         }
 
-        Log::info("Final attachments being sent:", ['attachments' => $emailAttachments]);
+        Log::info('Final attachments being sent:', ['attachments' => $emailAttachments]);
+
         return $emailAttachments;
     }
 }

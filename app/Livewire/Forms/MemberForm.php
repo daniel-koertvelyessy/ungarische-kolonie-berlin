@@ -100,39 +100,15 @@ class MemberForm extends Form
 
     public function setUser()
     {
-        $get_user = \App\Models\User::find($this->user_id);
+        $get_user = \App\Models\User::query()->find($this->user_id);
 
         return $get_user
             ? $get_user->first_name.' '.$get_user->name
             : 'Nicht verknüpft';
     }
 
-    //    public function updateContact(): bool
-    //    {
-    //        $this->member->email = $this->email;
-    //        $this->member->phone = $this->phone;
-    //        $this->member->mobile = $this->mobile;
-    //        return $this->member->save();
-    //
-    //
-    //    }
-
-    //    public function updateMembership(): bool
-    //    {
-    //
-    //        $this->member->is_deducted = $this->is_deducted;
-    //        $this->member->deduction_reason = $this->deduction_reason;
-    //        $this->member->type = $this->type;
-    //        $this->member->fee_type = $this->fee_type;
-    //        $this->member->entered_at = $this->entered_at;
-    //        $this->member->left_at = $this->left_at;
-    //        $this->member->applied_at = $this->applied_at;
-    //        return $this->member->save();
-    //    }
-
     public function updateData(): bool
     {
-        //        $this->member->is_deducted = $this->is_deducted;
         $this->member->entered_at = $this->entered_at;
         $this->member->left_at = $this->left_at;
         $this->member->deduction_reason = $this->deduction_reason;
@@ -163,6 +139,7 @@ class MemberForm extends Form
 
     public function create(): Member
     {
+        $this->validate();
         return CreateMember::handle($this);
     }
 

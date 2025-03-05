@@ -32,6 +32,7 @@ class EventTimelineForm extends Form
     public $id;
 
     public $place;
+
     public $performer;
 
     public function set(EventTimeline $eventTimeline): void

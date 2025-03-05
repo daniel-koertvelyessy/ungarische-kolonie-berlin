@@ -89,7 +89,7 @@ class Page extends Component
 
             foreach ($this->auditorList as $auditor) {
                 if ($auditor->hasUser()) {
-                 $audit =   CreateAccountReportAudit::handle([
+                    $audit = CreateAccountReportAudit::handle([
                         'account_report_id' => $this->selectedReport->id,
                         'user_id' => $auditor->user->id,
                     ]);
@@ -98,13 +98,13 @@ class Page extends Component
                         ->queue(new InviteAccountAuditMemberMail($auditor, $this->selectedReport, $audit));
 
                     Flux::toast(
-                        text: 'Einladung and '. $auditor->email. ' vershickt',
+                        text: 'Einladung and '.$auditor->email.' vershickt',
                         heading: 'Jupp',
                         variant: 'success',
                     );
                 } else {
                     Flux::toast(
-                        text: 'Keine E-Mail für ' .$auditor->email. ' gefunden' ,
+                        text: 'Keine E-Mail für '.$auditor->email.' gefunden',
                         heading: 'Nicht so schnell',
                         variant: 'warning',
                     );

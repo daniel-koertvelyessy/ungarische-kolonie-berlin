@@ -2,13 +2,13 @@
 
 namespace App\Policies;
 
-use App\Models\Mailinglist;
 use App\Models\User;
 use App\Policies\Traits\HasAdminPrivileges;
 
 class MailinglistPolicy
 {
     use HasAdminPrivileges;
+
     /**
      * Determine whether the user can view any models.
      */

@@ -8,25 +8,24 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CashCount extends Model
 {
-
     protected $guarded = [];
 
     protected $casts = [
         'counted_at' => 'date',
         'euro_two_hundred' => 'integer',
         'euro_one_hundred' => 'integer',
-        'euro_fifty'       => 'integer',
-        'euro_twenty'      => 'integer',
-        'euro_ten'         => 'integer',
-        'euro_five'        => 'integer',
-        'euro_two'         => 'integer',
-        'euro_one'         => 'integer',
-        'cent_fifty'       => 'integer',
-        'cent_twenty'      => 'integer',
-        'cent_ten'         => 'integer',
-        'cent_five'        => 'integer',
-        'cent_two'         => 'integer',
-        'cent_one'         => 'integer',
+        'euro_fifty' => 'integer',
+        'euro_twenty' => 'integer',
+        'euro_ten' => 'integer',
+        'euro_five' => 'integer',
+        'euro_two' => 'integer',
+        'euro_one' => 'integer',
+        'cent_fifty' => 'integer',
+        'cent_twenty' => 'integer',
+        'cent_ten' => 'integer',
+        'cent_five' => 'integer',
+        'cent_two' => 'integer',
+        'cent_one' => 'integer',
     ];
 
     public function user(): BelongsTo
@@ -40,13 +39,13 @@ class CashCount extends Model
     }
 
     /**
-     * @param  int  $cash_count_id
      * @return int //  Return Value in Euro-Cent!
      */
     public static function sumCountCents(int $cash_count_id): int
     {
         $cc = CashCount::query()
             ->findOrFail($cash_count_id);
+
         return
             $cc->euro_two_hundred * 20000 +
             $cc->euro_one_hundred * 10000 +
@@ -64,9 +63,8 @@ class CashCount extends Model
             $cc->cent_one * 1;
     }
 
-    public function sumString():string
+    public function sumString(): string
     {
-        return number_format(CashCount::sumCountCents($this->id)/100,2,',','.');
+        return number_format(CashCount::sumCountCents($this->id) / 100, 2, ',', '.');
     }
-
 }

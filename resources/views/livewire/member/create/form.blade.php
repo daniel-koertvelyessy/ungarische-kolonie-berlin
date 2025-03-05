@@ -1,5 +1,5 @@
 <div>
-@if(! app()->isProduction())
+    @if(! app()->isProduction())
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -17,27 +17,27 @@
                 <flux:input wire:model="form.name"
                             label="{{ __('members.name') }}*"
                             autocomplete="family-name"
-                            required
                 />
+
                 <flux:input wire:model="form.first_name"
                             label="{{ __('members.first_name') }}"
                             autocomplete="given-name"
                 />
 
-
-                <flux:accordion transition
-                                expanded
-                >
-                    <flux:accordion.item heading="{{ __('members.accordion.optionals.label') }}">
+                <flux:accordion transition>
+                    <flux:accordion.item heading="{{ __('members.accordion.optionals.label') }}"
+                                         expanded
+                    >
 
                         <section class="space-y-6 mt-3">
                             <flux:text>{{ __('members.optional-data.text') }}</flux:text>
                             <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
-                                <flux:input type="date"
-                                            wire:model="form.birth_date"
-                                            wire:blur="checkBirthDate"
-                                            label="{{ __('members.birth_date') }}"
-                                            autocomplete="bday"
+                                <flux:date-picker selectable-header
+                                                  with-today
+                                                  wire:model="form.birth_date"
+                                                  wire:blur="checkBirthDate"
+                                                  label="{{ __('members.birth_date') }}"
+                                                  autocomplete="bday"
                                 />
                                 <flux:input wire:model="form.birth_place"
                                             label="{{ __('members.birth_place') }}"
@@ -71,18 +71,32 @@
                                 @endforeach
                             </flux:radio.group>
 
+                            <div class="hidden lg:block">
+                                <flux:radio.group wire:model="form.family_status"
+                                                  label="{{ __('members.familystatus.label') }}"
+                                                  variant="segmented"
+                                                  size="sm"
+                                >
+                                    @foreach(\App\Enums\MemberFamilyStatus::cases() as $key => $status)
+                                        <flux:radio :key
+                                                    value="{{ $status->value }}"
+                                        >{{ \App\Enums\MemberFamilyStatus::value($status->value) }}</flux:radio>
+                                    @endforeach
+                                </flux:radio.group>
+                            </div>
+                            <div class="lg:hidden">
+                                <flux:select wire:model="form.family_status"
+                                             label="{{ __('members.familystatus.label') }}"
+                                >
+                                    @foreach(\App\Enums\MemberFamilyStatus::cases() as $key => $status)
+                                        <flux:select.option :key
+                                                            value="{{ $status->value }}"
+                                        >{{ \App\Enums\MemberFamilyStatus::value($status->value) }}</flux:select.option>
+                                    @endforeach
 
-                            <flux:radio.group wire:model="form.family_status"
-                                              label="{{ __('members.familystatus.label') }}"
-                                              variant="segmented"
-                                              size="sm"
-                            >
-                                @foreach(\App\Enums\MemberFamilyStatus::cases() as $key => $status)
-                                    <flux:radio :key
-                                                value="{{ $status->value }}"
-                                    >{{ \App\Enums\MemberFamilyStatus::value($status->value) }}</flux:radio>
-                                @endforeach
-                            </flux:radio.group>
+                                </flux:select>
+                            </div>
+
                         </section>
 
                     </flux:accordion.item>
@@ -90,29 +104,36 @@
                 <flux:separator text="{{ __('members.section.address') }}"/>
 
                 <flux:textarea wire:model="form.address"
+                               rows="auto"
                                label="{{ __('members.address') }}"
                                autocomplete="street-address"
                 />
 
-                <flux:input wire:model="form.zip"
-                            label="{{ __('members.zip') }}"
-                            class="w-20"
-                            autocomplete="postal-code"
-                />
-                <flux:input wire:model="form.city"
-                            label="{{ __('members.city') }}"
-                            class="grow"
-                            autocomplete="address-level1"
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-3">
+                    <flux:input wire:model="form.zip"
+                                label="{{ __('members.zip') }}"
+                                autocomplete="postal-code"
+                    />
+                    <div class="lg:col-span-3">
+                        <flux:input wire:model="form.city"
+                                    label="{{ __('members.city') }}"
+                                    autocomplete="address-level1"
 
-                />
+                        />
+                    </div>
 
+                    <div class="col-span-1">
+                        <flux:input wire:model="form.country"
 
-                <flux:input wire:model="form.country"
-                            label="{{ __('members.country') }}"
-                            autocomplete="country-name"
-                />
+                                    label="{{ __('members.country') }}"
+                                    autocomplete="country-name"
+                        />
+                    </div>
+                </div>
+
 
             </flux:card>
+
             <flux:card class="space-y-6 mb-3 lg:mb-6">
 
                 <flux:separator text="{{ __('members.section.phone') }}"/>
@@ -123,6 +144,7 @@
                             placeholder="+49 30 12345678"
                             autocomplete="tel"
                 />
+
                 <flux:input wire:model="form.mobile"
                             label="{{ __('members.mobile') }}"
                             mask="+99 999 99999999"
@@ -133,19 +155,22 @@
                 <flux:separator text="{{ __('members.section.fees') }}"/>
 
                 <flux:text>{{ __('members.apply.full_fee.label', ['sum' => \App\Enums\MembershipFee::FULL->value/100 ]) }}</flux:text>
+
                 <flux:text>{{ __('members.apply.discounted_fee.label', ['sum' => \App\Enums\MembershipFee::DISCOUNTED->value/100 , 'age' =>  \App\Models\Membership\Member::$age_discounted]) }}</flux:text>
+
                 <flux:text>{{ __('members.apply.free_fee.label', ['sum' => \App\Enums\MembershipFee::FREE->value/100 , 'age' =>  \App\Models\Membership\Member::$age_free]) }}</flux:text>
 
                 <flux:checkbox wire:model="form.is_deducted"
                                label="{{ __('members.apply.discount.label') }}"
                 />
                 <flux:textarea wire:model="form.deduction_reason"
+                               rows="auto"
                                label="{{ __('members.apply.discount.reason.label') }}"
                 />
 
                 <flux:separator text="{{ __('members.section.email') }}"/>
-                <flux:text>{{ __('members.apply.email.benefits') }}</flux:text>
 
+                <flux:text>{{ __('members.apply.email.benefits') }}</flux:text>
 
                 <flux:input wire:model="form.email"
                             wire:blur="checkEmail"
@@ -163,11 +188,21 @@
 
                     <flux:separator text="{{ __('members.section.admins') }}"/>
 
-                    <flux:input type="date"
-                                wire:model="form.applied_at"
-                                label="{{ __('members.date.applied_at') }}"
-                    />
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
+                        <flux:date-picker selectable-header
+                                          with-today
+                                          wire:model="form.applied_at"
+                                          label="{{ __('members.date.applied_at') }}"
+                        />
 
+                        <flux:date-picker selectable-header
+                                          with-today
+                                          wire:model="form.entered_at"
+                                          label="{{ __('members.date.entered_at') }}"
+                        />
+
+                    </div>
+                    <div class="hidden lg:block">
                     <flux:radio.group wire:model="form.type"
                                       label="{{ __('members.type') }}"
                                       variant="segmented"
@@ -179,9 +214,25 @@
                         @endforeach
 
                     </flux:radio.group>
+                    </div>
+
+                    <div class="lg:hidden">
+                        <flux:select wire:model="form.type"
+                                     label="{{ __('members.type') }}"
+                        >
+                            @foreach(\App\Enums\MemberType::cases() as $key => $type)
+                                <flux:select.option :key
+                                                    value="{{ $type->value }}"
+                                >{{ \App\Enums\MemberType::value($type->value) }}</flux:select.option>
+                            @endforeach
+
+                        </flux:select>
+                    </div>
 
                 @else
-                    <input type="hidden" wire:model="form.applied_at">
+                    <input type="hidden"
+                           wire:model="form.applied_at"
+                    >
                 @endcan
 
             </flux:card>
@@ -207,7 +258,10 @@
             >{{ __('members.apply.checkAndSubmit') }}</flux:button>
         @else
 
-            <flux:button variant="primary" type="submit">Mitglied anlegen</flux:button>
+            <flux:button variant="primary"
+                         type="submit"
+            >Mitglied anlegen
+            </flux:button>
         @endif
     </form>
 </div>

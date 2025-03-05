@@ -71,14 +71,14 @@ class Form extends Component
     #[Computed]
     public function accounts()
     {
-        return Account::select('id', 'name')
+        return Account::query()->select('id', 'name')
             ->get();
     }
 
     #[Computed]
     public function booking_accounts()
     {
-        return BookingAccount::select('id', 'label', 'number')
+        return BookingAccount::query()->select('id', 'label', 'number')
             ->get();
     }
 
@@ -88,7 +88,7 @@ class Form extends Component
             $this->visitor_name = '';
             $this->visitor_has_member_id = false;
         } else {
-            $member = \App\Models\Membership\Member::find($value);
+            $member = \App\Models\Membership\Member::query()->find($value);
             $this->visitor_name = $member ? $member->fullName() : '';
             $this->visitor_has_member_id = $value;
         }
@@ -96,14 +96,14 @@ class Form extends Component
 
     public function loadTransaction($transactionId): void
     {
-        $this->transaction = Transaction::find($transactionId);
+        $this->transaction = Transaction::query()->find($transactionId);
         $this->form->set($this->transaction);
     }
 
     public function mount(?int $transactionId = null): void
     {
         if ($transactionId !== null) {
-            $this->transaction = Transaction::find($transactionId);
+            $this->transaction = Transaction::query()->find($transactionId);
 
             if ($this->transaction) {
                 $this->form->set($this->transaction);
@@ -127,7 +127,7 @@ class Form extends Component
         $this->transaction = $this->handleTransaction();
 
         $this->dispatch('updated-payments');
-        //        $this->redirect(route('transaction.index'));
+        $this->redirect(\App\Livewire\Accounting\Transaction\Index\Page::class, true);
 
     }
 
@@ -137,7 +137,7 @@ class Form extends Component
         $this->handleEventTransaction();
 
         if ($this->visitor_has_member_id) {
-            $this->handleMemberTransaction($this->form, Member::find($this->visitor_has_member_id), true);
+            $this->handleMemberTransaction($this->form, Member::query()->find($this->visitor_has_member_id));
         }
     }
 
@@ -289,14 +289,14 @@ class Form extends Component
         );
     }
 
-    public function fileDropped($file)
+    public function fileDropped($file): void
     {
         $this->receiptForm['file_name'] = $file;
     }
 
     public function deleteFile(int $receipt_id): void
     {
-        $receipt = Receipt::find($receipt_id);
+        $receipt = Receipt::query()->find($receipt_id);
         $file = $receipt->file_name;
 
         // Delete receipt model instance
