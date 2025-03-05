@@ -400,7 +400,7 @@
                              searchable
                              placeholder="Veranstaltung wählen"
                 >
-                    @foreach(\App\Models\Event\Event::select('id', 'title')->get() as $key => $event)
+                    @foreach(\App\Models\Event\Event::select('id', 'name')->get() as $key => $event)
                         <flux:select.option value="{{ $event->id }}">{{ $event->name }}</flux:select.option>
                     @endforeach
                 </flux:select>
