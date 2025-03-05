@@ -2,8 +2,10 @@
 
 namespace App\Livewire\Accounting\Account\Index;
 
+use App\Enums\AccountType;
 use App\Enums\TransactionStatus;
 use App\Livewire\Traits\HasPrivileges;
+use App\Livewire\Traits\Sortable;
 use App\Models\Accounting\Account;
 use App\Models\Accounting\Transaction;
 use Flux\Flux;
@@ -14,7 +16,7 @@ use Livewire\WithPagination;
 
 class Page extends Component
 {
-    use HasPrivileges,WithPagination;
+    use HasPrivileges,WithPagination, Sortable;
 
     public Account $account;
 
@@ -24,17 +26,10 @@ class Page extends Component
 
     public $selectedAccount;
 
-    protected $listeners = ['account-updated' => '$refresh'];
+  public bool $is_cash_account;
+  public bool $account_is_set = false;
 
-    public function sort($column): void
-    {
-        if ($this->sortBy === $column) {
-            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
-        } else {
-            $this->sortBy = $column;
-            $this->sortDirection = 'asc';
-        }
-    }
+    protected $listeners = ['account-updated' => '$refresh'];
 
     #[Computed]
     public function accounts(): LengthAwarePaginator
@@ -56,13 +51,21 @@ class Page extends Component
 
     public function updatedSelectedAccount()
     {
-        $this->account = Account::find($this->selectedAccount);
+        $this->account = Account::query()->findOrFail($this->selectedAccount);
+$this->account_is_set=true;
+        $this->is_cash_account = $this->account->type == AccountType::cash->value;
     }
 
     public function editAccount(): void
     {
         $this->checkPrivilege(Account::class);
-        $this->account = Account::find($this->selectedAccount);
+        $this->account = Account::query()->find($this->selectedAccount);
+    }
+
+    public function createCashCountReport()
+    {
+        $this->checkPrivilege(Account::class);
+        Flux::modal('create-cash-count')->show();
     }
 
     public function createReport()

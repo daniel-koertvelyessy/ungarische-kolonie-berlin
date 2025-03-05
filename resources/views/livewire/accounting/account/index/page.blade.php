@@ -12,7 +12,8 @@
 
             </flux:select>
             <flux:button variant="primary" wire:click="editAccount">Hole Daten</flux:button>
-            <flux:button wire:click="createReport">Bericht erstellen</flux:button>
+
+
         </aside>
 
     </header>
@@ -60,6 +61,12 @@
                 </flux:table.rows>
             </flux:table>
             @endif
+
+            <aside class="mt-16 flex gap-3">
+                <flux:spacer/>
+                <flux:button wire:show="account_is_set" wire:click="createReport">Bericht erstellen</flux:button>
+                <flux:button wire:show="is_cash_account" wire:click="createCashCountReport">Zählung erstellen</flux:button>
+            </aside>
         </flux:card>
 
     </section>
@@ -70,5 +77,13 @@
 
         <livewire:accounting.report.create.form :account-id="$selectedAccount" />
     </flux:modal>
-@endif
+   @endif
+
+    @if($is_cash_account)
+        <flux:modal name="create-cash-count" class="w-full">
+           Kasse zählen
+
+            <livewire:accounting.report.cash-count.create.form :account-id="$selectedAccount" />
+        </flux:modal>
+    @endif
 </div>

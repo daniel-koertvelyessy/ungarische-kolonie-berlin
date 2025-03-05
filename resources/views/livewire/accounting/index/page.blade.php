@@ -31,28 +31,32 @@
                 </flux:table.rows>
             </flux:table>
 
-
             <section class="my-3 flex">
                 <flux:button href="{{ route('transaction.index') }}">Übersicht</flux:button>
                 @can('create', \App\Models\Accounting\Account::class)
 
-                <flux:spacer />
-                <flux:button variant="primary"
-                             href="{{ route('transaction.create') }}"
-                >Buchung Einreichen
-                </flux:button>
-                    @endcan
+                    <flux:spacer/>
+                    <flux:button variant="primary"
+                                 href="{{ route('transaction.create') }}"
+                    >Buchung Einreichen
+                    </flux:button>
+                @endcan
             </section>
         </flux:card>
 
         <flux:card>
-            <flux:heading>Konten</flux:heading>
-            <x-balance-sheet/>
+            <section class="space-y-6 my-3">
+                <flux:separator text="Kontenübersicht"/>
+                <x-balance-sheet/>
+                <flux:separator text="Kassenzählungen"/>
+                <x-cash-count-reports/>
+            </section>
+
         </flux:card>
         <flux:card>
             <flux:heading>Berichte</flux:heading>
             <section class="space-y-6 my-3">
-                <flux:button>Kassensturz</flux:button>
+
             </section>
         </flux:card>
 
