@@ -150,7 +150,7 @@ class AccountReportPdf extends BasePdfTemplate
                         $this->cell($width_Stand,5,$this->nf($sub),1,1,'R');*/
             $html .= '
 <tr>
-    <td width="40">'.$transaction->date->locale($this->locale)->isoFormat('Do MMMM').' </td>
+    <td width="40">'.$transaction->date->locale($this->locale)->isoFormat('Do MMM').' </td>
     <td width="120">'.$transaction->label.'</td>
     <td width="100">'.$transaction->reference.'</td>
     <td width="52" align="right">'.$this->nf($in).'</td>
