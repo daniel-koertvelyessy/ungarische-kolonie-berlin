@@ -99,6 +99,9 @@
                 </p>
             </div>
 
+            <x-madar-virag-minta-bg />
+
+
         </article>
 
     </div>

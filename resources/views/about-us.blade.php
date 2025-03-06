@@ -96,5 +96,18 @@
                 </ul>
             </div>
         </div>
+
+    @else
+      <article class="flex sm:py-32 space-x-4">
+          <div class="pt-3 sm:pt-5">
+              <h2 class="text-xl font-semibold text-black dark:text-white">{{ __('welcome.mission.title') }}</h2>
+
+              <p class="mt-4 text-sm/relaxed">
+                  {{ __('welcome.mission.content') }}
+              </p>
+          </div>
+
+          <x-madar-virag-minta-bg class="w-60" />
+      </article>
     @endif
 </x-guest-layout>
