@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Venue\Create;
 
-use App\Livewire\Forms\VenueForm;
+use App\Livewire\Forms\Event\VenueForm;
 use Flux\Flux;
 use Livewire\Component;
 

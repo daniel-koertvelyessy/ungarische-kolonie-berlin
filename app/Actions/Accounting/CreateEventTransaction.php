@@ -3,7 +3,7 @@
 namespace App\Actions\Accounting;
 
 use App\Enums\Gender;
-use App\Livewire\Forms\TransactionForm;
+use App\Livewire\Forms\Accounting\TransactionForm;
 use App\Models\Accounting\Transaction;
 use App\Models\Event\Event;
 use App\Models\Event\EventTransaction;

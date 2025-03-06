@@ -2,10 +2,9 @@
 
 namespace App\Livewire\Event\Show;
 
-use App\Actions\Accounting\CreateEventTransaction;
 use App\Enums\TransactionType;
-use App\Livewire\Forms\EventForm;
-use App\Livewire\Forms\TransactionForm;
+use App\Livewire\Forms\Accounting\TransactionForm;
+use App\Livewire\Forms\Event\EventForm;
 use App\Models\Event\Event;
 use Livewire\Attributes\Computed;
 use Livewire\Component;

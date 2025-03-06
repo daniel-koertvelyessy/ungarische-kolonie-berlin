@@ -3,7 +3,7 @@
 namespace App\Actions\Member;
 
 use App\Enums\MemberType;
-use App\Livewire\Forms\MemberForm;
+use App\Livewire\Forms\Member\MemberForm;
 use App\Models\Membership\Member;
 use Illuminate\Support\Facades\DB;
 

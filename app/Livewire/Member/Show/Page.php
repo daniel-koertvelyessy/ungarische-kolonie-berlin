@@ -3,7 +3,7 @@
 namespace App\Livewire\Member\Show;
 
 use App\Enums\MemberType;
-use App\Livewire\Forms\MemberForm;
+use App\Livewire\Forms\Member\MemberForm;
 use App\Livewire\Traits\HasPrivileges;
 use App\Livewire\Traits\PersistsTabs;
 use App\Livewire\Traits\Sortable;

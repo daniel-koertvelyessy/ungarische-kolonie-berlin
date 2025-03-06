@@ -3,7 +3,7 @@
 namespace App\Livewire\Accounting\Account\Create;
 
 use App\Actions\Accounting\UpdateAccount;
-use App\Livewire\Forms\AccountForm;
+use App\Livewire\Forms\Accounting\AccountForm;
 use App\Models\Accounting\Account;
 use Flux\Flux;
 use Illuminate\Auth\Access\AuthorizationException;

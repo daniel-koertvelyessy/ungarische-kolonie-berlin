@@ -2,7 +2,7 @@
 
 namespace App\Actions\Accounting;
 
-use App\Livewire\Forms\TransactionForm;
+use App\Livewire\Forms\Accounting\TransactionForm;
 use App\Models\Accounting\Transaction;
 use App\Models\Membership\Member;
 use App\Models\Membership\MemberTransaction;

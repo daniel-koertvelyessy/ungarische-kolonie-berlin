@@ -19,7 +19,7 @@ class AccountReportAudit extends Model
     protected function casts(): array
     {
         return [
-            'is_approved' => 'bool',
+            'is_approved' => 'boolean',
         ];
     }
 

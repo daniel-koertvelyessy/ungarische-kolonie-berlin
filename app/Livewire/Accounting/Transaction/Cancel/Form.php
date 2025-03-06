@@ -4,7 +4,7 @@ namespace App\Livewire\Accounting\Transaction\Cancel;
 
 use App\Actions\Accounting\CancelTransaction;
 use App\Enums\TransactionStatus;
-use App\Livewire\Forms\CancelTransactionForm;
+use App\Livewire\Forms\Accounting\CancelTransactionForm;
 use App\Livewire\Traits\HasPrivileges;
 use App\Models\Accounting\Transaction;
 use Flux\Flux;

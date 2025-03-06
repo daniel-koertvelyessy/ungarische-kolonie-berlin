@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Forms;
+namespace App\Livewire\Forms\Accounting;
 
 use App\Actions\Accounting\CreateBookingAccount;
 use App\Enums\BookingAccountType;

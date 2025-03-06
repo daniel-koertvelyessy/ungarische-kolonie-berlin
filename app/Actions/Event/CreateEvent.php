@@ -2,7 +2,7 @@
 
 namespace App\Actions\Event;
 
-use App\Livewire\Forms\EventForm;
+use App\Livewire\Forms\Event\EventForm;
 use App\Models\Accounting\Account;
 use App\Models\Event\Event;
 use Illuminate\Support\Facades\DB;

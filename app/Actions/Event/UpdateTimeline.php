@@ -2,7 +2,7 @@
 
 namespace App\Actions\Event;
 
-use App\Livewire\Forms\EventTimelineForm;
+use App\Livewire\Forms\Event\EventTimelineForm;
 use App\Models\EventTimeline;
 use Illuminate\Support\Facades\DB;
 

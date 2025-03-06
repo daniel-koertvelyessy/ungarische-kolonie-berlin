@@ -5,7 +5,7 @@ namespace App\Livewire\Accounting\Report\Create;
 use App\Enums\ReportStatus;
 use App\Enums\TransactionStatus;
 use App\Enums\TransactionType;
-use App\Livewire\Forms\AccountReportForm;
+use App\Livewire\Forms\Accounting\AccountReportForm;
 use App\Livewire\Traits\HasPrivileges;
 use App\Models\Accounting\Account;
 use App\Models\Accounting\AccountReport;

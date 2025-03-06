@@ -2,7 +2,7 @@
 
 namespace App\Actions\Accounting;
 
-use App\Livewire\Forms\AccountForm;
+use App\Livewire\Forms\Accounting\AccountForm;
 use App\Models\Accounting\Account;
 use Illuminate\Notifications\Action;
 use Illuminate\Support\Facades\DB;

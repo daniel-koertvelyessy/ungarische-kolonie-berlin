@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Event\Visitor\Create;
 
-use App\Livewire\Forms\EventVisitorForm;
+use App\Livewire\Forms\Event\EventVisitorForm;
 use App\Models\Event\Event;
 use App\Models\Event\EventSubscription;
 use App\Models\Membership\Member;

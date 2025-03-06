@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Forms;
+namespace App\Livewire\Forms\Event;
 
 use App\Actions\Event\CreateAssignment;
 use App\Actions\Event\UpdateAssignment;

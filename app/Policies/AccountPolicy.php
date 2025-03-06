@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\Accounting\AccountReportAudit;
 use App\Models\User;
 use App\Policies\Traits\HasAdminPrivileges;
 use Illuminate\Support\Facades\Auth;
@@ -68,6 +69,12 @@ class AccountPolicy
      */
     public function forceDelete(): bool
     {
+        return false;
+    }
+
+    public function audit($user, $audit): bool
+    {
+        dd($audit);
         return false;
     }
 

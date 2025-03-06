@@ -2,7 +2,7 @@
 
 namespace App\Actions\Event;
 
-use App\Livewire\Forms\EventVisitorForm;
+use App\Livewire\Forms\Event\EventVisitorForm;
 use App\Models\Event\EventVisitor;
 use Illuminate\Support\Facades\DB;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Forms;
+namespace App\Livewire\Forms\Member;
 
 use App\Actions\Member\CreateMember;
 use App\Enums\Gender;

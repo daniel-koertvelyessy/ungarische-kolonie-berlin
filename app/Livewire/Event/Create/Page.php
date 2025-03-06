@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Event\Create;
 
-use App\Livewire\Forms\EventForm;
+use App\Livewire\Forms\Event\EventForm;
 use App\Models\Event\Event;
 use App\Models\Venue;
 use Flux\Flux;

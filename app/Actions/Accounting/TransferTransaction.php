@@ -3,7 +3,7 @@
 namespace App\Actions\Accounting;
 
 use App\Enums\TransactionType;
-use App\Livewire\Forms\TransferTransactionForm;
+use App\Livewire\Forms\Accounting\TransferTransactionForm;
 use App\Models\Accounting\Account;
 use App\Models\Accounting\Transaction;
 use Carbon\Carbon;

@@ -2,7 +2,7 @@
 
 namespace App\Actions\Report;
 
-use App\Livewire\Forms\CashCountForm;
+use App\Livewire\Forms\Accounting\CashCountForm;
 use App\Models\Accounting\CashCount;
 use Illuminate\Notifications\Action;
 use Illuminate\Support\Facades\DB;

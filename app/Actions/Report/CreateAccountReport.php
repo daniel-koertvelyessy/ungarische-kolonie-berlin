@@ -2,7 +2,7 @@
 
 namespace App\Actions\Report;
 
-use App\Livewire\Forms\AccountReportForm;
+use App\Livewire\Forms\Accounting\AccountReportForm;
 use App\Models\Accounting\Account;
 use App\Models\Accounting\AccountReport;
 use Illuminate\Notifications\Action;

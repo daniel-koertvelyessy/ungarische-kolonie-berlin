@@ -3,7 +3,7 @@
 namespace App\Livewire\Accounting\Report\CashCount\Create;
 
 use App\Livewire\Accounting\Index\Page;
-use App\Livewire\Forms\CashCountForm;
+use App\Livewire\Forms\Accounting\CashCountForm;
 use App\Livewire\Traits\HasPrivileges;
 use App\Models\Accounting\Account;
 use Carbon\Carbon;

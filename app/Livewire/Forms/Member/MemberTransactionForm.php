@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Livewire\Forms;
+namespace App\Livewire\Forms\Member;
 
 use App\Actions\Accounting\CreateMemberTransaction;
+use App\Livewire\Forms\Accounting\TransactionForm;
 use App\Models\Accounting\Account;
 use App\Models\Event\Event;
 use App\Models\Membership\Member;

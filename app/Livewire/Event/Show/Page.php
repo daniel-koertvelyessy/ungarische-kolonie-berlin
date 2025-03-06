@@ -3,9 +3,9 @@
 namespace App\Livewire\Event\Show;
 
 use App\Enums\AssignmentStatus;
-use App\Livewire\Forms\AssignmentForm;
-use App\Livewire\Forms\EventForm;
-use App\Livewire\Forms\EventTimelineForm;
+use App\Livewire\Forms\Event\AssignmentForm;
+use App\Livewire\Forms\Event\EventForm;
+use App\Livewire\Forms\Event\EventTimelineForm;
 use App\Livewire\Traits\HasPrivileges;
 use App\Livewire\Traits\PersistsTabs;
 use App\Livewire\Traits\Sortable;

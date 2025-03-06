@@ -5,7 +5,7 @@ namespace App\Livewire\Member\Create;
 use App\Enums\Gender;
 use App\Enums\MemberFamilyStatus;
 use App\Enums\MemberType;
-use App\Livewire\Forms\MemberForm;
+use App\Livewire\Forms\Member\MemberForm;
 use App\Models\Membership\Member;
 use App\Notifications\ApplianceReceivedNotification;
 use App\Notifications\NewMemberApplied;

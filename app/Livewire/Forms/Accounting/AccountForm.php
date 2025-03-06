@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Forms;
+namespace App\Livewire\Forms\Accounting;
 
 use App\Actions\Accounting\CreateAccount;
 use App\Enums\AccountType;
@@ -56,8 +56,8 @@ class AccountForm extends Form
 
         if ($account) {
             Flux::toast(
-                heading: 'Erfolg',
                 text: 'Das Zahlungskonto wurde erstellt',
+                heading: 'Erfolg',
                 variant: 'success',
             );
             $this->id = $account->id;

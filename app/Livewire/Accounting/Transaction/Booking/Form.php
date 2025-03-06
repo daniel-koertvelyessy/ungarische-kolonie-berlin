@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Accounting\Transaction\Booking;
 
-use App\Livewire\Forms\TransactionForm;
+use App\Livewire\Forms\Accounting\TransactionForm;
 use App\Models\Accounting\Transaction;
 use Flux\Flux;
 use Livewire\Component;

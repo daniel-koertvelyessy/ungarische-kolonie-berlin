@@ -3,6 +3,7 @@
 namespace App\Livewire\Accounting\Report\Index;
 
 use App\Actions\Report\CreateAccountReportAudit;
+use App\Livewire\Forms\Accounting\AccountReportAuditForm;
 use App\Livewire\Traits\HasPrivileges;
 use App\Livewire\Traits\Sortable;
 use App\Mail\InviteAccountAuditMemberMail;
@@ -22,6 +23,8 @@ class Page extends Component
     use HasPrivileges, Sortable, WithPagination;
 
     public Collection $auditorList;
+
+    public AccountReportAuditForm $form;
 
     public $selectedMember;
 
@@ -88,18 +91,18 @@ class Page extends Component
         if ($this->auditorList->count()) {
 
             foreach ($this->auditorList as $auditor) {
+                $this->form->account_report_id = $this->selectedReport->id;
+                $this->form->user_id = $auditor->user->id;
+
                 if ($auditor->hasUser()) {
-                    $audit = CreateAccountReportAudit::handle([
-                        'account_report_id' => $this->selectedReport->id,
-                        'user_id' => $auditor->user->id,
-                    ]);
+                    $audit = CreateAccountReportAudit::handle($this->form);
 
                     Mail::to($auditor->email)
                         ->queue(new InviteAccountAuditMemberMail($auditor, $this->selectedReport, $audit));
 
                     Flux::toast(
-                        text: 'Einladung and '.$auditor->email.' vershickt',
-                        heading: 'Jupp',
+                        text: 'Einladung an '.$auditor->email.' verschickt',
+                        heading: '... ist raus',
                         variant: 'success',
                     );
                 } else {

@@ -2,7 +2,7 @@
 
 namespace App\Actions\Event;
 
-use App\Livewire\Forms\AssignmentForm;
+use App\Livewire\Forms\Event\AssignmentForm;
 use App\Models\Accounting\Account;
 use App\Models\EventAssignment;
 use Illuminate\Support\Facades\DB;

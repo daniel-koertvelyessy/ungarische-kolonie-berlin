@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Forms;
+namespace App\Livewire\Forms\Event;
 
 use App\Models\Venue;
 use Illuminate\Validation\Rule;
