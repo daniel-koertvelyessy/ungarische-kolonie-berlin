@@ -3,7 +3,7 @@
    aria-label="{{ $event->title[app()->getLocale()] }}"
 >
     <flux:card class="space-y-3 my-3 hover:bg-teal-50 dark:hover:bg-emerald-800 transition duration-500 ">
-        @if($event->event_date == today() )
+        @if($event->event_date == today('Europe/Berlin') )
             <flux:badge size="lg" color="lime">{{ __('app.today') }}</flux:badge>
         @endif
         <flux:heading size="lg">{{ $event->title[app()->getLocale()] }}</flux:heading>

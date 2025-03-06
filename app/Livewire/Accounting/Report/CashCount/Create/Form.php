@@ -22,7 +22,7 @@ class Form extends Component
     {
         $this->form->account_id = $accountId;
         $this->form->user_id = auth()->id();
-        $this->form->counted_at = Carbon::today()->format('Y-m-d');
+        $this->form->counted_at = Carbon::today('Europe/Berlin')->format('Y-m-d');
     }
 
     public function store()

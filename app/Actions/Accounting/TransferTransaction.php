@@ -29,7 +29,7 @@ final class TransferTransaction
             $transaction->save();
 
             return Transaction::create([
-                'date' => Carbon::now(),
+                'date' => Carbon::now('Europe/Berlin'),
                 'label' => $transaction->label,
                 'reference' => $transaction->reference,
                 'description' => $transaction->description.'Umbgebucht: '.$from->reason,

@@ -5,16 +5,16 @@
                               label="Zeitraum"
                               variant="segmented"
             >
-                <flux:radio value="{{ \Carbon\Carbon::today()->subMonths(2)->month }}"
-                            label="{{ \Carbon\Carbon::today()->locale(app()->getLocale())->subMonths(2)->monthName }}"
+                <flux:radio value="{{ \Carbon\Carbon::today('Europe/Berlin')->subMonths(2)->month }}"
+                            label="{{ \Carbon\Carbon::today('Europe/Berlin')->locale(app()->getLocale())->subMonths(2)->monthName }}"
                 />
-                <flux:radio value="{{ \Carbon\Carbon::today()->subMonth()->month }}"
-                            label="{{ \Carbon\Carbon::today()->locale(app()->getLocale())->subMonth()->monthName }}"
+                <flux:radio value="{{ \Carbon\Carbon::today('Europe/Berlin')->subMonth()->month }}"
+                            label="{{ \Carbon\Carbon::today('Europe/Berlin')->locale(app()->getLocale())->subMonth()->monthName }}"
                             checked
                 />
 
-                <flux:radio value="{{ \Carbon\Carbon::today()->month }}"
-                            label="{{ \Carbon\Carbon::today()->locale(app()->getLocale())->monthName }}"
+                <flux:radio value="{{ \Carbon\Carbon::today('Europe/Berlin')->month }}"
+                            label="{{ \Carbon\Carbon::today('Europe/Berlin')->locale(app()->getLocale())->monthName }}"
                 />
             </flux:radio.group>
             <section class="grid gap-3 grid-cols-2">

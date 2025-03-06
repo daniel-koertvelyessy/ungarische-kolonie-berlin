@@ -104,11 +104,11 @@ class Member extends Model
             })
             ->with(['transaction' => function ($query) {
                 $query->select('id', 'amount_gross', 'label', 'status')
-                    ->whereBetween('date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])
+                    ->whereBetween('date', [Carbon::now('Europe/Berlin')->startOfYear(), Carbon::now('Europe/Berlin')->endOfYear()])
                     ->where('status', TransactionStatus::booked->value); // Select columns from the transaction table
             }])
             ->whereBetween('updated_at', [
-                Carbon::today()->startOfYear(), Carbon::now(),
+                Carbon::today()->startOfYear(), Carbon::now('Europe/Berlin'),
             ])
             ->get();
 
@@ -136,7 +136,7 @@ class Member extends Model
 
     public function hasBirthdayToday(): bool
     {
-        return $this->birth_date->format('d') === Carbon::today()->format('d');
+        return $this->birth_date->format('d') === Carbon::today('Europe/Berlin')->format('d');
     }
 
     public function birthDayInMonth(): string

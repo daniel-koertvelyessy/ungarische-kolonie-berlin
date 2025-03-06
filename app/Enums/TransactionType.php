@@ -28,4 +28,11 @@ enum TransactionType: string
             'Auszahlung', 'Storno' => 'negative',
         };
     }
+    public static function badgeColor(string $value): string
+    {
+        return match ($value) {
+            'Einzahlung' => 'lime',
+            'Auszahlung', 'Storno' => 'orange',
+        };
+    }
 }

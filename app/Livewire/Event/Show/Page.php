@@ -105,7 +105,7 @@ class Page extends Component
         $this->event_id = $event->id;
         $this->form->setEvent($event);
         $this->selectedTab = $this->getSelectedTab();
-        $this->assignmentForm->due_at = Carbon::today()
+        $this->assignmentForm->due_at = Carbon::today('Europe/Berlin')
             ->format('Y-m-d');
         $this->assignmentForm->status = AssignmentStatus::draft->value;
         $this->assignmentForm->member_id = auth()->user()->member->id;

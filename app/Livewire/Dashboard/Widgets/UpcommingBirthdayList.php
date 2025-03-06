@@ -54,7 +54,7 @@ class UpcommingBirthdayList extends Component
 
     public function mount(): void
     {
-        $this->currentMonth = Carbon::today()->month;
+        $this->currentMonth = Carbon::today('Europe/Berlin')->month;
         $this->setMonthName();
 
     }

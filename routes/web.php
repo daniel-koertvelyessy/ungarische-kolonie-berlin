@@ -34,13 +34,13 @@ Route::get('/', function () {
         'events' => \App\Models\Event\Event::with('venue')
             ->where('status', '=', \App\Enums\EventStatus::PUBLISHED)
             ->whereBetween('event_date', [
-                Carbon::today(), Carbon::now()
+                Carbon::today('Europe/Berlin'), Carbon::now('Europe/Berlin')
                     ->endOfYear(),
             ])
             ->take(3)
             ->get(),
         'events_total' => \App\Models\Event\Event::whereBetween('event_date', [
-            Carbon::today(), Carbon::now()
+            Carbon::today('Europe/Berlin'), Carbon::now('Europe/Berlin')
                 ->endOfDecade(),
         ])
             ->where('status', '=', \App\Enums\EventStatus::PUBLISHED->value)

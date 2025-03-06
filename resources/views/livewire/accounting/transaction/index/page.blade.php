@@ -208,7 +208,7 @@
                     ><span class="{{ $item->grossColor() }}">{{ $item->grossForHumans() }}</span></flux:table.cell>
                     <flux:table.cell class="hidden sm:table-cell">
                         <flux:badge size="sm"
-                                    :color="\App\Enums\TransactionType::color($item->type)"
+                                    :color="\App\Enums\TransactionType::badgeColor($item->type)"
                                     inset="top bottom"
                         >{{ $item->type }}</flux:badge>
                     </flux:table.cell>

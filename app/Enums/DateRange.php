@@ -28,12 +28,12 @@ enum DateRange: string
     public function dates(): array
     {
         return match ($this) {
-            self::Today => [Carbon::today(), Carbon::now()],
-            self::Week => [Carbon::today()->startOfWeek(), Carbon::today()->endOfWeek()],
-            self::Last_7 => [Carbon::today()->subDays(6), Carbon::now()],
-            self::Last_30 => [Carbon::today()->subDays(29), Carbon::now()],
-            self::Year => [Carbon::now()->startOfYear(), Carbon::now()],
-            self::All => [Carbon::now()->startOfCentury(), Carbon::now()],
+            self::Today => [Carbon::today('Europe/Berlin'), Carbon::now('Europe/Berlin')],
+            self::Week => [Carbon::today('Europe/Berlin')->startOfWeek(), Carbon::today('Europe/Berlin')->endOfWeek()],
+            self::Last_7 => [Carbon::today('Europe/Berlin')->subDays(6), Carbon::now('Europe/Berlin')],
+            self::Last_30 => [Carbon::today('Europe/Berlin')->subDays(29), Carbon::now('Europe/Berlin')],
+            self::Year => [Carbon::now('Europe/Berlin')->startOfYear(), Carbon::now('Europe/Berlin')],
+            self::All => [Carbon::now('Europe/Berlin')->startOfCentury(), Carbon::now('Europe/Berlin')],
         };
     }
 }

@@ -27,7 +27,7 @@ class Form extends Component
     {
         $this->form->locale = app()->getLocale() ?? 'de';
         $this->form->gender = Gender::ma->value;
-        $this->form->applied_at = Carbon::now();
+        $this->form->applied_at = Carbon::now('Europe/Berlin');
         $this->form->family_status = MemberFamilyStatus::NN->value;
         $this->form->type = MemberType::AP->value;
         $this->form->country = 'Deutschland';
@@ -70,7 +70,7 @@ class Form extends Component
 
         if ($this->application) {
             $this->form->validate();
-            $this->form->applied_at = Carbon::now();
+            $this->form->applied_at = Carbon::now('Europe/Berlin');
 
             $member = $this->form->create();
 

@@ -33,7 +33,7 @@ final class CancelTransaction
             $transaction->save();
 
             return Transaction::create([
-                'date' => Carbon::now(),
+                'date' => Carbon::now('Europe/Berlin'),
                 'label' => 'STORNO-'.$transaction->label,
                 'reference' => $transaction->reference,
                 'description' => $transaction->description.'STORNO -Grund: '.$data['reason'],
