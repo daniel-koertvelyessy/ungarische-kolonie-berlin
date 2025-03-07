@@ -54,14 +54,12 @@ class AccountForm extends Form
             'starting_amount' => Account::makeCentInteger($this->starting_amount),
         ]);
 
-        if ($account) {
-            Flux::toast(
-                text: 'Das Zahlungskonto wurde erstellt',
-                heading: 'Erfolg',
-                variant: 'success',
-            );
-            $this->id = $account->id;
-        }
+        Flux::toast(
+            text: 'Das Zahlungskonto wurde erstellt',
+            heading: 'Erfolg',
+            variant: 'success',
+        );
+        $this->id = $account->id;
 
         Flux::modal('add-account-modal')
             ->close();

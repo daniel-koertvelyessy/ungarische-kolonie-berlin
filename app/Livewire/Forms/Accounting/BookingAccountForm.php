@@ -28,14 +28,12 @@ class BookingAccountForm extends Form
             'label' => $this->label,
         ]);
 
-        if ($booking_account) {
-            Flux::toast(
-                heading: 'Erfolg',
-                text: 'Das Buchungskonto wurde erstellt',
-                variant: 'success',
-            );
-            $this->id = $booking_account->id;
-        }
+        Flux::toast(
+            text: 'Das Buchungskonto wurde erstellt',
+            heading: 'Erfolg',
+            variant: 'success',
+        );
+        $this->id = $booking_account->id;
 
         Flux::modal('add-account-modal')
             ->close();

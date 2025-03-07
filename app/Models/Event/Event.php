@@ -12,6 +12,57 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @method static Event create(array $attributes)
+ *
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $event_date
+ * @property \Illuminate\Support\Carbon|null $start_time
+ * @property \Illuminate\Support\Carbon|null $end_time
+ * @property array<array-key, mixed> $title
+ * @property array<array-key, mixed>|null $slug
+ * @property array<array-key, mixed>|null $excerpt
+ * @property array<array-key, mixed>|null $description
+ * @property string|null $image
+ * @property string $status
+ * @property int|null $entry_fee
+ * @property int|null $entry_fee_discounted
+ * @property int|null $venue_id
+ * @property string|null $payment_link
+ * @property string|null $name
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, EventAssignment> $assignments
+ * @property-read int|null $assignments_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Event\EventSubscription> $subscriptions
+ * @property-read int|null $subscriptions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, EventTimeline> $timelines
+ * @property-read int|null $timelines_count
+ * @property-read Venue|null $venue
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Event\EventVisitor> $visitors
+ * @property-read int|null $visitors_count
+ *
+ * @method static \Database\Factories\Event\EventFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereEndTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereEntryFee($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereEntryFeeDiscounted($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereEventDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereExcerpt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereImage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event wherePaymentLink($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereStartTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereVenueId($value)
+ *
+ * @mixin \Eloquent
  */
 class Event extends Model
 {

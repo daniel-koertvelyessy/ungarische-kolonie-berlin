@@ -25,7 +25,7 @@ class Form extends Component
 
     public function mount()
     {
-        $this->form->locale = app()->getLocale() ?? 'de';
+        $this->form->locale = app()->getLocale();
         $this->form->gender = Gender::ma->value;
         $this->form->applied_at = Carbon::now('Europe/Berlin');
         $this->form->family_status = MemberFamilyStatus::NN->value;

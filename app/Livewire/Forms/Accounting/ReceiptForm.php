@@ -50,8 +50,8 @@ class ReceiptForm extends Form
         try {
             $imagick = new Imagick;
             $imagick->readImage($pdfFullPath.'[0]');
-            $w = $imagick->getImageWidth() * 0.3;
-            $h = $imagick->getImageHeight() * 0.3;
+            $w = (int) round($imagick->getImageWidth() * 0.3);
+            $h = (int) round($imagick->getImageHeight() * 0.3);
             $imagick->resizeImage($w, $h, Imagick::FILTER_CATROM, 1);
             $imagick->setResolution(288, 288);
             $imagick->setImageFormat('png');

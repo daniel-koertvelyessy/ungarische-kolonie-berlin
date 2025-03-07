@@ -7,15 +7,19 @@ use App\Models\Membership\Invitation;
 use App\Models\Membership\Member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class RegisterController extends Controller
 {
     public function create(Request $request)
     {
-        $invitation = Invitation::query()->where('token', $request->token)
+        $invitation = Invitation::query()
+            ->where('token', $request->token)
             ->firstOrFail();
 
-        $member = Member::query()->where('email', $invitation->email)->firstOrFail();
+        $member = Member::query()
+            ->where('email', $invitation->email)
+            ->firstOrFail();
 
         $user = (new CreateNewUser)->create([
             'locale' => $member->locale,
@@ -35,7 +39,8 @@ class RegisterController extends Controller
         $member->user_id = $user->id;
         $member->save();
 
-        Auth::guard('web')->login($user);
+        Auth::guard('web')
+            ->login($user);
 
         return redirect()->intended(route('dashboard'));
     }
@@ -43,18 +48,24 @@ class RegisterController extends Controller
     public function showRegistrationForm(Request $request)
     {
         $token = $request->query('token');
-        $invitation = Invitation::query()->where('token', $token)
+        $invitation = Invitation::query()
+            ->where('token', $token)
             ->first();
 
-        $member = Member::query()->where('email', $invitation->email)->firstOrFail();
+        try {
+            $member = Member::query()
+                ->where('email', $invitation->email)
+                ->firstOrFail();
+        } catch (\Exception $exception) {
+            Log::alert('Failed attempt to get member by e-mail :'.$invitation->email.' / error: '.$exception->getMessage());
 
-        if (! $member) {
-            return redirect('/')->with('error', 'Invalid or non existent member');
-
+            return redirect('/')->with('error', 'member not found');
         }
 
         if (! $invitation) {
-            return redirect('/')->with('error', 'Invalid or expired invitation link.');
+            Log::alert('Failed due to Invalid or expired invitation');
+
+            return redirect('/')->with('error', 'Invalid or expired invitation link. Requested token: '.$token);
         }
 
         return view('auth.register-member', compact('token', 'invitation', 'member'));

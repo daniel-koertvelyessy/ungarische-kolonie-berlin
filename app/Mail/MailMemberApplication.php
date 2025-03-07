@@ -17,7 +17,7 @@ class MailMemberApplication extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(Member $member)
+    public function __construct(public Member $member)
     {
         //
     }
@@ -40,6 +40,7 @@ class MailMemberApplication extends Mailable
     {
         return new Content(
             view: 'emails.member-application',
+            with: ['member' => $this->member]
         );
     }
 

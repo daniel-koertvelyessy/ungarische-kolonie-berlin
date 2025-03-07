@@ -48,6 +48,8 @@ class Form extends Component
 
     public ReceiptForm $receiptForm;
 
+    public $id;
+
     public BookingAccountForm $booking;
 
     public ?Transaction $transaction = null;
@@ -348,7 +350,7 @@ class Form extends Component
     {
         $this->checkPrivilege(Transaction::class);
         $this->booking->create();
-        $this->form->booking_id = $this->booking->id;
+        $this->form->booking_account_id = $this->booking->id;
     }
 
     public function createBookingAccount(): void

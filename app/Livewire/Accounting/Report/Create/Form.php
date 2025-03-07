@@ -11,6 +11,7 @@ use App\Models\Accounting\Account;
 use App\Models\Accounting\AccountReport;
 use App\Models\Accounting\Transaction;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Form extends Component
@@ -29,16 +30,16 @@ class Form extends Component
 
     public function updatedSetRange()
     {
-        $this->form->period_start = Carbon::create(date('Y'), $this->setRange, '01')
+        $this->form->period_start = Carbon::create(date('Y'), (int) $this->setRange)
             ->format('Y-m-d');
-        $this->form->period_end = Carbon::create(date('Y'), $this->setRange, '01')
+        $this->form->period_end = Carbon::create(date('Y'), (int) $this->setRange)
             ->endOfMonth()
             ->format('Y-m-d');
     }
 
     public function mount($accountId)
     {
-        $this->account = Account::findOrFail($accountId);
+        $this->account = Account::query()->findOrFail($accountId);
         $this->setRange = Carbon::today('Europe/Berlin')->month;
         $this->formInit();
     }
@@ -46,15 +47,16 @@ class Form extends Component
     public function storeReportData(): void
     {
         $this->checkPrivilege(AccountReport::class);
-        $this->form->created_by = \Auth::user()->id;
+        $this->form->created_by = Auth::user()->id;
         $this->form->status = ReportStatus::draft->value;
 
         $this->form->create();
     }
 
-    public function getTransactions()
+    public function getTransactions(): void
     {
-        $this->transactions = Transaction::select('id', 'amount_gross', 'type', 'label', 'account_id')
+        $this->transactions = Transaction::query()
+            ->select('id', 'amount_gross', 'type', 'label', 'account_id')
             ->where('account_id', '=', $this->account->id)
             ->where('status', TransactionStatus::booked->value)
             ->whereBetween('date', [$this->form->period_start, $this->form->period_end])
@@ -68,11 +70,11 @@ class Form extends Component
 
             foreach ($this->transactions as $transaction) {
                 $amount = (int) ($transaction->amount_gross ?? 0);
-                $multiplier = (int) TransactionType::calc($transaction->type);
+                $multiplier = TransactionType::calc($transaction->type);
 
-                if (! is_numeric($amount) || ! is_numeric($multiplier)) {
-                    throw new \Exception("Invalid values: amount_gross={$amount}, multiplier={$multiplier}");
-                }
+                //                if (! is_numeric($amount) || ! is_numeric($multiplier)) {
+                //                    throw new \Exception("Invalid values: amount_gross={$amount}, multiplier={$multiplier}");
+                //                }
 
                 $this->form->end_amount += $amount * $multiplier;
 
@@ -109,7 +111,7 @@ class Form extends Component
     {
 
         if (is_null($value)) {
-            return 0;
+            return '0';
         }
 
         return number_format((int) $value / 100, 2, ',');
@@ -118,9 +120,9 @@ class Form extends Component
     protected function formInit(): void
     {
         $this->form->account_id = $this->account->id;
-        $this->form->period_start = Carbon::create(date('Y'), date('m'), '01')
+        $this->form->period_start = Carbon::create(date('Y'), (int) date('m'))
             ->format('Y-m-d');
-        $this->form->period_end = Carbon::create(date('Y'), date('m'), '01')
+        $this->form->period_end = Carbon::create(date('Y'), (int) date('m'))
             ->endOfMonth()
             ->format('Y-m-d');
         $this->msg = 'Buchungen holen';

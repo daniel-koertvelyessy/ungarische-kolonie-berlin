@@ -211,15 +211,14 @@ class Page extends Component
 
         $event = Event::findOrFail($this->target_event);
 
-        if (AppendEventTransaction::handle($this->transaction, $event, $this->event_visitor_name, $this->event_gender)) {
-            Flux::toast(
-                text: 'Die Buchung wurde erfolgreich zugeordnet',
-                heading: __('transaction.attach-event-success.heading'),
-                variant: 'success',
-            );
-            Flux::modal('append-to-event-transaction')
-                ->close();
-        }
+        AppendEventTransaction::handle($this->transaction, $event, $this->event_visitor_name, $this->event_gender);
+        Flux::toast(
+            text: 'Die Buchung wurde erfolgreich zugeordnet',
+            heading: __('transaction.attach-event-success.heading'),
+            variant: 'success',
+        );
+        Flux::modal('append-to-event-transaction')
+            ->close();
     }
 
     public function appendMember(): void

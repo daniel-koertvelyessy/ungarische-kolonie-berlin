@@ -61,7 +61,7 @@ class UpcommingBirthdayList extends Component
 
     protected function setMonthName(): void
     {
-        $date = Carbon::create(date('Y'), $this->currentMonth, '1');
+        $date = Carbon::create(date('Y'), (int) $this->currentMonth);
 
         $locale = app()->getLocale();
 

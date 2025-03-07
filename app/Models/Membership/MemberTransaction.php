@@ -7,6 +7,27 @@ use App\Models\Event\Event;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int $id
+ * @property int $member_id
+ * @property int $transaction_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read Event|null $event
+ * @property-read \App\Models\Membership\Member|null $member
+ * @property-read Transaction|null $transaction
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MemberTransaction newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MemberTransaction newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MemberTransaction query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MemberTransaction whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MemberTransaction whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MemberTransaction whereMemberId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MemberTransaction whereTransactionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MemberTransaction whereUpdatedAt($value)
+ *
+ * @mixin \Eloquent
+ */
 class MemberTransaction extends Model
 {
     protected $guarded = [];
@@ -24,11 +45,6 @@ class MemberTransaction extends Model
     public function event(): BelongsTo
     {
         return $this->belongsTo(Event::class);
-    }
-
-    public function amountForHumans(): string
-    {
-        return number_format(($this->amount / 100), 2, ',', '.');
     }
 
     protected $casts = [

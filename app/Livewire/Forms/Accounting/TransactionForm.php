@@ -51,7 +51,6 @@ class TransactionForm extends Form
         $this->tax = $transaction->taxForHumans();
         $this->amount_gross = $transaction->grossForHumans();
         $this->account_id = $transaction->account_id;
-        $this->receipt_id = $transaction->receipt_id;
         $this->booking_account_id = $transaction->booking_account_id;
         $this->type = $transaction->type;
         $this->status = $transaction->status;

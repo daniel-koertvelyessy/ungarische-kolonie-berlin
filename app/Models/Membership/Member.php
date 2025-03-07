@@ -14,6 +14,74 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon $applied_at
+ * @property \Illuminate\Support\Carbon|null $verified_at
+ * @property \Illuminate\Support\Carbon|null $entered_at
+ * @property \Illuminate\Support\Carbon|null $left_at
+ * @property bool $is_deducted
+ * @property string|null $deduction_reason
+ * @property \Illuminate\Support\Carbon|null $birth_date
+ * @property string $name
+ * @property string|null $first_name
+ * @property string|null $email
+ * @property string|null $phone
+ * @property string|null $mobile
+ * @property string|null $address
+ * @property string|null $zip
+ * @property string|null $city
+ * @property string|null $country
+ * @property string|null $locale
+ * @property string|null $gender
+ * @property string $type
+ * @property int|null $user_id
+ * @property string|null $birth_place
+ * @property string|null $citizenship
+ * @property string|null $family_status
+ * @property string $fee_type
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
+ * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Transaction> $transactions
+ * @property-read int|null $transactions_count
+ * @property-read User|null $user
+ *
+ * @method static \Database\Factories\Membership\MemberFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereAppliedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereBirthDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereBirthPlace($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereCitizenship($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereCity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereCountry($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereDeductionReason($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereEnteredAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereFamilyStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereFeeType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereFirstName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereGender($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereIsDeducted($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereLeftAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereLocale($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereMobile($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereZip($value)
+ *
+ * @mixin \Eloquent
+ */
 class Member extends Model
 {
     /** @use HasFactory<\Database\Factories\Membership\MemberFactory> */

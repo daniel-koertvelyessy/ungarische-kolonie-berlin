@@ -74,7 +74,7 @@ class SendMemberMassMail extends Mailable implements ShouldQueue
             }
 
             // Get the MIME type of the file
-            $mimeType = Storage::mimeType($relativeFilePath) ?? 'application/octet-stream';
+            $mimeType = Storage::mimeType($relativeFilePath); // ?? 'application/octet-stream';
 
             Log::info("Attaching file: {$relativeFilePath}, MIME: {$mimeType}");
 

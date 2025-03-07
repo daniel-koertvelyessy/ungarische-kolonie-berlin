@@ -6,6 +6,60 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int $id
+ * @property int $account_id
+ * @property int $user_id
+ * @property \Illuminate\Support\Carbon $counted_at
+ * @property string $label
+ * @property string|null $notes
+ * @property int|null $euro_two_hundred
+ * @property int|null $euro_one_hundred
+ * @property int|null $euro_fifty
+ * @property int|null $euro_twenty
+ * @property int|null $euro_ten
+ * @property int|null $euro_five
+ * @property int|null $euro_two
+ * @property int|null $euro_one
+ * @property int|null $cent_fifty
+ * @property int|null $cent_twenty
+ * @property int|null $cent_ten
+ * @property int|null $cent_five
+ * @property int|null $cent_two
+ * @property int|null $cent_one
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Accounting\Account $account
+ * @property-read User $user
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereAccountId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereCentFifty($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereCentFive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereCentOne($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereCentTen($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereCentTwenty($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereCentTwo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereCountedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereEuroFifty($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereEuroFive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereEuroOne($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereEuroOneHundred($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereEuroTen($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereEuroTwenty($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereEuroTwo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereEuroTwoHundred($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereLabel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereUserId($value)
+ *
+ * @mixin \Eloquent
+ */
 class CashCount extends Model
 {
     protected $guarded = [];

@@ -62,7 +62,7 @@ class MemberPolicy
             return true;
         }
 
-        if ($user->is_BoardMember) {
+        if ($user->isBoardMember()) {
             return true;
         }
 

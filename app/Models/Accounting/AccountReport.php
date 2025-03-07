@@ -11,6 +11,44 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 
+/**
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int $account_id
+ * @property int $starting_amount
+ * @property int $end_amount
+ * @property int $created_by
+ * @property \Illuminate\Support\Carbon $period_start
+ * @property \Illuminate\Support\Carbon $period_end
+ * @property int $total_income
+ * @property int $total_expenditure
+ * @property string $status
+ * @property string|null $notes
+ * @property-read \App\Models\Accounting\Account $account
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Accounting\AccountReportAudit> $audits
+ * @property-read int|null $audits_count
+ * @property-read User $user
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AccountReport newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AccountReport newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AccountReport query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AccountReport whereAccountId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AccountReport whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AccountReport whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AccountReport whereEndAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AccountReport whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AccountReport whereNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AccountReport wherePeriodEnd($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AccountReport wherePeriodStart($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AccountReport whereStartingAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AccountReport whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AccountReport whereTotalExpenditure($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AccountReport whereTotalIncome($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AccountReport whereUpdatedAt($value)
+ *
+ * @mixin \Eloquent
+ */
 final class AccountReport extends Model
 {
     /** @use HasFactory<\Database\Factories\AccountReportFactory> */
