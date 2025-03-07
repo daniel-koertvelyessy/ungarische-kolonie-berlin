@@ -14,12 +14,12 @@ final class UpdateAccountReportAudit extends Action
     {
         return DB::transaction(function () use ($form) {
 
-            return AccountReportAudit::query()->where('id',$form->id)->update([
+            return (bool) AccountReportAudit::query()->where('id', $form->id)->update([
                 'account_report_id' => $form->account_report_id,
                 'user_id' => $form->user_id,
                 'reason' => $form->reason,
                 'is_approved' => $form->is_approved,
-                'approved_at' => Carbon::now('Europe/Berlin')
+                'approved_at' => Carbon::now('Europe/Berlin'),
 
             ]);
         });

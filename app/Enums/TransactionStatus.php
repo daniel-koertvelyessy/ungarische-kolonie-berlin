@@ -18,6 +18,8 @@ enum TransactionStatus: string
         return match ($value) {
             'eingereicht' => 'gray',
             'gebucht' => 'lime',
+            default => throw new \InvalidArgumentException("Unknown TransactionStatus: $value"),
+
             //            'storniert' => 'red',
         };
     }

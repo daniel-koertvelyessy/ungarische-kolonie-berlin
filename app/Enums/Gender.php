@@ -20,6 +20,8 @@ enum Gender: string
             'male' => __('app.male'),
             'female' => __('app.female'),
             //          'diverse' => __('app.diverse'),
+            default => throw new \InvalidArgumentException("Unknown Gender: $value"),
+
         };
 
     }

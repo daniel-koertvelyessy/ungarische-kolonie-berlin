@@ -7,7 +7,7 @@ return [
     'register_place' => 'Hely',
     'address' => 'Cím',
     'register_at' => 'Regisztráció:',
-    'represented_by' => 'Közösen felhatalmazva képviselni:',
+    'represented_by' => 'Közösen felhatalmazva képviselö:',
     'president' => 'Elnök',
     'sub_president' => 'Elnökhelyettese',
 

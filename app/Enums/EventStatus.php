@@ -23,6 +23,8 @@ enum EventStatus: string
             'published' => __('event.type.published'),
             'rejected' => __('event.type.rejected'),
             'retracted' => __('event.type.retracted'),
+            default => throw new \InvalidArgumentException("Unknown EventStatus: $value"),
+
         };
     }
 
@@ -34,6 +36,8 @@ enum EventStatus: string
             'published' => 'lime',
             'rejected' => 'yellow',
             'retracted' => 'orange',
+            default => throw new \InvalidArgumentException("Unknown EventStatus: $value"),
+
         };
     }
 }

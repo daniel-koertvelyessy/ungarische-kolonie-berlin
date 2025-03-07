@@ -2,12 +2,14 @@
 
 namespace App\Models\Accounting;
 
+use App\Enums\ReportStatus;
 use App\Livewire\Traits\HasPrivileges;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 
 final class AccountReport extends Model
 {
@@ -50,6 +52,24 @@ final class AccountReport extends Model
 
     public function getReportAudits()
     {
-        return AccountReportAudit::where('account_report_id', '=', $this->account_id)->get();
+        return AccountReportAudit::query()->where('account_report_id', '=', $this->account_id)->get();
+    }
+
+    public static function setReportStatus(int $accountReportId)
+    {
+        $audits = AccountReportAudit::query()->where('id', $accountReportId)->get();
+        $audited_status = new Collection;
+
+        if ($audits->count()) {
+            foreach ($audits as $audit) {
+                if ($audit->approved_at) {
+                    $audited_status->push(true);
+                }
+            }
+        }
+        if ($audited_status->count() === $audits->count()) {
+            AccountReportAudit::query()->find($accountReportId)->report()->update(['status' => ReportStatus::audited->value]);
+        }
+
     }
 }

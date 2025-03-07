@@ -125,7 +125,7 @@ class Page extends Component
 
     public function auditReport(int $auditId): void
     {
-        $accountAudit = AccountReportAudit::findOrfail($auditId);
+        $accountAudit = AccountReportAudit::query()->findOrfail($auditId);
         dd($accountAudit);
     }
 

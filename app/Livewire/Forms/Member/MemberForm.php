@@ -140,6 +140,7 @@ class MemberForm extends Form
     public function create(): Member
     {
         $this->validate();
+
         return CreateMember::handle($this);
     }
 

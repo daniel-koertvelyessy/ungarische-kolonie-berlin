@@ -37,7 +37,7 @@ final class UpdateEventTransaction extends Action
                 'status' => $transaction->status,
             ]);
 
-            $event_transaction = EventTransaction::where('event_id', $event->id)->where('transaction_id', $transaction->id)->first();
+            $event_transaction = EventTransaction::query()->where('event_id', $event->id)->where('transaction_id', $transaction->id)->first();
 
             if ($event_transaction) {
                 $this->updateEventTransaction = $event_transaction->update([
@@ -47,6 +47,8 @@ final class UpdateEventTransaction extends Action
                     'event_id' => $event->id,
                 ]);
             }
+
+            return $transaction;
 
         });
 

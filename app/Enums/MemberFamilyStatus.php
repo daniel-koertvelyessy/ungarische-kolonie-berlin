@@ -21,6 +21,8 @@ enum MemberFamilyStatus: string
             'married' => __('members.familystatus.married'),
             'divorced' => __('members.familystatus.divorced'),
             'n_a' => __('members.familystatus.n_a'),
+            default => throw new \InvalidArgumentException("Unknown MemberFamilyStatus: $value"),
+
         };
     }
 
@@ -31,6 +33,8 @@ enum MemberFamilyStatus: string
             'married' => 'emerald',
             'divorced' => 'yellow',
             'n_a' => 'zinc',
+            default => throw new \InvalidArgumentException("Unknown MemberFamilyStatus: $value"),
+
         };
     }
 }

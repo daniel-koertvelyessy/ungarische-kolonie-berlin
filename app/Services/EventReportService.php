@@ -12,17 +12,17 @@ class EventReportService
 {
     public function generate(Event $event)
     {
-        $ets = EventTransaction::where('event_id', $event->id)->with('transaction')->get();
+        $ets = EventTransaction::query()->with('transaction')->where('event_id', $event->id)->get();
 
         $income = 0;
         $spending = 0;
 
-        $spendings = EventTransaction::with('transaction.account')
+        $spendings = EventTransaction::query()->with('transaction.account')
             ->where('event_id', $event->id)
             ->whereHas('transaction', fn ($query) => $query->where('type', TransactionType::Withdrawal->value))
             ->get();
 
-        $incomes = EventTransaction::with('transaction')
+        $incomes = EventTransaction::query()->with('transaction')
             ->where('event_id', $event->id)
             ->whereHas('transaction', fn ($query) => $query->where('type', TransactionType::Deposit->value))
             ->get();

@@ -52,11 +52,11 @@ class EventReportPdf extends BasePdfTemplate
 
         $this->SetFont('helvetica', '', $h);
         $this->Cell(60, 8, 'Einnahmen ', 0, 0);
-        $this->Cell(80, 8, number_format($this->income, '2', ',', '.'), 0, 1, 'R');
+        $this->Cell(80, 8, number_format($this->income, 2, ',', '.'), 0, 1, 'R');
         $this->Cell(60, 8, 'Ausgaben ', 0, 0);
-        $this->Cell(80, 8, number_format($this->spending, '2', ',', '.'), 0, 1, 'R');
+        $this->Cell(80, 8, number_format($this->spending, 2, ',', '.'), 0, 1, 'R');
         $this->Cell(60, 8, 'Gesamt ', 'T', 0);
-        $this->Cell(80, 8, number_format($this->income - $this->spending, '2', ',', '.'), 'T', 1, 'R');
+        $this->Cell(80, 8, number_format($this->income - $this->spending, 2, ',', '.'), 'T', 1, 'R');
         $this->ln(10);
         $this->SetFont('helvetica', '', $hH1);
         $this->Cell(0, 10, 'Besucher ', 0, 1);
@@ -111,7 +111,7 @@ class EventReportPdf extends BasePdfTemplate
             $this->Cell($wReferenz, 8, $item->transaction->reference, 'B', 0);
             $this->Cell($wStatus, 8, $item->transaction->status, 'B', 0);
             $this->Cell($wKonto, 8, $item->transaction->account->name, 'B', 0);
-            $this->Cell(0, 8, number_format($item->transaction->amount_gross / 100, '2', ',', '.'), 'B', 1, 'R');
+            $this->Cell(0, 8, number_format($item->transaction->amount_gross / 100, 2, ',', '.'), 'B', 1, 'R');
         }
         $this->ln(10);
         $this->SetFont('helvetica', '', $hH1);
@@ -131,7 +131,7 @@ class EventReportPdf extends BasePdfTemplate
             $this->Cell($wReferenz, 8, $item->transaction->reference, 'B', 0);
             $this->Cell($wStatus, 8, $item->transaction->status, 'B', 0);
             $this->Cell($wKonto, 8, $item->transaction->account->name, 'B', 0);
-            $this->Cell(0, 8, number_format($item->transaction->amount_gross / 100, '2', ',', '.'), 'B', 1, 'R');
+            $this->Cell(0, 8, number_format($item->transaction->amount_gross / 100, 2, ',', '.'), 'B', 1, 'R');
         }
 
         $this->ln(10);

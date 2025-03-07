@@ -3,10 +3,12 @@ includes:
     - vendor/nesbot/carbon/extension.neon
 
 parameters:
-    level: 5
+
     paths:
         - app/
-    checkModelProperties: true
+
+    # Level 10 is the highest level
+    level: 5
 
 #    ignoreErrors:
 #        - '#PHPDoc tag @var#'

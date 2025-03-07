@@ -19,6 +19,8 @@ enum Locale: string
         return match ($value) {
             'de' => __('app.locale.de'),
             'hu' => __('app.locale.hu'),
+            default => throw new \InvalidArgumentException("Unknown Locale: $value"),
+
             //          'diverse' => __('app.diverse'),
         };
 

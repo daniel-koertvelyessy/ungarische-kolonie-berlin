@@ -1,6 +1,6 @@
 <x-guest-layout :title="__('aboutus.page.title')">
     @if(Auth::user()?->is_admin)
-        <div class="overflow-hidden py-24 sm:py-32">
+        <div class="overflow-hidden py-24">
             <div class="mx-auto max-w-2xl px-6 lg:max-w-7xl lg:px-8">
                 <div class="max-w-4xl">
                     <p class="text-base/7 font-semibold text-emerald-600">{{ __('aboutus.page.title') }}</p>
@@ -98,9 +98,9 @@
         </div>
 
     @else
-      <article class="flex sm:py-32 space-x-4">
+      <article class="flex space-x-4">
           <div class="pt-3 sm:pt-5">
-              <h2 class="text-xl font-semibold text-black dark:text-white">{{ __('welcome.mission.title') }}</h2>
+              <h1 class="text-5xl">{{ __('welcome.mission.title') }}</h1>
 
               <p class="mt-4 text-sm/relaxed">
                   {{ __('welcome.mission.content') }}

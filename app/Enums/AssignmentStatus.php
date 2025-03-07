@@ -25,6 +25,7 @@ enum AssignmentStatus: string
             'rejected' => __('assignment.status.rejected'),
             'completed' => __('assignment.status.retracted'),
             'postponed' => __('assignment.status.postponed'),
+            default => throw new \InvalidArgumentException("Unknown AssignmentStatus: $value"),
         };
     }
 
@@ -37,6 +38,7 @@ enum AssignmentStatus: string
             'rejected' => 'red',
             'completed' => 'emerald',
             'postponed' => 'orange',
+            default => throw new \InvalidArgumentException("Unknown AssignmentStatus: $value"),
         };
     }
 }

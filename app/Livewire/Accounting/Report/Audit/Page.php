@@ -5,15 +5,17 @@ namespace App\Livewire\Accounting\Report\Audit;
 use App\Enums\TransactionStatus;
 use App\Livewire\Forms\Accounting\AccountReportAuditForm;
 use App\Livewire\Traits\HasPrivileges;
-use App\Models\Accounting\Account;
 use App\Models\Accounting\AccountReport;
 use App\Models\Accounting\AccountReportAudit;
 use App\Models\Accounting\Transaction;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 
 class Page extends Component
 {
     use HasPrivileges;
+
     public int $accountReportAuditId;
 
     public $transactions;
@@ -42,15 +44,32 @@ class Page extends Component
 
     }
 
-
-    public function approveAuditReport():void{
+    public function approveAuditReport(): void
+    {
         $this->checkPrivilege(AccountReportAudit::class);
         $this->form->is_approved = true;
+        $this->form->approved_at = Carbon::now('Europe/Berlin');
         $this->form->update();
 
     }
-    public function rejectAuditReport():void{
-        $this->checkPrivilege(AccountReportAudit::class);
+
+    public function rejectAuditReport(): void
+    {
+
+        //  Gate::authorize('audit', $this->report);
+
+        $this->validate([
+            'form.reason' => 'required',
+        ], [
+            'form.reason.required' => 'Bitte eine Begründung angeben!',
+        ]);
+        $this->form->is_approved = false;
+        $this->form->approved_at = Carbon::now('Europe/Berlin');
+        $this->form->update();
+
+        AccountReport::setReportStatus($this->accountReportAuditId);
+
+        $this->redirect(\App\Livewire\Accounting\Report\Index\Page::class);
 
     }
 

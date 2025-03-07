@@ -4,13 +4,16 @@ namespace App\Services;
 
 use App\Models\Accounting\AccountReport;
 use App\Pdfs\AccountReportPdf;
+use Carbon\Carbon;
 
 class AccountReportService
 {
-    public function generate(AccountReport $accountReport)
+    public function generate(AccountReport $accountReport): string
     {
 
-        $filename = 'Kassenbericht-'.$accountReport->period_start->format('Y-m').'.pdf';
+        $dateString = Carbon::createFromTimeString($accountReport->period_start)->format('Y-m');
+
+        $filename = 'Kassenbericht-'.$dateString.'.pdf';
 
         $pdf = new AccountReportPdf(
             $accountReport,

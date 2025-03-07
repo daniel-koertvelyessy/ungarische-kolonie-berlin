@@ -46,20 +46,19 @@ class Member extends Model
 
     public static function getBoardMembers(): object
     {
-        return Member::whereIn('type', [MemberType::AD->value, MemberType::MD->value])
+        return Member::query()->whereIn('type', [MemberType::AD->value, MemberType::MD->value])
             ->get();
     }
 
     public static function countNewApplicants(): int
     {
-        return Member::whereIn('type', [MemberType::AP->value])
-            ->get()
+        return Member::query()->whereIn('type', [MemberType::AP->value])
             ->count();
     }
 
     public static function Applicants()
     {
-        return Member::whereIn('type', [MemberType::AP->value])
+        return Member::query()->whereIn('type', [MemberType::AP->value])
             ->get();
     }
 
@@ -98,7 +97,7 @@ class Member extends Model
         //        }
         $paidFee = 0;
 
-        $payments = MemberTransaction::where('member_id', $this->id)
+        $payments = MemberTransaction::query()->where('member_id', $this->id)
             ->whereHas('transaction', function ($query) {
                 $query->where('label', 'LIKE', '%beitrag%');
             })
@@ -124,10 +123,10 @@ class Member extends Model
     public function checkInvitationStatus(): string
     {
 
-        $invitation = Invitation::where('email', $this->email)->first();
+        $invitation = Invitation::query()->where('email', $this->email)->first();
 
         if ($invitation) {
-            return $invitation->accepted === 1 ? 'accepted' : 'invited';
+            return $invitation->accepted ? 'accepted' : 'invited';
         }
 
         return 'none';
@@ -142,7 +141,7 @@ class Member extends Model
     public function birthDayInMonth(): string
     {
 
-        return Carbon::create(date('Y'), $this->birth_date->format('m'), $this->birth_date->format('d'))
+        return Carbon::create(date('Y'), (int) $this->birth_date->format('m'), (int) $this->birth_date->format('d'))
             ->isoFormat('Do dddd');
 
     }

@@ -12,10 +12,10 @@ class RegisterController extends Controller
 {
     public function create(Request $request)
     {
-        $invitation = Invitation::where('token', $request->token)
+        $invitation = Invitation::query()->where('token', $request->token)
             ->firstOrFail();
 
-        $member = Member::where('email', $invitation->email)->firstOrFail();
+        $member = Member::query()->where('email', $invitation->email)->firstOrFail();
 
         $user = (new CreateNewUser)->create([
             'locale' => $member->locale,
@@ -43,10 +43,10 @@ class RegisterController extends Controller
     public function showRegistrationForm(Request $request)
     {
         $token = $request->query('token');
-        $invitation = Invitation::where('token', $token)
+        $invitation = Invitation::query()->where('token', $token)
             ->first();
 
-        $member = Member::where('email', $invitation->email)->firstOrFail();
+        $member = Member::query()->where('email', $invitation->email)->firstOrFail();
 
         if (! $member) {
             return redirect('/')->with('error', 'Invalid or non existent member');

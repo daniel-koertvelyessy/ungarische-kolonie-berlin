@@ -21,6 +21,8 @@ enum MemberType: string
             'board' => __('members.type.board'),
             'advisor' => __('members.type.advisor'),
             'applicant' => __('members.type.applicant'),
+            default => throw new \InvalidArgumentException("Unknown MemberType: $value"),
+
         };
     }
 
@@ -31,6 +33,8 @@ enum MemberType: string
             'board' => 'emerald',
             'advisor' => 'orange',
             'applicant' => 'yellow',
+            default => throw new \InvalidArgumentException("Unknown MemberType: $value"),
+
         };
     }
 }

@@ -5,11 +5,11 @@ namespace App\Policies;
 use App\Models\Accounting\AccountReportAudit;
 use App\Models\User;
 use App\Policies\Traits\HasAdminPrivileges;
-use Illuminate\Auth\Access\Response;
 
 class AccountReportAuditPolicy
 {
     use HasAdminPrivileges;
+
     /**
      * Determine whether the user can view any models.
      */
@@ -31,6 +31,7 @@ class AccountReportAuditPolicy
      */
     public function create(User $user): bool
     {
+
         return $this->getAdminPrivileges($user);
     }
 
@@ -39,9 +40,10 @@ class AccountReportAuditPolicy
      */
     public function update(User $user, AccountReportAudit $accountReportAudit): bool
     {
-        if ($user->id === $accountReportAudit->user_id){
+        if ($user->id === $accountReportAudit->user_id) {
             return true;
         }
+
         return false;
     }
 
@@ -69,12 +71,14 @@ class AccountReportAuditPolicy
         return false;
     }
 
-
     public function audit(User $user, AccountReportAudit $accountReportAudit): bool
     {
-        if ($user->id === $accountReportAudit->user_id){
+
+        if ($user->id === $accountReportAudit->user_id) {
+
             return true;
         }
+
         return false;
     }
 }
