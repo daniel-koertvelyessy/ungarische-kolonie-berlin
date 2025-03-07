@@ -11,6 +11,9 @@
          x-cloak
          x-show="showFilter"
     >
+        <livewire:accounting.fiscal-year-switcher.form />
+        <flux:separator vertical/>
+
         <flux:input wire:model.live="search"
                     clearable
                     size="sm"
@@ -50,9 +53,7 @@
             @endforeach
         </flux:checkbox.group>
 
-        <flux:fieldset class="space-y-3">
 
-        </flux:fieldset>
     </nav>
 
     <nav class="flex gap-3 lg:hidden"
@@ -150,8 +151,7 @@
                     <flux:table.cell variant="strong"
                                class="flex lg:items-center justify-start  flex-col lg:flex-row space-y-3 lg:space-y-0 items-start"
                     >
-                        <span class="lg:hidden inline-flex">{{ \Illuminate\Support\Str::limit($item->label,20,' ..') }}</span>
-                        <span class="hidden lg:inline-block">{{ $item->label}}</span>
+                        <span class="text-wrap">{{ $item->label}}</span>
 
                         <span class="lg:hidden inline-block">
                              <flux:badge size="sm"

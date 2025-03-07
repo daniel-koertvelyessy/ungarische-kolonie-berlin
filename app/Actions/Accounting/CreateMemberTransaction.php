@@ -13,6 +13,7 @@ final class CreateMemberTransaction
     public static function handle(TransactionForm $form, Member $member): Transaction
     {
         return DB::transaction(function () use ($form, $member) {
+
             $transaction = CreateTransaction::handle($form);
 
             MemberTransaction::create([

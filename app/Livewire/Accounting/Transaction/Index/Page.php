@@ -78,6 +78,8 @@ class Page extends Component
 
     public $transfer_reason;
 
+    public $selectedRow;
+
     public function updatedSearch(): void
     {
         $this->resetPage();
@@ -97,6 +99,7 @@ class Page extends Component
             ->with('event_transaction')
             ->with('member_transaction')
             ->with('account')
+            ->whereYear('date', session('financialYear'))
             ->tap(fn ($query) => $this->search ? $query->where('label', 'LIKE', '%'.$this->search.'%') : $query)
             ->whereIn('status', $this->filter_status)
             ->whereIn('type', $this->filter_type)
@@ -112,7 +115,7 @@ class Page extends Component
         return $transactionList;
     }
 
-    public function mount()
+    public function mount() : void
     {
         $this->filter_type = TransactionType::toArray();
     }

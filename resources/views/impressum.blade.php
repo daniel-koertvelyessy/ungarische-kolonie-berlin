@@ -4,7 +4,7 @@
     <dl class="divide-y divide-zinc-50 dark:divide-zinc-600">
         <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <dt class="text-sm/6 font-medium ">{{__('impressum.register_name')}}</dt>
-            <dd class="mt-1 text-sm/6 sm:col-span-2 sm:mt-0">Magyar Kolónia Berlin e.V.</dd>
+            <dd class="mt-1 text-sm/6 sm:col-span-2 sm:mt-0">Magyar-Kolónia Berlin (Ungarische-Kolonie-Berlin) e.V.</dd>
         </div>
         <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <dt class="text-sm/6 font-medium ">{{__('impressum.register_id')}}</dt>
@@ -27,10 +27,6 @@
                 <p>{{ __('impressum.sub_president') }}: Mátyás Temesi</p>
 
             </dd>
-        </div>
-        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt class="text-sm/6 font-medium ">{{__('impressum.address')}}</dt>
-            <dd class="mt-1 text-sm/6 sm:col-span-2 sm:mt-0">14193 Berlin, Auerbacherstr. 9</dd>
         </div>
         <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <dt class="text-sm/6 font-medium ">  V.i.S.d § 18 Abs. 2 MStV</dt>

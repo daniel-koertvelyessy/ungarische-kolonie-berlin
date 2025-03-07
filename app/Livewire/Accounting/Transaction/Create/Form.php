@@ -129,7 +129,7 @@ class Form extends Component
         $this->transaction = $this->handleTransaction();
 
         $this->dispatch('updated-payments');
-        $this->redirect(\App\Livewire\Accounting\Transaction\Index\Page::class, true);
+     //   $this->redirect(\App\Livewire\Accounting\Transaction\Index\Page::class, true);
 
     }
 
@@ -193,26 +193,6 @@ class Form extends Component
             'transaction.id.unique' => 'Diese Buchung wurde bereits vergeben.',
         ]);
 
-        /*      if (isset($this->transaction)){
-                  try {
-                      UpdateEventTransaction::handle($this->transaction,$this->event, $this->visitor_name, $this->gender );
-                      Flux::toast(
-                          text: 'Die Buchung '.$this->transaction->label.' wurde aktualisiert',
-                          heading: 'Erfolg',
-                          variant: 'success',
-                      );
-                  } catch (\Throwable $e) {
-                      Flux::toast(
-                          text: 'Die Transaktion konnte nicht gespeichert werden: '.$e->getMessage(),
-                          heading: 'Fehler',
-                          duration: 0,
-                          variant: 'error',
-                      );
-                      Log::error('Transaction creation failed', ['error' => $e->getMessage()]);
-                  }
-
-
-              } else{*/
         try {
             if (isset($this->receiptForm->file_name)) {
                 $this->transaction = CreateEventTransaction::handle($this->form, $this->event, $this->visitor_name, $this->gender);
@@ -226,6 +206,8 @@ class Form extends Component
                 heading: 'Erfolg',
                 variant: 'success',
             );
+            Flux::modal('add-new-payment')->close();
+            $this->dispatch('updated-payments');
         } catch (\Throwable $e) {
             Flux::toast(
                 text: 'Die Transaktion konnte nicht gespeichert werden: '.$e->getMessage(),
@@ -246,7 +228,20 @@ class Form extends Component
 
     protected function handleMemberTransaction(TransactionForm $form, Member $member): void
     {
+
+        $this->validate([
+            'form.account_id' => ['required', 'doesnt_start_with:new'],
+            'form.amount_gross' => 'required',
+            'form.label' => 'required',
+            'transaction.id' => 'unique:member_transactions,transaction_id',
+        ],[
+            'form.account_id.required' => 'Bitte ein Zahlungskonto auswählen oder anlegen',
+            'form.label.required' => 'Bitte eine Bezeichnung angeben',
+            'form.amount_gross.required' => 'Bitte einen Betrag angeben',
+        ]);
+
         try {
+
             CreateMemberTransaction::handle($form, $member);
 
             Flux::toast(
@@ -254,6 +249,9 @@ class Form extends Component
                 heading: 'Erfolg',
                 variant: 'success',
             );
+            Flux::modal('add-new-payment')->close();
+            $this->dispatch('updated-payments');
+
         } catch (\Throwable $e) {
             Flux::toast(
                 text: 'Die Transaktion konnte nicht gespeichert werden: '.$e->getMessage(),

@@ -1,6 +1,8 @@
 <div>
-    <header class="py-3 border-b border-zinc-200 mb-6">
-        <flux:heading size="xl">Kassenjahr 2025</flux:heading>
+    <header class="py-3 border-b border-zinc-200 mb-6 flex justify-between">
+        <flux:heading size="xl">Kassenjahr {{ session('financialYear') }}</flux:heading>
+
+        <livewire:accounting.fiscal-year-switcher.form />
     </header>
 
     <section class="grid grid-cols-1 gap-3 lg:grid-cols-2 xl:grid-cols-3 lg:gap-6">
@@ -11,13 +13,13 @@
             <flux:table :paginate="$this->transactions">
                 <flux:table.columns>
                     <flux:table.column>Bezeichnung</flux:table.column>
-                    <flux:table.column>Summe</flux:table.column>
+                    <flux:table.column sortable :sorted="$sortBy === 'amount'" :direction="$sortDirection" wire:click="sort('amount_gross')">Betrag</flux:table.column>
                 </flux:table.columns>
 
                 <flux:table.rows>
                     @foreach ($this->transactions as $items)
                         <flux:table.row :key="$items->id">
-                            <flux:table.cell>
+                            <flux:table.cell class="text-wrap hyphens-auto">
                                 {{ $items->label }}
                             </flux:table.cell>
                             <flux:table.cell>
@@ -31,14 +33,12 @@
                 </flux:table.rows>
             </flux:table>
 
-            <section class="my-3 flex">
+            <section class="my-3 flex justify-between items-center gap-3">
                 <flux:button href="{{ route('transaction.index') }}">Übersicht</flux:button>
                 @can('create', \App\Models\Accounting\Account::class)
-
-                    <flux:spacer/>
                     <flux:button variant="primary"
                                  href="{{ route('transaction.create') }}"
-                    >Buchung Einreichen
+                    ><span class="hidden lg:inline">Buchung</span> Einreichen
                     </flux:button>
                 @endcan
             </section>

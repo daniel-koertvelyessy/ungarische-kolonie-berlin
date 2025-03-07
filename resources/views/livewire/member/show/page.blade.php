@@ -205,7 +205,7 @@
 
                     <flux:field>
 
-                        @if($feetype === \App\Enums\MemberFeeType::FREE->value )
+                        @if($fee_type === \App\Enums\MemberFeeType::FREE->value )
                             <flux:badge color="lime"
                                         size="lg"
                             >{{ __('members.') }}

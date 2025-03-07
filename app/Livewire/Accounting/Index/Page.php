@@ -3,43 +3,34 @@
 namespace App\Livewire\Accounting\Index;
 
 use App\Enums\TransactionStatus;
+use App\Livewire\Traits\Sortable;
 use App\Models\Accounting\Account;
 use App\Models\Accounting\Transaction;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class Page extends Component
 {
-    use WithPagination;
+    use Sortable, WithPagination;
 
-    public $sortBy = 'date';
 
-    public $sortDirection = 'desc';
 
     protected $listeners = ['receipt-deleted' => '$refresh'];
 
-    public function sort($column): void
-    {
-        if ($this->sortBy === $column) {
-            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
-        } else {
-            $this->sortBy = $column;
-            $this->sortDirection = 'asc';
-        }
-    }
-
     #[Computed]
-    public function transactions()
+    public function transactions(): LengthAwarePaginator
     {
         return Transaction::query()
+            ->whereYear('date', session('financialYear'))
             ->where('status', '=', TransactionStatus::booked->value)
             ->tap(fn ($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
             ->paginate(10);
     }
 
     #[Computed]
-    public function accounts()
+    public function accounts(): LengthAwarePaginator
     {
         return Account::query()
             ->tap(fn ($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)

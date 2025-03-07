@@ -62,7 +62,7 @@ class Page extends Component
 
     protected $listeners = ['updated-payments' => 'payments'];
 
-    public $feetype;
+    public $fee_type;
 
     #[Computed]
     public function payments(): LengthAwarePaginator
@@ -92,7 +92,7 @@ class Page extends Component
         $this->feeStatus = $this->feeStatusResults['status'];
         $this->openFees = number_format($this->feeStatusResults['paid'], 2, ',', '.');
 
-        $this->feetype = $this->memberForm->fee_type;
+        $this->fee_type = $this->memberForm->fee_type;
     }
 
     public function detachUser(int $userid): void
@@ -197,7 +197,7 @@ class Page extends Component
         }
     }
 
-    public function cancelMember()
+    public function cancelMember(): void
     {
         try {
             $this->authorize('delete', Member::class);
@@ -215,7 +215,7 @@ class Page extends Component
             ->show();
     }
 
-    public function deleteMembershipForSure()
+    public function deleteMembershipForSure(): void
     {
         $this->authorize('delete', Member::class);
         $msg = '';

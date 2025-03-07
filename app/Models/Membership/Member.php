@@ -164,15 +164,16 @@ class Member extends Model
         //            ];
         //        }
         $paidFee = 0;
-
-        $payments = MemberTransaction::query()->where('member_id', $this->id)
-            ->whereHas('transaction', function ($query) {
-                $query->where('label', 'LIKE', '%beitrag%');
-            })
+        $currentYear = Carbon::now('Europe/Berlin')->year;
+        $payments = MemberTransaction::query()
+            ->where('member_id', $this->id)
             ->with(['transaction' => function ($query) {
                 $query->select('id', 'amount_gross', 'label', 'status')
                     ->whereBetween('date', [Carbon::now('Europe/Berlin')->startOfYear(), Carbon::now('Europe/Berlin')->endOfYear()])
-                    ->where('status', TransactionStatus::booked->value); // Select columns from the transaction table
+                    ->where('booking_account_id', '=', 13)
+                    ->where('status', TransactionStatus::booked->value)
+                    ->orWhere('label', 'LIKE', '%'.Carbon::now('Europe/Berlin')->year.'%')
+                    ->orWhere('label', 'LIKE', '%betrag%'); // Select columns from the transaction table
             }])
             ->whereBetween('updated_at', [
                 Carbon::today()->startOfYear(), Carbon::now('Europe/Berlin'),
