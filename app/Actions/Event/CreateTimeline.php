@@ -26,6 +26,7 @@ class CreateTimeline
                 'user_id' => $form->user_id,
                 'place' => $form->place,
                 'performer' => $form->performer,
+                'title_extern' => $form->title_extern,
             ]);
         });
     }

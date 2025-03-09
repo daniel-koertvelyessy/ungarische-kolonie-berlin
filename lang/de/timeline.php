@@ -31,6 +31,8 @@ return [
     'deletion_success.msg' => 'Der Programmpunkt wurde erfolgreich gelöscht',
     'storing_success.header' => 'Erfolg!',
     'storing_success.msg' => 'Der Programmpunkt wurde erfolgreich gespeichert',
+    'title_extern_de' => 'Externer Titel de',
+    'title_extern_hu' => 'Externer Titel hu',
     '' => '',
     '' => '',
 ];

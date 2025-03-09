@@ -30,6 +30,6 @@ return [
 
     'password.reset.btn.label' => '',
 
-    'change_fy' => 'Geschäftsjahr wechseln auf'
+    'change_fy' => 'Geschäftsjahr wechseln auf',
 
 ];

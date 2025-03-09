@@ -66,7 +66,9 @@ Route::get('/events', function () {
 
 Route::get('/events/{slug}', function (string $slug) {
     return view('events.show', [
-        'event' => Event::with('venue')
+        'event' => Event::query()
+            ->with('venue')
+            ->with('timelines')
             ->whereJsonContains('slug', $slug)
             ->firstOrFail(),
         'locale' => App::getLocale(),

@@ -115,7 +115,7 @@ class Page extends Component
         return $transactionList;
     }
 
-    public function mount() : void
+    public function mount(): void
     {
         $this->filter_type = TransactionType::toArray();
     }

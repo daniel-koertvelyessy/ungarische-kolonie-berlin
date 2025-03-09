@@ -28,6 +28,10 @@ return [
     'visitor-table.header.is_subscriber' => 'Anmelder',
 
     'subscribe' => 'Interesse?',
+
+    'tickets.start.label' => 'Karten reservieren',
+    'tickets.start.btn' => 'Reservieren',
+
     'subscription.title' => 'Veranstaltung folgen',
     'subscription.text' => 'Wir freuen uns sehr, dass ein Interesse an der Veranstaltung besteht. Für eine bessere Planung kannst Du Dich in dem Formular unten eintragen. So erhalten wir eine bessere Übersicht zu der erwartenden Besucherzahl.',
     'subscription.consent' => 'Zudem können wir diese E-Mail-Adresse benutzen, um Dich über Änderungen zu informieren. Bitte aktiviere den Schalter, wenn das gewünscht ist',
@@ -108,5 +112,16 @@ return [
 
     'assignments.heading' => 'Aufgaben',
     'timeline.heading' => 'Ablaufplan',
+
+    'timeline.title' => 'Punkt',
+    'timeline.start' => 'Start',
+    'timeline.end' => 'Ende',
+    'timeline.place' => 'Ort',
+    'timeline.performer' => 'Künstler',
+    'timeline.' => '',
+    'timeline.' => '',
+    'timeline.' => '',
+    'timeline.' => '',
+    '' => '',
 
 ];

@@ -56,7 +56,7 @@ class EventTimeline extends Model
     protected $guarded = [];
 
     protected $casts = [
-
+        'title_extern' => 'array',
     ];
 
     public function event(): BelongsTo

@@ -650,10 +650,10 @@
                                         @endif
                                     </flux:table.cell>
                                     <flux:table.cell class="hidden sm:table-cell">
-                                        {{ $timeItem->place }}
+                                        {{ $timeItem->performer }}
                                     </flux:table.cell>
                                     <flux:table.cell class="hidden sm:table-cell">
-                                        {{ $timeItem->performer }}
+                                        {{ $timeItem->place }}
                                     </flux:table.cell>
                                     <flux:table.cell class="hidden sm:table-cell">
                                         {{ $timeItem->start }}
@@ -823,6 +823,14 @@
                 <flux:input wire:model="timelineForm.title"
                             label="{{ __('timeline.title') }}"
                 />
+
+                <flux:card class="space-y-6">
+                    @foreach($form->locales as $locale)
+                    <flux:input wire:model="timelineForm.title_extern.{{ $locale }}"
+                                label="Titel extern {{ $locale }}"
+                    />
+                    @endforeach
+                </flux:card>
 
                 <flux:textarea rows="auto"
                                wire:model="timelineForm.description"

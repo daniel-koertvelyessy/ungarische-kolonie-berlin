@@ -25,6 +25,9 @@ class UpdateTimeline
                 'notes' => $form->notes,
                 'member_id' => $form->member_id,
                 'user_id' => $form->user_id,
+                'place' => $form->place,
+                'performer' => $form->performer,
+                'title_extern' => $form->title_extern,
             ])) {
                 return $eventTimeline;
             } else {

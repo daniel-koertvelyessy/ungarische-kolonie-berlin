@@ -21,6 +21,8 @@ class EventTimelineForm extends Form
 
     public $title;
 
+    public array $title_extern;
+
     public $description;
 
     public $notes;
@@ -49,6 +51,7 @@ class EventTimelineForm extends Form
         $this->place = $eventTimeline->place;
         $this->performer = $eventTimeline->performer;
         $this->id = $eventTimeline->id;
+        $this->title_extern = $eventTimeline->title_extern ?? [];
     }
 
     public function create(): void

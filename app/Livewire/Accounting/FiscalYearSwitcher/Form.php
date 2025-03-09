@@ -8,8 +8,6 @@ use Livewire\Component;
 
 class Form extends Component
 {
-
-
     public array $fiscalYears = [];
 
     public string $current_fiscal_year;
@@ -24,7 +22,7 @@ class Form extends Component
             ->all();
     }
 
-    public function setFY($fy):void
+    public function setFY($fy): void
     {
         Session::put('financialYear', $fy);
         $this->redirect(request()->header('Referer') ?? '/dashboard');

@@ -224,6 +224,11 @@ class Page extends Component
             $this->timelineForm->start = $this->timelineForm->end;
             $this->timelineForm->end = '';
         }
+        Flux::toast(
+            text: __('timeline.storing_success.msg'),
+            heading: __('timeline.deletion_success.header'),
+            variant: 'success',
+        );
     }
 
     public function editTimeline(int $timelineId): void

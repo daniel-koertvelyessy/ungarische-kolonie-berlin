@@ -15,8 +15,6 @@ class Page extends Component
 {
     use Sortable, WithPagination;
 
-
-
     protected $listeners = ['receipt-deleted' => '$refresh'];
 
     #[Computed]

@@ -129,7 +129,7 @@ class Form extends Component
         $this->transaction = $this->handleTransaction();
 
         $this->dispatch('updated-payments');
-     //   $this->redirect(\App\Livewire\Accounting\Transaction\Index\Page::class, true);
+        //   $this->redirect(\App\Livewire\Accounting\Transaction\Index\Page::class, true);
 
     }
 
@@ -234,7 +234,7 @@ class Form extends Component
             'form.amount_gross' => 'required',
             'form.label' => 'required',
             'transaction.id' => 'unique:member_transactions,transaction_id',
-        ],[
+        ], [
             'form.account_id.required' => 'Bitte ein Zahlungskonto auswählen oder anlegen',
             'form.label.required' => 'Bitte eine Bezeichnung angeben',
             'form.amount_gross.required' => 'Bitte einen Betrag angeben',
