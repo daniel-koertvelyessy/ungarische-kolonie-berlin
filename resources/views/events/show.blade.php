@@ -124,7 +124,7 @@
                             <col class="w-full sm:w-6/12">
                             <col class="lg:w-1/12">
                             <col class="lg:w-1/12">
-                            <col class="lg:w-4/12">
+                            <col class="w-full">
                         </colgroup>
                         <thead class="border-b border-white/10 text-sm/6">
                         <tr>
