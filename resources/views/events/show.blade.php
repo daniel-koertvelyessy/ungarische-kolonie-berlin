@@ -119,31 +119,15 @@
             @if($event->timelines)
                 <flux:card>
                     <h3 class="text-xl font-bold text-zinc-900">Programmablauf</h3>
-                    <table class="w-full text-left whitespace-nowrap my-6">
-                        <thead class="border-b border-white/10 text-sm/6">
-                        <tr>
-                            <th scope="col"
-                                class="pr-8 pl-2 font-semibold sm:pl-3 lg:pl-6"
-                            >{{ __('event.timeline.title') }}
-                            </th>
-                            <th scope="col"
-                                class="hidden pr-8 pl-0 font-semibold sm:table-cell"
-                            >{{ __('event.timeline.start') }}
-                            </th>
-                            <th scope="col"
-                                class="hidden pr-8 pl-0 font-semibold sm:table-cell"
-                            >{{ __('event.timeline.end') }}
-                            </th>
-                            <th scope="col"
-                                class="pr-4 pl-0 font-semibold sm:pr-8 sm:text-left lg:pr-20"
-                            >{{ __('event.timeline.place') }}
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody class="divide-y divide-zinc-200">
+
+                    <div class="lg:hidden divide-y divide-zinc-200 space-y-6">
                         @foreach($event->timelines as $item)
-                            <tr>
-                                <td class="py-2 pr-8 pl-2 sm:pl-3 lg:pl-6  text-wrap hyphens-auto">
+                            <div>
+                                <span class="flex justify-between items-center">
+                                    <span>{{ $item->start }}</span> -  <span>{{ $item->end }}</span>
+                                </span>
+
+                                <span class="text-wrap hyphens-auto">
                                     <div class="flex flex-col">
                                         @if($item->title_extern)
                                             <span class="wrap-text">{{ $item->title_extern[$locale??'de'] }}</span>
@@ -153,21 +137,67 @@
                                             <span class="text-sm wrap-text hyphens-auto">{{ __('event.timeline.performer') }}:&shy; {{ $item->performer }}</span>
                                         @endif
                                     </div>
-                                </td>
-                                <td class="hidden py-4 pr-4 pl-0 sm:table-cell sm:pr-8">
-                                    {{ $item->start }}
-                                </td>
-                                <td class="hidden py-4 pr-4 pl-0 sm:table-cell sm:pr-8">
-                                    {{ $item->end }}
-                                </td>
-                                <td class="pr-4 pl-0 font-semibold sm:pr-8 lg:pr-20 text-wrap hyphens-auto">
+                                </span>
+                                <span class="text-wrap hyphens-auto">
                                     {{ $item->place }}
-                                </td>
-                            </tr>
+                                </span>
+                            </div>
                         @endforeach
+                    </div>
 
-                        </tbody>
-                    </table>
+
+                    <div class="hidden lg:flex">
+                        <table class="w-full text-left whitespace-nowrap my-6">
+                            <thead class="border-b border-white/10 text-sm/6">
+                            <tr>
+                                <th scope="col"
+                                    class="pr-8 pl-2 font-semibold sm:pl-3 lg:pl-6"
+                                >{{ __('event.timeline.title') }}
+                                </th>
+                                <th scope="col"
+                                    class="hidden pr-8 pl-0 font-semibold sm:table-cell"
+                                >{{ __('event.timeline.start') }}
+                                </th>
+                                <th scope="col"
+                                    class="hidden pr-8 pl-0 font-semibold sm:table-cell"
+                                >{{ __('event.timeline.end') }}
+                                </th>
+                                <th scope="col"
+                                    class="pr-4 pl-0 font-semibold sm:pr-8 sm:text-left lg:pr-20"
+                                >{{ __('event.timeline.place') }}
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody class="divide-y divide-zinc-200">
+                            @foreach($event->timelines as $item)
+                                <tr>
+                                    <td class="py-2 pr-8 pl-2 sm:pl-3 lg:pl-6  text-wrap hyphens-auto">
+                                        <div class="flex flex-col">
+                                            @if($item->title_extern)
+                                                <span class="wrap-text">{{ $item->title_extern[$locale??'de'] }}</span>
+                                            @endif
+
+                                            @if($item->performer)
+                                                <span class="text-sm wrap-text hyphens-auto">{{ __('event.timeline.performer') }}:&shy; {{ $item->performer }}</span>
+                                            @endif
+                                        </div>
+                                    </td>
+                                    <td class="hidden py-4 pr-4 pl-0 sm:table-cell sm:pr-8">
+                                        {{ $item->start }}
+                                    </td>
+                                    <td class="hidden py-4 pr-4 pl-0 sm:table-cell sm:pr-8">
+                                        {{ $item->end }}
+                                    </td>
+                                    <td class="pr-4 pl-0 font-semibold sm:pr-8 lg:pr-20 text-wrap hyphens-auto">
+                                        {{ $item->place }}
+                                    </td>
+                                </tr>
+                            @endforeach
+
+                            </tbody>
+                        </table>
+                    </div>
+
                 </flux:card>
             @endif
         </aside>
