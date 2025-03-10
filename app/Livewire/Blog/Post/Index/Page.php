@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Livewire\Article\Index;
+namespace App\Livewire\Blog\Post\Index;
 
 use App\Livewire\Traits\Sortable;
-use App\Models\Article;
+use App\Models\Blog\Post;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -11,14 +12,13 @@ use Livewire\WithPagination;
 
 class Page extends Component
 {
+
     use Sortable, WithPagination;
 
-
-
     #[Computed]
-    public function articles()
+    public function posts(): LengthAwarePaginator
     {
-        return Article::query()
+        return Post::query()
             ->tap(fn ($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
             ->paginate(10);
     }
@@ -26,6 +26,8 @@ class Page extends Component
     #[Layout('layouts.guest')]
     public function render()
     {
-        return view('livewire.article.index.page');
+
+        return view('livewire.blog.post.index.page');
     }
+
 }

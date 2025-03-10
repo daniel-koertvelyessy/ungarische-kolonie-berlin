@@ -67,8 +67,8 @@
                     </p>
 
                     @if($articles_total>0)
-                    @foreach($articles as $key => $article)
-                        <x-article-item :event="$article"/>
+                    @foreach($posts as $key => $post)
+                        <x-article-item :event="$post"/>
                     @endforeach
 
                     <flux:button size="sm"

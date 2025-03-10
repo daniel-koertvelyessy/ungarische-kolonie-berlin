@@ -15,30 +15,23 @@ class GuestLayout extends Component
     public ?Event $event = null;
     public string $locale;
 
-    public function __construct(?string $title = null, bool $is_login_page = false, $event = null)
+    public function __construct(?string $title = null, bool $is_login_page = false, ?Event $event = null)
     {
-        // Set the page title
-        $this->title = $title ? $title . ' | Magyar Kolónia Berlin e.V.' : 'Magyar Kolónia Berlin e.V.';
-
-        // Ensure $is_login_page is a boolean
-        $this->is_login_page = filter_var($is_login_page, FILTER_VALIDATE_BOOLEAN);
-
-        // Handle the event with stricter checking
-        if ($event instanceof Event && $event->exists) { // Only set if it's a valid, loaded Event model
-            $this->event = $event;
-            $this->hasEvent = true;
-        } else {
-            $this->event = null;
-            $this->hasEvent = false;
-        }
-
-        // Set the locale (default to 'de' if not set)
-        $this->locale = app()->getLocale() ?? 'de';
+        // Default values
+        $this->title = $title ?: 'Magyar Kolónia Berlin e.V.';  // Use provided title or fallback to default
+        $this->is_login_page = $is_login_page;  // Use provided value or default to false
+        $this->event = $event;  // Event can be null
+        $this->hasEvent = $event instanceof Event; // Check if event exists
+        $this->locale = app()->getLocale() ?? 'de'; // Default to 'de' if no locale is set
     }
-
 
     public function render(): View
     {
-        return view('layouts.guest');
+        return view('layouts.guest', [
+            'title'    => $this->title,
+            'event'    => $this->event,
+            'hasEvent' => $this->hasEvent,
+            'locale'   => $this->locale
+        ]);
     }
 }

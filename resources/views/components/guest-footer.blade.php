@@ -16,7 +16,7 @@
                                href="{{ route('events') }}"
             >{{__('app.events')}}</flux:navlist.item>
             <flux:navlist.item wire:navigate
-                               href="{{ route('articles.index') }}"
+                               href="{{ route('posts.index') }}"
             >{{__('app.blog')}}</flux:navlist.item>
             <flux:navlist.item wire:navigate
                                href="{{ route('about-us') }}"
@@ -78,8 +78,8 @@
         >{{__('app.events')}}</flux:navbar.item>
 
         <flux:navbar.item wire:navigate
-                          :current="request()->routeIs('articles*')"
-                          href="{{ route('articles.index') }}"
+                          :current="request()->routeIs('posts*')"
+                          href="{{ route('posts.index') }}"
         >{{__('app.blog')}}</flux:navbar.item>
 
         <flux:navbar.item wire:navigate

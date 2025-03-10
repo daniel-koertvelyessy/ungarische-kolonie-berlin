@@ -77,8 +77,11 @@ Route::get('/events/{slug}', function (string $slug) {
 })
     ->name('events.show');
 
-Route::get('/articles', \App\Livewire\Article\Index\Page::class)
-    ->name('articles.index');
+Route::get('/posts', \App\Livewire\Blog\Post\Index\Page::class)
+    ->name('posts.index');
+
+Route::get('/posts/{post}', \App\Livewire\Blog\Post\Index\Page::class)
+    ->name('posts.show');
 
 Route::get('/ics/{slug}', function (string $slug) {
     $locale = App::getLocale();
