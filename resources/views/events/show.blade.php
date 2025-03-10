@@ -206,7 +206,7 @@
 
                                         <div class="hidden lg:flex">
                                             @if($item->title_extern)
-                                                <span class="wrap-text"> {{ $item->title_extern[$locale??'de'] }}</span>
+                                                <span class="text-wrap"> {{ $item->title_extern[$locale??'de'] }}</span>
                                             @endif
                                         </div>
 
@@ -215,7 +215,7 @@
                                             @if($item->title_extern)
                                                 <div class="flex flex-col">
                                                     {{ __('event.timeline.title') }}:
-                                                    <span class="wrap-text text-lg">{{ $item->title_extern[$locale??'de'] }}</span>
+                                                    <span class="text-wrap hyphens-auto  text-lg">{{ $item->title_extern[$locale??'de'] }}</span>
                                                 </div>
 
                                             @endif
@@ -223,14 +223,14 @@
                                             @if($item->performer)
                                                 <div class="flex flex-col">
                                                     {{ __('event.timeline.performer') }}:
-                                                    <span class="wrap-text hyphens-auto text-lg">{{ $item->performer }}</span>
+                                                    <span class="text-wrap hyphens-auto text-lg">{{ $item->performer }}</span>
                                                 </div>
                                             @endif
 
                                             @if($item->place)
                                                 <div class="flex flex-col">
                                                     {{ __('event.timeline.place') }}
-                                                    <span class="wrap-text hyphens-auto text-lg">{{ $item->place }}</span>
+                                                    <span class="text-wrap hyphens-auto text-lg">{{ $item->place }}</span>
                                                 </div>
                                             @endif
                                             <aside class="">
