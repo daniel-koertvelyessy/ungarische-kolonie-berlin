@@ -81,7 +81,9 @@
             ], JSON_UNESCAPED_UNICODE) !!}
         </script>
     </x-slot>
-    <h1 class="text-xl mb-3">{{ __('event.show.title') }}: {{ $event->title[$locale??'de'] }}</h1>
+
+    <flux:subheading>{{ __('event.show.title') }}:</flux:subheading>
+    <h1 class="text-xl mb-3"> {{ $event->title[$locale??'de'] }}</h1>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-6">
         <article>
