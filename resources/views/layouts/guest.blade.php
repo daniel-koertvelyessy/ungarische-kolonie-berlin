@@ -9,7 +9,7 @@
     >
 
     <title>{{$title??'Magyar Kolónia Berlin e.V.'}}</title>
-    
+
     <!-- Styles / Scripts -->
     {{--    @turnstileScripts()--}}
     @fluxAppearance

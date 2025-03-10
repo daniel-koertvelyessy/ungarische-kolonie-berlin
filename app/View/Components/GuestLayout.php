@@ -23,15 +23,6 @@ class GuestLayout extends Component
         // Ensure $is_login_page is a boolean
         $this->is_login_page = filter_var($is_login_page, FILTER_VALIDATE_BOOLEAN);
 
-        // Debug incoming parameters
-        Log::debug('GuestLayout Constructor', [
-            'title' => $title,
-            'is_login_page' => $is_login_page,
-            'event' => $event,
-            'event_type' => gettype($event),
-            'is_event_instance' => $event instanceof Event,
-        ]);
-
         // Handle the event with stricter checking
         if ($event instanceof Event && $event->exists) { // Only set if it's a valid, loaded Event model
             $this->event = $event;
@@ -40,13 +31,6 @@ class GuestLayout extends Component
             $this->event = null;
             $this->hasEvent = false;
         }
-
-        // Confirm final values
-        Log::debug('GuestLayout Final Values', [
-            'hasEvent' => $this->hasEvent,
-            'event' => $this->event,
-            'isset_event' => isset($this->event),
-        ]);
 
         // Set the locale (default to 'de' if not set)
         $this->locale = app()->getLocale() ?? 'de';
