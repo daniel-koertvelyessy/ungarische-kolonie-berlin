@@ -84,17 +84,17 @@
                             </flux:modal.trigger>
                         </dd>
                     </div>
-{{--
-                    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                        <dt class="text-sm/6 font-medium text-gray-900 dark:text-emerald-400">{{ __('event.tickets.start.label') }}</dt>
-                        <dd class="mt-1 text-sm/6 text-gray-700 dark:text-gray-100 sm:col-span-2 sm:mt-0">
-                            <flux:modal.trigger name="buy-tickets-to-event">
-                                <flux:button variant="primary"
-                                             icon-trailing="banknotes"
-                                >{{ __('event.tickets.start.btn') }}</flux:button>
-                            </flux:modal.trigger>
-                        </dd>
-                    </div>--}}
+                    {{--
+                                        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                            <dt class="text-sm/6 font-medium text-gray-900 dark:text-emerald-400">{{ __('event.tickets.start.label') }}</dt>
+                                            <dd class="mt-1 text-sm/6 text-gray-700 dark:text-gray-100 sm:col-span-2 sm:mt-0">
+                                                <flux:modal.trigger name="buy-tickets-to-event">
+                                                    <flux:button variant="primary"
+                                                                 icon-trailing="banknotes"
+                                                    >{{ __('event.tickets.start.btn') }}</flux:button>
+                                                </flux:modal.trigger>
+                                            </dd>
+                                        </div>--}}
 
                     @if($event->payment_link)
 
@@ -120,12 +120,6 @@
                 <flux:card>
                     <h3 class="text-xl font-bold text-zinc-900">Programmablauf</h3>
                     <table class="w-full text-left whitespace-nowrap my-6">
-                        <colgroup>
-                            <col class="w-full sm:w-6/12">
-                            <col class="lg:w-1/12">
-                            <col class="lg:w-1/12">
-                            <col>
-                        </colgroup>
                         <thead class="border-b border-white/10 text-sm/6">
                         <tr>
                             <th scope="col"
