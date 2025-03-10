@@ -42,10 +42,8 @@
                     <flux:label>Link</flux:label>
 
                     <flux:input.group>
-                        <flux:input.group.prefix>https://</flux:input.group.prefix>
-
                         <flux:input wire:model="url"
-                                    placeholder="example.com"
+                                    placeholder="https://magyar-kolonia-berlin.org"
                         />
                     </flux:input.group>
 
