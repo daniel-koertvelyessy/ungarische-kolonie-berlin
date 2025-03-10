@@ -184,11 +184,14 @@
                                 />
                             </flux:field>
 
-                            {{--           <div>
-                                           <flux:label>Slug für Sprache <flux:badge color="lime">{{ $locale->value }}</flux:badge> </flux:label>
-                                           <br>
-                                           <flex:text>{{ $form->slug[$locale->value] }}</flex:text>
-                                       </div>--}}
+                            <flux:field>
+                                <flux:label>slug Sprache
+                                    <flux:badge color="lime">{{ $locale->value }}</flux:badge>
+                                </flux:label>
+                                <flux:input wire:model="form.slug.{{$locale->value}}"
+                                            description="Der slug wird als Link verwendet"
+                                />
+                            </flux:field>
 
                             <flux:field>
                                 <flux:label>Text Auszug für Sprache
