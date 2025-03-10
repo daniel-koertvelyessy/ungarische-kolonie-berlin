@@ -143,7 +143,7 @@
                         <tbody class="divide-y divide-zinc-200">
                         @foreach($event->timelines as $item)
                             <tr>
-                                <td class="py-2 pr-8 pl-2 sm:pl-3 lg:pl-6">
+                                <td class="py-2 pr-8 pl-2 sm:pl-3 lg:pl-6  text-wrap hyphens-auto">
                                     <div class="flex flex-col">
                                         @if($item->title_extern)
                                             <span class="wrap-text">{{ $item->title_extern[$locale??'de'] }}</span>
@@ -160,7 +160,7 @@
                                 <td class="hidden py-4 pr-4 pl-0 sm:table-cell sm:pr-8">
                                     {{ $item->end }}
                                 </td>
-                                <td class="pr-4 pl-0 font-semibold sm:pr-8 lg:pr-20">
+                                <td class="pr-4 pl-0 font-semibold sm:pr-8 lg:pr-20 text-wrap hyphens-auto">
                                     {{ $item->place }}
                                 </td>
                             </tr>
