@@ -54,9 +54,6 @@ FOOTER
                                 <a href="mailto:szia@magyar-kolonia-berlin.org">szia@magyar-kolonia-berlin.org</a>
                             </li>
                             <li>
-                                <a href="mailto:hallo@magyar-kolonia-berlin.org">hallo@agyar-kolonia-berlin.org</a>
-                            </li>
-                            <li>
                                 <a href="https://magyar-kolonia-berlin.org">Magyar Kolónia Berlin e.V.</a>
                             </li>
                             <li>

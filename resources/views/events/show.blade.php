@@ -1,4 +1,4 @@
-<x-guest-layout :title="__('event.show.title')">
+<x-guest-layout :title="__('event.show.title')" :event="$event">
     <h1 class="text-xl mb-3">{{ __('event.show.title') }}: {{ $event->title[$locale??'de'] }}</h1>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-6">
