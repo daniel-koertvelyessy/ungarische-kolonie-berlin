@@ -111,7 +111,8 @@
 
         <flux:navlist.item wire:navigate
                            icon="newspaper"
-                           href="#"
+                           href="{{ route('backend.posts.index')  }}"
+                           :current="request()->is('*posts*')"
         >{{ __('nav.blogs') }}</flux:navlist.item>
 
         <flux:navlist.item wire:navigate

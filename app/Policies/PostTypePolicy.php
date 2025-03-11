@@ -2,10 +2,10 @@
 
 namespace App\Policies;
 
-use App\Models\Blog\Post;
+use App\Models\Blog\PostType;
 use App\Models\User;
 
-class BlogPostPolicy
+class PostTypePolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -18,7 +18,7 @@ class BlogPostPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Post $blogPost): bool
+    public function view(User $user, PostType $postType): bool
     {
         return false;
     }
@@ -34,7 +34,7 @@ class BlogPostPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Post $blogPost): bool
+    public function update(User $user, PostType $postType): bool
     {
         return false;
     }
@@ -42,7 +42,7 @@ class BlogPostPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Post $blogPost): bool
+    public function delete(User $user, PostType $postType): bool
     {
         return false;
     }
@@ -50,7 +50,7 @@ class BlogPostPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Post $blogPost): bool
+    public function restore(User $user, PostType $postType): bool
     {
         return false;
     }
@@ -58,7 +58,7 @@ class BlogPostPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Post $blogPost): bool
+    public function forceDelete(User $user, PostType $postType): bool
     {
         return false;
     }

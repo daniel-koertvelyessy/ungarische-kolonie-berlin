@@ -13,8 +13,6 @@ class Page extends Component
 {
     use Sortable, WithPagination;
 
-
-
     #[Computed]
     public function articles()
     {

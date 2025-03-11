@@ -19,17 +19,19 @@ return new class extends Migration
             $table->json('body');
             $table->foreignId('user_id')->constrained('users');
             $table->enum('status', \App\Enums\EventStatus::toArray())->default(\App\Enums\EventStatus::DRAFT->value);
+            $table->foreignId('post_type_id')->constrained('post_types');
+            $table->string('label', 255)->nullable();
+            $table->timestamp('published_at')->nullable();
         });
 
-        Schema::create('post-images', function (Blueprint $table) {
+        Schema::create('post_images', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->json('caption')->nullable();
+            $table->string('author')->nullable();
             $table->string('filename');
             $table->string('original_filename');
             $table->foreignId('post_id')->constrained();
         });
     }
-
-
 };

@@ -118,7 +118,8 @@ return [
     'timeline.end' => 'Ende',
     'timeline.place' => 'Ort',
     'timeline.performer' => 'Künstler',
-    'timeline.' => '',
+
+    'timeline.' => 'Rückblick',
     'timeline.' => '',
     'timeline.' => '',
     'timeline.' => '',

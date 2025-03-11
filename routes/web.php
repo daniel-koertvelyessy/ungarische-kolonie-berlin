@@ -66,6 +66,7 @@ Route::get('/events', function () {
 
 Route::get('/events/{slug}', function (string $slug) {
     $locale = App::getLocale();
+
     return view('events.show', [
         'event' => Event::query()
             ->with('venue')
@@ -77,10 +78,15 @@ Route::get('/events/{slug}', function (string $slug) {
 })
     ->name('events.show');
 
-Route::get('/posts', \App\Livewire\Blog\Post\Index\Page::class)
+Route::get('/posts', function () {
+    return view('posts.index', [
+        'posts' => \App\Models\Blog\Post::query()
+            ->where('posts.status', \App\Enums\EventStatus::PUBLISHED->value)
+            ->get()]);
+})
     ->name('posts.index');
 
-Route::get('/posts/{post}', \App\Livewire\Blog\Post\Index\Page::class)
+Route::get('/posts/{slug}', \App\Livewire\Blog\Post\Index\Page::class)
     ->name('posts.show');
 
 Route::get('/ics/{slug}', function (string $slug) {
@@ -223,6 +229,15 @@ Route::middleware([
         Route::get('/backend-events/report/{event}', function (Event $event, EventReportService $reportService) {
             return $reportService->generate($event);
         })->name('backend.events.report');
+
+        Route::get('/backend-posts', \App\Livewire\Blog\Post\Index\Page::class)
+            ->name('backend.posts.index');
+
+        Route::get('/backend-posts/create', \App\Livewire\Blog\Post\Create\Page::class)
+            ->name('backend.posts.create');
+
+        Route::get('/backend-posts/{post}', \App\Livewire\Blog\Post\Show\Page::class)
+            ->name('backend.posts.show');
 
         Route::get('/accounting', \App\Livewire\Accounting\Index\Page::class)
             ->name('accounting.index');

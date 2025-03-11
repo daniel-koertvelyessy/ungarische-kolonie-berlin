@@ -100,4 +100,7 @@ return [
     'type.rejected' => 'Elutasítva',
     'type.retracted' => 'Behúzva',
 
+    'loockpacj' => 'Visszatekintés',
+    '' => '',
+
 ];

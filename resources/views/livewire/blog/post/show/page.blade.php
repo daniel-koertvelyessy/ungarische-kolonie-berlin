@@ -1,3 +1,3 @@
 <div>
-    {{-- Do your work, then step back. --}}
+    <livewire:blog.post.form :post="$post" />
 </div>
