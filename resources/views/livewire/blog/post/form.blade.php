@@ -70,8 +70,10 @@
 
                     </div>
 
-                    <x-debug />
-                    <flux:button wire:click="addDummyData">dummies</flux:button>
+                   @if(!app()->isProduction())
+                        <x-debug />
+                        <flux:button wire:click="addDummyData">dummies</flux:button>
+                    @endif
                     <flux:button variant="primary" type="submit">Speichern</flux:button>
                 </section>
             </flux:tab.panel>
