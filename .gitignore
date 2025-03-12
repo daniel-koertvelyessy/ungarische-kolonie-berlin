@@ -24,3 +24,4 @@ yarn-error.log
 fb.md
 wallet.md
 phpstan.neon
+vite.config.js
