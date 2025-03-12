@@ -31,7 +31,7 @@ class Page extends Component
     public function mount(): void
     {
         $this->locale = session('locale') ?? app()->getLocale();
-        $this->sortBy = 'date';
+        $this->sortBy = 'event_date';
         $this->sortDirection = 'desc';
     }
 

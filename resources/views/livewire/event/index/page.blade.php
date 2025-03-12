@@ -51,9 +51,9 @@
                          class="hidden sm:table-cell"
             >{{ __('event.index.table.header.image') }}</flux:table.column>
             <flux:table.column sortable
-                         :sorted="$sortBy === 'starts_at'"
+                         :sorted="$sortBy === 'date'"
                          :direction="$sortDirection"
-                         wire:click="sort('starts_at')"
+                         wire:click="sort('event_date')"
                          class="hidden sm:table-cell"
             >{{ __('event.date')}}</flux:table.column>
             <flux:table.column sortable
