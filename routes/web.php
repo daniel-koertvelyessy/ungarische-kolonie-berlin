@@ -47,11 +47,13 @@ Route::get('/', function () {
             ->get()
             ->count(),
         'posts' => \App\Models\Blog\Post::query()
-            ->where('status','=','published')
+            ->where('posts.status', \App\Enums\EventStatus::PUBLISHED->value)
+            ->whereNotNull('published_at')
             ->orderByDesc('published_at')
             ->get(),
         'posts_count' => \App\Models\Blog\Post::query()
-            ->where('status','=','published')
+            ->where('posts.status', \App\Enums\EventStatus::PUBLISHED->value)
+            ->whereNotNull('published_at')
             ->count(),
     ]);
 })
@@ -85,7 +87,10 @@ Route::get('/posts', function () {
     return view('posts.index', [
         'posts' => \App\Models\Blog\Post::query()
             ->where('posts.status', \App\Enums\EventStatus::PUBLISHED->value)
-            ->get()]);
+            ->whereNotNull('published_at')
+            ->get(),
+        'locale' => App::getLocale(),
+        ]);
 })
     ->name('posts.index');
 

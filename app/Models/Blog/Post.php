@@ -86,6 +86,13 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function excerpt($limit = 100):string
+    {
+        $text = preg_replace('/<\/?(p|div|br|li|h[1-6])\b[^>]*>/', ' ', $this->body[app()->getLocale()]);
+        $excerpt = trim(strip_tags($text));
+        return Str::limit($excerpt, $limit,'...', true);
+    }
+
     public function images()
     {
         return $this->hasMany(PostImage::class);

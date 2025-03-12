@@ -211,6 +211,7 @@
 
                         <div class="columns-3xs gap-6">
                             @forelse ($post->images as $image)
+
                                 <div class="flex flex-col mb-4 break-inside-avoid">
                                     <img src="{{ Storage::url($image->filename) }}"
                                          alt="{{ $image->caption[app()->getLocale()] ?? $image->original_filename }}"
