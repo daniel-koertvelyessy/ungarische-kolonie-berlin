@@ -98,7 +98,7 @@
                     <flux:table.cell>
 
                         <flux:badge size="sm"
-                                    :color="$post->type_color()"
+                                    :color="$post->typeColor()"
                                     inset="top bottom"
                         >{{ $post->type->name[$locale] }}</flux:badge>
                     </flux:table.cell>

@@ -19,7 +19,8 @@ final class UpdatePost extends Action
                 'user_id' => $form->user_id,
                 'status' => $form->status,
                 'label' => $form->label,
-                '$this->post_type_id' => $form->post_type_id,
+                'post_type_id' => $form->post_type_id,
+                'published_at' => $form->published_at,
             ]);
 
             return Post::query()->findOrFail($form->id);

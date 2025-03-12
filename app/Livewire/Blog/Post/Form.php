@@ -7,6 +7,7 @@ use App\Livewire\Forms\Blog\PostForm;
 use App\Livewire\Traits\HasPrivileges;
 use App\Livewire\Traits\PersistsTabs;
 use App\Models\Blog\Post;
+use Carbon\Carbon;
 use Flux\Flux;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -97,11 +98,11 @@ class Form extends Component
         if ($this->editPost) {
             $post = $this->form->update();
             $this->handleImages($post);
-            Flux::toast(text: 'Der Artikel mit '.count($post->images).' Bildern wurde erfolgreich aktualisiert!', heading: 'Erfolg', duration: 8000, variant: 'success');
+            Flux::toast(text: __('post.form.toasts.edit_success', ['num' => count($post->images)]), heading: __('post.form.toasts.heading.success'), duration: 8000, variant: 'success');
         } else {
             $post = $this->form->create();
             $this->handleImages($post);
-            Flux::toast(text: 'Der Artikel mit '.count($post->images).' Bildern wurde erfolgreich erstelt!', heading: 'Erfolg', duration: 8000, variant: 'success');
+            Flux::toast(text:__('post.form.toasts.create_success', ['num' => count($post->images)]), heading:  __('post.form.toasts.heading.success'), duration: 8000, variant: 'success');
         }
 
     }
@@ -158,11 +159,37 @@ class Form extends Component
                 Storage::disk('public')->delete($image->filename); // Remove file from storage
                 $image->delete(); // Remove from database
                 $this->post->refresh(); // Reload post to update $post->images
-                Flux::toast(text: 'Bild erfolgreich entfernt!', heading: 'Erfolg', duration: 3000, variant: 'success');
+                Flux::toast(text: __('post.form.toasts.msg.image_removed'), heading: __('post.form.toasts.heading.success'), duration: 3000, variant: 'success');
             }
         }
     }
 
+    public function publishPost():void
+    {
+        $this->checkPrivilege(Post::class);
+
+        $this->form->published_at = Carbon::now('Europe/Berlin');
+
+        $this->form->status = EventStatus::PUBLISHED->value;
+
+        $this->form->update();
+
+        Flux::toast(text: __('post.form.toasts.msg.post_published'), heading: __('post.form.toasts.heading.success'), duration: 3000, variant: 'success');
+
+    }
+
+    public function resetPublication():void
+    {
+        $this->checkPrivilege(Post::class);
+
+        $this->form->published_at = null;
+
+        $this->form->status = EventStatus::RETRACTED->value;
+
+        $this->form->update();
+
+        Flux::toast(text: __('post.form.toasts.msg.post_retracted'), heading: __('post.form.toasts.heading.success'), duration: 3000, variant: 'warning');
+    }
     public function render()
     {
         return view('livewire.blog.post.form');
