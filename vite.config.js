@@ -11,10 +11,10 @@ export default defineConfig({
             refresh: true, // Ignored in prod
         }),
     ],
-    build: {
-        outDir: 'public/build',
-        manifest: true,
-    },
+    // build: {
+    //     outDir: 'public/build',
+    //     manifest: true,
+    // },
     server: isDev ? {
         host: 'ungarische-kolonie-berlin.test',
         port: 5173,
