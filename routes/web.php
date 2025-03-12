@@ -46,9 +46,12 @@ Route::get('/', function () {
             ->where('status', '=', \App\Enums\EventStatus::PUBLISHED->value)
             ->get()
             ->count(),
-        'articles' => \App\Models\Article::take(3)
+        'posts' => \App\Models\Blog\Post::query()
+            ->where('status','=','published')
+            ->orderByDesc('published_at')
             ->get(),
-        'articles_total' => \App\Models\Article::all()
+        'posts_count' => \App\Models\Blog\Post::query()
+            ->where('status','=','published')
             ->count(),
     ]);
 })
@@ -86,7 +89,19 @@ Route::get('/posts', function () {
 })
     ->name('posts.index');
 
-Route::get('/posts/{slug}', \App\Livewire\Blog\Post\Index\Page::class)
+Route::get('/posts/{slug}', function (string $slug) {
+    $locale = App::getLocale();
+    $post = \App\Models\Blog\Post::query()
+        ->with('images')
+        ->where("slug->{$locale}", $slug) // Match the slug for the specific locale
+        ->firstOrFail();
+    $images = $post->images;
+    return view('posts.show', [
+        'post' => $post,
+        'images' => $images,
+        'locale' => $locale,
+    ]);
+})
     ->name('posts.show');
 
 Route::get('/ics/{slug}', function (string $slug) {

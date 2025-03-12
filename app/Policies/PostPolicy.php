@@ -38,6 +38,9 @@ class PostPolicy
      */
     public function update(User $user, ?Post $blogPost): bool
     {
+        if ($blogPost && $blogPost->user_id === $user->id) {
+            return true;
+        }
         return $this->getAdminPrivileges($user);
 
     }

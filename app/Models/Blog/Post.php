@@ -61,11 +61,17 @@ class Post extends Model
         return json_decode($value, true);
     }*/
 
+    public function isPublished():bool
+    {
+        return $this->status==='published' || $this->published_at !== null;
+
+    }
+
     public function status_color()
     {
         return EventStatus::color($this->status);
     }
-    public function type_color()
+    public function typeColor()
     {
         return $this->type->color;
     }

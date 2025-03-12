@@ -6,7 +6,9 @@ use App\Enums\EventStatus;
 use App\Models\Blog\PostType;
 use App\Livewire\Traits\Sortable;
 use App\Models\Blog\Post;
+use Flux\Flux;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -42,6 +44,24 @@ class Page extends Component
         $this->filteredByStatus=EventStatus::toArray();
         $this->filteredByType = PostType::all()->pluck('id')->toArray();
         $this->locale = app()->getLocale();
+    }
+
+    public function confirmDeletion(int $id):void
+    {
+        try {
+            $post = Post::query()
+                ->findOrFail($id);
+
+            if ($post->isPublished()){
+                dd('doublecheck');
+            } else {
+
+                dd('bye bye');
+
+            }
+        } catch (ModelNotFoundException $e) {
+            Flux::toast($e->getMessage(), 'error');
+        }
     }
 
     public function render()

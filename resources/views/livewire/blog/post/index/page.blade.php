@@ -104,7 +104,7 @@
                     </flux:table.cell>
 
                     <flux:table.cell variant="strong">{{ $post->title[$locale] }}</flux:table.cell>
-
+@can('update',$post)
                     <flux:table.cell>
                         <flux:dropdown>
                             <flux:button variant="ghost"
@@ -118,9 +118,17 @@
                                                 icon="pencil-square"
                                 >bearbeiten
                                 </flux:menu.item>
+                                @can('delete',$post)
+                                    <flux:menu.item variant="danger"
+                                                    wire:click="confirmDeletion({{ $post->id }})"
+                                                    icon="trash"
+                                    >löschen
+                                    </flux:menu.item>
+                                @endcan
                             </flux:menu>
-                        </flux:table.cell>
+                        </flux:dropdown>
                     </flux:table.cell>
+    @endcan
                 </flux:table.row>
             @endforeach
         </flux:table.rows>

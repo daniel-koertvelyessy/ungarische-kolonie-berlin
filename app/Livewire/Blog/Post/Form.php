@@ -129,10 +129,10 @@ class Form extends Component
         $this->form->label = fake()->realText(50);
         $this->form->title['de'] = fake()->realText(50);
         $this->form->slug['de'] = Str::slug(fake()->realText(50));
-        $this->form->body['de'] = fake()->randomHtml(20,2);
+        $this->form->body['de'] = fake()->randomHtml(20,8);
         $this->form->title['hu'] = fake()->realText(50);
         $this->form->slug['hu'] = Str::slug(fake()->realTextBetween(20));
-        $this->form->body['hu'] = fake()->randomHtml(20,2);
+        $this->form->body['hu'] = fake()->randomHtml(20,8);
 
     }
 
