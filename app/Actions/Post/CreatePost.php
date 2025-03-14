@@ -14,8 +14,7 @@ final class CreatePost extends Action
     {
         return DB::transaction(function () use ($form, $images) {
 
-            Log::debug('post_type_id . '. $form->post_type_id);
-
+            Log::debug('post_type_id . '.$form->post_type_id);
 
             $post = Post::create([
                 'title' => $form->title,

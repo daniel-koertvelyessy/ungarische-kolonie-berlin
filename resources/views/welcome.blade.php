@@ -105,6 +105,12 @@
 
         </article>
 
+        <!-- Callout for mailing list subscription-->
+        <article class="lg:col-span-2 "
+        >
+        <livewire:app.global.mailinglist.form />
+        </article>
+
     </div>
 
 </x-guest-layout>

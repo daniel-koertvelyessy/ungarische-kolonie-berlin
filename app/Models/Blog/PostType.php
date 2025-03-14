@@ -7,18 +7,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PostType extends Model
 {
-
-
     protected $fillable = [
         'name',
         'slug',
         'description',
-        'color'
+        'color',
     ];
 
-
     protected $casts = [
-      'name' => 'array',
+        'name' => 'array',
     ];
 
     public function post(): BelongsTo
@@ -26,9 +23,8 @@ class PostType extends Model
         return $this->belongsTo(Post::class);
     }
 
-    public function color():string
+    public function color(): string
     {
         return $this->color;
     }
-
 }

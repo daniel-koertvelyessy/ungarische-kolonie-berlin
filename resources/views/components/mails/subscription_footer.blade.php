@@ -26,18 +26,14 @@ FOOTER
         >
             <table>
                 <tr>
-                    @if(isset($token))
-                    <tr>
-                        <td valign="top"
-                            width="50%"
-                            style="padding-bottom: 20px; padding-right:5px; font-size: 8pt; text-align: center;"
-                            align="center"
-                            colspan="2"
-                        >
-                            <a href=" {{ route('mailing-list.unsubscribe', $token) }}">{{ __('mails.unsubscribe_link_label') }}</a>
-                        </td>
-                    </tr>
-                @endif
+                    <td valign="top"
+                    width="50%"
+                    style="padding-top: 20px; padding-right:5px"
+                    >
+                        <a href=" {{ route('mailing-list.unsubscribe', $token) }})">{{ __('mails.unsubscribe_link_label') }}</a>
+                    </td>
+                </tr>
+                <tr>
                     <td valign="top"
                         width="50%"
                         style="padding-top: 20px; padding-right:5px"

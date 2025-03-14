@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Forms\Blog;
 
-use App\Models\Blog\PostType;
 use App\Models\Blog\Post;
+use App\Models\Blog\PostType;
 use Livewire\Form;
 
 class PostTypeForm extends Form
@@ -11,9 +11,13 @@ class PostTypeForm extends Form
     protected Post $postType;
 
     public $id;
+
     public array $name = ['de' => '', 'hu' => ''];
+
     public $slug;
-    public $description ;
+
+    public $description;
+
     public $color;
 
     public PostType $type;
@@ -38,6 +42,4 @@ class PostTypeForm extends Form
     {
         return UpdatePostType::handle($this);
     }
-
-
 }

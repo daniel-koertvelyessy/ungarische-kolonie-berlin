@@ -4,8 +4,6 @@ namespace App\Livewire\Forms\Blog;
 
 use App\Actions\Post\CreatePost;
 use App\Actions\Post\UpdatePost;
-use App\Enums\EventStatus;
-use App\Models\Blog\PostType;
 use App\Models\Blog\Post;
 use Livewire\Form;
 
@@ -16,7 +14,9 @@ class PostForm extends Form
     public $id;
 
     public array $title = ['de' => '', 'hu' => ''];
+
     public array $slug = ['de' => '', 'hu' => ''];
+
     public array $body = ['de' => '', 'hu' => ''];
 
     public $user_id;
@@ -24,6 +24,7 @@ class PostForm extends Form
     public $status;
 
     public $published_at;
+
     public $label;
 
     public $post_type_id;
@@ -45,7 +46,6 @@ class PostForm extends Form
     public function create(): Post
     {
 
-
         return CreatePost::handle($this);
     }
 
@@ -53,6 +53,4 @@ class PostForm extends Form
     {
         return UpdatePost::handle($this);
     }
-
-
 }

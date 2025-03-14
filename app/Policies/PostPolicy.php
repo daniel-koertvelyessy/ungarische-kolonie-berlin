@@ -9,6 +9,7 @@ use App\Policies\Traits\HasAdminPrivileges;
 class PostPolicy
 {
     use HasAdminPrivileges;
+
     /**
      * Determine whether the user can view any models.
      */
@@ -41,6 +42,7 @@ class PostPolicy
         if ($blogPost && $blogPost->user_id === $user->id) {
             return true;
         }
+
         return $this->getAdminPrivileges($user);
 
     }

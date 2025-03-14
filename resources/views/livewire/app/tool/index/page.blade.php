@@ -1,13 +1,28 @@
 <div>
     <flux:heading size="xl">{{ __('nav.tools') }}</flux:heading>
     <section class="grid grid-cols-1 lg:grid-cols-2 gap-3 my-6">
-
         <flux:card>
             <flux:heading size="lg"
                           class="my-10"
             >{{ __('mails.members.heading') }}</flux:heading>
             <flux:text>{{ __('mails.members.content') }}</flux:text>
+
+            @if($this->mailingList->count() >0)
+            <flux:separator text="{{ __('mails.member.separator.options') }}" class="my-6"/>
+            <div class="grid gap-3 lg:grid-cols-2">
+                <flux:switch wire:model.live="include_mailing_list" label="Externe Mailingliste einschließen" />
+                <div x-show="$wire.include_mailing_list" x-transition>
+                    <flux:radio.group label="Grund des Schreibens" variant="cards" class="flex-col" wire:model="target_type" >
+                        <flux:radio icon="calendar-days" value="standard" label="Neue Veranstaltung" />
+                        <flux:radio icon="document-text" value="fast" label="Neuer Artikel" />
+                        <flux:radio icon="cloud-arrow-up" value="next-day" label="Änderung Artikel/Veranstaltung" />
+                    </flux:radio.group>
+                </div>
+
+            </div>
+            @endif
             <flux:separator text="{{ __('mails.member.separator.text') }}" class="my-6"/>
+
             <form wire:submit="sendMembersMail"
                   class="space-y-6"
             >
@@ -94,7 +109,14 @@
                     <flux:button wire:click="addDummyData">dummy</flux:button>
                 @endif
 
-                <flux:button wire:click="previewEMail">{{ __('mails.members.btn.preview') }}</flux:button>
+                <flux:button href="{{ route('test-mail-preview', [
+            'name' => 'Daniel',
+            'subject' => $this->subject['de'] ?? 'Testbetreff',
+            'message' => $this->message['de'] ?? 'Kein Inhalt???',
+            'locale' => 'de',
+            'url' => $this->url ?? 'www-popo',
+            'url_label' => $this->url_label['de'] ?? 'nix label',
+        ]) }}" target="_blank">{{ __('mails.members.btn.preview') }}</flux:button>
 
                 <flux:button variant="primary"
                              wire:click="sendTestMailToSelf"
@@ -138,16 +160,51 @@
             </form>
         </flux:card>
 
+
+        <flux:card>
+            <flux:heading size="lg"
+                          class="my-10"
+            >{{ __('mails.mailing_list.verified_emails') }}</flux:heading>
+            @if($this->mailingList->count() >0)
+                <flux:table :paginate="$this->mailingList">
+                    <flux:table.columns>
+                        <flux:table.column sortable :sorted="$sortBy === 'mail'" :direction="$sortDirection" wire:click="sort('email')">E-Mail</flux:table.column>
+                        <flux:table.column sortable :sorted="$sortBy === 'status'" :direction="$sortDirection" wire:click="sort('status')"><flux:icon.calendar-days class="size-4" /></flux:table.column>
+                        <flux:table.column sortable :sorted="$sortBy === 'amount'" :direction="$sortDirection" wire:click="sort('amount')"><flux:icon.document-text class="size-4" /></flux:table.column>
+                        <flux:table.column sortable :sorted="$sortBy === 'amount'" :direction="$sortDirection" wire:click="sort('amount')"><flux:icon.cloud-arrow-up class="size-4" /></flux:table.column>
+                    </flux:table.columns>
+
+                    <flux:table.rows>
+                        @foreach ($this->mailingList as $entry)
+                            <flux:table.row :key="$entry->id">
+                                <flux:table.cell class="flex items-center gap-3">
+                                    <span class="text-wrap hyphens-auto">{{ $entry->email }}</span>
+                                </flux:table.cell>
+                                             <flux:table.cell>
+                                    @if($entry->update_on_events)
+                                        <flux:icon.check-circle color="green" class="size-4"/>
+                                    @endif
+                                </flux:table.cell>
+                                <flux:table.cell>
+                                    @if($entry->update_on_articles)
+                                        <flux:icon.check-circle color="green" class="size-4"/>
+                                    @endif
+                                </flux:table.cell>
+                                <flux:table.cell>
+                                    @if($entry->update_on_notifications)
+                                        <flux:icon.check-circle color="green" class="size-4"/>
+                                    @endif
+                                </flux:table.cell>
+                            </flux:table.row>
+                        @endforeach
+                    </flux:table.rows>
+                </flux:table>
+
+            @else
+            <flux:text>Keine verifizierten Einträge in der Mailingliste vorhanden</flux:text>
+            @endif
+
+        </flux:card>
+
     </section>
-
-    @script
-    <script>
-        document.addEventListener('livewire:load', function () {
-            Livewire.on('open-email-preview', previewUrl => {
-                window.open(previewUrl, '_blank');
-            });
-        });
-    </script>
-    @endscript
-
 </div>

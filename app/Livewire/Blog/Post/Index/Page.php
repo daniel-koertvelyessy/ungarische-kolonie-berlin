@@ -3,9 +3,9 @@
 namespace App\Livewire\Blog\Post\Index;
 
 use App\Enums\EventStatus;
-use App\Models\Blog\PostType;
 use App\Livewire\Traits\Sortable;
 use App\Models\Blog\Post;
+use App\Models\Blog\PostType;
 use Flux\Flux;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -17,9 +17,10 @@ class Page extends Component
 {
     use Sortable, WithPagination;
 
-
     public $search;
+
     public $filteredByStatus;
+
     public $filteredByType;
 
     public $locale;
@@ -38,21 +39,21 @@ class Page extends Component
             ->paginate(10);
     }
 
-    public function mount():void
+    public function mount(): void
     {
-        $this->search='';
-        $this->filteredByStatus=EventStatus::toArray();
+        $this->search = '';
+        $this->filteredByStatus = EventStatus::toArray();
         $this->filteredByType = PostType::all()->pluck('id')->toArray();
         $this->locale = app()->getLocale();
     }
 
-    public function confirmDeletion(int $id):void
+    public function confirmDeletion(int $id): void
     {
         try {
             $post = Post::query()
                 ->findOrFail($id);
 
-            if ($post->isPublished()){
+            if ($post->isPublished()) {
                 dd('doublecheck');
             } else {
 

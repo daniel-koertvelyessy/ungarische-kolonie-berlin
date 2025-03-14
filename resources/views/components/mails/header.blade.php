@@ -26,6 +26,10 @@
         /* Beware: It can remove the padding / margin and add a background color to the compose a reply window. */
         html,
         body {
+            font-family: 'Arial', 'Helvetica', 'Verdana', 'sans-serif';
+            font-weight: 400; /* Force normal weight */
+            -webkit-font-smoothing: antialiased; /* macOS smoothing */
+            -moz-osx-font-smoothing: grayscale; /* macOS smoothing */
             margin: 0 auto !important;
             padding: 0 !important;
             height: 100% !important;
@@ -229,7 +233,7 @@
         }
 
         .hero .text {
-            color: rgba(0, 0, 0, .3);
+            color: rgba(0, 0, 0, 0.75);
         }
 
         .hero .text h2 {
@@ -13762,6 +13766,7 @@
                width="100%"
                style="margin: auto;"
         >
+            @if(isset($header))
             <tr>
                 <td valign="top"
                     class="bg_white"
@@ -13778,13 +13783,14 @@
                                 style="text-align: center;"
                             >
                                 <h1>
-                                    <a href="{{ $url?? env('APP_URL') }}">{{ $header }}</a>
+                                    <a href="{{ $url?? config('app.url') }}">{{ $header }}</a>
                                 </h1>
                             </td>
                         </tr>
                     </table>
                 </td>
             </tr><!-- end tr -->
+            @endif
 
             @if($icon??false)
                 <tr>
@@ -13805,5 +13811,5 @@
                         <tr>
                             <td>
                                 <div class="text"
-                                     style="padding: 0 2.5em; text-align: center;"
+                                     style="padding: 0 2.5em; "
                                 >

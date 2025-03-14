@@ -5,14 +5,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('post_types', function (Blueprint $table)
-        {
+        Schema::create('post_types', function (Blueprint $table) {
             $table->id();
             $table->json('name');
             $table->string('slug')
@@ -24,41 +24,40 @@ return new class extends Migration {
             $table->timestamps();
         });
 
-
         PostType::create([
-            'name'        => [
+            'name' => [
                 'hu' => 'Bejelentés',
                 'de' => 'Ankündigung',
             ],
-            'slug'        => 'announcement',
-            'color'       => 'yellow',
+            'slug' => 'announcement',
+            'color' => 'yellow',
             'description' => '',
         ]);
         PostType::create([
-            'name'        => [
+            'name' => [
                 'hu' => 'Visszatekintés',
                 'de' => 'Rückblick',
             ],
-            'slug'        => 'review',
-            'color'       => 'blue',
+            'slug' => 'review',
+            'color' => 'blue',
             'description' => '',
         ]);
         PostType::create([
-            'name'        => [
+            'name' => [
                 'hu' => 'Beszámoló',
                 'de' => 'Bericht',
             ],
-            'slug'        => 'report',
-            'color'       => 'lime',
+            'slug' => 'report',
+            'color' => 'lime',
             'description' => '',
         ]);
         PostType::create([
-            'name'        => [
+            'name' => [
                 'hu' => 'Egyéb',
                 'de' => 'Anderes',
             ],
-            'slug'        => 'other',
-            'color'       => 'slate',
+            'slug' => 'other',
+            'color' => 'slate',
             'description' => '',
         ],
         );

@@ -8,11 +8,11 @@ use Livewire\Component;
 
 class Page extends Component
 {
-
     public Post $post;
+
     public PostForm $form;
 
-    public function mount(Post $post):void
+    public function mount(Post $post): void
     {
         $this->post = $post;
         $this->form->set($post->id);

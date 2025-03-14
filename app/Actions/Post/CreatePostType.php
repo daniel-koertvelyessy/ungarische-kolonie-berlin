@@ -11,14 +11,13 @@ final class CreatePostType extends Action
 {
     public static function handle(PostTypeForm $form, array $images = []): PostType
     {
-        return DB::transaction(function () use ($form, $images) {
+        return DB::transaction(function () use ($form) {
             return PostType::create([
                 'name' => $form->name,
                 'slug' => $form->slug,
                 'color' => $form->color,
                 'description' => $form->description,
             ]);
-
 
         });
 

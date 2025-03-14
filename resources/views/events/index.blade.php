@@ -1,7 +1,7 @@
 <x-guest-layout title="{{ __('event.page.title') }}">
     <h1 class="text-3xl">{{ __('event.page.title') }}</h1>
 
-    <div class="space-y-4 divide-y divide-emerald-600 mt-3">
+    <div class="space-y-4 divide-y divide-emerald-600 mt-3 mb-10">
         @foreach($events as $event)
             <article class="flex justify-between items-center p-2 flex-col lg:flex-row gap-3 lg:gap-9">
                 <section class="flex-1 space-y-2">
@@ -52,4 +52,6 @@
        {{ $events->links() }}
    </nav>
     </div>
+
+    <livewire:app.global.mailinglist.form />
 </x-guest-layout>

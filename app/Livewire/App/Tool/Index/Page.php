@@ -4,20 +4,26 @@ namespace App\Livewire\App\Tool\Index;
 
 use App\Jobs\DeleteEmailAttachments;
 use App\Livewire\Traits\HasPrivileges;
+use App\Livewire\Traits\Sortable;
 use App\Mail\SendMemberMassMail;
 use App\Models\MailHistoryEntry;
-use App\Models\Mailinglist;
+use App\Models\MailingList;
 use App\Models\Membership\Member;
+use Exception;
 use Flux\Flux;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 
 class Page extends Component
 {
-    use HasPrivileges, WithFileUploads;
+    use HasPrivileges, WithFileUploads, Sortable, WithPagination;
 
     public array $subject;
 
@@ -25,13 +31,26 @@ class Page extends Component
 
     public array $attachments;
 
+    public bool $include_mailing_list;
+
+    public bool $target_type;
+
     public array $url_label;
 
     public string $url;
 
+    #[Computed]
+    public function mailingList(): LengthAwarePaginator
+    {
+        return MailingList::query()
+            ->whereNotNull('verified_at')
+            ->tap(fn ($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
+            ->paginate(10);
+    }
+
     public function sendMembersMail(): void
     {
-        $this->checkPrivilege(Mailinglist::class);
+        $this->checkPrivilege(MailingList::class);
         $this->validate();
 
         MailHistoryEntry::create([
@@ -42,7 +61,7 @@ class Page extends Component
 
         $savedFiles = [];
         foreach ($this->attachments as $locale => $file) {
-            if ($file instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile) {
+            if ($file instanceof TemporaryUploadedFile) {
                 $originalFileName = $file->getClientOriginalName();
                 $path = $file->store('mail_attachments'); // Save file
                 $fullPath = storage_path("app/private/{$path}"); // Get absolute path
@@ -55,6 +74,8 @@ class Page extends Component
                 Log::error('Invalid file detected:', ['file' => $file]);
             }
         }
+
+
 
         if (empty($savedFiles)) {
             Log::error('No valid attachments were saved!');
@@ -79,6 +100,13 @@ class Page extends Component
             }
         }
 
+        if ($this->include_mailing_list){
+
+
+
+
+        }
+
         Flux::toast('Die E-Mail wurde an '.$counter.' verschickt!', 'Erfolg', 6000, 'success');
 
         DeleteEmailAttachments::dispatch($savedFiles)->delay(now()->addMinutes(5));
@@ -86,7 +114,7 @@ class Page extends Component
 
     public function sendTestMailToSelf(): void
     {
-        $this->checkPrivilege(Mailinglist::class);
+        $this->checkPrivilege(MailingList::class);
         $user = Auth::user();
 
         //        if (!is_string($this->subject[$user->locale])) {
@@ -105,23 +133,9 @@ class Page extends Component
                     null
                 ));
             Flux::toast('Testmail sent');
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             Flux::toast('Testmail not sent '.$exception->getMessage());
         }
-    }
-
-    public function previewEMail(): void
-    {
-        $previewUrl = route('test-mail-preview', [
-            'name' => 'Daniel',
-            'subject' => $this->subject['de'] ?? 'Testbetreff',
-            'message' => $this->message['de'] ?? 'Kein Inhalt???',
-            'locale' => 'de',
-            'url' => $this->url ?? 'www-popo',
-            'url_label' => $this->url_label['de'] ?? 'nix label',
-        ]);
-
-        $this->redirect($previewUrl);
     }
 
     protected function rules(): array
@@ -138,7 +152,7 @@ class Page extends Component
         ];
     }
 
-    public function addDummyData()
+    public function addDummyData():void
     {
         $this->subject['hu'] = fake()->realText(50);
         $this->subject['de'] = fake()->realText(50);
@@ -148,6 +162,7 @@ class Page extends Component
         $this->url_label['hu'] = 'Kattincs ide';
         $this->url_label['de'] = 'Click hier';
     }
+
 
     public function render()
     {

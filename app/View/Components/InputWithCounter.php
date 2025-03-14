@@ -16,8 +16,7 @@ class InputWithCounter extends Component
         public string $label,
         public int $maxLength = 100,
         public string $size = 'md'
-    ) {
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.

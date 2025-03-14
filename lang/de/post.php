@@ -21,7 +21,6 @@ return [
     'label' => 'Interner Bezeichner/Titel',
     'type' => 'Artikeltyp',
 
-
     'create.title_explanation' => 'Der Titel wird zur Überschrift des Artikels gemacht und auch als Listeneintrag in den Übersichten. Er sollte nicht viel länger als 100 Zeichen sein und nicht im Fließtext als Überschrift wiederholt werden.',
     'create.slug_explanation' => 'Der Slug dient als Link zum Artikel. Er sollte im Idealfall der Titel ohne Leer- und Sonderzeichen sein. Mit einem Klick auf (gen slug) wird für beide Titel dies gemacht. WICHTIG ist, dass nach der Veröffentlichung des Artikels der Slug nur im Notfall geändert werden sollte.',
     'create.page_title' => 'Neuen Artikel anlegen',
@@ -30,25 +29,22 @@ return [
     'images.no_existing' => 'Keine Bilder zum Artikel gefunden',
     'images.upload_explanation' => 'Jeder Artikel kann mehrere Bilder enthalten.  In dieser Maske können Bilder hochgeladen werden. Bitte geben Sie eine Beschreibung in Deutsch und Magyar an, sowie den Autor des Bildes, soweit bekannt.',
     'images.preview' => 'Vorschau der hochgeladenen Bilder',
-    'section.images.header'=>'Neues Bild hochladen',
+    'section.images.header' => 'Neues Bild hochladen',
 
-    'images.image_filename'=>'Bildname',
-    'images.image_caption_de'=>'Beschreibung',
-    'images.image_caption_hu'=>'Beschreibung',
-    'images.image_author'=>'Author',
-    'images.image_btn_remove'=>'Entfernen',
+    'images.image_filename' => 'Bildname',
+    'images.image_caption_de' => 'Beschreibung',
+    'images.image_caption_hu' => 'Beschreibung',
+    'images.image_author' => 'Author',
+    'images.image_btn_remove' => 'Entfernen',
 
-
-    'form.toasts.msg.image_removed'=>'Bild erfolgreich entfernt!',
-    'form.toasts.msg.post_published'=>'Der Artikel wurde veröffentlicht!',
-    'form.toasts.msg.post_retracted'=>'Der Artikel wurde zurückgezogen!',
-    'form.toasts.heading.success'=>'Erfolg!',
-    'form.toasts.heading.warning'=>'Warnung!',
-    'form.toasts.heading.error'=>'Achtung, Fehler!',
+    'form.toasts.msg.image_removed' => 'Bild erfolgreich entfernt!',
+    'form.toasts.msg.post_published' => 'Der Artikel wurde veröffentlicht!',
+    'form.toasts.msg.post_retracted' => 'Der Artikel wurde zurückgezogen!',
+    'form.toasts.heading.success' => 'Erfolg!',
+    'form.toasts.heading.warning' => 'Warnung!',
+    'form.toasts.heading.error' => 'Achtung, Fehler!',
     'form.toasts.create_success' => 'Der Artikel mit :num Bildern wurde erfolgreich aktualisiert!',
     'form.toasts.edit_success' => 'Der Artikel mit :num Bildern wurde erfolgreich aktualisiert!',
-
-
 
     'show.title' => 'Artikel bearbeiten',
     'show.tabs.header.main' => 'Kopfdaten',
@@ -63,13 +59,10 @@ return [
     'show.tab.main.published.btn_sendMails' => 'Rundbrief verschicken',
     'show.tab.main.published.btn_publish_now' => 'Artikel jetzt veröffentlichen',
 
-
     'show.label.created_at' => 'Erstellt',
     'show.label.updated_at' => 'Zuletzt geändert',
 
-
     'images.empty_list' => 'Keine Bilder ausgewählt',
-
 
     '' => '',
     '' => '',

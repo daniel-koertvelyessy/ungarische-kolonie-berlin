@@ -64,7 +64,6 @@ return [
 
     'images.empty_list' => 'Nincsenek kiválasztott képek',
 
-
     '' => '',
     '' => '',
     '' => '',

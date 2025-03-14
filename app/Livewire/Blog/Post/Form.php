@@ -17,24 +17,33 @@ use Livewire\WithFileUploads;
 
 class Form extends Component
 {
-    use PersistsTabs, WithFileUploads, HasPrivileges;
+    use HasPrivileges, PersistsTabs, WithFileUploads;
 
     public ?Post $post = null;
+
     public PostForm $form;
+
     public $images = [];
+
     public $newImages = [];
+
     public $defaultTab = 'post-create-head-section-panel';
+
     public string $selectedTab;
+
     public string $tabsBody;
 
     public bool $editPost = false;
+
     public $locale;
 
     public array $captionsDe = []; // Captions in German
+
     public array $captionsHu = []; // Captions in Hungarian
+
     public array $authors = [];
 
-    public function mount(?Post $post):void
+    public function mount(?Post $post): void
     {
         $this->locale = app()->getLocale();
         $this->selectedTab = $this->getSelectedTab();
@@ -65,9 +74,8 @@ class Form extends Component
             $this->newImages = []; // Reset for the next upload
         }
 
-        \Log::debug('Images after update: ' . json_encode($this->images));
+        \Log::debug('Images after update: '.json_encode($this->images));
     }
-
 
     public function makeSlugs(): void
     {
@@ -83,12 +91,12 @@ class Form extends Component
             'form.label' => 'required|string|max:100',
             'form.title.de' => 'required|string|max:100',
             'form.title.hu' => 'required|string|max:100',
-            'form.slug.de' => ['required','string','max:255', Rule::unique('posts','slug->de')->ignore($this->form->id)],
-            'form.slug.hu' => ['required','string','max:255', Rule::unique('posts','slug->hu')->ignore($this->form->id)],
+            'form.slug.de' => ['required', 'string', 'max:255', Rule::unique('posts', 'slug->de')->ignore($this->form->id)],
+            'form.slug.hu' => ['required', 'string', 'max:255', Rule::unique('posts', 'slug->hu')->ignore($this->form->id)],
             'form.body.de' => 'nullable|string',
             'form.body.hu' => 'nullable|string',
             'form.post_type_id' => 'required|exists:post_types,id',
-            'form.status' => ['required' , Rule::enum(EventStatus::class)],
+            'form.status' => ['required', Rule::enum(EventStatus::class)],
             'images.*' => 'nullable|image|max:10240', // 10MB max per image
             'captionsDe.*' => 'nullable|string|max:255',
             'captionsHu.*' => 'nullable|string|max:255',
@@ -102,7 +110,7 @@ class Form extends Component
         } else {
             $post = $this->form->create();
             $this->handleImages($post);
-            Flux::toast(text:__('post.form.toasts.create_success', ['num' => count($post->images)]), heading:  __('post.form.toasts.heading.success'), duration: 8000, variant: 'success');
+            Flux::toast(text: __('post.form.toasts.create_success', ['num' => count($post->images)]), heading: __('post.form.toasts.heading.success'), duration: 8000, variant: 'success');
         }
 
     }
@@ -130,10 +138,10 @@ class Form extends Component
         $this->form->label = fake()->realText(50);
         $this->form->title['de'] = fake()->realText(50);
         $this->form->slug['de'] = Str::slug(fake()->realText(50));
-        $this->form->body['de'] = fake()->randomHtml(20,8);
+        $this->form->body['de'] = fake()->randomHtml(20, 8);
         $this->form->title['hu'] = fake()->realText(50);
         $this->form->slug['hu'] = Str::slug(fake()->realTextBetween(20));
-        $this->form->body['hu'] = fake()->randomHtml(20,8);
+        $this->form->body['hu'] = fake()->randomHtml(20, 8);
 
     }
 
@@ -164,7 +172,7 @@ class Form extends Component
         }
     }
 
-    public function publishPost():void
+    public function publishPost(): void
     {
         $this->checkPrivilege(Post::class);
 
@@ -178,7 +186,7 @@ class Form extends Component
 
     }
 
-    public function resetPublication():void
+    public function resetPublication(): void
     {
         $this->checkPrivilege(Post::class);
 
@@ -190,6 +198,7 @@ class Form extends Component
 
         Flux::toast(text: __('post.form.toasts.msg.post_retracted'), heading: __('post.form.toasts.heading.success'), duration: 3000, variant: 'warning');
     }
+
     public function render()
     {
         return view('livewire.blog.post.form');

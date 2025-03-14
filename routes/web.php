@@ -90,7 +90,7 @@ Route::get('/posts', function () {
             ->whereNotNull('published_at')
             ->get(),
         'locale' => App::getLocale(),
-        ]);
+    ]);
 })
     ->name('posts.index');
 
@@ -101,6 +101,7 @@ Route::get('/posts/{slug}', function (string $slug) {
         ->where("slug->{$locale}", $slug) // Match the slug for the specific locale
         ->firstOrFail();
     $images = $post->images;
+
     return view('posts.show', [
         'post' => $post,
         'images' => $images,
@@ -329,6 +330,9 @@ Route::middleware([
             ]);
         });
     });
+
+Route::get('/mailing-list/unsubscribe/{token}', \App\Livewire\App\Global\Mailinglist\Unsubscribe::class)->name('mailing-list.unsubscribe');
+Route::get('/mailing-list/{token}', \App\Livewire\App\Global\Mailinglist\Show::class)->name('mailing-list.show');
 
 Route::get('/event-subscription/confirm/{id}/{token}', function ($id, $token) {
     $subscription = EventSubscription::findOrFail($id);
