@@ -9,10 +9,12 @@ use App\Mail\SendMemberMassMail;
 use App\Models\MailHistoryEntry;
 use App\Models\MailingList;
 use App\Models\Membership\Member;
+use Carbon\Carbon;
 use Exception;
 use Flux\Flux;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Attributes\Computed;
@@ -35,6 +37,10 @@ class Page extends Component
 
     public bool $target_type;
 
+    public array $monthlySubscriptions=[];
+    public array $yearlySubscriptions=[];
+
+    public int $totalSubscriptionsThisYear;
     public array $url_label;
 
     public string $url;
@@ -46,6 +52,38 @@ class Page extends Component
             ->whereNotNull('verified_at')
             ->tap(fn ($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
             ->paginate(10);
+    }
+
+    protected function subscriptionCurrentMonth():array{
+
+       return DB::table('mailing_lists')
+            ->selectRaw('DATE(verified_at) as date, COUNT(*) as visitors')
+            ->whereBetween('verified_at', [now()->startOfMonth(), now()->endOfMonth()])
+            ->groupBy('date')
+            ->get()
+            ->map(fn($item) => ['date' => $item->date, 'visitors' => $item->visitors])
+            ->toArray();
+
+    }
+    protected function subscriptionCurrentYear():array{
+
+       return DB::table('mailing_lists')
+           ->selectRaw('strftime("%m", verified_at) as month, COUNT(*) as visitors')
+           ->whereYear('verified_at', Carbon::now('Europe/Berlin')->year)
+           ->groupBy('month')
+           ->orderByRaw('month ASC')
+            ->get()
+            ->map(fn($item) => ['month' => $item->month, 'visitors' => $item->visitors])
+            ->toArray();
+
+    }
+
+    public function totalSubscriptionCurrentYear():int{
+
+        return DB::table('mailing_lists')
+            ->whereYear('verified_at', Carbon::now('Europe/Berlin')->year)
+            ->count();
+
     }
 
     public function sendMembersMail(): void
@@ -161,6 +199,15 @@ class Page extends Component
         $this->url = 'magyar-kolonia-berlin-org';
         $this->url_label['hu'] = 'Kattincs ide';
         $this->url_label['de'] = 'Click hier';
+    }
+
+    public function mount():void
+    {
+
+        $this->monthlySubscriptions = $this->subscriptionCurrentMonth();
+        $this->yearlySubscriptions = $this->subscriptionCurrentYear();
+        $this->totalSubscriptionsThisYear = $this->totalSubscriptionCurrentYear();
+
     }
 
 

@@ -14,7 +14,7 @@ use Illuminate\Support\Str;
  * @property string $email
  * @property int|null $member_id
  *
- * @method static \Database\Factories\MailinglistFactory factory($count = null, $state = [])
+ * @method static \Database\Factories\MailingListFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MailingList newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MailingList newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MailingList query()
@@ -29,11 +29,10 @@ use Illuminate\Support\Str;
  */
 class MailingList extends Model
 {
-    /** @use HasFactory<\Database\Factories\MailinglistFactory> */
+    /** @use HasFactory<\Database\Factories\MailingListFactory> */
     use HasFactory;
 
     protected $fillable = [
-        'name',
         'email',
         'terms_accepted',
         'update_on_events',
