@@ -62,7 +62,7 @@
 <body class="font-sans antialiased min-h-screen bg-white dark:bg-zinc-800">
 <flux:sidebar sticky
               stashable
-              class="bg-zinc-50 dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-700"
+              class="bg-zinc-50 dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-700 lg:w-50"
 >
     <div class="flex justify-between">
         <flux:brand href="/"
