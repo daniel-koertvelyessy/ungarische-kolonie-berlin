@@ -34,6 +34,9 @@ return [
     'index.menu-item.detach_member' => 'Mitglied',
     'index.table.empty-results' => 'Keine Buchungen gefunden',
 
+    'index.menu-item.send_invoice'=> 'E-Mail senden',
+    'index.menu-item.print_invoice'=> 'Ausdrucken',
+
     'account-transfer-modal.btn.submit' => 'durchführen',
     'account-transfer-modal' => '',
     'account-transfer-modal.heading' => 'Umbuchung (Finanzkonto ändern)',

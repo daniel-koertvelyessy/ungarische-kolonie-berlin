@@ -1,4 +1,4 @@
-<flux:card>
+<flux:card class="break-inside-avoid">
     <header class="flex items-center justify-between gap-3">
         <flux:button wire:click="previousMonth"
                      icon="arrow-left"

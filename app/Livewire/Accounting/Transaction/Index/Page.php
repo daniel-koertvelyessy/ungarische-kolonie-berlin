@@ -13,6 +13,7 @@ use App\Livewire\Forms\Accounting\ReceiptForm;
 use App\Livewire\Forms\Accounting\TransferTransactionForm;
 use App\Livewire\Traits\HasPrivileges;
 use App\Livewire\Traits\Sortable;
+use App\Mail\TransactionReceiptMail;
 use App\Models\Accounting\Account;
 use App\Models\Accounting\Receipt;
 use App\Models\Accounting\Transaction;
@@ -20,9 +21,16 @@ use App\Models\Event\Event;
 use App\Models\Event\EventTransaction;
 use App\Models\Membership\Member;
 use App\Models\Membership\MemberTransaction;
+use App\Pdfs\TransactionInvoicePdf;
+use App\Services\MemberInvoiceService;
+use Carbon\Carbon;
 use Flux\Flux;
+use http\Env\Response;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Url;
@@ -79,6 +87,65 @@ class Page extends Component
     public $transfer_reason;
 
     public $selectedRow;
+
+    public $pdfBase64 = null; // Property to hold the base64-encoded PDF
+    public $showPreviewModal = false; // Property to control the modal visibility
+
+    public $previewUrl = null;
+
+    public function sendInvoice($transactionId)
+    {
+        try {
+            $transaction = Transaction::with('member_transaction.member')->findOrFail($transactionId);
+            $member = $transaction->member_transaction->member ?? null;
+
+            $getMemberTransaction = MemberTransaction::query()->where('member_id', $member->id)->where('transaction_id', $transaction->id)->first();
+
+            if (is_null($getMemberTransaction->receipt_sent_timestamp)) {
+                $invoiceService = new MemberInvoiceService();
+                $pdfContent = $invoiceService->generate($transaction, $member, app()->getLocale());
+
+                if ($member && !empty($member->email)) { // Updated condition
+
+                    $filename = storage_path('app/invoices/Quittung_#'.Str::padLeft($transaction->id, 6, '0').'.pdf');
+                    if (!file_exists(dirname($filename))) {
+                        mkdir(dirname($filename), 0755, true);
+                    }
+                    file_put_contents($filename, $pdfContent);
+
+                    try {
+                        Mail::to($member->email)
+                            ->send(new TransactionReceiptMail($member, $filename, $transaction));
+                        unlink($filename);
+                        Flux::toast('Rechnung wurde erfolgreich an '.$member->email.' gesendet.', 'Erfolg');
+                        $getMemberTransaction->receipt_sent_timestamp = Carbon::now('Europe/Berlin');
+                        $getMemberTransaction->save();
+                        $this->dispatch('transaction-updated');
+                    } catch (\Exception $e) {
+                        if (file_exists($filename)) {
+                            unlink($filename);
+                        }
+                        Flux::toast('Rechnung wurde erfolgreich an '.$member->email.' gesendet.', 'Fehler');
+                        $this->addError('email', 'Fehler beim Senden der Rechnung: '.$e->getMessage());
+                    }
+                } else {
+                    Flux::toast('Die Rechnung kann nicht versendet werden, da das Mitglied keine E-Mail-Adresse hat. Bitte diese einpflegen oder ausdrucken und per Post senden.', 'Fehler', 9000, 'warning');
+                }
+
+            } else {
+                Flux::confirm('Die Rechnung kann nicht versendet werden, da das Mitglied keine E-Mail-Adresse hat. Bitte diese einpflegen oder ausdrucken und per Post senden.', 'Fehler', 9000, 'warning');
+            }
+        } catch (\Exception $e) {
+            \Log::error('Error in sendInvoice: ' . $e->getMessage() . "\nStack trace: " . $e->getTraceAsString());
+        }
+
+    }
+
+    public function closePreviewModal()
+    {
+        $this->showPreviewModal = false;
+        $this->pdfBase64 = null; // Clear the base64 data to free memory
+    }
 
     public function updatedSearch(): void
     {
@@ -314,6 +381,7 @@ class Page extends Component
             variant: 'success',
         );
     }
+
 
     public function render()
     {

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\RegisterController;
 use App\Mail\SendMemberMassMail;
+use App\Models\Accounting\Transaction;
 use App\Models\Event\Event;
 use App\Models\Event\EventSubscription;
 use App\Models\Membership\Member;
@@ -275,6 +276,15 @@ Route::middleware([
         Route::get('/account-report/print/{account_report}', function (\App\Models\Accounting\AccountReport $accountReport, \App\Services\AccountReportService $reportService) {
             return $reportService->generate($accountReport);
         })->name('accounts.report.print');
+
+        Route::get('/transaction/invoice/preview/{transaction}', function (Transaction $transaction, \App\Services\MemberInvoiceService $invoiceService) {
+            $member = $transaction->member_transaction->member ?? null;
+            $pdfContent = $invoiceService->generate($transaction, $member, app()->getLocale());
+
+            return response($pdfContent)
+                ->header('Content-Type', 'application/pdf')
+                ->header('Content-Disposition', 'inline; filename="Rechnung_' . $transaction->id . '.pdf"');
+        })->name('transaction.invoice.preview');
 
         Route::get('/account-report/audit/{account_report_audit}', function (\App\Models\Accounting\AccountReportAudit $accountReportAudit) {
             if (Auth::user()->id === $accountReportAudit->user_id) {

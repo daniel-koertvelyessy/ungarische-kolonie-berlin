@@ -11,7 +11,7 @@
          x-cloak
          x-show="showFilter"
     >
-        <livewire:accounting.fiscal-year-switcher.form />
+        <livewire:accounting.fiscal-year-switcher.form/>
         <flux:separator vertical/>
 
         <flux:input wire:model.live="search"
@@ -94,47 +94,47 @@
         <flux:table.columns>
             <flux:table.column>Buchung</flux:table.column>
             <flux:table.column sortable
-                         :sorted="$sortBy === 'date'"
-                         :direction="$sortDirection"
-                         wire:click="sort('date')"
-                         class="hidden md:table-cell"
+                               :sorted="$sortBy === 'date'"
+                               :direction="$sortDirection"
+                               wire:click="sort('date')"
+                               class="hidden md:table-cell"
             >Erfolgt am
             </flux:table.column>
             <flux:table.column sortable
-                         :sorted="$sortBy === 'created'"
-                         :direction="$sortDirection"
-                         wire:click="sort('created_at')"
-                         class="hidden md:table-cell"
+                               :sorted="$sortBy === 'created'"
+                               :direction="$sortDirection"
+                               wire:click="sort('created_at')"
+                               class="hidden md:table-cell"
             >Eingereicht
             </flux:table.column>
             <flux:table.column sortable
-                         :sorted="$sortBy === 'status'"
-                         :direction="$sortDirection"
-                         wire:click="sort('status')"
-                         class="hidden md:table-cell"
+                               :sorted="$sortBy === 'status'"
+                               :direction="$sortDirection"
+                               wire:click="sort('status')"
+                               class="hidden md:table-cell"
             >Status
             </flux:table.column>
 
             <flux:table.column sortable
-                         :sorted="$sortBy === 'account_id'"
-                         :direction="$sortDirection"
-                         wire:click="sort('account')"
-                         class="hidden sm:table-cell"
+                               :sorted="$sortBy === 'account_id'"
+                               :direction="$sortDirection"
+                               wire:click="sort('account')"
+                               class="hidden sm:table-cell"
 
             >Konto
             </flux:table.column>
             <flux:table.column align="right"
-                         sortable
-                         :sorted="$sortBy === 'amount'"
-                         :direction="$sortDirection"
-                         wire:click="sort('amount_gross')"
+                               sortable
+                               :sorted="$sortBy === 'amount'"
+                               :direction="$sortDirection"
+                               wire:click="sort('amount_gross')"
             >Betrag [EUR]
             </flux:table.column>
             <flux:table.column sortable
-                         :sorted="$sortBy === 'type'"
-                         :direction="$sortDirection"
-                         wire:click="sort('type')"
-                         class="hidden sm:table-cell"
+                               :sorted="$sortBy === 'type'"
+                               :direction="$sortDirection"
+                               wire:click="sort('type')"
+                               class="hidden sm:table-cell"
 
             >Art
             </flux:table.column>
@@ -149,7 +149,7 @@
 
                 <flux:table.row :key="$item->id">
                     <flux:table.cell variant="strong"
-                               class="flex lg:items-center justify-start  flex-col lg:flex-row space-y-3 lg:space-y-0 items-start"
+                                     class="flex lg:items-center justify-start  flex-col lg:flex-row space-y-3 lg:space-y-0 items-start"
                     >
                         <span class="text-wrap">{{ $item->label}}</span>
 
@@ -204,7 +204,7 @@
                     </flux:table.cell>
                     <flux:table.cell class="hidden sm:table-cell">{{ $item->account->name . ' - ' . $item->account->number }}</flux:table.cell>
                     <flux:table.cell variant="strong"
-                               align="end"
+                                     align="end"
                     ><span class="{{ $item->grossColor() }}">{{ $item->grossForHumans() }}</span></flux:table.cell>
                     <flux:table.cell class="hidden sm:table-cell">
                         <flux:badge size="sm"
@@ -249,6 +249,16 @@
                                                      variant="mini"
                                     />
                                 </flux:tooltip>
+                                    @if($item->member_transaction->receipt_sent_timestamp)
+                                    <flux:tooltip content="Quittung versendet am {{ $item->member_transaction->receipt_sent_timestamp }}"
+                                                  position="top"
+                                    >
+                                        <flux:icon.envelope class="size-4"
+                                                         variant="mini"
+                                        />
+                                    </flux:tooltip>
+                                    @endif
+
                             @endif
                         </aside>
 
@@ -263,6 +273,7 @@
                                 ></flux:button>
 
                                 <flux:menu>
+                                    <flux:navlist.group heading="Buchung" class="mt-4">
                                     @if($item->status === \App\Enums\TransactionStatus::submitted->value)
 
                                         <flux:menu.item icon="check"
@@ -293,7 +304,9 @@
                                         >{{ __('transaction.index.menu-item.rebook') }}
                                         </flux:menu.item>
                                     @endif
+
                                     <flux:menu.separator/>
+
                                     <flux:menu.submenu heading="Zuweisen"
                                                        icon="link"
                                     >
@@ -326,6 +339,18 @@
                                             @endif
                                         </flux:menu.submenu>
 
+                                    </flux:navlist.group>
+                                            <flux:navlist.group heading="Quittung" class="mt-4">
+                                                <flux:menu.item icon="envelope" wire:click="sendInvoice({{ $item->id }})">
+                                                    {{ __('transaction.index.menu-item.send_invoice') }}
+                                                </flux:menu.item>
+                                                <flux:menu.item icon="printer"
+                                                                href="{{ route('transaction.invoice.preview',$item->id) }}"
+                                                                target="_blank"
+                                                >
+                                                    {{ __('transaction.index.menu-item.print_invoice') }}
+                                                </flux:menu.item>
+                                            </flux:navlist.group>
                                     @endif
                                 </flux:menu>
                             </flux:dropdown>
@@ -335,7 +360,7 @@
             @empty
                 <flux:table.row key="0">
                     <flux:table.cell colspan="6"
-                               class=" space-y-2"
+                                     class=" space-y-2"
                     >
                         <flux:text>{{ __('transaction.index.table.empty-results') }}</flux:text>
 
@@ -516,7 +541,7 @@
             >
                 @foreach(App\Models\Accounting\Account::select('id', 'name')->get() as $key => $account)
                     <flux:select.option :key
-                                 value="{{ $account->id }}"
+                                        value="{{ $account->id }}"
                     >{{ $account->name }}</flux:select.option>
                 @endforeach
             </flux:select>
@@ -544,5 +569,27 @@
             <livewire:accounting.transaction.cancel.form :transaction-id="$transaction->id"/>
         @endif
     </flux:modal>
+
+    @push('scripts')
+        <script>
+            console.log('Script block loaded');
+            if (typeof Livewire === 'undefined') {
+                console.error('Livewire is not loaded!');
+            } else {
+                console.log('Livewire is loaded, version:', Livewire.version);
+                Livewire.on('previewUrlUpdated', (url) => {
+                    console.log('Received previewUrlUpdated event with URL:', url);
+                    if (url) {
+                        console.log('Opening new tab with URL:', url);
+                        window.open(url, '_blank');
+                        @this.
+                        set('previewUrl', null);
+                    } else {
+                        console.log('No URL received in previewUrlUpdated event');
+                    }
+                });
+            }
+        </script>
+    @endpush
 
 </div>

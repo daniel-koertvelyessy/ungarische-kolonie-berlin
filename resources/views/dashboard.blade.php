@@ -1,7 +1,7 @@
 <x-app-layout title="{{ __('nav.dashboard') }}">
-    <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3  gap-3 md:gap-6 lg:gap-9">
+    <div class="columns-2 space-y-4 xl:columns-3">
         <livewire:dashboard.widgets.events />
-        <flux:card>
+        <flux:card class="break-inside-avoid">
             <flux:heading size="lg">Kontostände</flux:heading>
             <x-balance-sheet/>
         </flux:card>

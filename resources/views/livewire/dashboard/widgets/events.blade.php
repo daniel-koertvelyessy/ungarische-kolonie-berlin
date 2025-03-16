@@ -1,5 +1,5 @@
 
-    <flux:card class="space-y-6">
+    <flux:card class="space-y-6 break-inside-avoid">
 
         <flux:heading size="lg">{{ __('event.page.title') }}</flux:heading>
 

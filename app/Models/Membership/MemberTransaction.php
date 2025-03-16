@@ -49,5 +49,6 @@ class MemberTransaction extends Model
 
     protected $casts = [
         'date' => 'date',
+        'receipt_sent_timestamp' => 'datetime',
     ];
 }

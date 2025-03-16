@@ -13796,7 +13796,8 @@
                 <tr>
                     <td valign="middle"
                         class="hero bg_white"
-                        style="padding: 3em 0 2em 0;"
+                        align="center"
+                        style="padding: 3em 0 2em 0; "
                     >
                         {{ $icon }}
                     </td>
