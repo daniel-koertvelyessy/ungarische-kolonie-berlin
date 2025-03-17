@@ -249,15 +249,15 @@
                                                      variant="mini"
                                     />
                                 </flux:tooltip>
-                                    @if($item->member_transaction->receipt_sent_timestamp)
+                                @if($item->member_transaction->receipt_sent_timestamp)
                                     <flux:tooltip content="Quittung versendet am {{ $item->member_transaction->receipt_sent_timestamp }}"
                                                   position="top"
                                     >
                                         <flux:icon.envelope class="size-4"
-                                                         variant="mini"
+                                                            variant="mini"
                                         />
                                     </flux:tooltip>
-                                    @endif
+                                @endif
 
                             @endif
                         </aside>
@@ -273,84 +273,90 @@
                                 ></flux:button>
 
                                 <flux:menu>
-                                    <flux:navlist.group heading="Buchung" class="mt-4">
-                                    @if($item->status === \App\Enums\TransactionStatus::submitted->value)
-
-                                        <flux:menu.item icon="check"
-                                                        wire:click="bookItem({{ $item->id }})"
-                                        >{{ __('transaction.index.menu-item.book') }}
-                                        </flux:menu.item>
-
-                                        <flux:menu.item icon="pencil"
-                                                        wire:click="editItem({{ $item->id }})"
-                                        >{{ __('transaction.index.menu-item.edit') }}
-                                        </flux:menu.item>
-                                    @else
-
-                                        <flux:menu.item icon="trash"
-                                                        variant="danger"
-                                                        wire:click="startCancelItem({{ $item->id }})"
-                                                        :disabled="$item->type === \App\Enums\TransactionType::Reversal->value"
-                                        >{{ __('transaction.index.menu-item.cancel') }}
-                                        </flux:menu.item>
-                                        <flux:menu.item icon="document"
-                                                        wire:click="editTransactionText({{ $item->id }})"
-                                                        :disabled="$item->type === \App\Enums\TransactionType::Reversal->value"
-                                        >{{ __('transaction.index.menu-item.edit_text') }}
-                                        </flux:menu.item>
-                                        <flux:menu.item icon="arrows-right-left"
-                                                        wire:click="changeAccount({{ $item->id }})"
-                                                        :disabled="$item->type === \App\Enums\TransactionType::Reversal->value"
-                                        >{{ __('transaction.index.menu-item.rebook') }}
-                                        </flux:menu.item>
-                                    @endif
-
-                                    <flux:menu.separator/>
-
-                                    <flux:menu.submenu heading="Zuweisen"
-                                                       icon="link"
+                                    <flux:navlist.group heading="Buchung"
+                                                        class="mt-4"
                                     >
-                                        <flux:menu.item icon="calendar-days"
-                                                        wire:click="appendToEvent({{ $item->id }})"
-                                        >{{ __('transaction.index.menu-item.attach_event') }}
-                                        </flux:menu.item>
-                                        <flux:menu.item icon="users"
-                                                        wire:click="appendToMember({{ $item->id }})"
-                                        >{{ __('transaction.index.menu-item.attach_member') }}
-                                        </flux:menu.item>
-                                    </flux:menu.submenu>
-                                    @if(isset($item->event_transaction->id) || isset($item->member_transaction->id))
+                                        @if($item->status === \App\Enums\TransactionStatus::submitted->value)
 
-                                        <flux:menu.submenu heading="Lösen"
-                                                           icon="link-slash"
+                                            <flux:menu.item icon="check"
+                                                            wire:click="bookItem({{ $item->id }})"
+                                            >{{ __('transaction.index.menu-item.book') }}
+                                            </flux:menu.item>
+
+                                            <flux:menu.item icon="pencil"
+                                                            wire:click="editItem({{ $item->id }})"
+                                            >{{ __('transaction.index.menu-item.edit') }}
+                                            </flux:menu.item>
+                                        @else
+
+                                            <flux:menu.item icon="trash"
+                                                            variant="danger"
+                                                            wire:click="startCancelItem({{ $item->id }})"
+                                                            :disabled="$item->type === \App\Enums\TransactionType::Reversal->value"
+                                            >{{ __('transaction.index.menu-item.cancel') }}
+                                            </flux:menu.item>
+                                            <flux:menu.item icon="document"
+                                                            wire:click="editTransactionText({{ $item->id }})"
+                                                            :disabled="$item->type === \App\Enums\TransactionType::Reversal->value"
+                                            >{{ __('transaction.index.menu-item.edit_text') }}
+                                            </flux:menu.item>
+                                            <flux:menu.item icon="arrows-right-left"
+                                                            wire:click="changeAccount({{ $item->id }})"
+                                                            :disabled="$item->type === \App\Enums\TransactionType::Reversal->value"
+                                            >{{ __('transaction.index.menu-item.rebook') }}
+                                            </flux:menu.item>
+                                        @endif
+
+                                        <flux:menu.separator/>
+
+                                        <flux:menu.submenu heading="Zuweisen"
+                                                           icon="link"
                                         >
-                                            @if(isset($item->event_transaction->id))
-                                                <flux:menu.item icon="calendar-days"
-                                                                wire:click="detachEvent({{ $item->event_transaction->id }})"
-                                                >{{ __('transaction.index.menu-item.detach_event') }}
-                                                </flux:menu.item>
-                                            @endif
-
-                                            @if(isset($item->member_transaction->id))
-                                                <flux:menu.item icon="users"
-                                                                wire:click="detachMember({{ $item->member_transaction->id }})"
-                                                >{{ __('transaction.index.menu-item.detach_member') }}
-                                                </flux:menu.item>
-                                            @endif
+                                            <flux:menu.item icon="calendar-days"
+                                                            wire:click="appendToEvent({{ $item->id }})"
+                                            >{{ __('transaction.index.menu-item.attach_event') }}
+                                            </flux:menu.item>
+                                            <flux:menu.item icon="users"
+                                                            wire:click="appendToMember({{ $item->id }})"
+                                            >{{ __('transaction.index.menu-item.attach_member') }}
+                                            </flux:menu.item>
                                         </flux:menu.submenu>
+                                        @if(isset($item->event_transaction->id) || isset($item->member_transaction->id))
+
+                                            <flux:menu.submenu heading="Lösen"
+                                                               icon="link-slash"
+                                            >
+                                                @if(isset($item->event_transaction->id))
+                                                    <flux:menu.item icon="calendar-days"
+                                                                    wire:click="detachEvent({{ $item->event_transaction->id }})"
+                                                    >{{ __('transaction.index.menu-item.detach_event') }}
+                                                    </flux:menu.item>
+                                                @endif
+
+                                                @if(isset($item->member_transaction->id))
+                                                    <flux:menu.item icon="users"
+                                                                    wire:click="detachMember({{ $item->member_transaction->id }})"
+                                                    >{{ __('transaction.index.menu-item.detach_member') }}
+                                                    </flux:menu.item>
+                                                @endif
+                                            </flux:menu.submenu>
 
                                     </flux:navlist.group>
-                                            <flux:navlist.group heading="Quittung" class="mt-4">
-                                                <flux:menu.item icon="envelope" wire:click="sendInvoice({{ $item->id }})">
-                                                    {{ __('transaction.index.menu-item.send_invoice') }}
-                                                </flux:menu.item>
-                                                <flux:menu.item icon="printer"
-                                                                href="{{ route('transaction.invoice.preview',$item->id) }}"
-                                                                target="_blank"
-                                                >
-                                                    {{ __('transaction.index.menu-item.print_invoice') }}
-                                                </flux:menu.item>
-                                            </flux:navlist.group>
+                                    <flux:navlist.group heading="Quittung"
+                                                        class="mt-4"
+                                    >
+                                        <flux:menu.item icon="envelope"
+                                                        wire:click="sendInvoice({{ $item->id }})"
+                                        >
+                                            {{ __('transaction.index.menu-item.send_invoice') }}
+                                        </flux:menu.item>
+                                        <flux:menu.item icon="printer"
+                                                        href="{{ route('transaction.invoice.preview',$item->id) }}"
+                                                        target="_blank"
+                                        >
+                                            {{ __('transaction.index.menu-item.print_invoice') }}
+                                        </flux:menu.item>
+                                    </flux:navlist.group>
                                     @endif
                                 </flux:menu>
                             </flux:dropdown>
@@ -370,6 +376,7 @@
             @endforelse
         </flux:table.rows>
     </flux:table>
+
     @can('create', \App\Models\Accounting\Account::class)
         <div class="flex mt-3">
             <flux:spacer/>
@@ -396,7 +403,6 @@
         @endif
 
     </flux:modal>
-
 
     <flux:modal name="book-transaction"
                 class=" space-y-6"
@@ -519,7 +525,6 @@
         </form>
     </flux:modal>
 
-
     <flux:modal name="account-transfer-modal"
                 variant="flyout"
                 position="right"
@@ -559,7 +564,6 @@
         <x-debug/>
     </flux:modal>
 
-
     <flux:modal name="cancel-transaction"
                 class="w-1/5 pt-6 space-y-6"
     >
@@ -569,27 +573,5 @@
             <livewire:accounting.transaction.cancel.form :transaction-id="$transaction->id"/>
         @endif
     </flux:modal>
-
-    @push('scripts')
-        <script>
-            console.log('Script block loaded');
-            if (typeof Livewire === 'undefined') {
-                console.error('Livewire is not loaded!');
-            } else {
-                console.log('Livewire is loaded, version:', Livewire.version);
-                Livewire.on('previewUrlUpdated', (url) => {
-                    console.log('Received previewUrlUpdated event with URL:', url);
-                    if (url) {
-                        console.log('Opening new tab with URL:', url);
-                        window.open(url, '_blank');
-                        @this.
-                        set('previewUrl', null);
-                    } else {
-                        console.log('No URL received in previewUrlUpdated event');
-                    }
-                });
-            }
-        </script>
-    @endpush
 
 </div>
