@@ -262,7 +262,7 @@
                         </aside>
 
                     </flux:table.cell>
-                    @can('update', \App\Models\Accounting\Account::class)
+                  {{--  @can('update', \App\Models\Accounting\Account::class)
                         <flux:table.cell>
                             <flux:dropdown>
                                 <flux:button variant="ghost"
@@ -360,7 +360,7 @@
                                 </flux:menu>
                             </flux:dropdown>
                         </flux:table.cell>
-                    @endcan
+                    @endcan--}}
                 </flux:table.row>
             @empty
                 <flux:table.row key="0">
