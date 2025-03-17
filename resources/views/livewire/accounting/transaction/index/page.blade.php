@@ -262,94 +262,104 @@
                         </aside>
 
                     </flux:table.cell>
-              
-                  @can('update', \App\Models\Accounting\Account::class)
-    <flux:table.cell>
-        <flux:dropdown>
-            <flux:button variant="ghost"
-                         size="sm"
-                         icon="ellipsis-horizontal"
-                         inset="top bottom"
-            ></flux:button>
 
-            <flux:menu>
-                <flux:navlist.group heading="Buchung" class="mt-4">
-                    @if(isset($item->status) && $item->status === \App\Enums\TransactionStatus::submitted->value)
-                        <flux:menu.item icon="check"
-                                        wire:click="bookItem({{ $item->id }})"
-                        >{{ __('transaction.index.menu-item.book') }}
-                        </flux:menu.item>
+                    @can('update', \App\Models\Accounting\Account::class)
+                        <flux:table.cell>
+                            <flux:dropdown>
+                                <flux:button variant="ghost"
+                                             size="sm"
+                                             icon="ellipsis-horizontal"
+                                             inset="top bottom"
+                                ></flux:button>
 
-                        <flux:menu.item icon="pencil"
-                                        wire:click="editItem({{ $item->id }})"
-                        >{{ __('transaction.index.menu-item.edit') }}
-                        </flux:menu.item>
-                    @else
-                        <flux:menu.item icon="trash"
-                                        variant="danger"
-                                        wire:click="startCancelItem({{ $item->id }})"
-                                        :disabled="!isset($item->type) || $item->type === \App\Enums\TransactionType::Reversal->value"
-                        >{{ __('transaction.index.menu-item.cancel') }}
-                        </flux:menu.item>
-                        <flux:menu.item icon="document"
-                                        wire:click="editTransactionText({{ $item->id }})"
-                                        :disabled="!isset($item->type) || $item->type === \App\Enums\TransactionType::Reversal->value"
-                        >{{ __('transaction.index.menu-item.edit_text') }}
-                        </flux:menu.item>
-                        <flux:menu.item icon="arrows-right-left"
-                                        wire:click="changeAccount({{ $item->id }})"
-                                        :disabled="!isset($item->type) || $item->type === \App\Enums\TransactionType::Reversal->value"
-                        >{{ __('transaction.index.menu-item.rebook') }}
-                        </flux:menu.item>
-                    @endif
+                                <flux:menu>
+                                    <flux:menu.group heading="Buchung"
+                                                        class="mt-4"
+                                    >
+                                        @if(isset($item->status) && $item->status === \App\Enums\TransactionStatus::submitted->value)
+                                            <flux:menu.item icon="check"
+                                                            wire:click="bookItem({{ $item->id }})"
+                                            >{{ __('transaction.index.menu-item.book') }}
+                                            </flux:menu.item>
 
-                    <flux:menu.separator/>
+                                            <flux:menu.item icon="pencil"
+                                                            wire:click="editItem({{ $item->id }})"
+                                            >{{ __('transaction.index.menu-item.edit') }}
+                                            </flux:menu.item>
+                                        @else
+                                            <flux:menu.item icon="trash"
+                                                            variant="danger"
+                                                            wire:click="startCancelItem({{ $item->id }})"
+                                                            :disabled="!isset($item->type) || $item->type === \App\Enums\TransactionType::Reversal->value"
+                                            >{{ __('transaction.index.menu-item.cancel') }}
+                                            </flux:menu.item>
+                                            <flux:menu.item icon="document"
+                                                            wire:click="editTransactionText({{ $item->id }})"
+                                                            :disabled="!isset($item->type) || $item->type === \App\Enums\TransactionType::Reversal->value"
+                                            >{{ __('transaction.index.menu-item.edit_text') }}
+                                            </flux:menu.item>
+                                            <flux:menu.item icon="arrows-right-left"
+                                                            wire:click="changeAccount({{ $item->id }})"
+                                                            :disabled="!isset($item->type) || $item->type === \App\Enums\TransactionType::Reversal->value"
+                                            >{{ __('transaction.index.menu-item.rebook') }}
+                                            </flux:menu.item>
+                                        @endif
 
-                    <flux:menu.submenu heading="Zuweisen" icon="link">
-                        <flux:menu.item icon="calendar-days"
-                                        wire:click="appendToEvent({{ $item->id }})"
-                        >{{ __('transaction.index.menu-item.attach_event') }}
-                        </flux:menu.item>
-                        <flux:menu.item icon="users"
-                                        wire:click="appendToMember({{ $item->id }})"
-                        >{{ __('transaction.index.menu-item.attach_member') }}
-                        </flux:menu.item>
-                    </flux:menu.submenu>
+                                        <flux:menu.separator/>
 
-                    @if(isset($item->event_transaction) && isset($item->event_transaction->id) || isset($item->member_transaction) && isset($item->member_transaction->id))
-                        <flux:menu.submenu heading="Lösen" icon="link-slash">
-                            @if(isset($item->event_transaction) && isset($item->event_transaction->id))
-                                <flux:menu.item icon="calendar-days"
-                                                wire:click="detachEvent({{ $item->event_transaction->id }})"
-                                >{{ __('transaction.index.menu-item.detach_event') }}
-                                </flux:menu.item>
-                            @endif
+                                        <flux:menu.submenu heading="Zuweisen"
+                                                           icon="link"
+                                        >
+                                            <flux:menu.item icon="calendar-days"
+                                                            wire:click="appendToEvent({{ $item->id }})"
+                                            >{{ __('transaction.index.menu-item.attach_event') }}
+                                            </flux:menu.item>
+                                            <flux:menu.item icon="users"
+                                                            wire:click="appendToMember({{ $item->id }})"
+                                            >{{ __('transaction.index.menu-item.attach_member') }}
+                                            </flux:menu.item>
+                                        </flux:menu.submenu>
 
-                            @if(isset($item->member_transaction) && isset($item->member_transaction->id))
-                                <flux:menu.item icon="users"
-                                                wire:click="detachMember({{ $item->member_transaction->id }})"
-                                >{{ __('transaction.index.menu-item.detach_member') }}
-                                </flux:menu.item>
-                            @endif
-                        </flux:menu.submenu>
-                    @endif
+                                        @if(isset($item->event_transaction) && isset($item->event_transaction->id) || isset($item->member_transaction) && isset($item->member_transaction->id))
+                                            <flux:menu.submenu heading="Lösen"
+                                                               icon="link-slash"
+                                            >
+                                                @if(isset($item->event_transaction) && isset($item->event_transaction->id))
+                                                    <flux:menu.item icon="calendar-days"
+                                                                    wire:click="detachEvent({{ $item->event_transaction->id }})"
+                                                    >{{ __('transaction.index.menu-item.detach_event') }}
+                                                    </flux:menu.item>
+                                                @endif
 
-                    <flux:navlist.group heading="Quittung" class="mt-4">
-                        <flux:menu.item icon="envelope"
-                                        wire:click="sendInvoice({{ $item->id }})"
-                        >{{ __('transaction.index.menu-item.send_invoice') }}
-                        </flux:menu.item>
-                        <flux:menu.item icon="printer"
-                                        href="{{ route('transaction.invoice.preview', $item->id) }}"
-                                        target="_blank"
-                        >{{ __('transaction.index.menu-item.print_invoice') }}
-                        </flux:menu.item>
-                    </flux:navlist.group>
-                </flux:navlist.group>
-            </flux:menu>
-        </flux:dropdown>
-    </flux:table.cell>
-@endcan
+                                                @if(isset($item->member_transaction) && isset($item->member_transaction->id))
+                                                    <flux:menu.item icon="users"
+                                                                    wire:click="detachMember({{ $item->member_transaction->id }})"
+                                                    >{{ __('transaction.index.menu-item.detach_member') }}
+                                                    </flux:menu.item>
+                                                @endif
+                                            </flux:menu.submenu>
+                                        @endif
+
+
+                                    </flux:menu.group>
+
+                                    <flux:menu.group heading="Quittung"
+                                                        class="mt-4"
+                                    >
+                                        <flux:menu.item icon="envelope"
+                                                        wire:click="sendInvoice({{ $item->id }})"
+                                        >{{ __('transaction.index.menu-item.send_invoice') }}
+                                        </flux:menu.item>
+                                        <flux:menu.item icon="printer"
+                                                        href="{{ route('transaction.invoice.preview', $item->id) }}"
+                                                        target="_blank"
+                                        >{{ __('transaction.index.menu-item.print_invoice') }}
+                                        </flux:menu.item>
+                                    </flux:menu.group>
+                                </flux:menu>
+                            </flux:dropdown>
+                        </flux:table.cell>
+                    @endcan
 
                 </flux:table.row>
             @empty
