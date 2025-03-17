@@ -138,7 +138,6 @@
 
             >Art
             </flux:table.column>
-
             <flux:table.column class="hidden lg:table-cell">Beleg</flux:table.column>
             <flux:table.column class="hidden lg:table-cell">Verknüpft</flux:table.column>
 
