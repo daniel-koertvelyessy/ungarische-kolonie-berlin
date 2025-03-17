@@ -7,6 +7,7 @@ use App\Livewire\Forms\Blog\PostForm;
 use App\Livewire\Traits\HasPrivileges;
 use App\Livewire\Traits\PersistsTabs;
 use App\Models\Blog\Post;
+use App\Models\MailingList;
 use Carbon\Carbon;
 use Flux\Flux;
 use Illuminate\Support\Facades\Storage;
@@ -197,6 +198,17 @@ class Form extends Component
         $this->form->update();
 
         Flux::toast(text: __('post.form.toasts.msg.post_retracted'), heading: __('post.form.toasts.heading.success'), duration: 3000, variant: 'warning');
+    }
+
+    public function sendPublicationNotification():void
+    {
+        $mailingList = MailingList::query()
+            ->whereNotNull('mailing_lists.email')
+            ->whereNotNull('mailing_lists.verified_at')
+            ->where('update_on_articles', true)
+            ->get();
+
+        dd($mailingList);
     }
 
     public function render()

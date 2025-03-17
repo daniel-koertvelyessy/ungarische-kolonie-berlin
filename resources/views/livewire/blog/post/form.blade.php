@@ -92,7 +92,7 @@
                                         <div class="mt-4">
                                             <div class="-mx-2 -my-1.5 flex gap-3">
                                                 <flux:button size="sm" icon-trailing="arrow-uturn-left" variant="ghost" wire:click="resetPublication" wire:confirm="{{ __('post.show.tab.main.published.confirmation_msg') }}">{{ __('post.show.tab.main.published.btn_reset') }}</flux:button>
-                                                <flux:button size="sm" icon-trailing="megaphone" variant="filled">{{ __('post.show.tab.main.published.btn_sendMails') }}</flux:button>
+                                                <flux:button size="sm" icon-trailing="megaphone" variant="filled" wire:click="sendPublicationNotification">{{ __('post.show.tab.main.published.btn_sendMails') }}</flux:button>
 
                                             </div>
                                         </div>
