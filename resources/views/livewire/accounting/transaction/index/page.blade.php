@@ -320,7 +320,7 @@
                                             </flux:menu.item>
                                         </flux:menu.submenu>
 
-                                        @if(isset($item->event_transaction) && isset($item->event_transaction->id) || isset($item->member_transaction) && isset($item->member_transaction->id))
+                                        @if(isset($item->event_transaction) && isset($item->event_transaction->id) )
                                             <flux:menu.submenu heading="Lösen"
                                                                icon="link-slash"
                                             >
@@ -343,6 +343,7 @@
 
                                     </flux:menu.group>
 
+                                    @if(isset($item->member_transaction) && isset($item->member_transaction->id))
                                     <flux:menu.group heading="Quittung"
                                                         class="mt-4"
                                     >
@@ -356,6 +357,7 @@
                                         >{{ __('transaction.index.menu-item.print_invoice') }}
                                         </flux:menu.item>
                                     </flux:menu.group>
+                                    @endif
                                 </flux:menu>
                             </flux:dropdown>
                         </flux:table.cell>
