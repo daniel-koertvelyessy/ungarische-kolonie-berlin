@@ -69,8 +69,9 @@ class Page extends Component
     {
         return MemberTransaction::query()
             ->where('member_id', '=', $this->member->id)
-            ->tap(fn ($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
-            ->tap(fn ($query) => $this->searchPayment ? $query->whereHas('transaction', function ($query) {
+            ->tap(fn($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
+            ->tap(fn($query) => $this->searchPayment ? $query->whereHas('transaction', function ($query)
+            {
                 $query->where('label', 'LIKE', '%'.$this->searchPayment.'%')
                     ->orWhere('reference', 'LIKE', '%'.$this->searchPayment.'%')
                     ->orWhere('description', 'LIKE', '%'.$this->searchPayment.'%');
@@ -151,7 +152,6 @@ class Page extends Component
 
     public function sendInvitation(): void
     {
-
         try {
             $this->validate([
                 'memberForm.email' => 'required|email|unique:invitations,email|unique:users,email',
@@ -163,6 +163,7 @@ class Page extends Component
             ]);
 
             Mail::to($this->memberForm->email)
+                ->locale($this->memberForm->locale)
                 ->send(new \App\Mail\InvitationMail($invitation, $this->memberForm->member));
 
             Flux::toast(
@@ -255,7 +256,7 @@ class Page extends Component
         $filePath = "accounting/receipts/{$receipt->file_name}";
 
         // Debugging: Check if the file exists
-        if (! Storage::disk('local')
+        if (!Storage::disk('local')
             ->exists($filePath)) {
             abort(404, 'File not found.');
         }

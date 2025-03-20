@@ -12,216 +12,58 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Str;
 
-// use Spatie\Browsershot\Browsershot;
 
-Route::get('/mailer-test', function () {
-    app()->setLocale('hu');
+Route::get('/', \App\Livewire\App\Home\Page::class)->name('home');
 
-    return view('emails.invitation', ['member' => Member::find(1)]);
-})
-    ->name('mail-tester');
+Route::get('/lang/{locale}', [\App\Http\Controllers\LocaleController::class, 'switch'])->name('locale.switch');
 
-Route::get('lang/{locale}', function ($locale) {
-    App::setLocale($locale);
-    session()->put('locale', $locale);
 
-    return redirect()->back();
+Route::get('/impressum', [\App\Http\Controllers\StaticController::class, 'impressum'])->name('impressum');
+Route::get('/der-verein', [\App\Http\Controllers\StaticController::class, 'aboutUs'])->name('about-us');
+
+
+Route::prefix('members')->name('members.')->group(function ()
+{
+    Route::get('/mitglied-werden', \App\Livewire\Member\Apply\Page::class)
+        ->name('application');
+    Route::get('/print-member-application/{member}', [\App\Http\Controllers\MembersController::class, 'printApplication'])
+        ->name('print_application');
+
+    Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+
+    Route::post('/register', [RegisterController::class, 'create']);
+
 });
 
-Route::get('/', function () {
-    return view('welcome', [
-        'events' => \App\Models\Event\Event::with('venue')
-            ->where('status', '=', \App\Enums\EventStatus::PUBLISHED)
-            ->whereBetween('event_date', [
-                Carbon::today('Europe/Berlin'), Carbon::now('Europe/Berlin')
-                    ->endOfYear(),
-            ])
-            ->take(3)
-            ->get(),
-        'events_total' => \App\Models\Event\Event::whereBetween('event_date', [
-            Carbon::today('Europe/Berlin'), Carbon::now('Europe/Berlin')
-                ->endOfDecade(),
-        ])
-            ->where('status', '=', \App\Enums\EventStatus::PUBLISHED->value)
-            ->get()
-            ->count(),
-        'posts' => \App\Models\Blog\Post::query()
-            ->where('posts.status', \App\Enums\EventStatus::PUBLISHED->value)
-            ->whereNotNull('published_at')
-            ->orderByDesc('published_at')
-            ->get(),
-        'posts_count' => \App\Models\Blog\Post::query()
-            ->where('posts.status', \App\Enums\EventStatus::PUBLISHED->value)
-            ->whereNotNull('published_at')
-            ->count(),
-    ]);
-})
-    ->name('home');
+Route::get('/mailing-list/unsubscribe/{token}', \App\Livewire\App\Global\Mailinglist\Unsubscribe::class)->name('mailing-list.unsubscribe');
+Route::get('/mailing-list/{token}', \App\Livewire\App\Global\Mailinglist\Show::class)->name('mailing-list.show');
 
-Route::get('/events', function () {
-    return view('events.index', [
-        'events' => \App\Models\Event\Event::orderBy('event_date')
-            ->where('status', '=', \App\Enums\EventStatus::PUBLISHED->value)
-            ->paginate(5),
-        'locale' => App::getLocale(),
-    ]);
-})
-    ->name('events');
+Route::prefix('events')->name('events.')->group(function ()
+{
+    Route::get('/subscription/confirm/{eventSubscription}/{token}', [\App\Http\Controllers\EventController::class, 'confirmSubscription'])->name('subscription.confirm');
 
-Route::get('/events/{slug}', function (string $slug) {
-    $locale = App::getLocale();
+    Route::get('/', [\App\Http\Controllers\EventController::class,'index'])->name('index');
 
-    return view('events.show', [
-        'event' => Event::query()
-            ->with('venue')
-            ->with('timelines')
-            ->where("slug->{$locale}", $slug) // Match the slug for the specific locale
-            ->firstOrFail(),
-        'locale' => $locale,
-    ]);
-})
-    ->name('events.show');
+    Route::get('/{slug}', [\App\Http\Controllers\EventController::class,'show'])->name('show');
 
-Route::get('/posts', function () {
-    return view('posts.index', [
-        'posts' => \App\Models\Blog\Post::query()
-            ->where('posts.status', \App\Enums\EventStatus::PUBLISHED->value)
-            ->whereNotNull('published_at')
-            ->get(),
-        'locale' => App::getLocale(),
-    ]);
-})
-    ->name('posts.index');
+    Route::get('/ics/{slug}', [\App\Http\Controllers\EventController::class, 'generateIcs'])->name('ics');
 
-Route::get('/posts/{slug}', function (string $slug) {
-    $locale = App::getLocale();
-    $post = \App\Models\Blog\Post::query()
-        ->with('images')
-        ->where("slug->{$locale}", $slug) // Match the slug for the specific locale
-        ->firstOrFail();
-    $images = $post->images;
-
-    return view('posts.show', [
-        'post' => $post,
-        'images' => $images,
-        'locale' => $locale,
-    ]);
-})
-    ->name('posts.show');
-
-Route::get('/ics/{slug}', function (string $slug) {
-    $locale = App::getLocale();
-
-    // Find the event by JSON slug field
-    $event = Event::whereJsonContains('slug', $slug)
-        ->firstOrFail();
-    // Combine the event_date with start_time to form a full DateTime string
-
-    $startDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $event->event_date->format('Y-m-d').' '.$event->start_time->format('H:i:s'), 'Europe/Berlin');
-    $endDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $event->event_date->format('Y-m-d').' '.$event->end_time->format('H:i:s'), 'Europe/Berlin');
-
-    // Convert to UTC timezone
-    $startDateTime->setTimezone('UTC');
-    $endDateTime->setTimezone('UTC');
-
-    // Format the dates in iCalendar format (YYYYMMDDTHHMMSSZ)
-    $startFormatted = $startDateTime->format('Ymd\THis\Z');
-    $endFormatted = $endDateTime->format('Ymd\THis\Z');
-
-    $title = $event->title[$locale] ?? 'Untitled Event';
-    $description = Str::limit($event->description[$locale], 50, ' ..', true);
-    $location = $event->location ?? 'Event Location';
-
-    // Generate a unique UID (could be based on event data or UUID)
-    $uid = uniqid('event_', true).'@ungarische-kolonie-berlin.org';
-
-    // Get current date and time for DTSTAMP
-    $dtStamp = Carbon::now('UTC')
-        ->format('Ymd\THis\Z');
-
-    // Create ICS content with CRLF line breaks
-    $icsContent = "BEGIN:VCALENDAR\r\n";
-    $icsContent .= "VERSION:2.0\r\n";
-    $icsContent .= "PRODID:-//Your Company//NONSGML v1.0//EN\r\n";
-    $icsContent .= "BEGIN:VEVENT\r\n";
-    $icsContent .= 'SUMMARY:'.$title."\r\n";
-    $icsContent .= 'LOCATION:'.$location."\r\n";
-    $icsContent .= 'DTSTART:'.$startFormatted."\r\n";
-    $icsContent .= 'DTEND:'.$endFormatted."\r\n";
-    $icsContent .= "DESCRIPTION:$description\r\n";
-    $icsContent .= "STATUS:CONFIRMED\r\n";
-    $icsContent .= 'DTSTAMP:'.$dtStamp."\r\n";  // Add DTSTAMP property
-    $icsContent .= 'UID:'.$uid."\r\n";  // Add UID property
-    $icsContent .= "END:VEVENT\r\n";
-    $icsContent .= "END:VCALENDAR\r\n";
-
-    // Create and store the .ics file
-    $fileName = 'event_'.$event->event_date->format('Y-m-d').'.ics';
-    //    Storage::disk('public')->put($fileName, $icsContent);
-
-    // Alternatively, return the file as a response for immediate download
-    return response($icsContent, 200)
-        ->header('Content-Type', 'text/calendar')
-        ->header('Content-Disposition', 'attachment; filename="'.$fileName.'"');
 });
 
-Route::get('/impressum', function () {
-    return view('impressum');
-})
-    ->name('impressum');
+Route::prefix('posts')->name('posts.')->group(function ()
+{
+    Route::get('/', [\App\Http\Controllers\PostController::class, 'index'] )->name('index');
 
-Route::get('/der-verein', function () {
-    return view('about-us');
-})
-    ->name('about-us');
+    Route::get('/{slug}', [\App\Http\Controllers\PostController::class,'show'])->name('show');
 
-Route::get('/mitglied-werden', \App\Livewire\Member\Apply\Page::class)
-    ->name('members.application');
-
-Route::get('/print-member-application/{member}', function (\App\Models\Membership\Member $member) {
-    $html = view('pdf.membership-application', ['member' => $member])->render();
-    $filename = __('members.apply.print.filename', ['tm' => date('YmdHis'), 'id' => $member->id]);
-    $pdf = new TCPDF;
-
-    // Set document information
-    $pdf->SetTitle(__('members.apply.print.title'));
-    $pdf->SetSubject(__('members.apply.print.title'));
-    $pdf->setMargins(24, 10, 10);
-    $pdf->setPrintHeader(false);
-    $pdf->setPrintFooter(false);
-    // Add a page
-    $pdf->AddPage();
-
-    $pdf->writeHTML($html, true, false, true, false, '');
-
-    // Output the PDF as a download
-    $pdf->Output($filename, 'D');
-
-    return $this->redirect(route('home'));
-    /*    $filePath = 'members/applications/tmp/'.$filename; // Define the file path
-        Storage::disk('local')
-            ->put($filePath, $pdf);
-        if (Storage::disk('local')
-            ->exists($filePath)) {
-            return Storage::disk('local')
-                ->download($filePath, $filename);
-        }
-
-        abort(404, 'File not found');*/
-})
-    ->name('members.print_application');
-
-Route::get('/register', [RegisterController::class, 'showRegistrationForm'])
-    ->name('register');
-Route::post('/register', [RegisterController::class, 'create']);
+});
 
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
-])
+])->prefix('backend')
     ->group(function () {
 
         Route::get('/tools', \App\Livewire\App\Tool\Index\Page::class)
@@ -239,26 +81,26 @@ Route::middleware([
         Route::get('/members-import', \App\Livewire\Member\Import\Page::class)
             ->name('members.import');
 
-        Route::get('/backend-events', \App\Livewire\Event\Index\Page::class)
+        Route::get('/events', \App\Livewire\Event\Index\Page::class)
             ->name('backend.events.index');
 
-        Route::get('/backend-events/create', \App\Livewire\Event\Create\Page::class)
+        Route::get('/events/create', \App\Livewire\Event\Create\Page::class)
             ->name('backend.events.create');
 
-        Route::get('/backend-events/{event}', \App\Livewire\Event\Show\Page::class)
+        Route::get('/events/{event}', \App\Livewire\Event\Show\Page::class)
             ->name('backend.events.show');
 
-        Route::get('/backend-events/report/{event}', function (Event $event, EventReportService $reportService) {
+        Route::get('/events/report/{event}', function (Event $event, EventReportService $reportService) {
             return $reportService->generate($event);
         })->name('backend.events.report');
 
-        Route::get('/backend-posts', \App\Livewire\Blog\Post\Index\Page::class)
+        Route::get('/posts', \App\Livewire\Blog\Post\Index\Page::class)
             ->name('backend.posts.index');
 
-        Route::get('/backend-posts/create', \App\Livewire\Blog\Post\Create\Page::class)
+        Route::get('/posts/create', \App\Livewire\Blog\Post\Create\Page::class)
             ->name('backend.posts.create');
 
-        Route::get('/backend-posts/{post}', \App\Livewire\Blog\Post\Show\Page::class)
+        Route::get('/posts/{post}', \App\Livewire\Blog\Post\Show\Page::class)
             ->name('backend.posts.show');
 
         Route::get('/accounting', \App\Livewire\Accounting\Index\Page::class)
@@ -321,6 +163,16 @@ Route::middleware([
         })->name('test-mail-preview');
 
         Route::get('/secure-image/{filename}', function (Request $request, $filename) {
+
+            abort_unless(auth()->check(), 403);
+
+            $path = storage_path("app/private/accounting/receipts/previews/{$filename}.png");
+
+            abort_unless(Storage::disk('local')->exists($path), 404);
+
+            return response()->file($path, ['Content-Type' => 'image/png']);
+
+/*
             // Ensure user is authenticated
             if (! auth()->check()) {
                 abort(403); // Forbidden
@@ -337,27 +189,19 @@ Route::middleware([
             // Serve the file as a response
             return Response::file($path, [
                 'Content-Type' => 'image/png',
-            ]);
+            ]);*/
         });
-    });
 
-Route::get('/mailing-list/unsubscribe/{token}', \App\Livewire\App\Global\Mailinglist\Unsubscribe::class)->name('mailing-list.unsubscribe');
-Route::get('/mailing-list/{token}', \App\Livewire\App\Global\Mailinglist\Show::class)->name('mailing-list.show');
 
-Route::get('/event-subscription/confirm/{id}/{token}', function ($id, $token) {
-    $subscription = EventSubscription::findOrFail($id);
+    }); // End middleware auth, jetstream, verified, group
 
-    $storedToken = cache()->get("event_subscription_{$subscription->id}_token");
 
-    if ($storedToken && $storedToken === $token) {
-        $subscription->update(['confirmed_at' => now()]);
-        cache()->forget("event_subscription_{$subscription->id}_token");
-
-        session()->flash('status', 'Deine Anmeldung wurde bestätigt! 🎉');
-
-        return view('events.show', ['event' => $subscription->event, 'locale' => app()->getLocale()]);
-    }
-
-    abort(403);
-})
-    ->name('event.subscription.confirm');
+/**
+ *
+ *   Routes for testing, subject to deletion
+ *
+ */
+if (app()->isLocal()) {
+    Route::get('/mailer-test', [\App\Http\Controllers\TestingController::class, 'mailTest'])
+        ->name('mail-tester');
+}

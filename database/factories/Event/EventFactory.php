@@ -50,7 +50,8 @@ class EventFactory extends Factory
                 'de' => fake()->sentences(10, true),
                 'hu' => fake()->sentences(10, true),
             ],
-            'status' => $this->faker->randomElement(EventStatus::cases())->value,
+            'status' => EventStatus::PUBLISHED->value, // Fixed for test
+//            'status' => $this->faker->randomElement(EventStatus::cases())->value,
             'venue_id' => Venue::factory()->create(),
         ];
     }

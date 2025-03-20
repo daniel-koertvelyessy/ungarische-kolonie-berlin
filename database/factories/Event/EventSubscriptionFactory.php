@@ -2,6 +2,7 @@
 
 namespace Database\Factories\Event;
 
+use App\Models\Event\Event;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,13 @@ class EventSubscriptionFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name'                => fake()->name,
+            'email'               => fake()->email,
+            'phone'               => fake()->phoneNumber,
+            'remarks'             => fake()->realText(),
+            'consentNotification' => true,
+            'event_id'            => Event::factory()->create()->id,
+            'confirmed_at'        => null
         ];
     }
 }

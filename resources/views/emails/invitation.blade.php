@@ -1,4 +1,4 @@
-<x-mails.header :url="$url">
+<x-mails.header >
 
     <x-slot name="header">{{ __('mails.invitation.greeting',[ 'name' => $member->first_name]) }}</x-slot>
     <x-slot name="icon">
@@ -7,7 +7,7 @@
              viewBox="0 0 24 24"
              stroke-width="1.5"
              stroke="currentColor"
-             style="width: 300px; max-width: 600px; height: auto; margin: auto; display: block;"
+             style="width: 120px; max-width: 600px; height: auto; margin: auto; display: block;"
         >
             <path stroke-linecap="round"
                   stroke-linejoin="round"
@@ -19,7 +19,7 @@
 <h2>{{ __('mails.invitation.header') }}</h2>
 <h3>{{ __('mails.invitation.text') }}</h3>
 <p>
-    <a href="{{ $url?? env('APP_URL') }}"
+    <a href="{{ $url?? config('app.url') }}"
        class="btn btn-primary"
     >{{ __('mails.invitation.btn.label') }}
     </a>

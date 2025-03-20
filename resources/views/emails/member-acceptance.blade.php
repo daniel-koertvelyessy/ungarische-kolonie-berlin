@@ -6,7 +6,7 @@
          viewBox="0 0 24 24"
          stroke-width="1.5"
          stroke="currentColor"
-         style="width: 300px; max-width: 600px; height: auto; margin: auto; display: block;"
+         style="width: 120px; max-width: 600px; height: auto; margin: auto; display: block;"
     >
         <path stroke-linecap="round"
               stroke-linejoin="round"

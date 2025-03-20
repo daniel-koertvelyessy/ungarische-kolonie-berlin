@@ -34,6 +34,7 @@ FOOTER
                             align="center"
                             colspan="2"
                         >
+                            <p style="font-size: 8pt; text-align: center;">{{ __('post.notification_mail.btn_unsubscribe_link_label') }}</p>
                             <a href=" {{ route('mailing-list.unsubscribe', $token) }}">{{ __('mails.unsubscribe_link_label') }}</a>
                         </td>
                     </tr>

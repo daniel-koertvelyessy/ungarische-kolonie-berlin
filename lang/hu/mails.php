@@ -74,7 +74,6 @@ return [
     'mailing_list.confirmation_email.locale' => 'Nyelv, amelyen az értesítések érkeznek',
 
     'mailing_list.confirmation_email.btn.verify_now' => 'E-mail cím megerősítése',
-    'unsubscribe_link_label' => 'Leiratkozás a levelezőlistáról',
     'mailing_list.subscription_success' => 'Köszönjük! A megerősítő e-mailt elküldtük',
 
     'mailing_list.verify.header' => 'Kérjük, erősítse meg e-mail címét',
@@ -82,6 +81,7 @@ return [
     'mailing_list.show.change' => 'Módosítsa beállításait, hogy értesítéseket kapjon ezekről a témákról.',
     'mailing_list.show.btn.save' => 'Beállítások mentése',
     'mailing_list.unsubscribe' => 'Leiratkozás',
+    'unsubscribe_link_label' => 'Beállítások módosítása / leiratkozás',
 
     'toast.header.success' => 'Siker',
 

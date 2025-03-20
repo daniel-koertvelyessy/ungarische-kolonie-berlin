@@ -52,21 +52,24 @@ class RegisterController extends Controller
             ->where('token', $token)
             ->first();
 
+        if (! $invitation) {
+            Log::alert('Failed due to invalid or expired invitation');
+
+            return redirect('/')->with('error', 'Invalid or expired invitation link. Requested token: '.$token);
+        }
+
         try {
             $member = Member::query()
                 ->where('email', $invitation->email)
                 ->firstOrFail();
+            app()->setLocale($member->locale);
         } catch (\Exception $exception) {
             Log::alert('Failed attempt to get member by e-mail :'.$invitation->email.' / error: '.$exception->getMessage());
 
             return redirect('/')->with('error', 'member not found');
         }
 
-        if (! $invitation) {
-            Log::alert('Failed due to Invalid or expired invitation');
 
-            return redirect('/')->with('error', 'Invalid or expired invitation link. Requested token: '.$token);
-        }
 
         return view('auth.register-member', compact('token', 'invitation', 'member'));
     }

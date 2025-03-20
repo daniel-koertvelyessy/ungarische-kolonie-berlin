@@ -274,7 +274,7 @@
 
                                 <flux:menu>
                                     <flux:menu.group heading="Buchung"
-                                                        class="mt-4"
+                                                     class="mt-4"
                                     >
                                         @if(isset($item->status) && $item->status === \App\Enums\TransactionStatus::submitted->value)
                                             <flux:menu.item icon="check"
@@ -344,19 +344,29 @@
                                     </flux:menu.group>
 
                                     @if(isset($item->member_transaction) && isset($item->member_transaction->id))
-                                    <flux:menu.group heading="Quittung"
-                                                        class="mt-4"
-                                    >
-                                        <flux:menu.item icon="envelope"
-                                                        wire:click="sendInvoice({{ $item->id }})"
-                                        >{{ __('transaction.index.menu-item.send_invoice') }}
-                                        </flux:menu.item>
-                                        <flux:menu.item icon="printer"
-                                                        href="{{ route('transaction.invoice.preview', $item->id) }}"
-                                                        target="_blank"
-                                        >{{ __('transaction.index.menu-item.print_invoice') }}
-                                        </flux:menu.item>
-                                    </flux:menu.group>
+                                        <flux:menu.group heading="Quittung"
+                                                         class="mt-4"
+                                        >
+
+                                                            @if(is_null($item->member_transaction->receipt_sent_timestamp))
+                                                <flux:menu.item icon="envelope"
+                                                                wire:click="sendInvoice({{ $item->id }})"
+                                                >{{ __('transaction.index.menu-item.send_invoice') }}
+                                                </flux:menu.item>
+                                                            @else
+                                                <flux:menu.item icon="envelope" wire:confirm="Die E-Mail wurde bereits verschickt. Erneut verschicken?"
+                                                                wire:click="sendInvoice({{ $item->id }})"
+                                                >{{ __('transaction.index.menu-item.send_invoice') }}
+                                                </flux:menu.item>
+
+                                                @endif
+
+                                            <flux:menu.item icon="printer"
+                                                            href="{{ route('transaction.invoice.preview', $item->id) }}"
+                                                            target="_blank"
+                                            >{{ __('transaction.index.menu-item.print_invoice') }}
+                                            </flux:menu.item>
+                                        </flux:menu.group>
                                     @endif
                                 </flux:menu>
                             </flux:dropdown>

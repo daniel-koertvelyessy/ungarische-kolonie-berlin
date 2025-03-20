@@ -150,7 +150,7 @@
                         <dd class="mt-1 text-sm/6 text-zinc-700 dark:text-zinc-100 sm:col-span-2 sm:mt-0">
                             <flux:button variant="primary"
                                          size="xs"
-                                         href="/ics/{{ $event->slug[$locale??'de'] }}"
+                                         href="{{ route('events.ics',$event->slug[$locale??'de'] ) }}"
                                          icon-trailing="calendar-days"
                                          target="_blank"
 

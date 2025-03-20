@@ -154,4 +154,21 @@ return [
     'show.select_user' => 'Felhasználó kiválasztása',
     'show.empty_user_list' => 'Nincsen felhasználó ???',
 
+
+    'register.title' => 'Most adja meg a jelszavát',
+    'register.password_requirements' => 'A biztonságos jelszóhoz a következő követelményeknek kellene megfelelni:',
+    'register.password' => 'Jelszó',
+    'register.password_confirm' => 'Jelszó megerősítése',
+    'register.submit' => 'Regisztráció befejezése',
+    'register.checkLength' => 'legalább 8 karakter hosszú',
+    'register.checkCapital' => 'legalább egy nagybetű',
+    'register.checkNumbers' => 'legalább egy szám',
+    'register.checkSpecial' => 'legalább egy speciális karakter !"$§%(){}[]',
+
+
+    '' => '',
+
+
+
+
 ];

@@ -40,11 +40,14 @@ return [
     'form.toasts.msg.image_removed' => 'Bild erfolgreich entfernt!',
     'form.toasts.msg.post_published' => 'Der Artikel wurde veröffentlicht!',
     'form.toasts.msg.post_retracted' => 'Der Artikel wurde zurückgezogen!',
+
     'form.toasts.heading.success' => 'Erfolg!',
     'form.toasts.heading.warning' => 'Warnung!',
     'form.toasts.heading.error' => 'Achtung, Fehler!',
     'form.toasts.create_success' => 'Der Artikel mit :num Bildern wurde erfolgreich aktualisiert!',
     'form.toasts.edit_success' => 'Der Artikel mit :num Bildern wurde erfolgreich aktualisiert!',
+    'form.toasts.notifications_sent_success' => 'Mitteilungen über die Veröffentlichung wurden versendet',
+    'form.toasts.notification_sent_success' => 'Mitteilungen über die Veröffentlichung wurden versendet',
 
     'show.title' => 'Artikel bearbeiten',
     'show.tabs.header.main' => 'Kopfdaten',
@@ -64,6 +67,15 @@ return [
 
     'images.empty_list' => 'Keine Bilder ausgewählt',
 
+    'notification_mail.subject' => 'Neuer Artikel auf unserer Webseite veröffentlicht!',
+    'notification_mail.header_subscriber' => 'Frisch erschienen: Ein neuer Artikel für Sie',
+    'notification_mail.header_member' => 'Frisch erschienen: Ein neuer Artikel für Dich',
+    'notification_mail.content_member' => 'wir haben spannende Neuigkeiten für Dich! Ein brandneuer Artikel ist soeben auf unserer Webseite erschienen – schau doch mal rein!',
+    'notification_mail.content_subscriber' => 'wir haben spannende Neuigkeiten für Sie – ein neuer Artikel ist soeben auf unserer Webseite erschienen! Schauen Sie doch mal rein:',
+    'notification_mail.btn_link_label' => 'weiterlesen',
+    'notification_mail.btn_unsubscribe_link_label' => 'Sie erhalten diese E-Mail, weil Sie unsere Updates abonniert haben. Falls Sie Ihre Präferenzen anpassen oder sich abmelden möchten, klicken Sie auf „Einstellungen ändern / abmelden“.',
+
+    'notification_mail.content.excerpt.header' => 'Vorschau',
     '' => '',
     '' => '',
 ];

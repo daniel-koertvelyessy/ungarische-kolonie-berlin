@@ -8,6 +8,7 @@ use App\Livewire\Traits\HasPrivileges;
 use App\Livewire\Traits\PersistsTabs;
 use App\Models\Blog\Post;
 use App\Models\MailingList;
+use App\Services\MailingService;
 use Carbon\Carbon;
 use Flux\Flux;
 use Illuminate\Support\Facades\Storage;
@@ -44,7 +45,7 @@ class Form extends Component
 
     public array $authors = [];
 
-    public function mount(?Post $post): void
+    public function mount(?Post $post, MailingService $mailingService): void
     {
         $this->locale = app()->getLocale();
         $this->selectedTab = $this->getSelectedTab();
@@ -75,7 +76,6 @@ class Form extends Component
             $this->newImages = []; // Reset for the next upload
         }
 
-        \Log::debug('Images after update: '.json_encode($this->images));
     }
 
     public function makeSlugs(): void
@@ -202,13 +202,18 @@ class Form extends Component
 
     public function sendPublicationNotification():void
     {
-        $mailingList = MailingList::query()
-            ->whereNotNull('mailing_lists.email')
-            ->whereNotNull('mailing_lists.verified_at')
-            ->where('update_on_articles', true)
-            ->get();
 
-        dd($mailingList);
+        $mailingService = app(MailingService::class);
+
+        $mailingService->sendNotificationsToSubscribers(
+            'posts',
+            $this->post,
+            __('post.notification_mail.subject'),
+            'emails.new_post_notification',
+            []
+        );
+        Flux::toast(text: __('post.form.toasts.notification_sent_success'), heading: __('post.form.toasts.heading.success'), duration: 8000, variant: 'success');
+
     }
 
     public function render()

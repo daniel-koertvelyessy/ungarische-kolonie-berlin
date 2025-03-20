@@ -74,7 +74,7 @@ return [
     'mailing_list.confirmation_email.locale' => 'Sprache, in der die Benachrichtigungen verfasst werden sollen',
 
     'mailing_list.confirmation_email.btn.verify_now' => 'E-Mail-Adresse verifizieren',
-    'unsubscribe_link_label' => 'Bitte aus der E-Mail-Liste entfernen',
+    'unsubscribe_link_label' => 'Einstellungen ändern / abmelden',
     'mailing_list.subscription_success' => 'Vielen Dank! Es wurde eine E-Mail zur Verifizierung verschickt',
 
     'mailing_list.verify.header' => 'Bitte bestätigen Sie Ihre E-Mail-Adresse',

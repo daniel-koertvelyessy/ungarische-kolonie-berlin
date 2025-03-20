@@ -181,17 +181,18 @@ return [
     'show.member.reactivate' => 'Reaktivieren',
     'show.select_user' => 'Benutzer wählen',
     'show.empty_user_list' => 'Keine Benutzer gefunden',
-    '' => '',
-    '' => '',
-    '' => '',
-    '' => '',
-    '' => '',
-    '' => '',
-    '' => '',
-    '' => '',
-    '' => '',
-    '' => '',
-    '' => '',
+
+    'register.title' => 'Jetzt noch das Passwort eingeben',
+    'register.password_requirements' => 'Für ein sicheres Passwort sollten folgende Anforderungen erfüllt sein:',
+    'register.password' => 'Passwort',
+    'register.password_confirm' => 'Passwort bestätigen',
+    'register.submit' => 'Registrierung abschließen',
+    'register.checkLength' => 'mindestens 8 Zeichen lang',
+    'register.checkCapital' => 'mindestens ein Großbuchstabe',
+    'register.checkNumbers' => 'mindestens eine Zahl',
+    'register.checkSpecial' => 'mindestens ein Sonderzeichen !"$§%(){}[]',
+
+
     '' => '',
 
 ];

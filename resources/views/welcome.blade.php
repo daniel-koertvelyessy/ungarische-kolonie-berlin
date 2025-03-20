@@ -19,7 +19,7 @@
                     @endforeach
 
                     <flux:button size="sm"
-                                 href="{{ route('events') }}"
+                                 href="{{ route('events.index') }}"
                                  variant="primary"
                                  icon-trailing="arrow-right-circle"
                     >

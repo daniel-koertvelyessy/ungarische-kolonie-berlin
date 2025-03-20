@@ -10,6 +10,6 @@
 <p>{{ __('mails.audit_invitation.text', ['range' => $accountReport->period_start->format('m-d') . ' - '.$accountReport->period_end->format('m-d')]) }}</p>
 
 
-<a href="{{ $url }}">Hier geht es zum Audit</a>
+<a href="{{ $url }}"  class="btn btn-primary">Hier geht es zum Audit</a>
 
 <x-mails.footer/>

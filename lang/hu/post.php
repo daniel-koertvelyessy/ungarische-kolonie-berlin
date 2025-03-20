@@ -45,6 +45,9 @@ return [
     'form.toasts.heading.error' => 'Hiba!',
     'form.toasts.create_success' => 'A cikk :num képpel sikeresen frissítve!',
     'form.toasts.edit_success' => 'A cikk :num képpel sikeresen frissítve!',
+    'form.toasts.notifications_sent_success' => 'A közzétételről szóló értesítések elküldve',
+    'form.toasts.notification_sent_success' => 'A közzétételről szóló értesítés elküldve',
+
 
     'show.title' => 'Cikk szerkesztése',
     'show.tabs.header.main' => 'Alapadatok',
@@ -63,6 +66,15 @@ return [
     'show.label.updated_at' => 'Legutóbb módosítva',
 
     'images.empty_list' => 'Nincsenek kiválasztott képek',
+    'notification_mail.subject' => 'Új cikk jelent meg a weboldalunkon!',
+    'notification_mail.header_subscriber' => 'Frissen megjelent: Egy új cikk Önnek',
+    'notification_mail.header_member' => 'Frissen megjelent: Egy új cikk Neked',
+    'notification_mail.content_member' => 'Izgalmas híreink vannak számodra! Egy vadonatúj cikk jelent meg a weboldalunkon – nézz be és olvasd el!',
+    'notification_mail.content_subscriber' => 'Izgalmas híreink vannak az Ön számára – egy új cikk jelent meg a weboldalunkon! Tekintse meg most:',
+    'notification_mail.btn_link_label' => 'tovább olvasom',
+    'notification_mail.btn_unsubscribe_link_label' => 'Ezt az e-mailt azért kapta, mert feliratkozott frissítéseinkre. Ha módosítani szeretné beállításait vagy leiratkozni, kattintson az „Beállítások módosítása / leiratkozás” gombra.',
+
+    'notification_mail.content.excerpt.header' => 'Előnézet',
 
     '' => '',
     '' => '',
