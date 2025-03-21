@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -16,10 +15,7 @@ class CustomNotificationMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(public $subject, public $view,public array $data)
-    {
-
-    }
+    public function __construct(public string $mailing_subject, public string $mailing_view, public array $data) {}
 
     /**
      * Get the message envelope.
@@ -27,8 +23,8 @@ class CustomNotificationMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from:'szia@magyar-kolonia-berlin.org',
-            subject: $this->subject,
+            from: 'szia@magyar-kolonia-berlin.org',
+            subject: $this->mailing_subject,
         );
     }
 
@@ -38,7 +34,7 @@ class CustomNotificationMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: $this->view,
+            view: $this->mailing_view,
             with: $this->data,
         );
     }

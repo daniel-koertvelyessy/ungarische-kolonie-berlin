@@ -26,7 +26,7 @@
             >{{__('app.become-member')}}</flux:navlist.item>
             <flux:separator/>
             <flux:navlist.item wire:navigate
-                               href="{{ route('impressum') }}"
+                               href="{{ route('imprint') }}"
             >{{__('app.imprint')}}</flux:navlist.item>
 
             @if (Route::has('login'))
@@ -39,16 +39,6 @@
                     <flux:navlist.item wire:navigate
                                        href="{{ route('login') }}"
                     >{{__('app.gotologin')}}</flux:navlist.item>
-
-
-                    {{--                                    @if (Route::has('register'))--}}
-                    {{--                                        <a--}}
-                    {{--                                            href="{{ route('register') }}"--}}
-                    {{--                                            class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-hidden focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"--}}
-                    {{--                                        >--}}
-                    {{--                                            Register--}}
-                    {{--                                        </a>--}}
-                    {{--                                    @endif--}}
                 @endauth
 
             @endif
@@ -83,11 +73,13 @@
         >{{__('app.blog')}}</flux:navbar.item>
 
         <flux:navbar.item wire:navigate
+                          :current="request()->routeIs('about-us')"
                           href="{{ route('about-us') }}"
         >{{__('app.about-us')}}</flux:navbar.item>
 
         <flux:navbar.item wire:navigate
                           href="{{ route('members.application') }}"
+                          :current="request()->routeIs('members*')"
         >{{__('app.become-member')}}</flux:navbar.item>
 
         <flux:dropdown>
@@ -97,7 +89,11 @@
                 @foreach (\App\Enums\Locale::toArray() as $locale)
                     <flux:navmenu.item wire:navigate
                                        href="{{url('/lang/'.$locale)}}"
-                    >{{ strtoupper($locale) }}</flux:navmenu.item>
+                    >
+                        <span class="{{ app()->getLocale() === $locale ? 'font-semibold' : 'font-light' }}">
+                            {{ strtoupper($locale) }}
+                        </span>
+                    </flux:navmenu.item>
                 @endforeach
 
             </flux:navmenu>
@@ -108,7 +104,7 @@
     <flux:navbar class="hidden lg:flex my-3 lg:my-6">
         <span class="text-zinc-400 mx-3 text-sm">(c) Magyar Kolónia Berlin e. V.</span>
 
-        <x-footer-link link="{{ route('impressum') }}">{{__('app.imprint')}}</x-footer-link>
+        <x-footer-link link="{{ route('imprint') }}">{{__('app.imprint')}}</x-footer-link>
 
 
 
@@ -116,20 +112,8 @@
 
             @auth
                 <x-footer-link link="{{ route('dashboard') }}">{{__('app.dashboard')}}</x-footer-link>
-
             @else
                 <x-footer-link link="{{ route('login') }}">{{__('app.gotologin')}}</x-footer-link>
-
-
-
-                {{--                                    @if (Route::has('register'))--}}
-                {{--                                        <a--}}
-                {{--                                            href="{{ route('register') }}"--}}
-                {{--                                            class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-hidden focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"--}}
-                {{--                                        >--}}
-                {{--                                            Register--}}
-                {{--                                        </a>--}}
-                {{--                                    @endif--}}
             @endauth
 
         @endif

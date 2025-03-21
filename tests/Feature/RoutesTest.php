@@ -16,10 +16,9 @@ it('renders the mailer-test route successfully', function () {
     $response = $this->get('/mailer-test');
 
     $response->assertStatus(200)
-        ->when(fn()=>app()->isLocal())
+        ->when(fn () => app()->isLocal())
         ->assertViewIs('emails.invitation')
         ->assertViewHas('member', fn ($member) => $member->id === 1);
-
 
 });
 
@@ -30,7 +29,7 @@ it('switches locale and redirects back', function () {
     $response = $this->get('/lang/hu');
 
     $response->assertStatus(302) // Redirect
-    ->assertRedirect('/'); // Back to previous page
+        ->assertRedirect('/'); // Back to previous page
     expect(app()->getLocale())->toBe('hu');
     expect(session('locale'))->toBe('hu');
 });
@@ -50,7 +49,7 @@ it('confirms event subscription with valid token', function () {
         ->once();
 
     // Hit the route
-    $response = $this->get("/event-subscription/confirm/{$subscription->id}/{$token}");
+    $response = $this->get("/events/subscription/confirm/{$subscription->id}/{$token}");
 
     // Assert the response
     $response->assertStatus(200)
@@ -70,7 +69,7 @@ it('aborts with 403 for invalid event subscription token', function () {
     $token = 'invalid-token';
     Cache::put("event_subscription_{$subscription->id}_token", 'valid-token', now()->addHour());
 
-    $response = $this->get("/event-subscription/confirm/{$subscription->id}/{$token}");
+    $response = $this->get("/events/subscription/confirm/{$subscription->id}/{$token}");
 
     $response->assertStatus(403);
     expect($subscription->fresh()->confirmed_at)->toBeNull();

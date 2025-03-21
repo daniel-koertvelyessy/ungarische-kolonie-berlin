@@ -1,6 +1,4 @@
-<x-guest-layout :title="__('event.show.title')"
-                :event="$event"
->
+<x-guest-layout :title="$event->title[$locale]">
     <x-slot name="head">
         <!-- Canonical URL -->
         <link rel="canonical"

@@ -2,10 +2,11 @@
 
 namespace App\Notifications;
 
+use App\Models\Blog\Post;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Str;
 
 class PostPublishedNotification extends Notification
 {
@@ -14,7 +15,7 @@ class PostPublishedNotification extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public function __construct(public Post $post)
     {
         //
     }
@@ -26,7 +27,7 @@ class PostPublishedNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['mail', 'database'];
     }
 
     /**
@@ -35,9 +36,13 @@ class PostPublishedNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
+            ->subject('Neuer Beitrag: '.$this->post->title[app()->getLocale()])
+            ->greeting('Hallo '.$notifiable->name.',')
+            ->line('Ein neuer Beitrag wurde veröffentlicht: **'.$this->post->title[app()->getLocale()].'**')
+            ->line('Datum: '.$this->post->published_at->format('d.m.Y'))
+            ->line('Auszug: '.Str::limit($this->post->body[app()->getLocale()], 20, ' ... mehr online', true))
+            ->action('Beitrag ansehen', url('/posts/'.$this->post->slug[app()->getLocale()]))
+            ->line('Viel Spaß beim Entdecken!');
     }
 
     /**
@@ -48,7 +53,11 @@ class PostPublishedNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            //
+            'post_id' => $this->post->id,
+            'title' => $this->post->title,
+            'message' => 'Ein neuer Beitrag wurde veröffentlicht: '.$this->post->title[app()->getLocale()],
+            'url' => url('/posts/'.$this->post->slug[app()->getLocale()]),
+            'created_at' => now()->toDateTimeString(),
         ];
     }
 }

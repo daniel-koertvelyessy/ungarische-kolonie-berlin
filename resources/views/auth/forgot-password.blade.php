@@ -19,7 +19,7 @@
 
             <div class="block">
                 <x-label for="email"
-                         value="{{ __('app.login.email.label') }}"
+                         value="{{ __('app.password.reset.email.label') }}"
                 />
                 <x-input id="email"
                          class="block mt-1 w-full"

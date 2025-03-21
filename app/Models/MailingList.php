@@ -25,6 +25,22 @@ use Illuminate\Support\Str;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MailingList whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MailingList whereUpdatedAt($value)
  *
+ * @property bool $terms_accepted
+ * @property bool $update_on_events
+ * @property bool|null $update_on_articles
+ * @property bool|null $update_on_notifications
+ * @property \Illuminate\Support\Carbon|null $verified_at
+ * @property string|null $verification_token
+ * @property \App\Enums\Locale|null $locale
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MailingList whereLocale($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MailingList whereTermsAccepted($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MailingList whereUpdateOnArticles($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MailingList whereUpdateOnEvents($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MailingList whereUpdateOnNotifications($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MailingList whereVerificationToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MailingList whereVerifiedAt($value)
+ *
  * @mixin \Eloquent
  */
 class MailingList extends Model
@@ -40,7 +56,7 @@ class MailingList extends Model
         'update_on_notifications',
         'verified_at',
         'verification_token',
-        'locale'
+        'locale',
     ];
 
     protected $hidden = ['verification_token'];
@@ -73,7 +89,7 @@ class MailingList extends Model
     public function generateNewToken()
     {
         $this->update(['verification_token' => Str::random(40)]);
+
         return $this->verification_token;
     }
-
 }

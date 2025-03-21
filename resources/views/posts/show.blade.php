@@ -1,4 +1,4 @@
-<x-guest-layout title="{{ __('post.index.page.title') }}">
+<x-guest-layout :title="$post->title[$locale]">
 
     <x-slot name="head">
         @php

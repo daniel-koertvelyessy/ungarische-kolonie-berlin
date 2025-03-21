@@ -3,6 +3,8 @@
 namespace App\Actions\Fortify;
 
 use App\Models\User;
+use App\Notifications\EmailChangeNotification;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
@@ -24,16 +26,28 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             'mobile' => ['nullable', 'string', 'max:255'],
             'gender' => ['nullable', 'string', 'max:20'],
             'locale' => ['nullable', 'string', 'max:2'],
-            'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
+            'email' => ['required', 'email', 'max:255', Rule::unique('users')
+                ->ignore($user->id),
+            ],
             'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
-        ])->validateWithBag('updateProfileInformation');
+        ])
+            ->validateWithBag('updateProfileInformation');
 
         if (isset($input['photo'])) {
             $user->updateProfilePhoto($input['photo']);
         }
 
         if ($input['email'] !== $user->email) {
-            $this->updateVerifiedUser($user, $input);
+            $oldEmail = $user->email;
+
+            $user->forceFill([
+                'name' => $input['name'],
+                'email' => $input['email'],
+            ])
+                ->save();
+            Notification::send($user, new EmailChangeNotification($oldEmail, $input['email']));
+
+            //            $this->updateVerifiedUser($user, $input);
         } else {
             app()->setLocale($input['locale']);
             session()->put('locale', $input['locale']);
@@ -46,7 +60,8 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
                 'mobile' => $input['mobile'],
                 'gender' => $input['gender'],
                 'locale' => $input['locale'],
-            ])->save();
+            ])
+                ->save();
         }
     }
 
@@ -61,7 +76,8 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             'name' => $input['name'],
             'email' => $input['email'],
             'email_verified_at' => null,
-        ])->save();
+        ])
+            ->save();
 
         $user->sendEmailVerificationNotification();
     }

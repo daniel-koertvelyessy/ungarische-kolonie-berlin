@@ -25,7 +25,7 @@ class GuestLayout extends Component
         $this->is_login_page = $is_login_page;  // Use provided value or default to false
         $this->event = $event;  // Event can be null
         $this->hasEvent = $event instanceof Event; // Check if event exists
-        $this->locale = app()->getLocale() ?? 'de'; // Default to 'de' if no locale is set
+        $this->locale = app()->getLocale(); // Default to 'de' if no locale is set
     }
 
     public function render(): View

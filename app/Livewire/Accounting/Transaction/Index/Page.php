@@ -86,6 +86,7 @@ class Page extends Component
     public $selectedRow;
 
     public $pdfBase64 = null; // Property to hold the base64-encoded PDF
+
     public $showPreviewModal = false; // Property to control the modal visibility
 
     public $previewUrl = null;
@@ -102,13 +103,13 @@ class Page extends Component
                 ->where('transaction_id', $transaction->id)
                 ->first();
 
-            $invoiceService = new MemberInvoiceService();
+            $invoiceService = new MemberInvoiceService;
             $pdfContent = $invoiceService->generate($transaction, $member, app()->getLocale());
 
-            if ($member && !empty($member->email)) { // Updated condition
+            if ($member && ! empty($member->email)) { // Updated condition
 
-                $filename = storage_path('app/invoices/Quittung_#'.Str::padLeft($transaction->id, 6, '0').'.pdf');
-                if (!file_exists(dirname($filename))) {
+                $filename = storage_path('app/invoices/Quittung_#'.Str::padLeft('Q'.$transaction->id, 6, '0').'.pdf');
+                if (! file_exists(dirname($filename))) {
                     mkdir(dirname($filename), 0755, true);
                 }
                 file_put_contents($filename, $pdfContent);
@@ -151,7 +152,7 @@ class Page extends Component
     public function transactions(): LengthAwarePaginator
     {
         $this->allTransactions = Transaction::all()
-            ->map(fn($transaction) => (string) $transaction->id)
+            ->map(fn ($transaction) => (string) $transaction->id)
             ->toArray();
 
         $date_range = DateRange::from($this->filter_date_range)
@@ -162,16 +163,16 @@ class Page extends Component
             ->with('member_transaction')
             ->with('account')
             ->whereYear('date', session('financialYear'))
-            ->tap(fn($query) => $this->search ? $query->where('label', 'LIKE', '%'.$this->search.'%') : $query)
+            ->tap(fn ($query) => $this->search ? $query->where('label', 'LIKE', '%'.$this->search.'%') : $query)
             ->whereIn('status', $this->filter_status)
             ->whereIn('type', $this->filter_type)
-            ->tap(fn($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
-            ->tap(fn($query) => $this->filter_date_range === DateRange::All->value ? $query : $query->whereBetween('date', $date_range))
+            ->tap(fn ($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
+            ->tap(fn ($query) => $this->filter_date_range === DateRange::All->value ? $query : $query->whereBetween('date', $date_range))
 //            ->tap(fn($query) => logger()->info($query->toSql(), $query->getBindings()))
             ->paginate(15)
-            ->through(fn($transaction) => $transaction->refresh());
+            ->through(fn ($transaction) => $transaction->refresh());
 
-        $this->transactionsOnPage = $transactionList->map(fn($transaction) => (string) $transaction->id)
+        $this->transactionsOnPage = $transactionList->map(fn ($transaction) => (string) $transaction->id)
             ->toArray();
 
         return $transactionList;
@@ -189,7 +190,7 @@ class Page extends Component
         $filePath = "accounting/receipts/{$receipt->file_name}";
 
         // Debugging: Check if the file exists
-        if (!Storage::disk('local')
+        if (! Storage::disk('local')
             ->exists($filePath)) {
             abort(404, 'File not found.');
         }
@@ -265,10 +266,10 @@ class Page extends Component
         $this->checkPrivilege(Transaction::class);
 
         $this->validate([
-            'transaction.id'     => ['unique:event_transactions,transaction_id'],
-            'target_event'       => 'required',
+            'transaction.id' => ['unique:event_transactions,transaction_id'],
+            'target_event' => 'required',
             'event_visitor_name' => '',
-            'event_gender'       => ['nullable', Rule::enum(Gender::class)],
+            'event_gender' => ['nullable', Rule::enum(Gender::class)],
         ], [
             'target_event.required' => 'Bitte eine Veranstaltung auswählen',
             'transaction.id.unique' => 'Buchung ist bereits der Veranstaltung zugeordnnet worden',
@@ -291,10 +292,10 @@ class Page extends Component
         $this->checkPrivilege(Transaction::class);
         $this->validate([
             'transaction.id' => ['unique:member_transactions,transaction_id'],
-            'target_member'  => 'required',
+            'target_member' => 'required',
         ], [
             'target_member.required' => 'Bitte ein Mitglied auswählen',
-            'transaction.id.unique'  => 'Buchung ist bereits einem Mitglied zugeordnnet worden',
+            'transaction.id.unique' => 'Buchung ist bereits einem Mitglied zugeordnnet worden',
         ]);
 
         $member = Member::findOrFail($this->target_member);
@@ -358,13 +359,13 @@ class Page extends Component
 
         $this->validate([
             'transfer_transaction_form.transaction_id' => ['required', Rule::exists('transactions', 'id')],
-            'transfer_transaction_form.account_id'     => ['required', Rule::notIn([$this->transaction->account_id])],
-            'transfer_transaction_form.reason'         => 'required',
+            'transfer_transaction_form.account_id' => ['required', Rule::notIn([$this->transaction->account_id])],
+            'transfer_transaction_form.reason' => 'required',
         ], [
             'transfer_transaction_form.transaction_id.required' => __('transaction.account-transfer-modal.error.transaction_id'),
-            'transfer_transaction_form.account_id.required'     => __('transaction.account-transfer-modal.error.account_id'),
-            'transfer_transaction_form.account_id.not_in'       => __('transaction.account-transfer-modal.error.identical'),
-            'transfer_transaction_form.reason.required'         => __('transaction.account-transfer-modal.error.reason'),
+            'transfer_transaction_form.account_id.required' => __('transaction.account-transfer-modal.error.account_id'),
+            'transfer_transaction_form.account_id.not_in' => __('transaction.account-transfer-modal.error.identical'),
+            'transfer_transaction_form.reason.required' => __('transaction.account-transfer-modal.error.reason'),
         ]);
 
         TransferTransaction::handle($this->transaction, $this->transfer_transaction_form);
@@ -376,7 +377,6 @@ class Page extends Component
             variant: 'success',
         );
     }
-
 
     public function render()
     {

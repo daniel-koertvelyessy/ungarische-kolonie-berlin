@@ -26,6 +26,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MemberTransaction whereTransactionId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MemberTransaction whereUpdatedAt($value)
  *
+ * @property \Illuminate\Support\Carbon|null $receipt_sent_timestamp
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MemberTransaction whereReceiptSentTimestamp($value)
+ *
  * @mixin \Eloquent
  */
 class MemberTransaction extends Model

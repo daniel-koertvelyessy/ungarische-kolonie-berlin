@@ -12,14 +12,18 @@ use Livewire\Component;
 class Unsubscribe extends Component
 {
     public $token;
+
     public $is_deleted;
+
     public $mailingList;
 
     public $update_on_events;
+
     public $update_on_articles;
+
     public $update_on_notifications;
 
-    public function mount($token):void
+    public function mount($token): void
     {
         $this->token = $token;
 
@@ -32,11 +36,10 @@ class Unsubscribe extends Component
             $this->is_deleted = $subscriber->delete();
 
         } catch (ModelNotFoundException $exception) {
-            Log::alert('provided token not found ',['msg' => $exception->getMessage(), 'token' => $token, 'subscriber' => $subscriber ?? 'not found']);
+            Log::alert('provided token not found ', ['msg' => $exception->getMessage(), 'token' => $token]);
             $this->redirect(route('home'), true);
         }
     }
-
 
     #[Layout(GuestLayout::class)]
     public function render()

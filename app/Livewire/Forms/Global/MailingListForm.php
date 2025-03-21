@@ -12,13 +12,21 @@ class MailingListForm extends Form
     protected MailingList $mailingListEntry;
 
     public $id;
+
     public $email;
+
     public bool $terms_accepted;
+
     public bool $update_on_events;
+
     public bool $update_on_articles;
+
     public bool $update_on_notifications;
+
     public $verified_at;
+
     public $verification_token;
+
     public $locale;
 
     public function set(int $listId): void
@@ -41,7 +49,7 @@ class MailingListForm extends Form
 
     public function update(): MailingList
     {
-        return UpdateMailingListEntry::handle($this, $this->list);
+        return UpdateMailingListEntry::handle($this, $this->mailingListEntry);
     }
 
     protected function rules(): array

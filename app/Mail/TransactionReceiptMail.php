@@ -5,8 +5,8 @@ namespace App\Mail;
 use App\Models\Accounting\Transaction;
 use App\Models\Membership\Member;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -18,7 +18,7 @@ class TransactionReceiptMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(public Member $member, public String $filename,public Transaction $transaction) {}
+    public function __construct(public Member $member, public string $filename, public Transaction $transaction) {}
 
     /**
      * Get the message envelope.
@@ -38,10 +38,10 @@ class TransactionReceiptMail extends Mailable
     {
         return new Content(
             view: 'emails.send-transaction-receipt-mail',
-            with:[
+            with: [
                 'member' => $this->member,
                 'filename' => $this->filename,
-                'transaction' => $this->transaction
+                'transaction' => $this->transaction,
             ]
         );
     }
@@ -53,6 +53,14 @@ class TransactionReceiptMail extends Mailable
      */
     public function attachments(): array
     {
-        return [$this->filename];
+        if (file_exists($this->filename)) {
+            return [
+                Attachment::fromPath($this->filename)
+                    ->as('Quittung_#Q'.str_pad(''.$this->transaction->id, 6, '0', STR_PAD_LEFT).'.pdf')
+                    ->withMime('application/pdf'),
+            ];
+        }
+
+        return [];
     }
 }

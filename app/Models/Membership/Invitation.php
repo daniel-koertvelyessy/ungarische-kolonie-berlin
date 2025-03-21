@@ -2,6 +2,7 @@
 
 namespace App\Models\Membership;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
@@ -29,7 +30,7 @@ use Illuminate\Notifications\Notifiable;
  */
 class Invitation extends Model
 {
-    use Notifiable;
+    use HasFactory, Notifiable;
 
     protected $fillable = [
         'email',

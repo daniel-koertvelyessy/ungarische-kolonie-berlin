@@ -24,6 +24,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MailHistoryEntry whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MailHistoryEntry whereUserId($value)
  *
+ * @property string|null $attachments
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MailHistoryEntry whereAttachments($value)
+ *
  * @mixin \Eloquent
  */
 class MailHistoryEntry extends Model

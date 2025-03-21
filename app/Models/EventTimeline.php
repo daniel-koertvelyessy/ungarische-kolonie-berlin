@@ -46,6 +46,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTimeline whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTimeline whereUserId($value)
  *
+ * @property array<array-key, mixed>|null $title_extern
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTimeline whereTitleExtern($value)
+ *
  * @mixin \Eloquent
  */
 class EventTimeline extends Model

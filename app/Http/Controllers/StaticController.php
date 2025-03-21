@@ -2,19 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Event\EventSubscription;
-use App\Models\Membership\Member;
-use App\Services\PdfGeneratorService;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class StaticController extends Controller
 {
-    public function impressum() {
+    public function imprint()
+    {
         return view('impressum');
     }
 
-    public function aboutUs() {
+    public function aboutUs()
+    {
+
         return view('about-us');
     }
 
+    public function rollbackMail(Request $request)
+    {
+        $decrypted = decrypt($request->query('token'));
+        [$userId, $oldEmail] = explode('|', $decrypted);
+
+        $user = User::findOrFail($userId);
+        $user->update(['email' => $oldEmail]);
+        Auth::guard('web')->login($user);
+
+        return redirect('/dashboard')->with('status', 'Email zurückgesetzt.');
+    }
 }

@@ -4,13 +4,13 @@ namespace Database\Factories\Membership;
 
 use App\Enums\Gender;
 use App\Enums\MemberType;
+use App\Models\Membership\Member;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Membership\Member>
- */
 class MemberFactory extends Factory
 {
+    protected $model = Member::class;
+
     /**
      * Define the model's default state.
      *

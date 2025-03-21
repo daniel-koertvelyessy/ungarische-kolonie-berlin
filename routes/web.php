@@ -4,29 +4,28 @@ use App\Http\Controllers\RegisterController;
 use App\Mail\SendMemberMassMail;
 use App\Models\Accounting\Transaction;
 use App\Models\Event\Event;
-use App\Models\Event\EventSubscription;
-use App\Models\Membership\Member;
 use App\Services\EventReportService;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
-
 
 Route::get('/', \App\Livewire\App\Home\Page::class)->name('home');
 
 Route::get('/lang/{locale}', [\App\Http\Controllers\LocaleController::class, 'switch'])->name('locale.switch');
 
+Route::get('/imprint', [\App\Http\Controllers\StaticController::class, 'imprint'])->name('imprint');
 
-Route::get('/impressum', [\App\Http\Controllers\StaticController::class, 'impressum'])->name('impressum');
-Route::get('/der-verein', [\App\Http\Controllers\StaticController::class, 'aboutUs'])->name('about-us');
+Route::get('/about-us', [\App\Http\Controllers\StaticController::class, 'aboutUs'])->name('about-us');
 
+Route::get('/mailing-list/unsubscribe/{token}', \App\Livewire\App\Global\Mailinglist\Unsubscribe::class)->name('mailing-list.unsubscribe');
 
-Route::prefix('members')->name('members.')->group(function ()
-{
-    Route::get('/mitglied-werden', \App\Livewire\Member\Apply\Page::class)
+Route::get('/mailing-list/{token}', \App\Livewire\App\Global\Mailinglist\Show::class)->name('mailing-list.show');
+
+Route::get('/rollback-email', [\App\Http\Controllers\StaticController::class, 'rollbackMail'])->name('rollback-email');
+
+Route::prefix('members')->name('members.')->group(function () {
+    Route::get('/application', \App\Livewire\Member\Apply\Page::class)
         ->name('application');
+
     Route::get('/print-member-application/{member}', [\App\Http\Controllers\MembersController::class, 'printApplication'])
         ->name('print_application');
 
@@ -36,26 +35,23 @@ Route::prefix('members')->name('members.')->group(function ()
 
 });
 
-Route::get('/mailing-list/unsubscribe/{token}', \App\Livewire\App\Global\Mailinglist\Unsubscribe::class)->name('mailing-list.unsubscribe');
-Route::get('/mailing-list/{token}', \App\Livewire\App\Global\Mailinglist\Show::class)->name('mailing-list.show');
+Route::prefix('events')->name('events.')->group(function () {
 
-Route::prefix('events')->name('events.')->group(function ()
-{
     Route::get('/subscription/confirm/{eventSubscription}/{token}', [\App\Http\Controllers\EventController::class, 'confirmSubscription'])->name('subscription.confirm');
 
-    Route::get('/', [\App\Http\Controllers\EventController::class,'index'])->name('index');
+    Route::get('/', [\App\Http\Controllers\EventController::class, 'index'])->name('index');
 
-    Route::get('/{slug}', [\App\Http\Controllers\EventController::class,'show'])->name('show');
+    Route::get('/{slug}', [\App\Http\Controllers\EventController::class, 'show'])->name('show');
 
     Route::get('/ics/{slug}', [\App\Http\Controllers\EventController::class, 'generateIcs'])->name('ics');
 
 });
 
-Route::prefix('posts')->name('posts.')->group(function ()
-{
-    Route::get('/', [\App\Http\Controllers\PostController::class, 'index'] )->name('index');
+Route::prefix('posts')->name('posts.')->group(function () {
 
-    Route::get('/{slug}', [\App\Http\Controllers\PostController::class,'show'])->name('show');
+    Route::get('/', [\App\Http\Controllers\PostController::class, 'index'])->name('index');
+
+    Route::get('/{slug}', [\App\Http\Controllers\PostController::class, 'show'])->name('show');
 
 });
 
@@ -125,7 +121,7 @@ Route::middleware([
 
             return response($pdfContent)
                 ->header('Content-Type', 'application/pdf')
-                ->header('Content-Disposition', 'inline; filename="Rechnung_' . $transaction->id . '.pdf"');
+                ->header('Content-Disposition', 'inline; filename="Rechnung_'.$transaction->id.'.pdf"');
         })->name('transaction.invoice.preview');
 
         Route::get('/account-report/audit/{account_report_audit}', function (\App\Models\Accounting\AccountReportAudit $accountReportAudit) {
@@ -172,34 +168,12 @@ Route::middleware([
 
             return response()->file($path, ['Content-Type' => 'image/png']);
 
-/*
-            // Ensure user is authenticated
-            if (! auth()->check()) {
-                abort(403); // Forbidden
-            }
-
-            // Build full path
-            $path = storage_path('app/private/accounting/receipts/previews/'.pathinfo($filename, PATHINFO_FILENAME).'.png');
-
-            // Check if file exists
-            if (! file_exists($path)) {
-                abort(404);
-            }
-
-            // Serve the file as a response
-            return Response::file($path, [
-                'Content-Type' => 'image/png',
-            ]);*/
         });
-
 
     }); // End middleware auth, jetstream, verified, group
 
-
 /**
- *
- *   Routes for testing, subject to deletion
- *
+ *   Routes for testing, subject to future deletion
  */
 if (app()->isLocal()) {
     Route::get('/mailer-test', [\App\Http\Controllers\TestingController::class, 'mailTest'])

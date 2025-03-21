@@ -28,7 +28,17 @@ return [
 
     'today' => 'Heute',
 
-    'password.reset.btn.label' => '',
+    'password.reset.title' => 'Passwort vergessen',
+    'password.reset.text' => 'Passwort vergessen? Kein Problem, wir können helfen!',
+    'password.reset.email.label' => 'E-Mail Adresse',
+    'password.reset.btn.label' => 'Link für neues Passwort erhalten',
+
+    'password.set.btn.label' => 'Neues Passwort speichern',
+    'password.set.email' => 'E-Mail Adresse',
+    'password.set.new_password' => 'Neues Passwort',
+    'password.set.confirm_password' => 'Neues Passwort bestätigen',
+    'password.set.title' => 'Passwort vergessen abschließen',
+    'password.set.text' => 'Bitte vergeben Sie nun ein sicheres Passwort!',
 
     'change_fy' => 'Geschäftsjahr wechseln auf',
 

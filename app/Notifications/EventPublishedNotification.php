@@ -2,8 +2,8 @@
 
 namespace App\Notifications;
 
+use App\Models\Event\Event;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -14,7 +14,7 @@ class EventPublishedNotification extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public function __construct(public Event $event)
     {
         //
     }
@@ -26,7 +26,7 @@ class EventPublishedNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['mail', 'database'];
     }
 
     /**
@@ -35,9 +35,13 @@ class EventPublishedNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
+            ->subject('Neues Event: '.$this->event->title[app()->getLocale()])
+            ->greeting('Hallo '.$notifiable->name.',')
+            ->line('Ein neues Event wurde veröffentlicht: **'.$this->event->title[app()->getLocale()].'**')
+            ->line('Datum: '.$this->event->event_date->format('d.m.Y'))
+            ->line($this->event->description)
+            ->action('Event ansehen', url('/events/'.$this->event->slug[app()->getLocale()]))
+            ->line('Viel Spaß beim Entdecken!');
     }
 
     /**
@@ -45,10 +49,14 @@ class EventPublishedNotification extends Notification
      *
      * @return array<string, mixed>
      */
-    public function toArray(object $notifiable): array
+    public function toArray(): array
     {
         return [
-            //
+            'event_id' => $this->event->id,
+            'title' => $this->event->title,
+            'message' => 'Ein neues Event wurde veröffentlicht: '.$this->event->title[app()->getLocale()],
+            'url' => url('/events/'.$this->event->slug[app()->getLocale()]),
+            'created_at' => now()->toDateTimeString(),
         ];
     }
 }

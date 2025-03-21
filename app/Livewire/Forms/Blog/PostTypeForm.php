@@ -2,13 +2,14 @@
 
 namespace App\Livewire\Forms\Blog;
 
-use App\Models\Blog\Post;
+use App\Actions\Post\CreatePostType;
+use App\Actions\Post\UpdatePostType;
 use App\Models\Blog\PostType;
 use Livewire\Form;
 
 class PostTypeForm extends Form
 {
-    protected Post $postType;
+    protected Posttype $postType;
 
     public $id;
 

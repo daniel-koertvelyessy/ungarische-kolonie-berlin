@@ -7,7 +7,6 @@ use App\Livewire\Forms\Blog\PostForm;
 use App\Livewire\Traits\HasPrivileges;
 use App\Livewire\Traits\PersistsTabs;
 use App\Models\Blog\Post;
-use App\Models\MailingList;
 use App\Services\MailingService;
 use Carbon\Carbon;
 use Flux\Flux;
@@ -163,12 +162,18 @@ class Form extends Component
         $this->checkPrivilege(Post::class);
 
         if ($this->editPost && $this->post) {
+            /** @var \App\Models\Blog\PostImage|null $image */
             $image = $this->post->images()->find($imageId);
-            if ($image) {
-                Storage::disk('public')->delete($image->filename); // Remove file from storage
-                $image->delete(); // Remove from database
-                $this->post->refresh(); // Reload post to update $post->images
+            if ($image && Storage::disk('public')->exists($image->filename)) {
+                Storage::disk('public')->delete($image->filename);
+                $image->delete();
+                $this->post->refresh();
                 Flux::toast(text: __('post.form.toasts.msg.image_removed'), heading: __('post.form.toasts.heading.success'), duration: 3000, variant: 'success');
+            } elseif ($image) {
+                // File missing, but still delete DB entry
+                $image->delete();
+                $this->post->refresh();
+                Flux::toast(text: __('post.form.toasts.msg.image_removed_file_missing'), heading: __('post.form.toasts.heading.warning'), duration: 3000, variant: 'warning');
             }
         }
     }
@@ -200,7 +205,7 @@ class Form extends Component
         Flux::toast(text: __('post.form.toasts.msg.post_retracted'), heading: __('post.form.toasts.heading.success'), duration: 3000, variant: 'warning');
     }
 
-    public function sendPublicationNotification():void
+    public function sendPublicationNotification(): void
     {
 
         $mailingService = app(MailingService::class);

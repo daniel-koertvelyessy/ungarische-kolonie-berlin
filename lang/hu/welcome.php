@@ -4,7 +4,7 @@ return [
     'title' => 'Üdvözöljük',
     'community.header' => 'A klub',
     'community.content' => 'Alapítva 1846-ban...',
-    'mission.title' => 'Magyarországról Magyarországért',
+    'mission.title' => 'Magyaroktól Magyarokért',
     'mission.content' => 'Az egyesület a Berlinben élő vagy idelátogató magyarokat segíti. Faliújságunkat ajánlatokkal, kérésekkel megtekinthetik a tagok.',
     'events.title' => 'Események',
     'events.listing' => 'Maygar Kolónia Berlin e. V. közelgő eseményei',
