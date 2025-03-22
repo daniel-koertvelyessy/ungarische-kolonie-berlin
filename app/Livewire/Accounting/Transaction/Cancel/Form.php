@@ -29,7 +29,7 @@ class Form extends Component
         $this->form->transaction_id = $transactionId;
     }
 
-    public function mount(?int $transactionId = null)
+    public function mount(?int $transactionId = null): void
     {
         $this->transaction = Transaction::findOrFail($transactionId);
         $this->form->transaction_id = $transactionId;
@@ -64,7 +64,7 @@ class Form extends Component
             ->close();
     }
 
-    public function render()
+    public function render(): \Illuminate\View\View
     {
         return view('livewire.accounting.transaction.cancel.form');
     }

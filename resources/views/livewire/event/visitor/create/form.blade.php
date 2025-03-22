@@ -1,3 +1,4 @@
+@php use App\Enums\Gender; @endphp
 <div class="pt-10 space-y-6">
 
 
@@ -28,9 +29,9 @@
             <flux:radio.group wire:model="form.gender"
                               variant="segmented"
             >
-                @foreach(\App\Enums\Gender::cases() as $gender)
+                @foreach(Gender::cases() as $gender)
                     <flux:radio value="{{ $gender->value }}"
-                                label="{{ \App\Enums\Gender::value($gender->value) }}"
+                                label="{{ Gender::value($gender->value) }}"
                     />
                 @endforeach
             </flux:radio.group>
@@ -48,7 +49,7 @@
         >
             @foreach($members as $member)
                 <flux:select.option value="{{ $member->id }}"
-                             wire:key="{{ $member->id }}"
+                                    wire:key="{{ $member->id }}"
                 >{{ $member->fullName() }}</flux:select.option>
             @endforeach
         </flux:select>
@@ -63,7 +64,7 @@
         >
             @foreach($subscribers as $subscriber)
                 <flux:select.option value="{{ $subscriber->id }}"
-                             wire:key="{{ $subscriber->id }}"
+                                    wire:key="{{ $subscriber->id }}"
                 >{{ $subscriber->name }}</flux:select.option>
             @endforeach
         </flux:select>
@@ -73,5 +74,5 @@
                      type="submit"
         >{{ __('event.visitor-modal.btn.submit') }}</flux:button>
     </form>
-@dump($form)
+    @dump($form)
 </div>

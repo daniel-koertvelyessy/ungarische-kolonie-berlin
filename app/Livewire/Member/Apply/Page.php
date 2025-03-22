@@ -8,7 +8,7 @@ use Livewire\Component;
 class Page extends Component
 {
     #[Layout('layouts.guest')]
-    public function render()
+    public function render(): \Illuminate\View\View
     {
         return view('livewire.member.apply.page');
     }

@@ -8,6 +8,7 @@ use App\Enums\Locale;
 use App\Enums\MemberFeeType;
 use App\Enums\MemberType;
 use App\Models\Membership\Member;
+use App\Models\User;
 use Illuminate\Validation\Rule;
 use Livewire\Form;
 
@@ -98,9 +99,9 @@ class MemberForm extends Form
         $this->linked_user_name = $this->setUser();
     }
 
-    public function setUser()
+    public function setUser(): string
     {
-        $get_user = \App\Models\User::query()->find($this->user_id);
+        $get_user = User::query()->find($this->user_id);
 
         return $get_user
             ? $get_user->first_name.' '.$get_user->name

@@ -50,21 +50,21 @@ class Page extends Component
     ];
 
     #[Computed]
-    public function subscriptions()
+    public function subscriptions(): \Illuminate\Pagination\LengthAwarePaginator
     {
         return EventSubscription::where('event_id', $this->event_id)
             ->paginate(10);
     }
 
     #[Computed]
-    public function assignments()
+    public function assignments(): \Illuminate\Pagination\LengthAwarePaginator
     {
         return EventAssignment::where('event_id', $this->event_id)
             ->paginate(10);
     }
 
     #[Computed]
-    public function venues()
+    public function venues(): \Illuminate\Database\Eloquent\Collection
     {
         return Venue::select('id', 'name')
             ->get();
@@ -252,7 +252,7 @@ class Page extends Component
 
     public function sendAssignmentNotification(int $assignmentId) {}
 
-    public function render()
+    public function render(): \Illuminate\View\View
     {
         return view('livewire.event.show.page');
     }

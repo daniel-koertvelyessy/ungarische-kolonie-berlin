@@ -4,6 +4,7 @@ namespace App\Livewire\Member\Index;
 
 use App\Enums\MemberType;
 use App\Livewire\Traits\Sortable;
+use App\Models\Membership\Member;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -31,7 +32,7 @@ class Page extends Component
     #[Computed]
     public function members(): LengthAwarePaginator
     {
-        return \App\Models\Membership\Member::query()
+        return Member::query()
             ->tap(fn ($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
             ->tap(fn ($query) => $this->search ? $query->where('name', 'LIKE', '%'.$this->search.'%')
                 ->orWhere('first_name', 'LIKE', '%'.$this->search.'%')
@@ -42,7 +43,7 @@ class Page extends Component
             ->paginate(10);
     }
 
-    public function render()
+    public function render(): \Illuminate\View\View
     {
         return view('livewire.member.index.page');
     }

@@ -1,8 +1,9 @@
+@php use App\Models\Accounting\Account; @endphp
 <div>
     <header class="py-3 border-b border-zinc-200 mb-6 flex justify-between">
         <flux:heading size="xl">Kassenjahr {{ session('financialYear') }}</flux:heading>
 
-        <livewire:accounting.fiscal-year-switcher.form />
+        <livewire:accounting.fiscal-year-switcher.form/>
     </header>
 
     <section class="grid grid-cols-1 gap-3 lg:grid-cols-2 xl:grid-cols-3 lg:gap-6">
@@ -13,7 +14,12 @@
             <flux:table :paginate="$this->transactions">
                 <flux:table.columns>
                     <flux:table.column>Bezeichnung</flux:table.column>
-                    <flux:table.column sortable :sorted="$sortBy === 'amount'" :direction="$sortDirection" wire:click="sort('amount_gross')">Betrag</flux:table.column>
+                    <flux:table.column sortable
+                                       :sorted="$sortBy === 'amount'"
+                                       :direction="$sortDirection"
+                                       wire:click="sort('amount_gross')"
+                    >Betrag
+                    </flux:table.column>
                 </flux:table.columns>
 
                 <flux:table.rows>
@@ -35,7 +41,7 @@
 
             <section class="my-3 flex justify-between items-center gap-3">
                 <flux:button href="{{ route('transaction.index') }}">Übersicht</flux:button>
-                @can('create', \App\Models\Accounting\Account::class)
+                @can('create', Account::class)
                     <flux:button variant="primary"
                                  href="{{ route('transaction.create') }}"
                     ><span class="hidden lg:inline">Buchung</span> Einreichen

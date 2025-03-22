@@ -1,5 +1,8 @@
 <?php
 
+use App\Enums\Gender;
+use App\Enums\MemberType;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -31,9 +34,9 @@ return new class extends Migration
             $table->string('city')->nullable();
             $table->string('country')->nullable();
             $table->enum('locale', \App\Enums\Locale::toArray())->nullable()->default(\App\Enums\Locale::DE->value);
-            $table->enum('gender', \App\Enums\Gender::toArray())->nullable()->default(\App\Enums\Gender::ma->value);
-            $table->enum('type', \App\Enums\MemberType::toArray())->default(\App\Enums\MemberType::ST->value);
-            $table->foreignIdFor(\App\Models\User::class)->nullable()->constrained()->nullOnDelete();
+            $table->enum('gender', Gender::toArray())->nullable()->default(Gender::ma->value);
+            $table->enum('type', MemberType::toArray())->default(MemberType::ST->value);
+            $table->foreignIdFor(User::class)->nullable()->constrained()->nullOnDelete();
         });
     }
 

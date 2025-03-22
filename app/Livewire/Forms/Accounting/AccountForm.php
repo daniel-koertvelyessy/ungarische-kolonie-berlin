@@ -29,7 +29,7 @@ class AccountForm extends Form
 
     public $starting_amount;
 
-    public function set(Account $account)
+    public function set(Account $account): void
     {
         $this->name = $account->name;
         $this->number = $account->number;
@@ -65,7 +65,7 @@ class AccountForm extends Form
             ->close();
     }
 
-    public function update()
+    public function update(): void
     {
 
         $this->validate();

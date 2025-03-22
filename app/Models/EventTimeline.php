@@ -4,9 +4,13 @@ namespace App\Models;
 
 use App\Models\Event\Event;
 use App\Models\Membership\Member;
+use Database\Factories\EventTimelineFactory;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
@@ -19,42 +23,42 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string|null $notes
  * @property int|null $member_id
  * @property int $user_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property string|null $place
  * @property string|null $performer
  * @property-read Event $event
  * @property-read Member|null $member
- * @property-read \App\Models\User $user
+ * @property-read User $user
  *
- * @method static \Database\Factories\EventTimelineFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTimeline newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTimeline newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTimeline query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTimeline whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTimeline whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTimeline whereDuration($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTimeline whereEnd($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTimeline whereEventId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTimeline whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTimeline whereMemberId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTimeline whereNotes($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTimeline wherePerformer($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTimeline wherePlace($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTimeline whereStart($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTimeline whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTimeline whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTimeline whereUserId($value)
+ * @method static EventTimelineFactory factory($count = null, $state = [])
+ * @method static Builder<static>|EventTimeline newModelQuery()
+ * @method static Builder<static>|EventTimeline newQuery()
+ * @method static Builder<static>|EventTimeline query()
+ * @method static Builder<static>|EventTimeline whereCreatedAt($value)
+ * @method static Builder<static>|EventTimeline whereDescription($value)
+ * @method static Builder<static>|EventTimeline whereDuration($value)
+ * @method static Builder<static>|EventTimeline whereEnd($value)
+ * @method static Builder<static>|EventTimeline whereEventId($value)
+ * @method static Builder<static>|EventTimeline whereId($value)
+ * @method static Builder<static>|EventTimeline whereMemberId($value)
+ * @method static Builder<static>|EventTimeline whereNotes($value)
+ * @method static Builder<static>|EventTimeline wherePerformer($value)
+ * @method static Builder<static>|EventTimeline wherePlace($value)
+ * @method static Builder<static>|EventTimeline whereStart($value)
+ * @method static Builder<static>|EventTimeline whereTitle($value)
+ * @method static Builder<static>|EventTimeline whereUpdatedAt($value)
+ * @method static Builder<static>|EventTimeline whereUserId($value)
  *
  * @property array<array-key, mixed>|null $title_extern
  *
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTimeline whereTitleExtern($value)
+ * @method static Builder<static>|EventTimeline whereTitleExtern($value)
  *
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
 class EventTimeline extends Model
 {
-    /** @use HasFactory<\Database\Factories\EventTimelineFactory> */
+    /** @use HasFactory<EventTimelineFactory> */
     use HasFactory;
 
     protected $guarded = [];

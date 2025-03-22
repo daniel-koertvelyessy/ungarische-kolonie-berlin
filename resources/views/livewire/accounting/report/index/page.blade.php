@@ -1,3 +1,5 @@
+@php use App\Models\Accounting\Account; @endphp
+@php use App\Models\Membership\Member; @endphp
 <div>
     <flux:heading size="lg">Monatsberichte</flux:heading>
 
@@ -44,7 +46,7 @@
                             @if($item->checkAuditStatus())
                                 <span>Prüfer</span>
                                 @foreach($item->getReportAudits() as $key => $audit)
-                                    <x-table-cell-audit-item :audit="$audit" />
+                                    <x-table-cell-audit-item :audit="$audit"/>
                                 @endforeach
 
                             @else
@@ -57,7 +59,9 @@
                     <flux:table.cell class="hidden md:table-cell">
                         {{ $item->created_at }}
                     </flux:table.cell>
-                    <flux:table.cell variant="strong" class="hidden md:table-cell">
+                    <flux:table.cell variant="strong"
+                                     class="hidden md:table-cell"
+                    >
                         {{ $item->status }}
                     </flux:table.cell>
                     <flux:table.cell class="hidden lg:table-cell">
@@ -68,7 +72,7 @@
                     <flux:table.cell class="hidden lg:table-cell space-y-3">
                         @if($item->checkAuditStatus())
                             @foreach($item->getReportAudits() as $key => $audit)
-                                <x-table-cell-audit-item :audit="$audit" />
+                                <x-table-cell-audit-item :audit="$audit"/>
                             @endforeach
 
                         @else
@@ -77,7 +81,7 @@
                             />
                         @endif
                     </flux:table.cell>
-                    @can('create', \App\Models\Accounting\Account::class)
+                    @can('create', Account::class)
                         <flux:table.cell>
                             <flux:dropdown>
                                 <flux:button variant="ghost"
@@ -123,23 +127,31 @@
                                  placeholder="Mitglied wählen"
                                  wire:model="selectedMember"
                     >
-                        @foreach(\App\Models\Membership\Member::select()->get() as $member)
-                        <flux:select.option value="{{ $member->id }}">{{ $member->fullName() }}</flux:select.option>
-                            @endforeach
+                        @foreach(Member::select()->get() as $member)
+                            <flux:select.option value="{{ $member->id }}">{{ $member->fullName() }}</flux:select.option>
+                        @endforeach
                     </flux:select>
-                    <flux:button icon-trailing="plus" wire:click="addAuditor">hinzu</flux:button>
+                    <flux:button icon-trailing="plus"
+                                 wire:click="addAuditor"
+                    >hinzu
+                    </flux:button>
                 </flux:input.group>
 
 
                 <section class="space-y-6 px-3">
                     @forelse($auditorList as $key => $auditor)
-                        <div class="flex justify-between items-center text-sm" wire:key="{{$key}}">
+                        <div class="flex justify-between items-center text-sm"
+                             wire:key="{{$key}}"
+                        >
                             <span>{{ $auditor->fullName() }}</span>
-                            <flux:icon.trash color="red" class="size-4" wire:click="removeAuditor({{ $auditor->id }})"/>
+                            <flux:icon.trash color="red"
+                                             class="size-4"
+                                             wire:click="removeAuditor({{ $auditor->id }})"
+                            />
                         </div>
                     @empty
                         <div class="flex justify-between items-center text-sm">
-                        niemand
+                            niemand
                         </div>
                     @endforelse
                 </section>

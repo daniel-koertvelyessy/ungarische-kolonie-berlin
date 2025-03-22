@@ -1,6 +1,8 @@
 <?php
 
+use App\Enums\TransactionStatus;
 use App\Models\Accounting\Transaction;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,9 +18,9 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->text('reason');
-            $table->foreignIdFor(\App\Models\User::class);
+            $table->foreignIdFor(User::class);
             $table->foreignIdFor(Transaction::class);
-            $table->enum('status', \App\Enums\TransactionStatus::toArray())->default(\App\Enums\TransactionStatus::submitted->value);
+            $table->enum('status', TransactionStatus::toArray())->default(TransactionStatus::submitted->value);
         });
     }
 };

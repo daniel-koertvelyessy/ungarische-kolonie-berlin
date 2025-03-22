@@ -28,7 +28,7 @@ class Form extends Component
 
     public AccountReportForm $form;
 
-    public function updatedSetRange()
+    public function updatedSetRange(): void
     {
         $this->form->period_start = Carbon::create(date('Y'), (int) $this->setRange)
             ->format('Y-m-d');
@@ -37,7 +37,7 @@ class Form extends Component
             ->format('Y-m-d');
     }
 
-    public function mount($accountId)
+    public function mount($accountId): void
     {
         $this->account = Account::query()->findOrFail($accountId);
         $this->setRange = Carbon::today('Europe/Berlin')->month;
@@ -131,7 +131,7 @@ class Form extends Component
         $this->form->end_amount = 0;
     }
 
-    public function render()
+    public function render(): \Illuminate\View\View
     {
         return view('livewire.accounting.report.create.form');
     }

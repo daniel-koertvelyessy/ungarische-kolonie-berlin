@@ -3,10 +3,11 @@
 namespace Database\Factories\Event;
 
 use App\Models\Event\Event;
+use App\Models\Event\EventSubscription;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Event\EventSubscription>
+ * @extends Factory<EventSubscription>
  */
 class EventSubscriptionFactory extends Factory
 {
@@ -18,13 +19,13 @@ class EventSubscriptionFactory extends Factory
     public function definition(): array
     {
         return [
-            'name'                => fake()->name,
-            'email'               => fake()->email,
-            'phone'               => fake()->phoneNumber,
-            'remarks'             => fake()->realText(),
+            'name' => fake()->name,
+            'email' => fake()->email,
+            'phone' => fake()->phoneNumber,
+            'remarks' => fake()->realText(),
             'consentNotification' => true,
-            'event_id'            => Event::factory()->create()->id,
-            'confirmed_at'        => null
+            'event_id' => Event::factory()->create()->id,
+            'confirmed_at' => null,
         ];
     }
 }

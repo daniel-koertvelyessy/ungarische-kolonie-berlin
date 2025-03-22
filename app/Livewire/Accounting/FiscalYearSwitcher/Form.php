@@ -28,7 +28,7 @@ class Form extends Component
         $this->redirect(request()->header('Referer') ?? '/dashboard');
     }
 
-    public function render()
+    public function render(): \Illuminate\View\View
     {
         return view('livewire.accounting.fiscal-year-switcher.form');
     }

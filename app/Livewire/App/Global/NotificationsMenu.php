@@ -12,7 +12,7 @@ class NotificationsMenu extends Component
 
     protected $listeners = ['notificationReceived' => 'loadNotifications'];
 
-    public function mount()
+    public function mount(): void
     {
         $this->notifications = new Collection;
         $this->loadNotifications();
@@ -38,7 +38,7 @@ class NotificationsMenu extends Component
         $this->loadNotifications();
     }
 
-    public function render()
+    public function render(): \Illuminate\View\View
     {
         return view('livewire.app.global.notifications-menu');
     }

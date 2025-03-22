@@ -71,7 +71,7 @@ class Page extends Component
         Flux::modal('create-monthly-report')->show();
     }
 
-    public function render()
+    public function render(): \Illuminate\View\View
     {
         return view('livewire.accounting.account.index.page');
     }

@@ -58,7 +58,7 @@ class TransactionForm extends Form
         $this->description = $transaction->description;
     }
 
-    public function book()
+    public function book(): Transaction
     {
         $this->validate([
             'booking_account_id' => 'required|exists:booking_accounts,id',
@@ -106,7 +106,7 @@ class TransactionForm extends Form
         ];
     }
 
-    protected function messages()
+    protected function messages(): array
     {
         return [
             'label.required' => 'Bitte eine Bezeichnung der Buchung eingeben.',

@@ -3,11 +3,12 @@
 namespace Database\Factories\Event;
 
 use App\Enums\EventStatus;
+use App\Models\Event\Event;
 use App\Models\Venue;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Event\Event>
+ * @extends Factory<Event>
  */
 class EventFactory extends Factory
 {
@@ -51,7 +52,7 @@ class EventFactory extends Factory
                 'hu' => fake()->sentences(10, true),
             ],
             'status' => EventStatus::PUBLISHED->value, // Fixed for test
-//            'status' => $this->faker->randomElement(EventStatus::cases())->value,
+            //            'status' => $this->faker->randomElement(EventStatus::cases())->value,
             'venue_id' => Venue::factory()->create(),
         ];
     }

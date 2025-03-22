@@ -1,3 +1,9 @@
+@php use App\Enums\DateRange; @endphp
+@php use App\Enums\Transactiontype; @endphp
+@php use App\Enums\TransactionStatus; @endphp
+@php use App\Models\Accounting\Account; @endphp
+@php use App\Enums\Gender; @endphp
+@php use App\Models\Membership\Member; @endphp
 <div x-data="{showFilter: true}">
     <header class="flex justify-between items-center mb-3 lg:mb-6">
         <flux:heading size="xl">Übersicht der Buchungen</flux:heading>
@@ -27,7 +33,7 @@
                      wire:model.live="filter_date_range"
                      size="sm"
         >
-            @foreach(\App\Enums\DateRange::cases() as $range)
+            @foreach(DateRange::cases() as $range)
                 <flux:select.option value="{{ $range->value }}">{{ $range->label() }}</flux:select.option>
             @endforeach
         </flux:select>
@@ -36,7 +42,7 @@
         <flux:checkbox.group wire:model.live="filter_type"
                              class="flex space-x-4"
         >
-            @foreach(\App\Enums\TransactionType::cases() as $type)
+            @foreach(TransactionType::cases() as $type)
                 <flux:checkbox value="{{ $type->value }}"
                                label="{{ $type->value }}"
                 />
@@ -46,7 +52,7 @@
         <flux:checkbox.group wire:model.live="filter_status"
                              class="flex space-x-4"
         >
-            @foreach(\App\Enums\TransactionStatus::cases() as $status)
+            @foreach(TransactionStatus::cases() as $status)
                 <flux:checkbox value="{{ $status->value }}"
                                label="{{ $status->value }}"
                 />
@@ -66,7 +72,7 @@
                      wire:model.live="filter_status"
                      size="sm"
         >
-            @foreach(\App\Enums\TransactionStatus::cases() as $status)
+            @foreach(TransactionStatus::cases() as $status)
                 <flux:select.option value="{{ $status->value }}">{{ $status->value }}</flux:select.option>
             @endforeach
         </flux:select>
@@ -78,7 +84,7 @@
                      size="sm"
 
         >
-            @foreach(\App\Enums\Transactiontype::cases() as $status)
+            @foreach(Transactiontype::cases() as $status)
                 <flux:select.option value="{{ $status->value }}">{{ $status->value }}</flux:select.option>
             @endforeach
         </flux:select>
@@ -219,9 +225,9 @@
                                               position="top"
                                 >
                                     <flux:button
-                                        wire:click="download({{$receipt->id}})"
-                                        icon-trailing="document-arrow-down"
-                                        size="xs"
+                                            wire:click="download({{$receipt->id}})"
+                                            icon-trailing="document-arrow-down"
+                                            size="xs"
                                     />
                                 </flux:tooltip>
                             @endforeach
@@ -263,7 +269,7 @@
 
                     </flux:table.cell>
 
-                    @can('update', \App\Models\Accounting\Account::class)
+                    @can('update', Account::class)
                         <flux:table.cell>
                             <flux:dropdown>
                                 <flux:button variant="ghost"
@@ -276,7 +282,7 @@
                                     <flux:menu.group heading="Buchung"
                                                      class="mt-4"
                                     >
-                                        @if(isset($item->status) && $item->status === \App\Enums\TransactionStatus::submitted->value)
+                                        @if(isset($item->status) && $item->status === TransactionStatus::submitted->value)
                                             <flux:menu.item icon="check"
                                                             wire:click="bookItem({{ $item->id }})"
                                             >{{ __('transaction.index.menu-item.book') }}
@@ -348,18 +354,19 @@
                                                          class="mt-4"
                                         >
 
-                                                            @if(is_null($item->member_transaction->receipt_sent_timestamp))
+                                            @if(is_null($item->member_transaction->receipt_sent_timestamp))
                                                 <flux:menu.item icon="envelope"
                                                                 wire:click="sendInvoice({{ $item->id }})"
                                                 >{{ __('transaction.index.menu-item.send_invoice') }}
                                                 </flux:menu.item>
-                                                            @else
-                                                <flux:menu.item icon="envelope" wire:confirm="Die E-Mail wurde bereits verschickt. Erneut verschicken?"
+                                            @else
+                                                <flux:menu.item icon="envelope"
+                                                                wire:confirm="Die E-Mail wurde bereits verschickt. Erneut verschicken?"
                                                                 wire:click="sendInvoice({{ $item->id }})"
                                                 >{{ __('transaction.index.menu-item.send_invoice') }}
                                                 </flux:menu.item>
 
-                                                @endif
+                                            @endif
 
                                             <flux:menu.item icon="printer"
                                                             href="{{ route('transaction.invoice.preview', $item->id) }}"
@@ -388,7 +395,7 @@
         </flux:table.rows>
     </flux:table>
 
-    @can('create', \App\Models\Accounting\Account::class)
+    @can('create', Account::class)
         <div class="flex mt-3">
             <flux:spacer/>
             <flux:button variant="primary"
@@ -461,7 +468,7 @@
                                           variant="segmented"
                         >
                             @foreach( App\Enums\Gender::cases() as $gender)
-                                <flux:radio value="{{ $gender->value }}">{{ \App\Enums\Gender::value($gender->value) }}</flux:radio>
+                                <flux:radio value="{{ $gender->value }}">{{ Gender::value($gender->value) }}</flux:radio>
                             @endforeach
                         </flux:radio.group>
                     </section>
@@ -494,7 +501,7 @@
                              searchable
                              placeholder="Mitglied wählen"
                 >
-                    @foreach(\App\Models\Membership\Member::select('id', 'name', 'first_name')->get() as $key => $member)
+                    @foreach(Member::select('id', 'name', 'first_name')->get() as $key => $member)
                         <flux:select.option value="{{ $member->id }}">{{ $member->fullName() }}</flux:select.option>
                     @endforeach
                 </flux:select>

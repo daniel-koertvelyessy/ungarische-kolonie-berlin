@@ -5,7 +5,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 11.44.0.
+ * Generated for Laravel 12.2.0.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -1296,11 +1296,12 @@ namespace Illuminate\Support\Facades {
         /**
          * Register a binding with the container.
          *
-         * @param string $abstract
+         * @param \Closure|string $abstract
          * @param \Closure|string|null $concrete
          * @param bool $shared
          * @return void 
          * @throws \TypeError
+         * @throws ReflectionException
          * @static 
          */
         public static function bind($abstract, $concrete = null, $shared = false)
@@ -1358,7 +1359,7 @@ namespace Illuminate\Support\Facades {
          * Add a contextual binding to the container.
          *
          * @param string $concrete
-         * @param string $abstract
+         * @param \Closure|string $abstract
          * @param \Closure|string $implementation
          * @return void 
          * @static 
@@ -1373,7 +1374,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Register a binding if it hasn't already been registered.
          *
-         * @param string $abstract
+         * @param \Closure|string $abstract
          * @param \Closure|string|null $concrete
          * @param bool $shared
          * @return void 
@@ -1389,7 +1390,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Register a shared binding in the container.
          *
-         * @param string $abstract
+         * @param \Closure|string $abstract
          * @param \Closure|string|null $concrete
          * @return void 
          * @static 
@@ -1404,7 +1405,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Register a shared binding if it hasn't already been registered.
          *
-         * @param string $abstract
+         * @param \Closure|string $abstract
          * @param \Closure|string|null $concrete
          * @return void 
          * @static 
@@ -1419,7 +1420,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Register a scoped binding in the container.
          *
-         * @param string $abstract
+         * @param \Closure|string $abstract
          * @param \Closure|string|null $concrete
          * @return void 
          * @static 
@@ -1434,7 +1435,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Register a scoped binding if it hasn't already been registered.
          *
-         * @param string $abstract
+         * @param \Closure|string $abstract
          * @param \Closure|string|null $concrete
          * @return void 
          * @static 
@@ -5927,6 +5928,34 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
+         * Increment a context counter.
+         *
+         * @param string $key
+         * @param int $amount
+         * @return \Illuminate\Log\Context\Repository 
+         * @static 
+         */
+        public static function increment($key, $amount = 1)
+        {
+            /** @var \Illuminate\Log\Context\Repository $instance */
+            return $instance->increment($key, $amount);
+        }
+
+        /**
+         * Decrement a context counter.
+         *
+         * @param string $key
+         * @param int $amount
+         * @return \Illuminate\Log\Context\Repository 
+         * @static 
+         */
+        public static function decrement($key, $amount = 1)
+        {
+            /** @var \Illuminate\Log\Context\Repository $instance */
+            return $instance->decrement($key, $amount);
+        }
+
+        /**
          * Determine if the given value is in the given stack.
          *
          * @param string $key
@@ -5956,6 +5985,21 @@ namespace Illuminate\Support\Facades {
         {
             /** @var \Illuminate\Log\Context\Repository $instance */
             return $instance->hiddenStackContains($key, $value, $strict);
+        }
+
+        /**
+         * Run the callback function with the given context values and restore the original context state when complete.
+         *
+         * @param callable $callback
+         * @param array<string, mixed> $data
+         * @param array<string, mixed> $hidden
+         * @return mixed 
+         * @static 
+         */
+        public static function scope($callback, $data = [], $hidden = [])
+        {
+            /** @var \Illuminate\Log\Context\Repository $instance */
+            return $instance->scope($callback, $data, $hidden);
         }
 
         /**
@@ -6517,16 +6561,16 @@ namespace Illuminate\Support\Facades {
      *
      * @see https://carbon.nesbot.com/docs/
      * @see https://github.com/briannesbitt/Carbon/blob/master/src/Carbon/Factory.php
-     * @method static \Illuminate\Support\Carbon create($year = 0, $month = 1, $day = 1, $hour = 0, $minute = 0, $second = 0, $tz = null)
-     * @method static \Illuminate\Support\Carbon createFromDate($year = null, $month = null, $day = null, $tz = null)
-     * @method static \Illuminate\Support\Carbon|false createFromFormat($format, $time, $tz = null)
-     * @method static \Illuminate\Support\Carbon createFromTime($hour = 0, $minute = 0, $second = 0, $tz = null)
-     * @method static \Illuminate\Support\Carbon createFromTimeString($time, $tz = null)
-     * @method static \Illuminate\Support\Carbon createFromTimestamp($timestamp, $tz = null)
-     * @method static \Illuminate\Support\Carbon createFromTimestampMs($timestamp, $tz = null)
+     * @method static \Illuminate\Support\Carbon create($year = 0, $month = 1, $day = 1, $hour = 0, $minute = 0, $second = 0, $timezone = null)
+     * @method static \Illuminate\Support\Carbon createFromDate($year = null, $month = null, $day = null, $timezone = null)
+     * @method static \Illuminate\Support\Carbon|false createFromFormat($format, $time, $timezone = null)
+     * @method static \Illuminate\Support\Carbon createFromTime($hour = 0, $minute = 0, $second = 0, $timezone = null)
+     * @method static \Illuminate\Support\Carbon createFromTimeString($time, $timezone = null)
+     * @method static \Illuminate\Support\Carbon createFromTimestamp($timestamp, $timezone = null)
+     * @method static \Illuminate\Support\Carbon createFromTimestampMs($timestamp, $timezone = null)
      * @method static \Illuminate\Support\Carbon createFromTimestampUTC($timestamp)
-     * @method static \Illuminate\Support\Carbon createMidnightDate($year = null, $month = null, $day = null, $tz = null)
-     * @method static \Illuminate\Support\Carbon|false createSafe($year = null, $month = null, $day = null, $hour = null, $minute = null, $second = null, $tz = null)
+     * @method static \Illuminate\Support\Carbon createMidnightDate($year = null, $month = null, $day = null, $timezone = null)
+     * @method static \Illuminate\Support\Carbon|false createSafe($year = null, $month = null, $day = null, $hour = null, $minute = null, $second = null, $timezone = null)
      * @method static void disableHumanDiffOption($humanDiffOption)
      * @method static void enableHumanDiffOption($humanDiffOption)
      * @method static mixed executeWithLocale($locale, $func)
@@ -6539,7 +6583,7 @@ namespace Illuminate\Support\Facades {
      * @method static string getLocale()
      * @method static int getMidDayAt()
      * @method static \Illuminate\Support\Carbon|null getTestNow()
-     * @method static \Symfony\Component\Translation\TranslatorInterface getTranslator()
+     * @method static \Symfony\Contracts\Translation\TranslatorInterface getTranslator()
      * @method static int getWeekEndsAt()
      * @method static int getWeekStartsAt()
      * @method static array getWeekendDays()
@@ -6562,8 +6606,8 @@ namespace Illuminate\Support\Facades {
      * @method static \Illuminate\Support\Carbon maxValue()
      * @method static \Illuminate\Support\Carbon minValue()
      * @method static void mixin($mixin)
-     * @method static \Illuminate\Support\Carbon now($tz = null)
-     * @method static \Illuminate\Support\Carbon parse($time = null, $tz = null)
+     * @method static \Illuminate\Support\Carbon now($timezone = null)
+     * @method static \Illuminate\Support\Carbon parse($time = null, $timezone = null)
      * @method static string pluralUnit(string $unit)
      * @method static void resetMonthsOverflow()
      * @method static void resetToStringFormat()
@@ -6574,7 +6618,7 @@ namespace Illuminate\Support\Facades {
      * @method static void setMidDayAt($hour)
      * @method static void setTestNow($testNow = null)
      * @method static void setToStringFormat($format)
-     * @method static void setTranslator(\Symfony\Component\Translation\TranslatorInterface $translator)
+     * @method static void setTranslator(\Symfony\Contracts\Translation\TranslatorInterface $translator)
      * @method static void setUtf8($utf8)
      * @method static void setWeekEndsAt($day)
      * @method static void setWeekStartsAt($day)
@@ -6582,12 +6626,12 @@ namespace Illuminate\Support\Facades {
      * @method static bool shouldOverflowMonths()
      * @method static bool shouldOverflowYears()
      * @method static string singularUnit(string $unit)
-     * @method static \Illuminate\Support\Carbon today($tz = null)
-     * @method static \Illuminate\Support\Carbon tomorrow($tz = null)
+     * @method static \Illuminate\Support\Carbon today($timezone = null)
+     * @method static \Illuminate\Support\Carbon tomorrow($timezone = null)
      * @method static void useMonthsOverflow($monthsOverflow = true)
      * @method static void useStrictMode($strictModeEnabled = true)
      * @method static void useYearsOverflow($yearsOverflow = true)
-     * @method static \Illuminate\Support\Carbon yesterday($tz = null)
+     * @method static \Illuminate\Support\Carbon yesterday($timezone = null)
      * @see \Illuminate\Support\DateFactory
      */
     class Date {
@@ -7967,32 +8011,17 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
-         * Set the table prefix and return the grammar.
-         *
-         * @template TGrammar of \Illuminate\Database\Grammar
-         * @param TGrammar $grammar
-         * @return TGrammar 
-         * @static 
-         */
-        public static function withTablePrefix($grammar)
-        {
-            //Method inherited from \Illuminate\Database\Connection 
-            /** @var \Illuminate\Database\SQLiteConnection $instance */
-            return $instance->withTablePrefix($grammar);
-        }
-
-        /**
          * Execute the given callback without table prefix.
          *
          * @param \Closure $callback
-         * @return void 
+         * @return mixed 
          * @static 
          */
         public static function withoutTablePrefix($callback)
         {
             //Method inherited from \Illuminate\Database\Connection 
             /** @var \Illuminate\Database\SQLiteConnection $instance */
-            $instance->withoutTablePrefix($callback);
+            return $instance->withoutTablePrefix($callback);
         }
 
         /**
@@ -10076,6 +10105,18 @@ namespace Illuminate\Support\Facades {
         {
             /** @var \Illuminate\Http\Client\Factory $instance */
             return $instance->allowStrayRequests();
+        }
+
+        /**
+         * Begin recording request / response pairs.
+         *
+         * @return \Illuminate\Http\Client\Factory 
+         * @static 
+         */
+        public static function record()
+        {
+            /** @var \Illuminate\Http\Client\Factory $instance */
+            return $instance->record();
         }
 
         /**
@@ -16101,7 +16142,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param \Closure $callback
          * @param array $headers
-         * @param string $endStreamWith
+         * @param \Illuminate\Http\StreamedEvent|string|null $endStreamWith
          * @return \Symfony\Component\HttpFoundation\StreamedResponse 
          * @static 
          */
@@ -16127,7 +16168,7 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
-         * Create a new streamed response instance.
+         * Create a new streamed JSON response instance.
          *
          * @param array $data
          * @param int $status
@@ -17708,29 +17749,29 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
-         * Determine if the given table exists.
+         * Get the tables that belong to the connection.
          *
-         * @param string $table
-         * @return bool 
-         * @static 
-         */
-        public static function hasTable($table)
-        {
-            /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
-            return $instance->hasTable($table);
-        }
-
-        /**
-         * Get the tables for the database.
-         *
-         * @param bool $withSize
+         * @param string|string[]|null $schema
          * @return array 
          * @static 
          */
-        public static function getTables($withSize = true)
+        public static function getTables($schema = null)
         {
             /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
-            return $instance->getTables($withSize);
+            return $instance->getTables($schema);
+        }
+
+        /**
+         * Get the views that belong to the connection.
+         *
+         * @param string|string[]|null $schema
+         * @return array 
+         * @static 
+         */
+        public static function getViews($schema = null)
+        {
+            /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
+            return $instance->getViews($schema);
         }
 
         /**
@@ -17771,54 +17812,42 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
-         * Set the busy timeout.
+         * Get the value for the given pragma name or set the given value.
          *
-         * @param int $milliseconds
-         * @return bool 
+         * @param string $key
+         * @param mixed $value
+         * @return mixed 
          * @static 
          */
-        public static function setBusyTimeout($milliseconds)
+        public static function pragma($key, $value = null)
         {
             /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
-            return $instance->setBusyTimeout($milliseconds);
-        }
-
-        /**
-         * Set the journal mode.
-         *
-         * @param string $mode
-         * @return bool 
-         * @static 
-         */
-        public static function setJournalMode($mode)
-        {
-            /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
-            return $instance->setJournalMode($mode);
-        }
-
-        /**
-         * Set the synchronous mode.
-         *
-         * @param int $mode
-         * @return bool 
-         * @static 
-         */
-        public static function setSynchronous($mode)
-        {
-            /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
-            return $instance->setSynchronous($mode);
+            return $instance->pragma($key, $value);
         }
 
         /**
          * Empty the database file.
          *
+         * @param string|null $path
          * @return void 
          * @static 
          */
-        public static function refreshDatabaseFile()
+        public static function refreshDatabaseFile($path = null)
         {
             /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
-            $instance->refreshDatabaseFile();
+            $instance->refreshDatabaseFile($path);
+        }
+
+        /**
+         * Get the names of current schemas for the connection.
+         *
+         * @return string[]|null 
+         * @static 
+         */
+        public static function getCurrentSchemaListing()
+        {
+            /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
+            return $instance->getCurrentSchemaListing();
         }
 
         /**
@@ -17832,6 +17861,17 @@ namespace Illuminate\Support\Facades {
         {
             //Method inherited from \Illuminate\Database\Schema\Builder 
             \Illuminate\Database\Schema\SQLiteBuilder::defaultStringLength($length);
+        }
+
+        /**
+         * Set the default time precision for migrations.
+         *
+         * @static 
+         */
+        public static function defaultTimePrecision($precision)
+        {
+            //Method inherited from \Illuminate\Database\Schema\Builder 
+            return \Illuminate\Database\Schema\SQLiteBuilder::defaultTimePrecision($precision);
         }
 
         /**
@@ -17873,6 +17913,33 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
+         * Get the schemas that belong to the connection.
+         *
+         * @return array 
+         * @static 
+         */
+        public static function getSchemas()
+        {
+            //Method inherited from \Illuminate\Database\Schema\Builder 
+            /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
+            return $instance->getSchemas();
+        }
+
+        /**
+         * Determine if the given table exists.
+         *
+         * @param string $table
+         * @return bool 
+         * @static 
+         */
+        public static function hasTable($table)
+        {
+            //Method inherited from \Illuminate\Database\Schema\Builder 
+            /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
+            return $instance->hasTable($table);
+        }
+
+        /**
          * Determine if the given view exists.
          *
          * @param string $view
@@ -17887,42 +17954,32 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
-         * Get the names of the tables that belong to the database.
+         * Get the names of the tables that belong to the connection.
          *
+         * @param string|string[]|null $schema
+         * @param bool $schemaQualified
          * @return array 
          * @static 
          */
-        public static function getTableListing()
+        public static function getTableListing($schema = null, $schemaQualified = true)
         {
             //Method inherited from \Illuminate\Database\Schema\Builder 
             /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
-            return $instance->getTableListing();
+            return $instance->getTableListing($schema, $schemaQualified);
         }
 
         /**
-         * Get the views that belong to the database.
+         * Get the user-defined types that belong to the connection.
          *
+         * @param string|string[]|null $schema
          * @return array 
          * @static 
          */
-        public static function getViews()
+        public static function getTypes($schema = null)
         {
             //Method inherited from \Illuminate\Database\Schema\Builder 
             /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
-            return $instance->getViews();
-        }
-
-        /**
-         * Get the user-defined types that belong to the database.
-         *
-         * @return array 
-         * @static 
-         */
-        public static function getTypes()
-        {
-            //Method inherited from \Illuminate\Database\Schema\Builder 
-            /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
-            return $instance->getTypes();
+            return $instance->getTypes($schema);
         }
 
         /**
@@ -18218,6 +18275,34 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
+         * Get the default schema name for the connection.
+         *
+         * @return string|null 
+         * @static 
+         */
+        public static function getCurrentSchemaName()
+        {
+            //Method inherited from \Illuminate\Database\Schema\Builder 
+            /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
+            return $instance->getCurrentSchemaName();
+        }
+
+        /**
+         * Parse the given database object reference and extract the schema and table.
+         *
+         * @param string $reference
+         * @param string|bool|null $withDefaultSchema
+         * @return array 
+         * @static 
+         */
+        public static function parseSchemaAndTable($reference, $withDefaultSchema = null)
+        {
+            //Method inherited from \Illuminate\Database\Schema\Builder 
+            /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
+            return $instance->parseSchemaAndTable($reference, $withDefaultSchema);
+        }
+
+        /**
          * Get the database connection instance.
          *
          * @return \Illuminate\Database\Connection 
@@ -18228,20 +18313,6 @@ namespace Illuminate\Support\Facades {
             //Method inherited from \Illuminate\Database\Schema\Builder 
             /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
             return $instance->getConnection();
-        }
-
-        /**
-         * Set the database connection instance.
-         *
-         * @param \Illuminate\Database\Connection $connection
-         * @return \Illuminate\Database\Schema\SQLiteBuilder 
-         * @static 
-         */
-        public static function setConnection($connection)
-        {
-            //Method inherited from \Illuminate\Database\Schema\Builder 
-            /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
-            return $instance->setConnection($connection);
         }
 
         /**
@@ -19444,7 +19515,7 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
-         * Indiate that signed URLs should serve the corresponding files.
+         * Indicate that signed URLs should serve the corresponding files.
          *
          * @param bool $serve
          * @param \Closure|null $urlGeneratorResolver
@@ -20420,7 +20491,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param \Illuminate\Http\Request $request
          * @param bool $absolute
-         * @param array $ignoreQuery
+         * @param \Closure|array $ignoreQuery
          * @return bool 
          * @static 
          */
@@ -20434,7 +20505,7 @@ namespace Illuminate\Support\Facades {
          * Determine if the given request has a valid signature for a relative URL.
          *
          * @param \Illuminate\Http\Request $request
-         * @param array $ignoreQuery
+         * @param \Closure|array $ignoreQuery
          * @return bool 
          * @static 
          */
@@ -20449,7 +20520,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param \Illuminate\Http\Request $request
          * @param bool $absolute
-         * @param array $ignoreQuery
+         * @param \Closure|array $ignoreQuery
          * @return bool 
          * @static 
          */
@@ -22528,10 +22599,10 @@ namespace Flux {
          *
          * @static 
          */
-        public static function styles($options = [])
+        public static function scripts($options = [])
         {
             /** @var \Flux\FluxManager $instance */
-            return $instance->styles($options);
+            return $instance->scripts($options);
         }
 
         /**
@@ -22539,10 +22610,10 @@ namespace Flux {
          *
          * @static 
          */
-        public static function scripts($options = [])
+        public static function fluxAppearance($options = [])
         {
             /** @var \Flux\FluxManager $instance */
-            return $instance->scripts($options);
+            return $instance->fluxAppearance($options);
         }
 
         /**
@@ -22879,6 +22950,17 @@ namespace Livewire {
          *
          * @static 
          */
+        public static function findSynth($keyOrTarget, $component)
+        {
+            /** @var \Livewire\LivewireManager $instance */
+            return $instance->findSynth($keyOrTarget, $component);
+        }
+
+        /**
+         * 
+         *
+         * @static 
+         */
         public static function update($snapshot, $diff, $calls)
         {
             /** @var \Livewire\LivewireManager $instance */
@@ -23176,6 +23258,326 @@ namespace Livewire {
         public static function modal($name)
         {
             return \Livewire\Component::modal($name);
+        }
+
+            }
+    }
+
+namespace Opcodes\LogViewer\Facades {
+    /**
+     * 
+     *
+     * @see \Opcodes\LogViewer\LogViewerService
+     */
+    class LogViewer {
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function timezone()
+        {
+            /** @var \Opcodes\LogViewer\LogViewerService $instance */
+            return $instance->timezone();
+        }
+
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function basePathForLogs()
+        {
+            /** @var \Opcodes\LogViewer\LogViewerService $instance */
+            return $instance->basePathForLogs();
+        }
+
+        /**
+         * 
+         *
+         * @return \Opcodes\LogViewer\LogFileCollection|\Opcodes\LogViewer\LogFile[] 
+         * @static 
+         */
+        public static function getFiles()
+        {
+            /** @var \Opcodes\LogViewer\LogViewerService $instance */
+            return $instance->getFiles();
+        }
+
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getFilesGroupedByFolder()
+        {
+            /** @var \Opcodes\LogViewer\LogViewerService $instance */
+            return $instance->getFilesGroupedByFolder();
+        }
+
+        /**
+         * Find the file with the given identifier or file name.
+         *
+         * @static 
+         */
+        public static function getFile($fileIdentifier)
+        {
+            /** @var \Opcodes\LogViewer\LogViewerService $instance */
+            return $instance->getFile($fileIdentifier);
+        }
+
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getFolder($folderIdentifier)
+        {
+            /** @var \Opcodes\LogViewer\LogViewerService $instance */
+            return $instance->getFolder($folderIdentifier);
+        }
+
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function supportsHostsFeature()
+        {
+            /** @var \Opcodes\LogViewer\LogViewerService $instance */
+            return $instance->supportsHostsFeature();
+        }
+
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function resolveHostsUsing($callback)
+        {
+            /** @var \Opcodes\LogViewer\LogViewerService $instance */
+            return $instance->resolveHostsUsing($callback);
+        }
+
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getHosts()
+        {
+            /** @var \Opcodes\LogViewer\LogViewerService $instance */
+            return $instance->getHosts();
+        }
+
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getHost($hostIdentifier)
+        {
+            /** @var \Opcodes\LogViewer\LogViewerService $instance */
+            return $instance->getHost($hostIdentifier);
+        }
+
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function clearFileCache()
+        {
+            /** @var \Opcodes\LogViewer\LogViewerService $instance */
+            return $instance->clearFileCache();
+        }
+
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getRouteDomain()
+        {
+            /** @var \Opcodes\LogViewer\LogViewerService $instance */
+            return $instance->getRouteDomain();
+        }
+
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getRoutePrefix()
+        {
+            /** @var \Opcodes\LogViewer\LogViewerService $instance */
+            return $instance->getRoutePrefix();
+        }
+
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getRouteMiddleware()
+        {
+            /** @var \Opcodes\LogViewer\LogViewerService $instance */
+            return $instance->getRouteMiddleware();
+        }
+
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function auth($callback = null)
+        {
+            /** @var \Opcodes\LogViewer\LogViewerService $instance */
+            return $instance->auth($callback);
+        }
+
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function hasAuthCallback()
+        {
+            /** @var \Opcodes\LogViewer\LogViewerService $instance */
+            return $instance->hasAuthCallback();
+        }
+
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function lazyScanChunkSize()
+        {
+            /** @var \Opcodes\LogViewer\LogViewerService $instance */
+            return $instance->lazyScanChunkSize();
+        }
+
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function lazyScanTimeout()
+        {
+            /** @var \Opcodes\LogViewer\LogViewerService $instance */
+            return $instance->lazyScanTimeout();
+        }
+
+        /**
+         * Get the maximum number of bytes of the log that we should display.
+         *
+         * @static 
+         */
+        public static function maxLogSize()
+        {
+            /** @var \Opcodes\LogViewer\LogViewerService $instance */
+            return $instance->maxLogSize();
+        }
+
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function setMaxLogSize($bytes)
+        {
+            /** @var \Opcodes\LogViewer\LogViewerService $instance */
+            return $instance->setMaxLogSize($bytes);
+        }
+
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function extend($type, $class)
+        {
+            /** @var \Opcodes\LogViewer\LogViewerService $instance */
+            return $instance->extend($type, $class);
+        }
+
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function useLogFileClass($class)
+        {
+            /** @var \Opcodes\LogViewer\LogViewerService $instance */
+            return $instance->useLogFileClass($class);
+        }
+
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function useLogReaderClass($class)
+        {
+            /** @var \Opcodes\LogViewer\LogViewerService $instance */
+            return $instance->useLogReaderClass($class);
+        }
+
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function logReaderClass()
+        {
+            /** @var \Opcodes\LogViewer\LogViewerService $instance */
+            return $instance->logReaderClass();
+        }
+
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function setViewLayout($layout)
+        {
+            /** @var \Opcodes\LogViewer\LogViewerService $instance */
+            return $instance->setViewLayout($layout);
+        }
+
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getViewLayout()
+        {
+            /** @var \Opcodes\LogViewer\LogViewerService $instance */
+            return $instance->getViewLayout();
+        }
+
+        /**
+         * Determine if Log Viewer's published assets are up-to-date.
+         *
+         * @throws \RuntimeException
+         * @static 
+         */
+        public static function assetsAreCurrent()
+        {
+            /** @var \Opcodes\LogViewer\LogViewerService $instance */
+            return $instance->assetsAreCurrent();
+        }
+
+        /**
+         * Get the current version of the Log Viewer
+         *
+         * @static 
+         */
+        public static function version()
+        {
+            /** @var \Opcodes\LogViewer\LogViewerService $instance */
+            return $instance->version();
         }
 
             }
@@ -23482,7 +23884,7 @@ namespace Illuminate\Validation {
         /**
          * 
          *
-         * @see \RyanChandler\LaravelCloudflareTurnstile\LaravelCloudflareTurnstileServiceProvider::packageBooted()
+         * @see \RyanChandler\LaravelCloudflareTurnstile\LaravelCloudflareTurnstileServiceProvider::bootValidation()
          * @static 
          */
         public static function turnstile()
@@ -23493,7 +23895,7 @@ namespace Illuminate\Validation {
             }
     }
 
-namespace App\Livewire\Article\Index {
+namespace App\Livewire\App\Home {
     /**
      * 
      *
@@ -23508,7 +23910,46 @@ namespace App\Livewire\Article\Index {
          */
         public static function modal($name)
         {
-            return \App\Livewire\Article\Index\Page::modal($name);
+            return \App\Livewire\App\Home\Page::modal($name);
+        }
+
+            }
+    }
+
+namespace App\Livewire\App\Global\Mailinglist {
+    /**
+     * 
+     *
+     */
+    class Unsubscribe {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \App\Livewire\App\Global\Mailinglist\Unsubscribe::modal($name);
+        }
+
+            }
+    /**
+     * 
+     *
+     */
+    class Show {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \App\Livewire\App\Global\Mailinglist\Show::modal($name);
         }
 
             }
@@ -23530,6 +23971,27 @@ namespace App\Livewire\Member\Apply {
         public static function modal($name)
         {
             return \App\Livewire\Member\Apply\Page::modal($name);
+        }
+
+            }
+    }
+
+namespace App\Livewire\App\Tool\Index {
+    /**
+     * 
+     *
+     */
+    class Page {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \App\Livewire\App\Tool\Index\Page::modal($name);
         }
 
             }
@@ -23682,6 +24144,69 @@ namespace App\Livewire\Event\Show {
             }
     }
 
+namespace App\Livewire\Blog\Post\Index {
+    /**
+     * 
+     *
+     */
+    class Page {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \App\Livewire\Blog\Post\Index\Page::modal($name);
+        }
+
+            }
+    }
+
+namespace App\Livewire\Blog\Post\Create {
+    /**
+     * 
+     *
+     */
+    class Page {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \App\Livewire\Blog\Post\Create\Page::modal($name);
+        }
+
+            }
+    }
+
+namespace App\Livewire\Blog\Post\Show {
+    /**
+     * 
+     *
+     */
+    class Page {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \App\Livewire\Blog\Post\Show\Page::modal($name);
+        }
+
+            }
+    }
+
 namespace App\Livewire\Accounting\Index {
     /**
      * 
@@ -23745,6 +24270,27 @@ namespace App\Livewire\Accounting\Transaction\Index {
             }
     }
 
+namespace App\Livewire\Accounting\Report\Index {
+    /**
+     * 
+     *
+     */
+    class Page {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \App\Livewire\Accounting\Report\Index\Page::modal($name);
+        }
+
+            }
+    }
+
 namespace App\Livewire\Accounting\Account\Index {
     /**
      * 
@@ -23761,6 +24307,27 @@ namespace App\Livewire\Accounting\Account\Index {
         public static function modal($name)
         {
             return \App\Livewire\Accounting\Account\Index\Page::modal($name);
+        }
+
+            }
+    }
+
+namespace App\Livewire\Accounting\Receipt\Index {
+    /**
+     * 
+     *
+     */
+    class Page {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \App\Livewire\Accounting\Receipt\Index\Page::modal($name);
         }
 
             }
@@ -24364,7 +24931,7 @@ namespace  {
          * @param string $pageName
          * @param int|null $page
          * @param \Closure|int|null $total
-         * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator 
+         * @return \Illuminate\Pagination\LengthAwarePaginator 
          * @throws \InvalidArgumentException
          * @static 
          */
@@ -24678,6 +25245,30 @@ namespace  {
         {
             /** @var \Illuminate\Database\Eloquent\Builder $instance */
             return $instance->withoutEagerLoads();
+        }
+
+        /**
+         * Get the "limit" value from the query or null if it's not set.
+         *
+         * @return mixed 
+         * @static 
+         */
+        public static function getLimit()
+        {
+            /** @var \Illuminate\Database\Eloquent\Builder $instance */
+            return $instance->getLimit();
+        }
+
+        /**
+         * Get the "offset" value from the query or null if it's not set.
+         *
+         * @return mixed 
+         * @static 
+         */
+        public static function getOffset()
+        {
+            /** @var \Illuminate\Database\Eloquent\Builder $instance */
+            return $instance->getOffset();
         }
 
         /**
@@ -27103,8 +27694,8 @@ namespace  {
          * Add a "having" clause to the query.
          *
          * @param \Illuminate\Contracts\Database\Query\Expression|\Closure|string $column
-         * @param string|int|float|null $operator
-         * @param string|int|float|null $value
+         * @param \DateTimeInterface|string|int|float|null $operator
+         * @param \DateTimeInterface|string|int|float|null $value
          * @param string $boolean
          * @return \Illuminate\Database\Eloquent\Builder<static> 
          * @static 
@@ -27119,8 +27710,8 @@ namespace  {
          * Add an "or having" clause to the query.
          *
          * @param \Illuminate\Contracts\Database\Query\Expression|\Closure|string $column
-         * @param string|int|float|null $operator
-         * @param string|int|float|null $value
+         * @param \DateTimeInterface|string|int|float|null $operator
+         * @param \DateTimeInterface|string|int|float|null $value
          * @return \Illuminate\Database\Eloquent\Builder<static> 
          * @static 
          */
@@ -28291,7 +28882,6 @@ namespace  {
          * Add an "or where date" clause to determine if a "date" column is today or before to the query.
          *
          * @param array|string $columns
-         * @param string $boolean
          * @return \Illuminate\Database\Eloquent\Builder<static> 
          * @static 
          */
@@ -28305,7 +28895,6 @@ namespace  {
          * Add an "or where date" clause to determine if a "date" column is after today.
          *
          * @param array|string $columns
-         * @param string $boolean
          * @return \Illuminate\Database\Eloquent\Builder<static> 
          * @static 
          */
@@ -28319,7 +28908,6 @@ namespace  {
          * Add an "or where date" clause to determine if a "date" column is today or after to the query.
          *
          * @param array|string $columns
-         * @param string $boolean
          * @return \Illuminate\Database\Eloquent\Builder<static> 
          * @static 
          */
@@ -28427,6 +29015,7 @@ namespace  {
     class Vite extends \Illuminate\Support\Facades\Vite {}
     class Flux extends \Flux\Flux {}
     class Livewire extends \Livewire\Livewire {}
+    class LogViewer extends \Opcodes\LogViewer\Facades\LogViewer {}
 }
 
 

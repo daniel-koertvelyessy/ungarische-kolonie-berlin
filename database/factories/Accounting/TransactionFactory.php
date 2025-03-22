@@ -5,10 +5,11 @@ namespace Database\Factories\Accounting;
 use App\Enums\TransactionStatus;
 use App\Enums\TransactionType;
 use App\Models\Accounting\Account;
+use App\Models\Accounting\Transaction;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Accounting\Transaction>
+ * @extends Factory<Transaction>
  */
 class TransactionFactory extends Factory
 {
@@ -29,7 +30,7 @@ class TransactionFactory extends Factory
             'amount_gross' => Account::makeCentInteger($amount_gross),
             'vat' => $vat,
             'amount_net' => Account::makeCentInteger($amount_net),
-            'account_id' => $this->faker->randomElement(Account::all()->pluck('id')->toArray()),
+            'account_id' => Account::factory()->create()->id, // $this->faker->randomElement(Account::all()->pluck('id')->toArray()),
             'type' => $this->faker->randomElement([TransactionType::Withdrawal, TransactionType::Deposit]),
             'status' => TransactionStatus::booked->value,
         ];

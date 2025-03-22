@@ -26,7 +26,7 @@ class Page extends Component
 
     public AccountReport $report;
 
-    public function mount(int $accountReportAuditId)
+    public function mount(int $accountReportAuditId): void
     {
 
         $this->form->set($accountReportAuditId);
@@ -73,7 +73,7 @@ class Page extends Component
 
     }
 
-    public function render()
+    public function render(): \Illuminate\View\View
     {
         return view('livewire.accounting.report.audit.page');
     }

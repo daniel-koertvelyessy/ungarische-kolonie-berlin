@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -70,7 +71,7 @@ class SendMemberMassMail extends Mailable implements ShouldQueue
             // Check if the relative file path exists in the storage
             if (! Storage::exists($relativeFilePath)) {
                 Log::error('Attachment file missing!', ['filePath' => $relativeFilePath]);
-                throw new \Exception('Attachment file missing! Aborting');
+                throw new Exception('Attachment file missing! Aborting');
             }
 
             // Get the MIME type of the file

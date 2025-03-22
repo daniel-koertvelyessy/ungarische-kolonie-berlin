@@ -1,17 +1,17 @@
 <?php
 
-
 namespace App\Services;
 
+use App\Mail\CustomNotificationMail;
 use App\Models\MailingList;
 use App\Models\Membership\Member;
 use App\Models\User;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Notification;
 use App\Notifications\EventPublishedNotification;
 use App\Notifications\PostPublishedNotification;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 
 class MailingService
 {
@@ -23,9 +23,8 @@ class MailingService
      * @param  string  $subject  The email subject
      * @param  string  $view  The Blade view for the email
      * @param  array  $data  Data to pass to the email view
-     * @return void
      */
-    public function sendNotificationsToSubscribers(string $notificationType, $notifiable, string $subject, string $view, array $data = []): void
+    public function sendNotificationsToSubscribers(string $notificationType, mixed $notifiable, string $subject, string $view, array $data = []): void
     {
         // Notify backend users via Laravel Notification system
         $this->notifyBackendUsers($notificationType, $notifiable);
@@ -35,7 +34,7 @@ class MailingService
 
         // Send emails to members and mailing list subscribers
         foreach ($emailRecipients as $recipient) {
-            Log::info("Sending email to ", ['data' => $recipient]);
+            Log::info('Sending email to ', ['data' => $recipient]);
             $recipientData = array_merge($data, [
                 'notificationType' => $notificationType,
                 'notifiable' => $notifiable,
@@ -43,7 +42,7 @@ class MailingService
             ]);
 
             Mail::to($recipient['email'])
-                ->queue(new \App\Mail\CustomNotificationMail(
+                ->queue(new CustomNotificationMail(
                     $subject,
                     $view,
                     $recipientData
@@ -54,9 +53,7 @@ class MailingService
     /**
      * Notify backend users via Laravel's Notification system.
      *
-     * @param  string  $notificationType
      * @param  mixed  $notifiable
-     * @return void
      */
     protected function notifyBackendUsers(string $notificationType, $notifiable): void
     {
@@ -73,9 +70,6 @@ class MailingService
 
     /**
      * Get a collection of unique email recipients (members and mailing list subscribers).
-     *
-     * @param  string  $notificationType
-     * @return Collection
      */
     protected function getUniqueEmailRecipients(string $notificationType): Collection
     {

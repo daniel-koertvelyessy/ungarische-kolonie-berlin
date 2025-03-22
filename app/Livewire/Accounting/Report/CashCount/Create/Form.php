@@ -18,14 +18,14 @@ class Form extends Component
 
     public $accountId;
 
-    public function mount(int $accountId)
+    public function mount(int $accountId): void
     {
         $this->form->account_id = $accountId;
         $this->form->user_id = auth()->id();
         $this->form->counted_at = Carbon::today('Europe/Berlin')->format('Y-m-d');
     }
 
-    public function store()
+    public function store(): void
     {
         $this->checkPrivilege(Account::class);
         $this->form->create();
@@ -33,7 +33,7 @@ class Form extends Component
         $this->redirect(Page::class);
     }
 
-    public function render()
+    public function render(): \Illuminate\View\View
     {
         return view('livewire.accounting.report.cash-count.create.form');
     }

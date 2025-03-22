@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\AssignmentStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,7 +15,7 @@ return new class extends Migration
         Schema::create('event_assignments', function (Blueprint $table) {
             $table->id();
             $table->string('task');
-            $table->enum('status', \App\Enums\AssignmentStatus::toArray());
+            $table->enum('status', AssignmentStatus::toArray());
             $table->text('description')->nullable();
             $table->date('due_at')->nullable();
             $table->unsignedInteger('amount')->nullable();

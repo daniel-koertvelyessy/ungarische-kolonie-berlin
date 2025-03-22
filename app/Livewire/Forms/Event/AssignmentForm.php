@@ -9,6 +9,7 @@ use App\Models\EventAssignment;
 use Flux\Flux;
 use Illuminate\Validation\Rule;
 use Livewire\Form;
+use Throwable;
 
 class AssignmentForm extends Form
 {
@@ -32,7 +33,7 @@ class AssignmentForm extends Form
 
     public $id;
 
-    public function set(EventAssignment $assignment)
+    public function set(EventAssignment $assignment): void
     {
         $this->task = $assignment->task;
         $this->status = $assignment->status;
@@ -50,7 +51,7 @@ class AssignmentForm extends Form
         $this->validate();
         try {
             $this->assignment = CreateAssignment::handle($this);
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
             Flux::toast(
                 text: __('Aufgabe konnte nicht gespeichert werden. \n\r :msg', ['msg' => $exception->getMessage()]),
                 heading: 'Fehler',
@@ -60,13 +61,13 @@ class AssignmentForm extends Form
 
     }
 
-    public function update()
+    public function update(): void
     {
 
         $this->validate();
         try {
             $this->assignment = UpdateAssignment::handle($this);
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
             Flux::toast(
                 text: __('Aufgabe konnte nicht aktualisiert werden. \n\r :msg', ['msg' => $exception->getMessage()]),
                 heading: 'Fehler',

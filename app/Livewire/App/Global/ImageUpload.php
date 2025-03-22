@@ -2,6 +2,7 @@
 
 namespace App\Livewire\App\Global;
 
+use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Drivers\Gd\Driver;
@@ -57,14 +58,14 @@ class ImageUpload extends Component
                 $this->thumbnail = asset('storage/thumbnails/'.basename($path));
 
                 $this->dispatch('image-uploaded', file: basename($path));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 Log::error('Error decoding image: '.$e->getMessage());
             }
         }
 
     }
 
-    public function render()
+    public function render(): \Illuminate\View\View
     {
         return view('livewire.app.global.image-upload');
     }

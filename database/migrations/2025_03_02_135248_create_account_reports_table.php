@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\ReportStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -22,7 +23,7 @@ return new class extends Migration
             $table->timestamp('period_end');
             $table->integer('total_income')->default(0);
             $table->integer('total_expenditure')->default(0);
-            $table->enum('status', \App\Enums\ReportStatus::toArray())->default('draft');
+            $table->enum('status', ReportStatus::toArray())->default('draft');
             $table->text('notes')->nullable();
         });
     }

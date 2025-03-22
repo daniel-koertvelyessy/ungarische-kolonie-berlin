@@ -22,7 +22,7 @@ class Form extends Component
         $this->form->set($this->transaction);
     }
 
-    public function mount(?int $transactionId = null)
+    public function mount(?int $transactionId = null): void
     {
         $this->transaction = Transaction::find($transactionId);
         $this->form->set($this->transaction);
@@ -43,7 +43,7 @@ class Form extends Component
             ->close();
     }
 
-    public function render()
+    public function render(): \Illuminate\View\View
     {
         return view('livewire.accounting.transaction.booking.form');
     }

@@ -8,6 +8,7 @@ use App\Livewire\Traits\HasPrivileges;
 use App\Livewire\Traits\PersistsTabs;
 use App\Livewire\Traits\Sortable;
 use App\Mail\AcceptMembershipMail;
+use App\Mail\InvitationMail;
 use App\Models\Accounting\Account;
 use App\Models\Accounting\Receipt;
 use App\Models\Accounting\Transaction;
@@ -69,9 +70,8 @@ class Page extends Component
     {
         return MemberTransaction::query()
             ->where('member_id', '=', $this->member->id)
-            ->tap(fn($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
-            ->tap(fn($query) => $this->searchPayment ? $query->whereHas('transaction', function ($query)
-            {
+            ->tap(fn ($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
+            ->tap(fn ($query) => $this->searchPayment ? $query->whereHas('transaction', function ($query) {
                 $query->where('label', 'LIKE', '%'.$this->searchPayment.'%')
                     ->orWhere('reference', 'LIKE', '%'.$this->searchPayment.'%')
                     ->orWhere('description', 'LIKE', '%'.$this->searchPayment.'%');
@@ -164,7 +164,7 @@ class Page extends Component
 
             Mail::to($this->memberForm->email)
                 ->locale($this->memberForm->locale)
-                ->send(new \App\Mail\InvitationMail($invitation, $this->memberForm->member));
+                ->send(new InvitationMail($invitation, $this->memberForm->member));
 
             Flux::toast(
                 text: __('Einladung verschickt'),
@@ -256,7 +256,7 @@ class Page extends Component
         $filePath = "accounting/receipts/{$receipt->file_name}";
 
         // Debugging: Check if the file exists
-        if (!Storage::disk('local')
+        if (! Storage::disk('local')
             ->exists($filePath)) {
             abort(404, 'File not found.');
         }
@@ -284,7 +284,7 @@ class Page extends Component
             ->show();
     }
 
-    public function render()
+    public function render(): \Illuminate\View\View
     {
         return view('livewire.member.show.page');
     }

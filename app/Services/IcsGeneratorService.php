@@ -4,11 +4,15 @@ namespace App\Services;
 
 use App\Models\Event\Event;
 use Carbon\Carbon;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 
 class IcsGeneratorService
 {
-    public function generate(string $slug) {
+    public function generate(string $slug): Application|Response|ResponseFactory
+    {
         $locale = app()->getLocale();
         $event = Event::whereJsonContains('slug', $slug)->firstOrFail();
 

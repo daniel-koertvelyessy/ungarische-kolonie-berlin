@@ -7,6 +7,7 @@ use App\Livewire\Forms\Blog\PostForm;
 use App\Livewire\Traits\HasPrivileges;
 use App\Livewire\Traits\PersistsTabs;
 use App\Models\Blog\Post;
+use App\Models\Blog\PostImage;
 use App\Services\MailingService;
 use Carbon\Carbon;
 use Flux\Flux;
@@ -162,7 +163,7 @@ class Form extends Component
         $this->checkPrivilege(Post::class);
 
         if ($this->editPost && $this->post) {
-            /** @var \App\Models\Blog\PostImage|null $image */
+            /** @var PostImage|null $image */
             $image = $this->post->images()->find($imageId);
             if ($image && Storage::disk('public')->exists($image->filename)) {
                 Storage::disk('public')->delete($image->filename);
@@ -221,7 +222,7 @@ class Form extends Component
 
     }
 
-    public function render()
+    public function render(): \Illuminate\View\View
     {
         return view('livewire.blog.post.form');
     }

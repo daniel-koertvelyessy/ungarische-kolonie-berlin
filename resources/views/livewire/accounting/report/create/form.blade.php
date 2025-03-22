@@ -1,3 +1,5 @@
+@php use Carbon\Carbon; @endphp
+@php use App\Enums\TransactionType; @endphp
 <div>
     <form wire:submit="storeReportData">
         <section class="space-y-6">
@@ -5,16 +7,16 @@
                               label="Zeitraum"
                               variant="segmented"
             >
-                <flux:radio value="{{ \Carbon\Carbon::today('Europe/Berlin')->subMonths(2)->month }}"
-                            label="{{ \Carbon\Carbon::today('Europe/Berlin')->locale(app()->getLocale())->subMonths(2)->monthName }}"
+                <flux:radio value="{{ Carbon::today('Europe/Berlin')->subMonths(2)->month }}"
+                            label="{{ Carbon::today('Europe/Berlin')->locale(app()->getLocale())->subMonths(2)->monthName }}"
                 />
-                <flux:radio value="{{ \Carbon\Carbon::today('Europe/Berlin')->subMonth()->month }}"
-                            label="{{ \Carbon\Carbon::today('Europe/Berlin')->locale(app()->getLocale())->subMonth()->monthName }}"
+                <flux:radio value="{{ Carbon::today('Europe/Berlin')->subMonth()->month }}"
+                            label="{{ Carbon::today('Europe/Berlin')->locale(app()->getLocale())->subMonth()->monthName }}"
                             checked
                 />
 
-                <flux:radio value="{{ \Carbon\Carbon::today('Europe/Berlin')->month }}"
-                            label="{{ \Carbon\Carbon::today('Europe/Berlin')->locale(app()->getLocale())->monthName }}"
+                <flux:radio value="{{ Carbon::today('Europe/Berlin')->month }}"
+                            label="{{ Carbon::today('Europe/Berlin')->locale(app()->getLocale())->monthName }}"
                 />
             </flux:radio.group>
             <section class="grid gap-3 grid-cols-2">
@@ -37,7 +39,7 @@
                                 @forelse($transactions as $transaction)
                                     <li class="flex justify-between items-center">
                                         <span>{{ $transaction->label }}</span>
-                                        <span class="{{ \App\Enums\TransactionType::color($transaction->type) }} pr-2">{{ number_format($transaction->amount_gross/100 * \App\Enums\TransactionType::calc($transaction->type),2,',','.') }}</span>
+                                        <span class="{{ TransactionType::color($transaction->type) }} pr-2">{{ number_format($transaction->amount_gross/100 * TransactionType::calc($transaction->type),2,',','.') }}</span>
                                     </li>
                                 @empty
                                     <li>-</li>

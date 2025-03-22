@@ -1,3 +1,5 @@
+@php use App\Models\Blog\PostType; @endphp
+@php use App\Enums\EventStatus; @endphp
 <div>
     <form wire:submit="save">
         <flux:tab.group>
@@ -28,14 +30,14 @@
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
 
                             <x-input-with-counter
-                                model="form.title.de"
-                                label="{{ __('post.title_de') }}"
-                                max-length="100"
+                                    model="form.title.de"
+                                    label="{{ __('post.title_de') }}"
+                                    max-length="100"
                             />
                             <x-input-with-counter
-                                model="form.title.hu"
-                                label="{{ __('post.title_hu') }}"
-                                max-length="100"
+                                    model="form.title.hu"
+                                    label="{{ __('post.title_hu') }}"
+                                    max-length="100"
                             />
                         </div>
                         <flux:separator text="Slugs"/>
@@ -60,15 +62,15 @@
                             <flux:select wire:model="form.post_type_id"
                                          label="{{ __('post.type') }}"
                             >
-                                @foreach(\App\Models\Blog\PostType::all() as $type)
+                                @foreach(PostType::all() as $type)
                                     <flux:select.option value="{{ $type->id }}">{{ $type->name[$locale] }}</flux:select.option>
                                 @endforeach
                             </flux:select>
                             <flux:select wire:model="form.status"
                                          label="{{ __('post.status') }}"
                             >
-                                @foreach(\App\Enums\EventStatus::cases() as $status)
-                                    <flux:select.option value="{{ $status }}">{{ \App\Enums\EventStatus::value($status->value) }}</flux:select.option>
+                                @foreach(EventStatus::cases() as $status)
+                                    <flux:select.option value="{{ $status }}">{{ EventStatus::value($status->value) }}</flux:select.option>
                                 @endforeach
                             </flux:select>
 
@@ -79,8 +81,16 @@
                             <div class="rounded-md bg-green-50 dark:bg-zinc-900 dark:border-lime-700 dark:border p-4">
                                 <div class="flex">
                                     <div class="shrink-0">
-                                        <svg class="size-5 text-green-400 dark:text-lime-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+                                        <svg class="size-5 text-green-400 dark:text-lime-600"
+                                             viewBox="0 0 20 20"
+                                             fill="currentColor"
+                                             aria-hidden="true"
+                                             data-slot="icon"
+                                        >
+                                            <path fill-rule="evenodd"
+                                                  d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z"
+                                                  clip-rule="evenodd"
+                                            />
                                         </svg>
                                     </div>
                                     <div class="ml-3">
@@ -91,8 +101,17 @@
                                         </div>
                                         <div class="mt-4">
                                             <div class="-mx-2 -my-1.5 flex gap-3">
-                                                <flux:button size="sm" icon-trailing="arrow-uturn-left" variant="ghost" wire:click="resetPublication" wire:confirm="{{ __('post.show.tab.main.published.confirmation_msg') }}">{{ __('post.show.tab.main.published.btn_reset') }}</flux:button>
-                                                <flux:button size="sm" icon-trailing="megaphone" variant="filled" wire:click="sendPublicationNotification">{{ __('post.show.tab.main.published.btn_sendMails') }}</flux:button>
+                                                <flux:button size="sm"
+                                                             icon-trailing="arrow-uturn-left"
+                                                             variant="ghost"
+                                                             wire:click="resetPublication"
+                                                             wire:confirm="{{ __('post.show.tab.main.published.confirmation_msg') }}"
+                                                >{{ __('post.show.tab.main.published.btn_reset') }}</flux:button>
+                                                <flux:button size="sm"
+                                                             icon-trailing="megaphone"
+                                                             variant="filled"
+                                                             wire:click="sendPublicationNotification"
+                                                >{{ __('post.show.tab.main.published.btn_sendMails') }}</flux:button>
 
                                             </div>
                                         </div>
@@ -102,7 +121,10 @@
 
                         @else
 
-                            <flux:button variant="primary" icon-trailing="cloud-arrow-up" wire:click="publishPost" >{{ __('post.show.tab.main.published.btn_publish_now') }}</flux:button>
+                            <flux:button variant="primary"
+                                         icon-trailing="cloud-arrow-up"
+                                         wire:click="publishPost"
+                            >{{ __('post.show.tab.main.published.btn_publish_now') }}</flux:button>
 
                         @endif
 
@@ -235,16 +257,18 @@
                     </div>
                 @endif
 
-                <flux:separator text="{{ __('post.section.images.header') }}" class="my-12"/>
+                <flux:separator text="{{ __('post.section.images.header') }}"
+                                class="my-12"
+                />
 
                 <section class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                     <section class="space-y-6">
                         <flux:text size="lg">{{ __('post.images.upload_explanation') }}</flux:text>
                         <flux:input.file
-                            wire:model="newImages"
-                            multiple
-                            accept="image/*"
-                            label="{{ __('post.images.upload') }}"
+                                wire:model="newImages"
+                                multiple
+                                accept="image/*"
+                                label="{{ __('post.images.upload') }}"
                         />
                         <flux:button variant="primary"
                                      type="submit"

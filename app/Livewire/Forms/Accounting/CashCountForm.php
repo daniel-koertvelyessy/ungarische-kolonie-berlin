@@ -10,43 +10,43 @@ class CashCountForm extends Form
 {
     public CashCount $cashCount;
 
-    public $account_id;
+    public int $account_id;
 
-    public $user_id;
+    public int $user_id;
 
-    public $counted_at;
+    public string $counted_at;
 
-    public $label;
+    public string $label;
 
-    public $notes;
+    public string $notes;
 
-    public $euro_two_hundred;
+    public int $euro_two_hundred;
 
-    public $euro_one_hundred;
+    public int $euro_one_hundred;
 
-    public $euro_fifty;
+    public int $euro_fifty;
 
-    public $euro_twenty;
+    public int $euro_twenty;
 
-    public $euro_ten;
+    public int $euro_ten;
 
-    public $euro_five;
+    public int $euro_five;
 
-    public $euro_two;
+    public int $euro_two;
 
-    public $euro_one;
+    public int $euro_one;
 
-    public $cent_fifty;
+    public int $cent_fifty;
 
-    public $cent_twenty;
+    public int $cent_twenty;
 
-    public $cent_ten;
+    public int $cent_ten;
 
-    public $cent_five;
+    public int $cent_five;
 
-    public $cent_two;
+    public int $cent_two;
 
-    public $cent_one;
+    public int $cent_one;
 
     public function set(int $id): void
     {

@@ -24,7 +24,7 @@ class TransactionInvoicePdf extends BasePdfTemplate
         parent::__construct($locale, 'Quittung #'.$this->documentNumber);
     }
 
-    public function generateContent()
+    public function generateContent(): void
     {
         $this->AddPage();
 

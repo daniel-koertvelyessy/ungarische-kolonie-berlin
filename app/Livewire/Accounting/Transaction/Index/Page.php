@@ -23,6 +23,7 @@ use App\Models\Membership\Member;
 use App\Models\Membership\MemberTransaction;
 use App\Services\MemberInvoiceService;
 use Carbon\Carbon;
+use Exception;
 use Flux\Flux;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Mail;
@@ -34,6 +35,7 @@ use Livewire\Attributes\Url;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Log;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class Page extends Component
@@ -91,7 +93,7 @@ class Page extends Component
 
     public $previewUrl = null;
 
-    public function sendInvoice($transactionId)
+    public function sendInvoice($transactionId): void
     {
         try {
             $transaction = Transaction::with('member_transaction.member')
@@ -122,7 +124,7 @@ class Page extends Component
                     $getMemberTransaction->receipt_sent_timestamp = Carbon::now('Europe/Berlin');
                     $getMemberTransaction->save();
                     $this->dispatch('transaction-updated');
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     if (file_exists($filename)) {
                         unlink($filename);
                     }
@@ -132,12 +134,12 @@ class Page extends Component
             } else {
                 Flux::toast('Die Rechnung kann nicht versendet werden, da das Mitglied keine E-Mail-Adresse hat. Bitte diese einpflegen oder ausdrucken und per Post senden.', 'Fehler', 9000, 'warning');
             }
-        } catch (\Exception $e) {
-            \Log::error('Error in sendInvoice: '.$e->getMessage()."\nStack trace: ".$e->getTraceAsString());
+        } catch (Exception $e) {
+            Log::error('Error in sendInvoice: '.$e->getMessage()."\nStack trace: ".$e->getTraceAsString());
         }
     }
 
-    public function closePreviewModal()
+    public function closePreviewModal(): void
     {
         $this->showPreviewModal = false;
         $this->pdfBase64 = null; // Clear the base64 data to free memory
@@ -378,7 +380,7 @@ class Page extends Component
         );
     }
 
-    public function render()
+    public function render(): \Illuminate\View\View
     {
         return view('livewire.accounting.transaction.index.page');
     }

@@ -10,10 +10,9 @@ use Livewire\Component;
 
 class Form extends Component
 {
-
     public MailingListForm $form;
 
-    public function mount():void
+    public function mount(): void
     {
         $this->form->update_on_events = false;
         $this->form->update_on_articles = false;
@@ -38,7 +37,7 @@ class Form extends Component
         $this->reset();
     }
 
-    public function render()
+    public function render(): \Illuminate\View\View
     {
         return view('livewire.app.global.mailinglist.form');
     }

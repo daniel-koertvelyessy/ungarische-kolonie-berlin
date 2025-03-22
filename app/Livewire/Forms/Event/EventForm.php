@@ -8,6 +8,7 @@ use App\Enums\Locale;
 use App\Models\Event\Event;
 use App\Rules\UniqueJsonSlug;
 use Flux\Flux;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Validate;
@@ -103,7 +104,7 @@ class EventForm extends Form
         ];
     }
 
-    public function update()
+    public function update(): void
     {
         $this->validate();
         $this->event->event_date = $this->event_date;
@@ -146,7 +147,7 @@ class EventForm extends Form
 
                 return $this->event->save();
             }
-        } catch (\Illuminate\Contracts\Filesystem\FileNotFoundException $e) {
+        } catch (FileNotFoundException $e) {
             Flux::toast(
                 text: 'Die Datei konnte nicht gelköscht werden => '.$e->getMessage(),
                 heading: 'Fehler',

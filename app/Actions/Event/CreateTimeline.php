@@ -5,11 +5,12 @@ namespace App\Actions\Event;
 use App\Livewire\Forms\Event\EventTimelineForm;
 use App\Models\EventTimeline;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class CreateTimeline
 {
     /**
-     * @throws \Throwable
+     * @throws Throwable
      */
     public static function handle(EventTimelineForm $form): EventTimeline
     {

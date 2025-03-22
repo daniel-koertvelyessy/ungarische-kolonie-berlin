@@ -2,8 +2,11 @@
 
 namespace App\Models\Blog;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
@@ -11,22 +14,22 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $slug
  * @property string|null $description
  * @property string|null $color
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Blog\Post|null $post
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Post|null $post
  *
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PostType newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PostType newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PostType query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PostType whereColor($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PostType whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PostType whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PostType whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PostType whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PostType whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PostType whereUpdatedAt($value)
+ * @method static Builder<static>|PostType newModelQuery()
+ * @method static Builder<static>|PostType newQuery()
+ * @method static Builder<static>|PostType query()
+ * @method static Builder<static>|PostType whereColor($value)
+ * @method static Builder<static>|PostType whereCreatedAt($value)
+ * @method static Builder<static>|PostType whereDescription($value)
+ * @method static Builder<static>|PostType whereId($value)
+ * @method static Builder<static>|PostType whereName($value)
+ * @method static Builder<static>|PostType whereSlug($value)
+ * @method static Builder<static>|PostType whereUpdatedAt($value)
  *
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
 class PostType extends Model
 {

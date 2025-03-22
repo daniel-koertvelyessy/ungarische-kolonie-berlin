@@ -1,3 +1,4 @@
+@php use App\Enums\EventStatus; @endphp
 <div>
 
     <flux:heading size="xl"
@@ -10,7 +11,10 @@
     >
         <section class="grid grid-cols-1 lg:grid-cols-2 gap-3 mb-3">
             <flux:card class="col-span-1">
-                <flux:input wire:model="form.name" label="{{ __('event.name') }}" class="mb-3" />
+                <flux:input wire:model="form.name"
+                            label="{{ __('event.name') }}"
+                            class="mb-3"
+                />
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
                     <flux:field class="space-y-6">
                         <flux:input type="date"
@@ -53,7 +57,9 @@
                             <flux:error name="entry_fee_discounted"/>
                         </flux:field>
 
-                        <flux:input wire:model="form.payment_link" label="{{ __('event.form.payment_link') }}" />
+                        <flux:input wire:model="form.payment_link"
+                                    label="{{ __('event.form.payment_link') }}"
+                        />
                     </flux:fieldset>
 
                     <section class="space-y-6">
@@ -68,7 +74,7 @@
                                 <flux:select.option value="new">Neu</flux:select.option>
                                 @foreach($this->venues as $key => $venue)
                                     <flux:select.option value="{{ $venue->id }}"
-                                                 :key
+                                                        :key
                                     >{{ $venue->name }}</flux:select.option>
                                 @endforeach
 
@@ -83,16 +89,18 @@
                             </div>
                         </flex:field>
 
-                        <flux:field >
+                        <flux:field>
                             <flux:label>{{__('event.type.label')}}</flux:label>
                             <flux:select variant="listbox"
                                          placeholder="Choose venue_id"
                                          wire:model="form.status"
                             >
-                                @foreach(\App\Enums\EventStatus::cases() as $key => $status)
+                                @foreach(EventStatus::cases() as $key => $status)
                                     <flux:select.option value="{{ $status->value }}"
-                                                 :key
-                                    ><flux:badge color="{{ \App\Enums\EventStatus::color($status->value) }}">{{ \App\Enums\EventStatus::value($status->value) }}</flux:badge></flux:select.option>
+                                                        :key
+                                    >
+                                        <flux:badge color="{{ EventStatus::color($status->value) }}">{{ EventStatus::value($status->value) }}</flux:badge>
+                                    </flux:select.option>
                                 @endforeach
 
                             </flux:select>
@@ -155,7 +163,6 @@
 
                 </flux:card>
             @endforeach
-
 
 
         </section>

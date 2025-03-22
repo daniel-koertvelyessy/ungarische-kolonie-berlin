@@ -7,6 +7,7 @@ use App\Models\Event\Event;
 use App\Models\Event\EventSubscription;
 use App\Models\Membership\Member;
 use Flux\Flux;
+use Illuminate\Auth\Access\AuthorizationException;
 use Livewire\Component;
 
 class Form extends Component
@@ -25,11 +26,11 @@ class Form extends Component
 
     }
 
-    public function add()
+    public function add(): void
     {
         try {
             $this->authorize('create', Event::class);
-        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+        } catch (AuthorizationException $e) {
             Flux::toast(
                 text: 'You have no permission to edit this event! '.$e->getMessage(),
                 heading: 'Forbidden',
@@ -44,7 +45,7 @@ class Form extends Component
         $this->dispatch('event-visitor-added');
     }
 
-    public function setMember()
+    public function setMember(): void
     {
         $member = Member::findOrFail($this->form->member_id);
         $this->form->member_id = $member->id;
@@ -56,7 +57,7 @@ class Form extends Component
 
     }
 
-    public function setSubscriber()
+    public function setSubscriber(): void
     {
         $subscription = EventSubscription::findOrFail($this->form->event_subscription_id);
         $this->form->event_subscription_id = $subscription->id;
@@ -66,7 +67,7 @@ class Form extends Component
         $this->reset('form.member_id');
     }
 
-    public function render()
+    public function render(): \Illuminate\View\View
     {
         return view('livewire.event.visitor.create.form');
     }

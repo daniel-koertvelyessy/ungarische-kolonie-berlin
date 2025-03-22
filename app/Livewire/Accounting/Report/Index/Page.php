@@ -39,7 +39,7 @@ class Page extends Component
             ->paginate(10);
     }
 
-    public function mount()
+    public function mount(): void
     {
         $this->auditorList = collect(); // Initialisiere eine leere Collection
     }
@@ -55,7 +55,7 @@ class Page extends Component
         Flux::modal('initiate-report-audit')->show();
     }
 
-    public function addAuditor()
+    public function addAuditor(): void
     {
         if (! $this->checkPrivilege(AccountReport::class)) {
             return; // Stop execution if unauthorized
@@ -70,7 +70,7 @@ class Page extends Component
         }
     }
 
-    public function removeAuditor(int $auditorId)
+    public function removeAuditor(int $auditorId): void
     {
         if (! $this->checkPrivilege(AccountReport::class)) {
             return; // Stop execution if unauthorized
@@ -126,10 +126,10 @@ class Page extends Component
     public function auditReport(int $auditId): void
     {
         $accountAudit = AccountReportAudit::query()->findOrfail($auditId);
-        dd($accountAudit);
+        // dd($accountAudit);
     }
 
-    public function render()
+    public function render(): \Illuminate\View\View
     {
         return view('livewire.accounting.report.index.page');
     }

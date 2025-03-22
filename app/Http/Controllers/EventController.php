@@ -3,33 +3,34 @@
 namespace App\Http\Controllers;
 
 use App;
+use App\Enums\EventStatus;
 use App\Models\Event\Event;
 use App\Models\Event\EventSubscription;
 use App\Services\IcsGeneratorService;
-use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
-    public function generateIcs(string $slug, IcsGeneratorService $service) {
+    public function generateIcs(string $slug, IcsGeneratorService $service): \Illuminate\Http\Response
+    {
         return $service->generate($slug);
     }
 
-    public function index(int $numPages = 5)
+    public function index(int $numPages = 5): \Illuminate\View\View
     {
         return view('events.index', [
-            'events' => \App\Models\Event\Event::orderBy('event_date')
-                ->where('status', '=', \App\Enums\EventStatus::PUBLISHED->value)
+            'events' => Event::orderBy('event_date')
+                ->where('status', '=', EventStatus::PUBLISHED->value)
                 ->paginate($numPages),
             'locale' => App::getLocale(),
         ]);
     }
 
-    public function show(string $slug)
+    public function show(string $slug): \Illuminate\View\View
     {
         $locale = App::getLocale();
 
         return view('events.show', [
-            'event'  => Event::query()
+            'event' => Event::query()
                 ->with('venue')
                 ->with('timelines')
                 ->where("slug->{$locale}", $slug) // Match the slug for the specific locale

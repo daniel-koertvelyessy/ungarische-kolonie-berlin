@@ -35,7 +35,7 @@ class Page extends Component
             ->paginate(10);
     }
 
-    public function render()
+    public function render(): \Illuminate\View\View
     {
         return view('livewire.accounting.index.page');
     }

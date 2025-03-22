@@ -24,7 +24,7 @@ trait PersistsTabs
         return 'selected_tab_'.static::class;
     }
 
-    public function mount()
+    public function mount(): void
     {
         $this->selectedTab = $this->getSelectedTab();
     }

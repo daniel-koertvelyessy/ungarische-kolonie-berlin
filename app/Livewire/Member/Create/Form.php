@@ -23,7 +23,7 @@ class Form extends Component
 
     public $nomail;
 
-    public function mount()
+    public function mount(): void
     {
         $this->form->locale = app()->getLocale();
         $this->form->gender = Gender::ma->value;
@@ -53,14 +53,14 @@ class Form extends Component
         }
     }
 
-    protected function printApplication(Member $member)
+    protected function printApplication(Member $member): \Illuminate\Http\RedirectResponse
     {
 
         return redirect(route('members.print_application', ['member' => $member]));
 
     }
 
-    protected function sendApplication()
+    protected function sendApplication(): \Illuminate\Http\RedirectResponse
     {
         return redirect(route('home'));
     }
@@ -122,7 +122,7 @@ class Form extends Component
         }
     }
 
-    public function render()
+    public function render(): \Illuminate\View\View
     {
         return view('livewire.member.create.form');
     }

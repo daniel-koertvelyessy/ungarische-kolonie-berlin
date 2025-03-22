@@ -12,12 +12,12 @@ class Page extends Component
     use WithPagination;
 
     #[Computed]
-    public function receipts()
+    public function receipts(): \Illuminate\Pagination\LengthAwarePaginator
     {
         return Receipt::latest()->paginate(10);
     }
 
-    public function render()
+    public function render(): \Illuminate\View\View
     {
         return view('livewire.accounting.receipt.index.page');
     }

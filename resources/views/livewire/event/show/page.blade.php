@@ -1,3 +1,7 @@
+@php use App\Enums\EventStatus; @endphp
+@php use App\Enums\TransactionType; @endphp
+@php use App\Enums\AssignmentStatus; @endphp
+@php use App\Models\Membership\Member; @endphp
 <div>
     <flux:heading class="lg:mb-9 lg:hidden"
                   size="lg"
@@ -94,9 +98,9 @@
                                      placeholder="Choose industry..."
                                      label="{{__('event.form.status')}}"
                         >
-                            @foreach(\App\Enums\EventStatus::cases() as $status)
+                            @foreach(EventStatus::cases() as $status)
                                 <flux:select.option value="{{ $status }}">
-                                    <flux:badge color="{{ \App\Enums\EventStatus::color($status->value) }}">{{ \App\Enums\EventStatus::value($status->value) }}</flux:badge>
+                                    <flux:badge color="{{ EventStatus::color($status->value) }}">{{ EventStatus::value($status->value) }}</flux:badge>
                                 </flux:select.option>
                             @endforeach
                         </flux:select>
@@ -345,7 +349,7 @@
                             <flux:table.cell variant="strong"
                                              align="end"
                             >
-                                <span class="text-{{ \App\Enums\TransactionType::color($payment->transaction->type) }}-600">
+                                <span class="text-{{ TransactionType::color($payment->transaction->type) }}-600">
                                     {{ $payment->transaction->grossForHumans() }}
                                 </span>
                             </flux:table.cell>
@@ -577,11 +581,11 @@
                         <flux:heading size="lg">{{ __('event.timeline.heading') }}</flux:heading>
 
                         @can('create', \App\Models\Event\Event::class)
-                                <flux:button size="sm"
-                                             icon-trailing="plus"
-                                             wire:click="startNewTimelineItem"
-                                >{{ __('timeline.btn.open-modal.label') }}
-                                </flux:button>
+                            <flux:button size="sm"
+                                         icon-trailing="plus"
+                                         wire:click="startNewTimelineItem"
+                            >{{ __('timeline.btn.open-modal.label') }}
+                            </flux:button>
                         @endcan
                     </header>
 
@@ -760,7 +764,7 @@
                              searchable
                              label="{{__('assignment.lead')}}"
                 >
-                    @foreach(\App\Models\Membership\Member::select('id', 'name', 'first_name')->get() as $member)
+                    @foreach(Member::select('id', 'name', 'first_name')->get() as $member)
                         <flux:select.option value="{{ $member->id }}">{{ $member->fullName() }}</flux:select.option>
                     @endforeach
                 </flux:select>
@@ -773,8 +777,8 @@
                              wire:model="assignmentForm.status"
                              label="{{__('assignment.status')}}"
                 >
-                    @foreach(\App\Enums\AssignmentStatus::cases() as $status)
-                        <flux:select.option value="{{$status->value}}">{{ \App\Enums\AssignmentStatus::value($status->value) }}</flux:select.option>
+                    @foreach(AssignmentStatus::cases() as $status)
+                        <flux:select.option value="{{$status->value}}">{{ AssignmentStatus::value($status->value) }}</flux:select.option>
                     @endforeach
                 </flux:select>
 
@@ -829,9 +833,9 @@
 
                 <flux:card class="space-y-6">
                     @foreach($form->locales as $locale)
-                    <flux:input wire:model="timelineForm.title_extern.{{ $locale }}"
-                                label="Titel extern {{ $locale }}"
-                    />
+                        <flux:input wire:model="timelineForm.title_extern.{{ $locale }}"
+                                    label="Titel extern {{ $locale }}"
+                        />
                     @endforeach
                 </flux:card>
 
@@ -867,7 +871,7 @@
                              clearable
                              label="{{__('timeline.table.header.member')}}"
                 >
-                    @foreach(\App\Models\Membership\Member::select('id', 'name', 'first_name')->get() as $member)
+                    @foreach(Member::select('id', 'name', 'first_name')->get() as $member)
                         <flux:select.option value="{{ $member->id }}">{{ $member->fullName() }}</flux:select.option>
                     @endforeach
                 </flux:select>

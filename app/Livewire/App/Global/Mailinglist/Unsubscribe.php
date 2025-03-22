@@ -42,7 +42,7 @@ class Unsubscribe extends Component
     }
 
     #[Layout(GuestLayout::class)]
-    public function render()
+    public function render(): \Illuminate\View\View
     {
         return view('livewire.app.global.mailinglist.unsubscribe');
     }

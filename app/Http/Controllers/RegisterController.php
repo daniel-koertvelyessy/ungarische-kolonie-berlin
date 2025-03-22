@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Actions\Fortify\CreateNewUser;
 use App\Models\Membership\Invitation;
 use App\Models\Membership\Member;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class RegisterController extends Controller
 {
-    public function create(Request $request)
+    public function create(Request $request): \Illuminate\Http\RedirectResponse
     {
         $invitation = Invitation::query()
             ->where('token', $request->token)
@@ -45,7 +46,7 @@ class RegisterController extends Controller
         return redirect()->intended(route('dashboard'));
     }
 
-    public function showRegistrationForm(Request $request)
+    public function showRegistrationForm(Request $request): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Routing\Redirector|\Illuminate\View\View|\Illuminate\Http\RedirectResponse
     {
         $token = $request->query('token');
         $invitation = Invitation::query()
@@ -63,13 +64,11 @@ class RegisterController extends Controller
                 ->where('email', $invitation->email)
                 ->firstOrFail();
             app()->setLocale($member->locale);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             Log::alert('Failed attempt to get member by e-mail :'.$invitation->email.' / error: '.$exception->getMessage());
 
             return redirect('/')->with('error', 'member not found');
         }
-
-
 
         return view('auth.register-member', compact('token', 'invitation', 'member'));
     }

@@ -1,13 +1,14 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Accounting;
 
+use App\Models\Accounting\AccountType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Accounting\Account>
+ * @extends Factory<AccountType>
  */
-class AccountFactory extends Factory
+class AccountTypeFactory extends Factory
 {
     /**
      * Define the model's default state.

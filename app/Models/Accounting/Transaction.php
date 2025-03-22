@@ -7,15 +7,20 @@ use App\Models\Event\EventTransaction;
 use App\Models\Event\EventVisitor;
 use App\Models\Membership\Member;
 use App\Models\Membership\MemberTransaction;
+use Database\Factories\Accounting\TransactionFactory;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
- * @property \Illuminate\Support\Carbon $date
+ * @property Carbon $date
  * @property string $label
  * @property string|null $reference
  * @property string|null $description
@@ -27,42 +32,42 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property int|null $booking_account_id
  * @property string $type
  * @property string $status
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Accounting\Account $account
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Account $account
  * @property-read EventTransaction|null $event_transaction
  * @property-read MemberTransaction|null $member_transaction
  * @property-read Member|null $members
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Accounting\Receipt> $receipts
+ * @property-read Collection<int, Receipt> $receipts
  * @property-read int|null $receipts_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, EventVisitor> $visitors
+ * @property-read Collection<int, EventVisitor> $visitors
  * @property-read int|null $visitors_count
  *
- * @method static \Database\Factories\Accounting\TransactionFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereAccountId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereAmountGross($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereAmountNet($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereBookingAccountId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereLabel($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereReference($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereTax($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereVat($value)
+ * @method static TransactionFactory factory($count = null, $state = [])
+ * @method static Builder<static>|Transaction newModelQuery()
+ * @method static Builder<static>|Transaction newQuery()
+ * @method static Builder<static>|Transaction query()
+ * @method static Builder<static>|Transaction whereAccountId($value)
+ * @method static Builder<static>|Transaction whereAmountGross($value)
+ * @method static Builder<static>|Transaction whereAmountNet($value)
+ * @method static Builder<static>|Transaction whereBookingAccountId($value)
+ * @method static Builder<static>|Transaction whereCreatedAt($value)
+ * @method static Builder<static>|Transaction whereDate($value)
+ * @method static Builder<static>|Transaction whereDescription($value)
+ * @method static Builder<static>|Transaction whereId($value)
+ * @method static Builder<static>|Transaction whereLabel($value)
+ * @method static Builder<static>|Transaction whereReference($value)
+ * @method static Builder<static>|Transaction whereStatus($value)
+ * @method static Builder<static>|Transaction whereTax($value)
+ * @method static Builder<static>|Transaction whereType($value)
+ * @method static Builder<static>|Transaction whereUpdatedAt($value)
+ * @method static Builder<static>|Transaction whereVat($value)
  *
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
 class Transaction extends Model
 {
-    /** @use HasFactory<\Database\Factories\Accounting\TransactionFactory> */
+    /** @use HasFactory<TransactionFactory> */
     use HasFactory;
 
     protected int $decimals = 2;

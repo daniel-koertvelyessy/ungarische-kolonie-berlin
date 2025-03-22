@@ -25,7 +25,7 @@ use Livewire\WithPagination;
 
 class Page extends Component
 {
-    use HasPrivileges, WithFileUploads, Sortable, WithPagination;
+    use HasPrivileges, Sortable, WithFileUploads, WithPagination;
 
     public array $subject;
 
@@ -37,10 +37,12 @@ class Page extends Component
 
     public bool $target_type;
 
-    public array $monthlySubscriptions=[];
-    public array $yearlySubscriptions=[];
+    public array $monthlySubscriptions = [];
+
+    public array $yearlySubscriptions = [];
 
     public int $totalSubscriptionsThisYear;
+
     public array $url_label;
 
     public string $url;
@@ -54,31 +56,35 @@ class Page extends Component
             ->paginate(10);
     }
 
-    protected function subscriptionCurrentMonth():array{
+    protected function subscriptionCurrentMonth(): array
+    {
 
-       return DB::table('mailing_lists')
+        return DB::table('mailing_lists')
             ->selectRaw('DATE(verified_at) as date, COUNT(*) as visitors')
             ->whereBetween('verified_at', [now()->startOfMonth(), now()->endOfMonth()])
             ->groupBy('date')
             ->get()
-            ->map(fn($item) => ['date' => $item->date, 'visitors' => $item->visitors])
+            ->map(fn ($item) => ['date' => $item->date, 'visitors' => $item->visitors])
             ->toArray();
 
     }
-    protected function subscriptionCurrentYear():array{
 
-       return DB::table('mailing_lists')
-           ->selectRaw('strftime("%m", verified_at) as month, COUNT(*) as visitors')
-           ->whereYear('verified_at', Carbon::now('Europe/Berlin')->year)
-           ->groupBy('month')
-           ->orderByRaw('month ASC')
+    protected function subscriptionCurrentYear(): array
+    {
+
+        return DB::table('mailing_lists')
+            ->selectRaw('strftime("%m", verified_at) as month, COUNT(*) as visitors')
+            ->whereYear('verified_at', Carbon::now('Europe/Berlin')->year)
+            ->groupBy('month')
+            ->orderByRaw('month ASC')
             ->get()
-            ->map(fn($item) => ['month' => $item->month, 'visitors' => $item->visitors])
+            ->map(fn ($item) => ['month' => $item->month, 'visitors' => $item->visitors])
             ->toArray();
 
     }
 
-    public function totalSubscriptionCurrentYear():int{
+    public function totalSubscriptionCurrentYear(): int
+    {
 
         return DB::table('mailing_lists')
             ->whereYear('verified_at', Carbon::now('Europe/Berlin')->year)
@@ -113,8 +119,6 @@ class Page extends Component
             }
         }
 
-
-
         if (empty($savedFiles)) {
             Log::error('No valid attachments were saved!');
         }
@@ -138,10 +142,7 @@ class Page extends Component
             }
         }
 
-        if ($this->include_mailing_list){
-
-
-
+        if ($this->include_mailing_list) {
 
         }
 
@@ -190,7 +191,7 @@ class Page extends Component
         ];
     }
 
-    public function addDummyData():void
+    public function addDummyData(): void
     {
         $this->subject['hu'] = fake()->realText(50);
         $this->subject['de'] = fake()->realText(50);
@@ -201,7 +202,7 @@ class Page extends Component
         $this->url_label['de'] = 'Click hier';
     }
 
-    public function mount():void
+    public function mount(): void
     {
 
         $this->monthlySubscriptions = $this->subscriptionCurrentMonth();
@@ -210,8 +211,7 @@ class Page extends Component
 
     }
 
-
-    public function render()
+    public function render(): \Illuminate\View\View
     {
         return view('livewire.app.tool.index.page');
     }

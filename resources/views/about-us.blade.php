@@ -1,3 +1,4 @@
+@php use App\Models\Membership\Member; @endphp
 <x-guest-layout :title="__('aboutus.page.title')">
 
     <div class="overflow-hidden py-24">
@@ -66,7 +67,7 @@
                         </div>
                         <div class="flex flex-col gap-y-2 border-b border-dotted border-gray-200 pb-4">
                             <dt class="text-sm/6 ">{{ __('aboutus.section.numbers.members') }}</dt>
-                            <dd class="order-first text-6xl font-semibold tracking-tight"><span>{{ \App\Models\Membership\Member::count()  }}</span></dd>
+                            <dd class="order-first text-6xl font-semibold tracking-tight"><span>{{ Member::count()  }}</span></dd>
                         </div>
                     </dl>
                 </div>

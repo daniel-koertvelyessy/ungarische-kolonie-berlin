@@ -4,18 +4,22 @@ namespace App\Models\Blog;
 
 use App\Enums\EventStatus;
 use App\Models\User;
+use Database\Factories\Blog\PostFactory;
+use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
 /**
  * @property int $id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property array<array-key, mixed> $title
  * @property array<array-key, mixed> $slug
  * @property array<array-key, mixed> $body
@@ -23,13 +27,13 @@ use Illuminate\Support\Str;
  * @property string $status
  * @property int $post_type_id
  * @property string|null $label
- * @property \Illuminate\Support\Carbon|null $published_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Blog\PostImage> $images
+ * @property Carbon|null $published_at
+ * @property-read Collection<int, PostImage> $images
  * @property-read int|null $images_count
- * @property-read \App\Models\Blog\PostType|null $type
+ * @property-read PostType|null $type
  * @property-read User $user
  *
- * @method static \Database\Factories\Blog\PostFactory factory($count = null, $state = [])
+ * @method static PostFactory factory($count = null, $state = [])
  * @method static Builder<static>|Post newModelQuery()
  * @method static Builder<static>|Post newQuery()
  * @method static Builder<static>|Post query()
@@ -45,11 +49,11 @@ use Illuminate\Support\Str;
  * @method static Builder<static>|Post whereUpdatedAt($value)
  * @method static Builder<static>|Post whereUserId($value)
  *
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
 class Post extends Model
 {
-    /** @use HasFactory<\Database\Factories\Blog\PostFactory> */
+    /** @use HasFactory<PostFactory> */
     use HasFactory;
 
     protected $fillable = [
@@ -102,12 +106,12 @@ class Post extends Model
 
     }
 
-    public function status_color()
+    public function status_color(): string
     {
         return EventStatus::color($this->status);
     }
 
-    public function typeColor()
+    public function typeColor(): ?string
     {
         return $this->type->color;
     }

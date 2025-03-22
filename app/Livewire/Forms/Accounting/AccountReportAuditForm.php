@@ -43,7 +43,7 @@ class AccountReportAuditForm extends Form
         $this->validate();
     }
 
-    public function update()
+    public function update(): void
     {
         $this->checkPrivilege(AccountReportAudit::class);
         $this->validate();

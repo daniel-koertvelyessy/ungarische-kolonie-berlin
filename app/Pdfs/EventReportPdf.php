@@ -2,36 +2,24 @@
 
 namespace App\Pdfs;
 
+use App\Enums\Gender;
 use App\Models\Event\Event;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 class EventReportPdf extends BasePdfTemplate
 {
-    protected Event $event;
-
-    protected float $income;
-
-    protected float $spending;
-
-    protected $spendings;
-
-    protected $incomes;
-
-    protected $visitors;
-
-    protected $filename;
-
-    public function __construct(Event $event, $income, $incomes, $spending, $spendings, $visitors, $locale, $filename)
-    {
+    public function __construct(
+        public Event $event,
+        public float $total_income,
+        public Collection $income_list,
+        public float $total_spending,
+        public Collection $spending_list,
+        public Collection $visitors,
+        public string $locale,
+        public string $filename
+    ) {
         parent::__construct($locale, __('report.event.title')); // Pass locale & title
-
-        $this->event = $event;
-        $this->income = $income;
-        $this->incomes = $incomes;
-        $this->spending = $spending;
-        $this->spendings = $spendings;
-        $this->visitors = $visitors;
-        $this->filename = $filename;
 
         // Set document metadata
         $this->SetTitle(__('report.event.title'));
@@ -52,11 +40,11 @@ class EventReportPdf extends BasePdfTemplate
 
         $this->SetFont('helvetica', '', $h);
         $this->Cell(60, 8, 'Einnahmen ', 0, 0);
-        $this->Cell(80, 8, number_format($this->income, 2, ',', '.'), 0, 1, 'R');
+        $this->Cell(80, 8, number_format($this->total_income, 2, ',', '.'), 0, 1, 'R');
         $this->Cell(60, 8, 'Ausgaben ', 0, 0);
-        $this->Cell(80, 8, number_format($this->spending, 2, ',', '.'), 0, 1, 'R');
+        $this->Cell(80, 8, number_format($this->total_spending, 2, ',', '.'), 0, 1, 'R');
         $this->Cell(60, 8, 'Gesamt ', 'T', 0);
-        $this->Cell(80, 8, number_format($this->income - $this->spending, 2, ',', '.'), 'T', 1, 'R');
+        $this->Cell(80, 8, number_format($this->total_income - $this->total_spending, 2, ',', '.'), 'T', 1, 'R');
         $this->ln(10);
         $this->SetFont('helvetica', '', $hH1);
         $this->Cell(0, 10, 'Besucher ', 0, 1);
@@ -64,7 +52,7 @@ class EventReportPdf extends BasePdfTemplate
 
         $this->SetFont('helvetica', '', $h);
         $this->Cell(30, 8, 'Gesamt : ', 0, 0);
-        $this->Cell(50, 8, $this->visitors->count(), 0, 1, 'R');
+        $this->Cell(50, 8, ''.$this->visitors->count(), 0, 1, 'R');
         $this->Cell(30, 8, 'Männlich ', 0, 0);
         $this->Cell(50, 8, '30', 0, 1, 'R');
         $this->Cell(30, 8, 'Weiblich ', 0, 0);
@@ -106,7 +94,7 @@ class EventReportPdf extends BasePdfTemplate
         $this->Cell(0, 8, 'Betrag', 'B', 1, 'R');
 
         $this->SetFont('helvetica', '', $h);
-        foreach ($this->incomes as $item) {
+        foreach ($this->income_list as $item) {
             $this->Cell($wText, 8, Str::limit($item->transaction->label, 60), 'B', 0);
             $this->Cell($wReferenz, 8, $item->transaction->reference, 'B', 0);
             $this->Cell($wStatus, 8, $item->transaction->status, 'B', 0);
@@ -126,7 +114,7 @@ class EventReportPdf extends BasePdfTemplate
         $this->Cell(0, 8, 'Betrag', 'B', 1, 'R');
 
         $this->SetFont('helvetica', '', $h);
-        foreach ($this->spendings as $item) {
+        foreach ($this->spending_list as $item) {
             $this->Cell($wText, 8, Str::limit($item->transaction->label, 60), 'B', 0);
             $this->Cell($wReferenz, 8, $item->transaction->reference, 'B', 0);
             $this->Cell($wStatus, 8, $item->transaction->status, 'B', 0);
@@ -154,8 +142,8 @@ class EventReportPdf extends BasePdfTemplate
             $this->Cell(60, 8, $visitor->email, 'B', 0);
             $this->Cell($ws, 8, $visitor->member ? 'x' : '', 'B', 0, 'C');
             $this->Cell($ws, 8, $visitor->subscription ? 'x' : '', 'B', 0, 'C');
-            $this->Cell($ws, 8, $visitor->gender === \App\Enums\Gender::ma->value ? 'x' : '', 'B', 0, 'C');
-            $this->Cell($ws, 8, $visitor->gender === \App\Enums\Gender::fe->value ? 'x' : '', 'B', 1, 'C');
+            $this->Cell($ws, 8, $visitor->gender === Gender::ma->value ? 'x' : '', 'B', 0, 'C');
+            $this->Cell($ws, 8, $visitor->gender === Gender::fe->value ? 'x' : '', 'B', 1, 'C');
         }
 
         return $this->Output($this->filename); // 'D' = Download, 'I' = Inline

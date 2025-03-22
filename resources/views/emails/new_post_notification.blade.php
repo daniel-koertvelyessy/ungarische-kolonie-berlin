@@ -1,12 +1,14 @@
+@php use App\Models\Membership\Member; @endphp
+@php use App\Enums\Gender; @endphp
 <x-mails.header/>
 
 @if($recipient['type'] === 'member')
     @php
-    $member = \App\Models\Membership\Member::find($recipient['id']);
+        $member = Member::find($recipient['id']);
     @endphp
 
     @if($recipient['locale'] === 'de')
-        @if($member->gender === \App\Enums\Gender::ma->value)
+        @if($member->gender === Gender::ma->value)
             <h1>Lieber {{ $member->first_name }},</h1>
         @else
             <h1>Liebe {{ $member->first_name }},</h1>
@@ -21,8 +23,8 @@
 @else
     @if($recipient['locale'] === 'de')
         <h1>Hallo,</h1>
-        @else
-    <h1>Szia,</h1>
+    @else
+        <h1>Szia,</h1>
     @endif
     <p>{{ __('post.notification_mail.content_subscriber') }}</p>
 

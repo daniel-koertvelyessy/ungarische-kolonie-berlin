@@ -5,6 +5,7 @@ namespace App\Pdfs;
 use App\Enums\TransactionStatus;
 use App\Enums\TransactionType;
 use App\Models\Accounting\Account;
+use App\Models\Accounting\AccountReport;
 use App\Models\Accounting\Transaction;
 use Illuminate\Support\Str;
 
@@ -14,7 +15,7 @@ class AccountReportPdf extends BasePdfTemplate
 
     protected $filename;
 
-    public function __construct(\App\Models\Accounting\AccountReport $accountReport, $locale, $filename)
+    public function __construct(AccountReport $accountReport, $locale, $filename)
     {
         parent::__construct($locale, __('reports.account.title')); // Pass locale & title
         $this->report = $accountReport;

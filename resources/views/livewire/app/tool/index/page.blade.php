@@ -1,3 +1,4 @@
+@php use Carbon\Carbon; @endphp
 <div>
     <flux:heading size="xl">{{ __('nav.tools') }}</flux:heading>
     <section class="grid grid-cols-1 lg:grid-cols-2 gap-3 my-6">
@@ -193,57 +194,69 @@
             <section class="grid gap-6 lg:grid-cols-2">
                 <figure>
                     @if(count($monthlySubscriptions) > 1)
-                    <div wire:loading
-                         class="text-center text-gray-500"
-                    >
-                        Loading chart...
-                    </div>
-                    <flux:heading><flux:badge color="lime" size="sm">{{ count($monthlySubscriptions) }}</flux:badge> neue Anmeldungen in {{ \Carbon\Carbon::today()->locale('de')->isoFormat('MMMM') }}</flux:heading>
+                        <div wire:loading
+                             class="text-center text-gray-500"
+                        >
+                            Loading chart...
+                        </div>
+                        <flux:heading>
+                            <flux:badge color="lime"
+                                        size="sm"
+                            >{{ count($monthlySubscriptions) }}</flux:badge>
+                            neue Anmeldungen in {{ Carbon::today()->locale('de')->isoFormat('MMMM') }}</flux:heading>
 
-                    <flux:chart wire:model="monthlySubscriptions"
-                                class="aspect-3/1"
-                                wire:loading.remove
-                    >
-                        <flux:chart.svg>
-                            <flux:chart.line field="visitors"
-                                             class="text-pink-500 dark:text-pink-400"
-                            />
+                        <flux:chart wire:model="monthlySubscriptions"
+                                    class="aspect-3/1"
+                                    wire:loading.remove
+                        >
+                            <flux:chart.svg>
+                                <flux:chart.line field="visitors"
+                                                 class="text-pink-500 dark:text-pink-400"
+                                />
 
-                            <flux:chart.axis axis="x"
-                                             field="date"
-                            >
-                                <flux:chart.axis.line/>
-                                <flux:chart.axis.tick/>
-                            </flux:chart.axis>
+                                <flux:chart.axis axis="x"
+                                                 field="date"
+                                >
+                                    <flux:chart.axis.line/>
+                                    <flux:chart.axis.tick/>
+                                </flux:chart.axis>
 
-                            <flux:chart.axis axis="y">
-                                <flux:chart.axis.grid/>
-                                <flux:chart.axis.tick/>
-                            </flux:chart.axis>
+                                <flux:chart.axis axis="y">
+                                    <flux:chart.axis.grid/>
+                                    <flux:chart.axis.tick/>
+                                </flux:chart.axis>
 
-                            <flux:chart.cursor/>
-                        </flux:chart.svg>
+                                <flux:chart.cursor/>
+                            </flux:chart.svg>
 
-                        <flux:chart.tooltip>
-                            <flux:chart.tooltip.heading field="date"
-                                                        :format="['year' => 'numeric', 'month' => 'numeric', 'day' => 'numeric']"
-                            />
-                            <flux:chart.tooltip.value field="visitors"
-                                                      label="Visitors"
-                            />
-                        </flux:chart.tooltip>
-                    </flux:chart>
+                            <flux:chart.tooltip>
+                                <flux:chart.tooltip.heading field="date"
+                                                            :format="['year' => 'numeric', 'month' => 'numeric', 'day' => 'numeric']"
+                                />
+                                <flux:chart.tooltip.value field="visitors"
+                                                          label="Visitors"
+                                />
+                            </flux:chart.tooltip>
+                        </flux:chart>
 
                     @elseif(count($monthlySubscriptions)=== 1)
                         <div class="rounded-md bg-teal-50 p-4">
                             <div class="flex">
                                 <div class="shrink-0">
-                                    <svg class="size-5 text-teal-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                                        <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-7-4a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM9 9a.75.75 0 0 0 0 1.5h.253a.25.25 0 0 1 .244.304l-.459 2.066A1.75 1.75 0 0 0 10.747 15H11a.75.75 0 0 0 0-1.5h-.253a.25.25 0 0 1-.244-.304l.459-2.066A1.75 1.75 0 0 0 9.253 9H9Z" clip-rule="evenodd" />
+                                    <svg class="size-5 text-teal-400"
+                                         viewBox="0 0 20 20"
+                                         fill="currentColor"
+                                         aria-hidden="true"
+                                         data-slot="icon"
+                                    >
+                                        <path fill-rule="evenodd"
+                                              d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-7-4a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM9 9a.75.75 0 0 0 0 1.5h.253a.25.25 0 0 1 .244.304l-.459 2.066A1.75 1.75 0 0 0 10.747 15H11a.75.75 0 0 0 0-1.5h-.253a.25.25 0 0 1-.244-.304l.459-2.066A1.75 1.75 0 0 0 9.253 9H9Z"
+                                              clip-rule="evenodd"
+                                        />
                                     </svg>
                                 </div>
                                 <div class="ml-3 flex-1 md:flex md:justify-between">
-                                    <p class="text-sm text-teal-700">  Eine Anmeldung in {{ \Carbon\Carbon::today()->locale('de')->isoFormat('MMMM') }}</p>
+                                    <p class="text-sm text-teal-700"> Eine Anmeldung in {{ Carbon::today()->locale('de')->isoFormat('MMMM') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -251,12 +264,20 @@
                         <div class="rounded-md bg-zinc-50 p-4">
                             <div class="flex">
                                 <div class="shrink-0">
-                                    <svg class="size-5 text-zinc-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                                        <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-7-4a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM9 9a.75.75 0 0 0 0 1.5h.253a.25.25 0 0 1 .244.304l-.459 2.066A1.75 1.75 0 0 0 10.747 15H11a.75.75 0 0 0 0-1.5h-.253a.25.25 0 0 1-.244-.304l.459-2.066A1.75 1.75 0 0 0 9.253 9H9Z" clip-rule="evenodd" />
+                                    <svg class="size-5 text-zinc-400"
+                                         viewBox="0 0 20 20"
+                                         fill="currentColor"
+                                         aria-hidden="true"
+                                         data-slot="icon"
+                                    >
+                                        <path fill-rule="evenodd"
+                                              d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-7-4a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM9 9a.75.75 0 0 0 0 1.5h.253a.25.25 0 0 1 .244.304l-.459 2.066A1.75 1.75 0 0 0 10.747 15H11a.75.75 0 0 0 0-1.5h-.253a.25.25 0 0 1-.244-.304l.459-2.066A1.75 1.75 0 0 0 9.253 9H9Z"
+                                              clip-rule="evenodd"
+                                        />
                                     </svg>
                                 </div>
                                 <div class="ml-3 flex-1 md:flex md:justify-between">
-                                    <p class="text-sm text-zinc-700">  Keine neuen Anmeldungen in {{ \Carbon\Carbon::today()->locale('de')->isoFormat('MMMM') }}</p>
+                                    <p class="text-sm text-zinc-700"> Keine neuen Anmeldungen in {{ Carbon::today()->locale('de')->isoFormat('MMMM') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -264,55 +285,67 @@
                 </figure>
                 <figure>
                     @if($totalSubscriptionsThisYear>1)
-                    <div wire:loading
-                         class="text-center text-gray-500"
-                    >
-                        Loading chart...
-                    </div>
-                    <flux:heading><flux:badge color="lime" size="sm">{{ $totalSubscriptionsThisYear }}</flux:badge> neue Anmeldungen in {{ \Carbon\Carbon::today()->year }}</flux:heading>
-                    <flux:chart wire:model="yearlySubscriptions"
-                                class="aspect-3/1"
-                                wire:loading.remove
-                    >
-                        <flux:chart.svg>
-                            <flux:chart.line field="visitors"
-                                             class="text-pink-500 dark:text-pink-400"
-                            />
+                        <div wire:loading
+                             class="text-center text-gray-500"
+                        >
+                            Loading chart...
+                        </div>
+                        <flux:heading>
+                            <flux:badge color="lime"
+                                        size="sm"
+                            >{{ $totalSubscriptionsThisYear }}</flux:badge>
+                            neue Anmeldungen in {{ Carbon::today()->year }}</flux:heading>
+                        <flux:chart wire:model="yearlySubscriptions"
+                                    class="aspect-3/1"
+                                    wire:loading.remove
+                        >
+                            <flux:chart.svg>
+                                <flux:chart.line field="visitors"
+                                                 class="text-pink-500 dark:text-pink-400"
+                                />
 
-                            <flux:chart.axis axis="x"
-                                             field="month"
-                            >
-                                <flux:chart.axis.line/>
-                                <flux:chart.axis.tick/>
-                            </flux:chart.axis>
+                                <flux:chart.axis axis="x"
+                                                 field="month"
+                                >
+                                    <flux:chart.axis.line/>
+                                    <flux:chart.axis.tick/>
+                                </flux:chart.axis>
 
-                            <flux:chart.axis axis="y">
-                                <flux:chart.axis.grid/>
-                                <flux:chart.axis.tick/>
-                            </flux:chart.axis>
+                                <flux:chart.axis axis="y">
+                                    <flux:chart.axis.grid/>
+                                    <flux:chart.axis.tick/>
+                                </flux:chart.axis>
 
-                            <flux:chart.cursor/>
-                        </flux:chart.svg>
+                                <flux:chart.cursor/>
+                            </flux:chart.svg>
 
-                        <flux:chart.tooltip>
-                            <flux:chart.tooltip.heading field="month"
-                                                        :format="['year' => 'numeric', 'month' => 'numeric', 'day' => 'numeric']"
-                            />
-                            <flux:chart.tooltip.value field="visitors"
-                                                      label="Visitors"
-                            />
-                        </flux:chart.tooltip>
-                    </flux:chart>
+                            <flux:chart.tooltip>
+                                <flux:chart.tooltip.heading field="month"
+                                                            :format="['year' => 'numeric', 'month' => 'numeric', 'day' => 'numeric']"
+                                />
+                                <flux:chart.tooltip.value field="visitors"
+                                                          label="Visitors"
+                                />
+                            </flux:chart.tooltip>
+                        </flux:chart>
                     @elseif($totalSubscriptionsThisYear === 1)
                         <div class="rounded-md bg-teal-50 p-4">
                             <div class="flex">
                                 <div class="shrink-0">
-                                    <svg class="size-5 text-teal-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                                        <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-7-4a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM9 9a.75.75 0 0 0 0 1.5h.253a.25.25 0 0 1 .244.304l-.459 2.066A1.75 1.75 0 0 0 10.747 15H11a.75.75 0 0 0 0-1.5h-.253a.25.25 0 0 1-.244-.304l.459-2.066A1.75 1.75 0 0 0 9.253 9H9Z" clip-rule="evenodd" />
+                                    <svg class="size-5 text-teal-400"
+                                         viewBox="0 0 20 20"
+                                         fill="currentColor"
+                                         aria-hidden="true"
+                                         data-slot="icon"
+                                    >
+                                        <path fill-rule="evenodd"
+                                              d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-7-4a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM9 9a.75.75 0 0 0 0 1.5h.253a.25.25 0 0 1 .244.304l-.459 2.066A1.75 1.75 0 0 0 10.747 15H11a.75.75 0 0 0 0-1.5h-.253a.25.25 0 0 1-.244-.304l.459-2.066A1.75 1.75 0 0 0 9.253 9H9Z"
+                                              clip-rule="evenodd"
+                                        />
                                     </svg>
                                 </div>
                                 <div class="ml-3 flex-1 md:flex md:justify-between">
-                                    <p class="text-sm text-teal-700">  Eine neue Anmeldung in {{ \Carbon\Carbon::today()->year }}</p>
+                                    <p class="text-sm text-teal-700"> Eine neue Anmeldung in {{ Carbon::today()->year }}</p>
                                 </div>
                             </div>
                         </div>
@@ -320,12 +353,20 @@
                         <div class="rounded-md bg-zinc-50 p-4">
                             <div class="flex">
                                 <div class="shrink-0">
-                                    <svg class="size-5 text-zinc-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                                        <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-7-4a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM9 9a.75.75 0 0 0 0 1.5h.253a.25.25 0 0 1 .244.304l-.459 2.066A1.75 1.75 0 0 0 10.747 15H11a.75.75 0 0 0 0-1.5h-.253a.25.25 0 0 1-.244-.304l.459-2.066A1.75 1.75 0 0 0 9.253 9H9Z" clip-rule="evenodd" />
+                                    <svg class="size-5 text-zinc-400"
+                                         viewBox="0 0 20 20"
+                                         fill="currentColor"
+                                         aria-hidden="true"
+                                         data-slot="icon"
+                                    >
+                                        <path fill-rule="evenodd"
+                                              d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-7-4a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM9 9a.75.75 0 0 0 0 1.5h.253a.25.25 0 0 1 .244.304l-.459 2.066A1.75 1.75 0 0 0 10.747 15H11a.75.75 0 0 0 0-1.5h-.253a.25.25 0 0 1-.244-.304l.459-2.066A1.75 1.75 0 0 0 9.253 9H9Z"
+                                              clip-rule="evenodd"
+                                        />
                                     </svg>
                                 </div>
                                 <div class="ml-3 flex-1 md:flex md:justify-between">
-                                    <p class="text-sm text-zinc-700">  Keine neuen Anmeldungen in {{ \Carbon\Carbon::today()->year }}</p>
+                                    <p class="text-sm text-zinc-700"> Keine neuen Anmeldungen in {{ Carbon::today()->year }}</p>
                                 </div>
                             </div>
                         </div>

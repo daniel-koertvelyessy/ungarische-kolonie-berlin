@@ -18,7 +18,7 @@ class Page extends Component
         $this->form->set($post->id);
     }
 
-    public function render()
+    public function render(): \Illuminate\View\View
     {
         return view('livewire.blog.post.show.page');
     }

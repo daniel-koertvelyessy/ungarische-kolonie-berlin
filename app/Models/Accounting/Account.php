@@ -4,9 +4,14 @@ namespace App\Models\Accounting;
 
 use App\Enums\TransactionStatus;
 use App\Enums\TransactionType;
+use Database\Factories\Accounting\AccountFactory;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
@@ -17,32 +22,33 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string|null $iban
  * @property string|null $bic
  * @property int $starting_amount
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Accounting\AccountReport> $reports
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection<int, AccountReport> $reports
  * @property-read int|null $reports_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Accounting\Transaction> $transactions
+ * @property-read Collection<int, Transaction> $transactions
  * @property-read int|null $transactions_count
  *
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Account newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Account newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Account query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Account whereBic($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Account whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Account whereIban($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Account whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Account whereInstitute($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Account whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Account whereNumber($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Account whereStartingAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Account whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Account whereUpdatedAt($value)
+ * @method static Builder<static>|Account newModelQuery()
+ * @method static Builder<static>|Account newQuery()
+ * @method static Builder<static>|Account query()
+ * @method static Builder<static>|Account whereBic($value)
+ * @method static Builder<static>|Account whereCreatedAt($value)
+ * @method static Builder<static>|Account whereIban($value)
+ * @method static Builder<static>|Account whereId($value)
+ * @method static Builder<static>|Account whereInstitute($value)
+ * @method static Builder<static>|Account whereName($value)
+ * @method static Builder<static>|Account whereNumber($value)
+ * @method static Builder<static>|Account whereStartingAmount($value)
+ * @method static Builder<static>|Account whereType($value)
+ * @method static Builder<static>|Account whereUpdatedAt($value)
+ * @method static \Database\Factories\Accounting\AccountFactory factory($count = null, $state = [])
  *
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
 class Account extends Model
 {
-    /** @use HasFactory<\Database\Factories\AccountFactory> */
+    /** @use HasFactory<AccountFactory> */
     use HasFactory;
 
     protected $fillable = [
@@ -72,7 +78,7 @@ class Account extends Model
         return $current;
     }
 
-    public static function makeCentInteger($formattedValue)
+    public static function makeCentInteger($formattedValue): int
     {
         // Remove all non-numeric characters except commas
         $value = preg_replace('/[^\d,]/', '', $formattedValue);

@@ -1,3 +1,4 @@
+@php use App\Enums\TransactionType; @endphp
 <div>
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -12,13 +13,17 @@
 
         <section class="space-y-3 mb-6">
 
-            <flux:input type="date" wire:model="transactionForm.date" label="Datum" size="sm" />
+            <flux:input type="date"
+                        wire:model="transactionForm.date"
+                        label="Datum"
+                        size="sm"
+            />
 
             <flux:radio.group wire:model="transactionForm.type"
                               label="Buchung"
                               variant="segmented"
             >
-                @foreach(\App\Enums\TransactionType::cases() as $key => $type)
+                @foreach(TransactionType::cases() as $key => $type)
                     <flux:radio :key
                                 value="{{ $type->value }}"
                     >{{ $type->value }}</flux:radio>
@@ -35,7 +40,7 @@
                 >
                     @foreach($this->accounts as $key => $account)
                         <flux:select.option :key
-                                     value="{{ $account->id }}"
+                                            value="{{ $account->id }}"
                         >{{ $account->name }}</flux:select.option>
                     @endforeach
                 </flux:select>
@@ -51,7 +56,7 @@
             >
                 @foreach($this->booking_accounts as $key => $account)
                     <flux:select.option :key
-                                 value="{{ $account->id }}"
+                                        value="{{ $account->id }}"
                     >{{ $account->number }} - {{ $account->label }}</flux:select.option>
                 @endforeach
             </flux:select>
@@ -67,19 +72,30 @@
                         @change="updateValuesFromGross"
             />
 
-            <flux:switch wire:model.live="setEntryFee" label="Eintritt rabattiert" />
+            <flux:switch wire:model.live="setEntryFee"
+                         label="Eintritt rabattiert"
+            />
 
 
             <flux:field>
-                <flux:select wire:model="member_id" variant="listbox" searchable placeholder="Mitgliedsliste">
+                <flux:select wire:model="member_id"
+                             variant="listbox"
+                             searchable
+                             placeholder="Mitgliedsliste"
+                >
                     <flux:select.option value="extern">Extern</flux:select.option>
                     @foreach($this->members as $member)
-                    <flux:select.option value="{{ $member->id }}" wire:key="{{ $member->id }}">{{ $member->fullName() }}</flux:select.option>
+                        <flux:select.option value="{{ $member->id }}"
+                                            wire:key="{{ $member->id }}"
+                        >{{ $member->fullName() }}</flux:select.option>
                     @endforeach
                 </flux:select>
             </flux:field>
         </section>
 
-        <flux:button variant="primary" wire:click="storePayment">Zahlung erfassen</flux:button>
+        <flux:button variant="primary"
+                     wire:click="storePayment"
+        >Zahlung erfassen
+        </flux:button>
     </form>
 </div>

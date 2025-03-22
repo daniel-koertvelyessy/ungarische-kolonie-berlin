@@ -20,7 +20,7 @@ class AppLayout extends Component
         }
     }
 
-    public function mount() {}
+    public function mount(): void {}
 
     public function render(): View
     {

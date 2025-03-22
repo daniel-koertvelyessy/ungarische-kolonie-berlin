@@ -6,10 +6,15 @@ use App\Enums\AssignmentStatus;
 use App\Models\Event\Event;
 use App\Models\Membership\Member;
 use Database\Factories\EventAssignmentFactory;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Notifications\DatabaseNotification;
+use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
 
 /**
  * @method static EventAssignment create(array $attributes)
@@ -18,36 +23,36 @@ use Illuminate\Notifications\Notifiable;
  * @property string $task
  * @property string $status
  * @property string|null $description
- * @property \Illuminate\Support\Carbon|null $due_at
+ * @property Carbon|null $due_at
  * @property int|null $amount
  * @property int $event_id
  * @property int $member_id
  * @property int $user_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property-read Event $event
  * @property-read Member $member
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
+ * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
- * @property-read \App\Models\User $user
+ * @property-read User $user
  *
- * @method static \Database\Factories\EventAssignmentFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventAssignment newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventAssignment newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventAssignment query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventAssignment whereAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventAssignment whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventAssignment whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventAssignment whereDueAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventAssignment whereEventId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventAssignment whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventAssignment whereMemberId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventAssignment whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventAssignment whereTask($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventAssignment whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventAssignment whereUserId($value)
+ * @method static EventAssignmentFactory factory($count = null, $state = [])
+ * @method static Builder<static>|EventAssignment newModelQuery()
+ * @method static Builder<static>|EventAssignment newQuery()
+ * @method static Builder<static>|EventAssignment query()
+ * @method static Builder<static>|EventAssignment whereAmount($value)
+ * @method static Builder<static>|EventAssignment whereCreatedAt($value)
+ * @method static Builder<static>|EventAssignment whereDescription($value)
+ * @method static Builder<static>|EventAssignment whereDueAt($value)
+ * @method static Builder<static>|EventAssignment whereEventId($value)
+ * @method static Builder<static>|EventAssignment whereId($value)
+ * @method static Builder<static>|EventAssignment whereMemberId($value)
+ * @method static Builder<static>|EventAssignment whereStatus($value)
+ * @method static Builder<static>|EventAssignment whereTask($value)
+ * @method static Builder<static>|EventAssignment whereUpdatedAt($value)
+ * @method static Builder<static>|EventAssignment whereUserId($value)
  *
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
 class EventAssignment extends Model
 {

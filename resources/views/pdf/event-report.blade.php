@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+@php use App\Enums\Gender; @endphp
+        <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
 >
 <head>
@@ -18,34 +19,38 @@
     />
 
 
+    <style>
+        p {
+            padding: 0;
+            margin: 0;
+        }
 
-<style>
-    p{padding: 0;margin: 0;}
-    html,
-    body {
-        margin: 0 auto !important;
-        padding: 0 !important;
-        height: 100% !important;
-        width: 100% !important;
-        background: hsl(0, 0%, 98%);
-    }
-    h1, h2, h3, h4, h5, h6 {
-        font-family: 'Lato', sans-serif;
-        color: #000000;
-        margin-top: 0;
-        font-weight: 400;
-    }
+        html,
+        body {
+            margin: 0 auto !important;
+            padding: 0 !important;
+            height: 100% !important;
+            width: 100% !important;
+            background: hsl(0, 0%, 98%);
+        }
 
-    body {
-        font-family: 'Lato', sans-serif;
-        font-weight: 400;
-        font-size: 11pt;
-        line-height: 1.8;
-        color: rgba(0, 0, 0, .4);
-    }
-</style>
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Lato', sans-serif;
+            color: #000000;
+            margin-top: 0;
+            font-weight: 400;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            font-weight: 400;
+            font-size: 11pt;
+            line-height: 1.8;
+            color: rgba(0, 0, 0, .4);
+        }
+    </style>
 </head>
-<body style="font-size: 10pt" >
+<body style="font-size: 10pt">
 <br>
 <br>
 <table align="center"
@@ -79,7 +84,9 @@
     </tr>
     <tr>
         <th style="border-top: 1px solid #888; font-size: 12pt;">Gesamt:</th>
-        <td style="border-top: 1px solid #888; font-size: 12pt;" align="right">EUR {{ number_format($income - $spending,'2',',','.')  }}</td>
+        <td style="border-top: 1px solid #888; font-size: 12pt;"
+            align="right"
+        >EUR {{ number_format($income - $spending,'2',',','.')  }}</td>
     </tr>
 </table>
 
@@ -178,18 +185,22 @@
     </tr>
 
     @foreach($visitors as $visitor)
-    <tr>
-        <td>{{ $visitor->name }}</td>
-        <td>{{ $visitor->email }}</td>
-        <td align="center">{{ $visitor->member ? 'x' : '' }}</td>
-        <td align="center">{{ $visitor->subscription ? 'x' : '' }}</td>
-        <td align="center">{{ $visitor->gender === \App\Enums\Gender::ma->value ? 'x' : '' }}</td>
-        <td align="center">{{ $visitor->gender === \App\Enums\Gender::fe->value ? 'x' : '' }}</td>
-    </tr>
+        <tr>
+            <td>{{ $visitor->name }}</td>
+            <td>{{ $visitor->email }}</td>
+            <td align="center">{{ $visitor->member ? 'x' : '' }}</td>
+            <td align="center">{{ $visitor->subscription ? 'x' : '' }}</td>
+            <td align="center">{{ $visitor->gender === Gender::ma->value ? 'x' : '' }}</td>
+            <td align="center">{{ $visitor->gender === Gender::fe->value ? 'x' : '' }}</td>
+        </tr>
     @endforeach
     <tfoot>
     <tr>
-        <td style="font-size: 8pt; border-top: 1px slategray solid" colspan="6" align="right">M: Besucher ist Mitglied <br> A: Besuche hat sich angemeldet <br> M: Besucher ist männlich <br> W: Besucher ist weiblich</td>
+        <td style="font-size: 8pt; border-top: 1px slategray solid"
+            colspan="6"
+            align="right"
+        >M: Besucher ist Mitglied <br> A: Besuche hat sich angemeldet <br> M: Besucher ist männlich <br> W: Besucher ist weiblich
+        </td>
     </tr>
     </tfoot>
 </table>

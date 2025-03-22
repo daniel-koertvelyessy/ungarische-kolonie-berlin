@@ -1,3 +1,11 @@
+@php use App\Enums\TransactionType; @endphp
+@php use App\Enums\TransactionStatus; @endphp
+@php use App\Models\Accounting\Account; @endphp
+@php use App\Models\Accounting\Receipt; @endphp
+@php use App\Models\Membership\Member; @endphp
+@php use App\Enums\Gender; @endphp
+@php use App\Enums\AccountType; @endphp
+@php use App\Enums\BookingAccountType; @endphp
 <div class="pt-6 lg:pt-9">
 
 
@@ -15,18 +23,18 @@
                                               label="Buchung"
                                               variant="segmented"
                             >
-                                @foreach(\App\Enums\TransactionType::cases() as $key => $type)
+                                @foreach(TransactionType::cases() as $key => $type)
                                     <flux:radio :key
                                                 value="{{ $type->value }}"
                                     >{{ $type->value }}</flux:radio>
                                 @endforeach
                             </flux:radio.group>
-                            @can('book-item', \App\Models\Accounting\Account::class)
+                            @can('book-item', Account::class)
                                 <flux:radio.group wire:model="form.status"
                                                   label="Status"
                                                   variant="segmented"
                                 >
-                                    @foreach(\App\Enums\TransactionStatus::cases() as $key => $status)
+                                    @foreach(TransactionStatus::cases() as $key => $status)
                                         <flux:radio :key
                                                     value="{{ $status->value }}"
                                         >{{ $status->value }}</flux:radio>
@@ -50,16 +58,16 @@
                                                  clearable
                                                  searchable
                                     >
-                                        @can('create', \App\Models\Accounting\Account::class)
+                                        @can('create', Account::class)
                                             <flux:select.option value="new">Neues Zahlungskonto</flux:select.option>
                                         @endcan
                                         @foreach($this->accounts as $key => $account)
                                             <flux:select.option :key
-                                                         value="{{ $account->id }}"
+                                                                value="{{ $account->id }}"
                                             >{{ $account->name }}</flux:select.option>
                                         @endforeach
                                     </flux:select>
-                                    @can('create', \App\Models\Accounting\Account::class)
+                                    @can('create', Account::class)
                                         <flux:modal.trigger name="add-account-modal"
                                                             x-cloak
                                                             x-show="$wire.form.account_id === 'new'"
@@ -86,17 +94,17 @@
                                              clearable
                                              searchable
                                 >
-                                    @can('create', \App\Models\Accounting\Account::class)
+                                    @can('create', Account::class)
                                         <flux:select.option value="new">Neues Buchungskonto</flux:select.option>
                                     @endcan
                                     @foreach($this->booking_accounts as $key => $account)
                                         <flux:select.option :key
-                                                     value="{{ $account->id }}"
+                                                            value="{{ $account->id }}"
                                         >{{ $account->number }} - {{ $account->label }}</flux:select.option>
                                     @endforeach
                                 </flux:select>
 
-                                @can('create', \App\Models\Accounting\Account::class)
+                                @can('create', Account::class)
                                     <flux:modal.trigger name="add-booking-account-modal"
                                                         x-cloak
                                                         x-show="$wire.form.booking_account_id === 'new'"
@@ -173,7 +181,7 @@
 
 
                             <flux:spacer/>
-                            <flux:error name="transaction.id" />
+                            <flux:error name="transaction.id"/>
                             <flux:button wire:click="resetTransactionForm">Neue Buchung anfangen</flux:button>
                             @if(isset($event))
                                 <flux:button wire:click="submitEventTransaction"
@@ -201,7 +209,7 @@
             <flux:card>
 
                 <section class="flex flex-wrap gap-3">
-                    @foreach(\App\Models\Accounting\Receipt::where('transaction_id','=', $form->id)->get() as $key => $receipt )
+                    @foreach(Receipt::where('transaction_id','=', $form->id)->get() as $key => $receipt )
 
                         <flux:field wire:key="{{ $key }}"
                                     class="rounded-md border bg-zinc-50"
@@ -273,7 +281,7 @@
                                      placeholder="Mitglied auswählen ..."
                         >
                             <flux:select.option value="extern">Externer Gast</flux:select.option>
-                            @foreach(\App\Models\Membership\Member::select('id', 'name', 'first_name')->get() as $key => $member)
+                            @foreach(Member::select('id', 'name', 'first_name')->get() as $key => $member)
                                 <flux:select.option value="{{ $member->id }}">{{ $member->fullName() }}</flux:select.option>
                             @endforeach
                         </flux:select>
@@ -295,9 +303,9 @@
                                           label="Geschlecht"
                                           variant="segmented"
                         >
-                            @foreach(\App\Enums\Gender::cases() as $gender)
+                            @foreach(Gender::cases() as $gender)
                                 <flux:radio value="{{ $gender->value }}"
-                                            label="{{ \App\Enums\Gender::value($gender->value) }}"
+                                            label="{{ Gender::value($gender->value) }}"
                                 />
                             @endforeach
 
@@ -446,7 +454,7 @@
                                  size="sm"
                                  variant="listbox"
                     >
-                        @foreach(\App\Enums\AccountType::cases() as $type)
+                        @foreach(AccountType::cases() as $type)
                             <flux:select.option value="{{ $type->value }}"
                             >{{ $type->value }}</flux:select.option>
                         @endforeach
@@ -516,7 +524,7 @@
                                  variant="listbox"
                                  clearable=""
                     >
-                        @foreach(\App\Enums\BookingAccountType::cases() as $type)
+                        @foreach(BookingAccountType::cases() as $type)
                             <flux:select.option value="{{ $type->value }}"
                             >{{ $type->value }}</flux:select.option>
                         @endforeach

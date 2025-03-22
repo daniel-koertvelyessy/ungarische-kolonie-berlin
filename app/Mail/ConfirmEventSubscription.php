@@ -26,7 +26,7 @@ class ConfirmEventSubscription extends Mailable
         $this->token = $token;
     }
 
-    public function build()
+    public function build(): ConfirmEventSubscription
     {
         return $this->subject('Bitte bestätige deine Anmeldung')
             ->from('szia@magyar-kolonia-berlin.org', 'Körtvélyessy, Daniel')

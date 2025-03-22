@@ -1,6 +1,8 @@
+@php use App\Enums\Gender; @endphp
 <x-mails.header>
     <x-slot name="icon">
-        <svg width="140" height="140"
+        <svg width="140"
+             height="140"
              xmlns="http://www.w3.org/2000/svg"
              fill="grey"
              stroke="none"
@@ -12,9 +14,9 @@
     </x-slot>
 </x-mails.header>
 
-@if($member->gender === \App\Enums\Gender::fe->value)
+@if($member->gender === Gender::fe->value)
     <h1>Sehr geehrte Frau {{ $member->name }},</h1>
-@elseif($member->gender === \App\Enums\Gender::ma->value)
+@elseif($member->gender === Gender::ma->value)
     <h1>Sehr geehrter Herr {{ $member->name }},</h1>
 @else
     <h1>Szia {{ $member->fullName() }},</h1>

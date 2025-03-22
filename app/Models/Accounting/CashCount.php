@@ -3,14 +3,17 @@
 namespace App\Models\Accounting;
 
 use App\Models\User;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
  * @property int $account_id
  * @property int $user_id
- * @property \Illuminate\Support\Carbon $counted_at
+ * @property Carbon $counted_at
  * @property string $label
  * @property string|null $notes
  * @property int|null $euro_two_hundred
@@ -27,38 +30,38 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int|null $cent_five
  * @property int|null $cent_two
  * @property int|null $cent_one
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Accounting\Account $account
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Account $account
  * @property-read User $user
  *
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereAccountId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereCentFifty($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereCentFive($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereCentOne($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereCentTen($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereCentTwenty($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereCentTwo($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereCountedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereEuroFifty($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereEuroFive($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereEuroOne($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereEuroOneHundred($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereEuroTen($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereEuroTwenty($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereEuroTwo($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereEuroTwoHundred($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereLabel($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereNotes($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CashCount whereUserId($value)
+ * @method static Builder<static>|CashCount newModelQuery()
+ * @method static Builder<static>|CashCount newQuery()
+ * @method static Builder<static>|CashCount query()
+ * @method static Builder<static>|CashCount whereAccountId($value)
+ * @method static Builder<static>|CashCount whereCentFifty($value)
+ * @method static Builder<static>|CashCount whereCentFive($value)
+ * @method static Builder<static>|CashCount whereCentOne($value)
+ * @method static Builder<static>|CashCount whereCentTen($value)
+ * @method static Builder<static>|CashCount whereCentTwenty($value)
+ * @method static Builder<static>|CashCount whereCentTwo($value)
+ * @method static Builder<static>|CashCount whereCountedAt($value)
+ * @method static Builder<static>|CashCount whereCreatedAt($value)
+ * @method static Builder<static>|CashCount whereEuroFifty($value)
+ * @method static Builder<static>|CashCount whereEuroFive($value)
+ * @method static Builder<static>|CashCount whereEuroOne($value)
+ * @method static Builder<static>|CashCount whereEuroOneHundred($value)
+ * @method static Builder<static>|CashCount whereEuroTen($value)
+ * @method static Builder<static>|CashCount whereEuroTwenty($value)
+ * @method static Builder<static>|CashCount whereEuroTwo($value)
+ * @method static Builder<static>|CashCount whereEuroTwoHundred($value)
+ * @method static Builder<static>|CashCount whereId($value)
+ * @method static Builder<static>|CashCount whereLabel($value)
+ * @method static Builder<static>|CashCount whereNotes($value)
+ * @method static Builder<static>|CashCount whereUpdatedAt($value)
+ * @method static Builder<static>|CashCount whereUserId($value)
  *
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
 class CashCount extends Model
 {

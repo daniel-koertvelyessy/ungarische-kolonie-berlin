@@ -3,32 +3,35 @@
 namespace App\Models\Accounting;
 
 use App\Models\User;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property string $reason
  * @property int $user_id
  * @property int $transaction_id
  * @property string $status
- * @property-read \App\Models\Accounting\Transaction|null $transaction
+ * @property-read Transaction|null $transaction
  * @property-read User|null $user
  *
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CancelTransaction newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CancelTransaction newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CancelTransaction query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CancelTransaction whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CancelTransaction whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CancelTransaction whereReason($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CancelTransaction whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CancelTransaction whereTransactionId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CancelTransaction whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CancelTransaction whereUserId($value)
+ * @method static Builder<static>|CancelTransaction newModelQuery()
+ * @method static Builder<static>|CancelTransaction newQuery()
+ * @method static Builder<static>|CancelTransaction query()
+ * @method static Builder<static>|CancelTransaction whereCreatedAt($value)
+ * @method static Builder<static>|CancelTransaction whereId($value)
+ * @method static Builder<static>|CancelTransaction whereReason($value)
+ * @method static Builder<static>|CancelTransaction whereStatus($value)
+ * @method static Builder<static>|CancelTransaction whereTransactionId($value)
+ * @method static Builder<static>|CancelTransaction whereUpdatedAt($value)
+ * @method static Builder<static>|CancelTransaction whereUserId($value)
  *
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
 class CancelTransaction extends Model
 {

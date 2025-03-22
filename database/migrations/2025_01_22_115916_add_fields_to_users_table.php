@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Gender;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,7 +14,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('first_name')->after('name')->nullable();
-            $table->enum('gender', \App\Enums\Gender::toArray())->after('name')->nullable()->default(\App\Enums\Gender::ma);
+            $table->enum('gender', Gender::toArray())->after('name')->nullable()->default(Gender::ma);
             $table->string('username')->after('name')->nullable();
             $table->string('phone')->after('email')->nullable();
             $table->string('mobile')->after('email')->nullable();

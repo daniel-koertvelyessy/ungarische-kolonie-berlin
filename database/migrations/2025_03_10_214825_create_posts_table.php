@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\EventStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,7 +19,7 @@ return new class extends Migration
             $table->json('slug')->unique();
             $table->json('body');
             $table->foreignId('user_id')->constrained('users');
-            $table->enum('status', \App\Enums\EventStatus::toArray())->default(\App\Enums\EventStatus::DRAFT->value);
+            $table->enum('status', EventStatus::toArray())->default(EventStatus::DRAFT->value);
         });
 
         Schema::create('post_images', function (Blueprint $table) {

@@ -2,6 +2,8 @@
 
 namespace App\Enums;
 
+use InvalidArgumentException;
+
 enum ReportStatus: string
 {
     case draft = 'entwurf';
@@ -19,7 +21,7 @@ enum ReportStatus: string
             'eingereicht' => 'gray',
             'entwurf' => 'pink',
             'geprueft' => 'lime',
-            default => throw new \InvalidArgumentException("Unknown ReportStatus: $value"),
+            default => throw new InvalidArgumentException("Unknown ReportStatus: $value"),
 
         };
     }
@@ -30,7 +32,7 @@ enum ReportStatus: string
             'eingereicht' => __('reports.status.eingereicht'),
             'entwurf' => __('reports.status.entwurf'),
             'geprueft' => __('reports.status.geprueft'),
-            default => throw new \InvalidArgumentException("Unknown ReportStatus: $value"),
+            default => throw new InvalidArgumentException("Unknown ReportStatus: $value"),
 
         };
     }

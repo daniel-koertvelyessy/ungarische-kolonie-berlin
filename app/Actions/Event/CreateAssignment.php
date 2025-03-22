@@ -6,11 +6,12 @@ use App\Livewire\Forms\Event\AssignmentForm;
 use App\Models\Accounting\Account;
 use App\Models\EventAssignment;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class CreateAssignment
 {
     /**
-     * @throws \Throwable
+     * @throws Throwable
      */
     public static function handle(AssignmentForm $form): EventAssignment
     {

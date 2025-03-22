@@ -4,13 +4,11 @@ namespace App\Mail;
 
 use App\Models\MailingList;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Log;
 
 class ConfirmMailingListSubscription extends Mailable
 {
@@ -32,11 +30,10 @@ class ConfirmMailingListSubscription extends Mailable
         );
     }
 
-
     public function content(): Content
     {
 
-       return new Content(
+        return new Content(
             view: 'emails.confirm_mailing_list_subscription',
             with: [
                 'mailingList' => $this->mailingList,
@@ -51,7 +48,7 @@ class ConfirmMailingListSubscription extends Mailable
     /**
      * Get the attachments for the message.
      *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+     * @return array<int, Attachment>
      */
     public function attachments(): array
     {

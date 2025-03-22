@@ -10,7 +10,7 @@ use App\Pdfs\EventReportPdf;
 
 class EventReportService
 {
-    public function generate(Event $event)
+    public function generate(Event $event): string
     {
         $ets = EventTransaction::query()->with('transaction')->where('event_id', $event->id)->get();
 

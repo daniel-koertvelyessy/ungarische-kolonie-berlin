@@ -61,7 +61,7 @@ class EventTimelineForm extends Form
 
     }
 
-    public function update()
+    public function update(): void
     {
         $this->validate();
         UpdateTimeline::handle($this);
@@ -84,7 +84,7 @@ class EventTimelineForm extends Form
         ];
     }
 
-    protected function messages()
+    protected function messages(): array
     {
         return [
             'title.required' => __('timeline.validation_error.title.required'),

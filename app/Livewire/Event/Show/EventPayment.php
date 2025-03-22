@@ -5,7 +5,10 @@ namespace App\Livewire\Event\Show;
 use App\Enums\TransactionType;
 use App\Livewire\Forms\Accounting\TransactionForm;
 use App\Livewire\Forms\Event\EventForm;
+use App\Models\Accounting\Account;
+use App\Models\Accounting\BookingAccount;
 use App\Models\Event\Event;
+use App\Models\Membership\Member;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
@@ -20,26 +23,26 @@ class EventPayment extends Component
     public bool $setEntryFee = false;
 
     #[Computed]
-    public function members()
+    public function members(): \Illuminate\Database\Eloquent\Collection
     {
-        return \App\Models\Membership\Member::select('id', 'name', 'first_name')
+        return Member::select('id', 'name', 'first_name')
             ->where('left_at', null)
             ->get();
     }
 
     #[Computed]
-    public function accounts()
+    public function accounts(): \Illuminate\Database\Eloquent\Collection
     {
-        return \App\Models\Accounting\Account::select('id', 'name')->get();
+        return Account::select('id', 'name')->get();
     }
 
     #[Computed]
-    public function booking_accounts()
+    public function booking_accounts(): \Illuminate\Database\Eloquent\Collection
     {
-        return \App\Models\Accounting\BookingAccount::select('id', 'label', 'number')->get();
+        return BookingAccount::select('id', 'label', 'number')->get();
     }
 
-    public function mount(Event $event)
+    public function mount(Event $event): void
     {
         $this->eventForm->setEvent($event);
         $this->transactionForm->type = TransactionType::Deposit->value;
@@ -48,26 +51,26 @@ class EventPayment extends Component
         $this->transactionForm->date = $this->eventForm->event_date;
     }
 
-    public function updatedSetEntryFee()
+    public function updatedSetEntryFee(): void
     {
         $this->transactionForm->amount_gross = $this->setEntryFee
             ? number_format($this->eventForm->entry_fee_discounted, 2, ',', '.')
             : number_format($this->eventForm->entry_fee, 2, ',', '.');
     }
 
-    public function storePayment()
+    public function storePayment(): void
     {
         // TODO correct CreateEventTransaction or this form
         $this->dispatch('updated-payments');
 
     }
 
-    public function addEventPayment()
+    public function addEventPayment(): void
     {
         $this->storePayment();
     }
 
-    public function render()
+    public function render(): \Illuminate\View\View
     {
         return view('livewire.event.show.event-payment-form');
     }

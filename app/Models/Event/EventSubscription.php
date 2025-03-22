@@ -2,13 +2,17 @@
 
 namespace App\Models\Event;
 
+use Database\Factories\Event\EventSubscriptionFactory;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property string $name
  * @property string $email
  * @property string|null $phone
@@ -17,27 +21,27 @@ use Illuminate\Database\Eloquent\Model;
  * @property bool $consentNotification
  * @property int $amount_guests
  * @property int $event_id
- * @property \Illuminate\Support\Carbon|null $confirmed_at
- * @property-read \App\Models\Event\Event|null $event
+ * @property Carbon|null $confirmed_at
+ * @property-read Event|null $event
  *
- * @method static \Database\Factories\Event\EventSubscriptionFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventSubscription newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventSubscription newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventSubscription query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventSubscription whereAmountGuests($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventSubscription whereBringsGuests($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventSubscription whereConfirmedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventSubscription whereConsentNotification($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventSubscription whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventSubscription whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventSubscription whereEventId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventSubscription whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventSubscription whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventSubscription wherePhone($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventSubscription whereRemarks($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventSubscription whereUpdatedAt($value)
+ * @method static EventSubscriptionFactory factory($count = null, $state = [])
+ * @method static Builder<static>|EventSubscription newModelQuery()
+ * @method static Builder<static>|EventSubscription newQuery()
+ * @method static Builder<static>|EventSubscription query()
+ * @method static Builder<static>|EventSubscription whereAmountGuests($value)
+ * @method static Builder<static>|EventSubscription whereBringsGuests($value)
+ * @method static Builder<static>|EventSubscription whereConfirmedAt($value)
+ * @method static Builder<static>|EventSubscription whereConsentNotification($value)
+ * @method static Builder<static>|EventSubscription whereCreatedAt($value)
+ * @method static Builder<static>|EventSubscription whereEmail($value)
+ * @method static Builder<static>|EventSubscription whereEventId($value)
+ * @method static Builder<static>|EventSubscription whereId($value)
+ * @method static Builder<static>|EventSubscription whereName($value)
+ * @method static Builder<static>|EventSubscription wherePhone($value)
+ * @method static Builder<static>|EventSubscription whereRemarks($value)
+ * @method static Builder<static>|EventSubscription whereUpdatedAt($value)
  *
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
 class EventSubscription extends Model
 {
@@ -54,7 +58,7 @@ class EventSubscription extends Model
         'confirmed_at' => 'datetime',
     ];
 
-    public function event()
+    public function event(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Event::class);
     }

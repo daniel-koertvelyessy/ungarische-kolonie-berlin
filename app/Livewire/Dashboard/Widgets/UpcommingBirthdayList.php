@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Dashboard\Widgets;
 
+use App\Models\Membership\Member;
 use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Livewire\Attributes\Computed;
@@ -20,7 +21,7 @@ class UpcommingBirthdayList extends Component
     public function members(): LengthAwarePaginator
     {
 
-        return \App\Models\Membership\Member::query()
+        return Member::query()
             ->whereMonth('birth_date', $this->currentMonth)
             ->orderByRaw("strftime('%d', birth_date) ASC")   // only for sqlite
 //            ->orderByRaw('DAY(birth_date) ASC')
@@ -80,7 +81,7 @@ class UpcommingBirthdayList extends Component
 
     }
 
-    public function render()
+    public function render(): \Illuminate\View\View
     {
         return view('livewire.dashboard.widgets.upcomming-birthday-list');
     }

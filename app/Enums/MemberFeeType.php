@@ -2,6 +2,8 @@
 
 namespace App\Enums;
 
+use InvalidArgumentException;
+
 enum MemberFeeType: string
 {
     case FREE = 'free';
@@ -19,7 +21,7 @@ enum MemberFeeType: string
             'free' => __('members.fee-type.free'),
             'full' => __('members.fee-type.standard'),
             'discounted' => __('members.fee-type.discounted'),
-            default => throw new \InvalidArgumentException("Unknown MemberFeeType: $value"),
+            default => throw new InvalidArgumentException("Unknown MemberFeeType: $value"),
 
         };
     }
@@ -32,7 +34,7 @@ enum MemberFeeType: string
             'free' => MembershipFee::FREE->value,
             'full' => MembershipFee::FULL->value,
             'discounted' => MembershipFee::DISCOUNTED->value,
-            default => throw new \InvalidArgumentException("Unknown MemberFeeType: $value"),
+            default => throw new InvalidArgumentException("Unknown MemberFeeType: $value"),
 
         };
     }
@@ -43,7 +45,7 @@ enum MemberFeeType: string
             'free' => 'lime',
             'full' => 'emerald',
             'discounted' => 'orange',
-            default => throw new \InvalidArgumentException("Unknown MemberFeeType: $value"),
+            default => throw new InvalidArgumentException("Unknown MemberFeeType: $value"),
 
         };
     }

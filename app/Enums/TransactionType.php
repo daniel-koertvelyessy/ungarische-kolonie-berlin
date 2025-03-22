@@ -2,6 +2,8 @@
 
 namespace App\Enums;
 
+use InvalidArgumentException;
+
 enum TransactionType: string
 {
     case Deposit = 'Einzahlung';
@@ -18,7 +20,7 @@ enum TransactionType: string
         return match ($value) {
             'Einzahlung' => 1,
             'Auszahlung', 'Storno' => -1,
-            default => throw new \InvalidArgumentException("Unknown TransactionType: $value"),
+            default => throw new InvalidArgumentException("Unknown TransactionType: $value"),
         };
     }
 
@@ -27,7 +29,7 @@ enum TransactionType: string
         return match ($value) {
             'Einzahlung' => 'positive',
             'Auszahlung', 'Storno' => 'negative',
-            default => throw new \InvalidArgumentException("Unknown TransactionType: $value"),
+            default => throw new InvalidArgumentException("Unknown TransactionType: $value"),
 
         };
     }
@@ -37,7 +39,7 @@ enum TransactionType: string
         return match ($value) {
             'Einzahlung' => 'lime',
             'Auszahlung', 'Storno' => 'orange',
-            default => throw new \InvalidArgumentException("Unknown TransactionType: $value"),
+            default => throw new InvalidArgumentException("Unknown TransactionType: $value"),
 
         };
     }

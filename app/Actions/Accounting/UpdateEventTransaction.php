@@ -8,6 +8,7 @@ use App\Models\Event\Event;
 use App\Models\Event\EventTransaction;
 use Illuminate\Notifications\Action;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 final class UpdateEventTransaction extends Action
 {
@@ -16,7 +17,7 @@ final class UpdateEventTransaction extends Action
     protected bool $updateEventTransaction;
 
     /**
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function handle(Transaction $transaction, Event $event, $name, $gender): Transaction
     {

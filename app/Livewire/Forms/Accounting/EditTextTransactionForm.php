@@ -15,7 +15,7 @@ class EditTextTransactionForm extends Form
 
     public $description;
 
-    public function set(Transaction $transaction)
+    public function set(Transaction $transaction): void
     {
         $this->transaction = $transaction;
         $this->label = $transaction->label;

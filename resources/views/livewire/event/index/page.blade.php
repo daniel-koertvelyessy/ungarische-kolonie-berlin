@@ -1,3 +1,4 @@
+@php use App\Enums\EventStatus; @endphp
 <div class="space-y-6">
 
 
@@ -30,8 +31,8 @@
                      wire:model.live="filteredBy"
                      selected-suffix="{{ __('gewählt') }}"
         >
-            @foreach(\App\Enums\EventStatus::cases() as $type)
-                <flux:select.option value="{{ $type->value }}">{{ \App\Enums\EventStatus::value($type->value) }}</flux:select.option>
+            @foreach(EventStatus::cases() as $type)
+                <flux:select.option value="{{ $type->value }}">{{ EventStatus::value($type->value) }}</flux:select.option>
             @endforeach
         </flux:select>
 
@@ -40,44 +41,44 @@
     <flux:table :paginate="$this->events">
         <flux:table.columns>
             <flux:table.column sortable
-                         :sorted="$sortBy === 'name'"
-                         :direction="$sortDirection"
-                         wire:click="sort('name')"
+                               :sorted="$sortBy === 'name'"
+                               :direction="$sortDirection"
+                               wire:click="sort('name')"
             >{{ __('event.index.table.header.name') }}</flux:table.column>
             <flux:table.column sortable
-                         :sorted="$sortBy === 'image'"
-                         :direction="$sortDirection"
-                         wire:click="sort('image')"
-                         class="hidden sm:table-cell"
+                               :sorted="$sortBy === 'image'"
+                               :direction="$sortDirection"
+                               wire:click="sort('image')"
+                               class="hidden sm:table-cell"
             >{{ __('event.index.table.header.image') }}</flux:table.column>
             <flux:table.column sortable
-                         :sorted="$sortBy === 'date'"
-                         :direction="$sortDirection"
-                         wire:click="sort('event_date')"
-                         class="hidden sm:table-cell"
+                               :sorted="$sortBy === 'date'"
+                               :direction="$sortDirection"
+                               wire:click="sort('event_date')"
+                               class="hidden sm:table-cell"
             >{{ __('event.date')}}</flux:table.column>
             <flux:table.column sortable
-                         :sorted="$sortBy === 'starts_at'"
-                         :direction="$sortDirection"
-                         wire:click="sort('starts_at')"
-                         class="hidden sm:table-cell"
+                               :sorted="$sortBy === 'starts_at'"
+                               :direction="$sortDirection"
+                               wire:click="sort('starts_at')"
+                               class="hidden sm:table-cell"
             >{{ __('event.begins')}}</flux:table.column>
             <flux:table.column sortable
-                         :sorted="$sortBy === 'ends_at'"
-                         :direction="$sortDirection"
-                         wire:click="sort('ends_at')"
-                         class="hidden md:table-cell"
+                               :sorted="$sortBy === 'ends_at'"
+                               :direction="$sortDirection"
+                               wire:click="sort('ends_at')"
+                               class="hidden md:table-cell"
             >{{ __('event.ends')  }}</flux:table.column>
             <flux:table.column sortable
-                         :sorted="$sortBy === 'venue'"
-                         :direction="$sortDirection"
-                         wire:click="sort('venue_id')"
-                         class="hidden lg:table-cell"
+                               :sorted="$sortBy === 'venue'"
+                               :direction="$sortDirection"
+                               wire:click="sort('venue_id')"
+                               class="hidden lg:table-cell"
             >{{ __('event.venue') }}</flux:table.column>
             <flux:table.column sortable
-                         :sorted="$sortBy === 'status'"
-                         :direction="$sortDirection"
-                         wire:click="sort('status')"
+                               :sorted="$sortBy === 'status'"
+                               :direction="$sortDirection"
+                               wire:click="sort('status')"
             >{{ __('event.status') }}</flux:table.column>
         </flux:table.columns>
 
@@ -89,7 +90,7 @@
                            href="{{ route('backend.events.show',$event) }}"
                         >{{ Str::limit($event->name??'öffnen', 45, preserveWords: true)  }}</a>
                     </flux:table.cell>
-                    <flux:table.cell class="hidden sm:table-cell" >
+                    <flux:table.cell class="hidden sm:table-cell">
                         @if($event->image)
                             <flux:icon icon="photo"
                                        class="size-6 ml-3"
@@ -115,12 +116,14 @@
                     </flux:table.cell>
 
                     <flux:table.cell class=" hidden lg:table-cell"
-                               variant="strong"
+                                     variant="strong"
                     >
                         {{ optional( $event->venue)->name }}
                     </flux:table.cell>
                     <flux:table.cell>
-                        <flux:badge size="sm" color="{{ \App\Enums\EventStatus::color($event->status) }}">{{ \App\Enums\EventStatus::value($event->status) }}</flux:badge>
+                        <flux:badge size="sm"
+                                    color="{{ EventStatus::color($event->status) }}"
+                        >{{ EventStatus::value($event->status) }}</flux:badge>
                     </flux:table.cell>
                 </flux:table.row>
             @endforeach

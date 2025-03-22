@@ -1,32 +1,44 @@
 <?php
 
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\LocaleController;
+use App\Http\Controllers\MembersController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\StaticController;
+use App\Http\Controllers\TestingController;
+use App\Livewire\Accounting\Receipt\Index\Page;
+use App\Livewire\App\Global\Mailinglist\Show;
+use App\Livewire\App\Global\Mailinglist\Unsubscribe;
 use App\Mail\SendMemberMassMail;
+use App\Models\Accounting\AccountReport;
+use App\Models\Accounting\AccountReportAudit;
 use App\Models\Accounting\Transaction;
 use App\Models\Event\Event;
 use App\Services\EventReportService;
+use App\Services\PdfGeneratorService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', \App\Livewire\App\Home\Page::class)->name('home');
 
-Route::get('/lang/{locale}', [\App\Http\Controllers\LocaleController::class, 'switch'])->name('locale.switch');
+Route::get('/lang/{locale}', [LocaleController::class, 'switch'])->name('locale.switch');
 
-Route::get('/imprint', [\App\Http\Controllers\StaticController::class, 'imprint'])->name('imprint');
+Route::get('/imprint', [StaticController::class, 'imprint'])->name('imprint');
 
-Route::get('/about-us', [\App\Http\Controllers\StaticController::class, 'aboutUs'])->name('about-us');
+Route::get('/about-us', [StaticController::class, 'aboutUs'])->name('about-us');
 
-Route::get('/mailing-list/unsubscribe/{token}', \App\Livewire\App\Global\Mailinglist\Unsubscribe::class)->name('mailing-list.unsubscribe');
+Route::get('/mailing-list/unsubscribe/{token}', Unsubscribe::class)->name('mailing-list.unsubscribe');
 
-Route::get('/mailing-list/{token}', \App\Livewire\App\Global\Mailinglist\Show::class)->name('mailing-list.show');
+Route::get('/mailing-list/{token}', Show::class)->name('mailing-list.show');
 
-Route::get('/rollback-email', [\App\Http\Controllers\StaticController::class, 'rollbackMail'])->name('rollback-email');
+Route::get('/rollback-email', [StaticController::class, 'rollbackMail'])->name('rollback-email');
 
 Route::prefix('members')->name('members.')->group(function () {
     Route::get('/application', \App\Livewire\Member\Apply\Page::class)
         ->name('application');
 
-    Route::get('/print-member-application/{member}', [\App\Http\Controllers\MembersController::class, 'printApplication'])
+    Route::get('/print-member-application/{member}', [MembersController::class, 'printApplication'])
         ->name('print_application');
 
     Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
@@ -37,21 +49,21 @@ Route::prefix('members')->name('members.')->group(function () {
 
 Route::prefix('events')->name('events.')->group(function () {
 
-    Route::get('/subscription/confirm/{eventSubscription}/{token}', [\App\Http\Controllers\EventController::class, 'confirmSubscription'])->name('subscription.confirm');
+    Route::get('/subscription/confirm/{eventSubscription}/{token}', [EventController::class, 'confirmSubscription'])->name('subscription.confirm');
 
-    Route::get('/', [\App\Http\Controllers\EventController::class, 'index'])->name('index');
+    Route::get('/', [EventController::class, 'index'])->name('index');
 
-    Route::get('/{slug}', [\App\Http\Controllers\EventController::class, 'show'])->name('show');
+    Route::get('/{slug}', [EventController::class, 'show'])->name('show');
 
-    Route::get('/ics/{slug}', [\App\Http\Controllers\EventController::class, 'generateIcs'])->name('ics');
+    Route::get('/ics/{slug}', [EventController::class, 'generateIcs'])->name('ics');
 
 });
 
 Route::prefix('posts')->name('posts.')->group(function () {
 
-    Route::get('/', [\App\Http\Controllers\PostController::class, 'index'])->name('index');
+    Route::get('/', [PostController::class, 'index'])->name('index');
 
-    Route::get('/{slug}', [\App\Http\Controllers\PostController::class, 'show'])->name('show');
+    Route::get('/{slug}', [PostController::class, 'show'])->name('show');
 
 });
 
@@ -86,10 +98,6 @@ Route::middleware([
         Route::get('/events/{event}', \App\Livewire\Event\Show\Page::class)
             ->name('backend.events.show');
 
-        Route::get('/events/report/{event}', function (Event $event, EventReportService $reportService) {
-            return $reportService->generate($event);
-        })->name('backend.events.report');
-
         Route::get('/posts', \App\Livewire\Blog\Post\Index\Page::class)
             ->name('backend.posts.index');
 
@@ -110,21 +118,46 @@ Route::middleware([
 
         Route::get('/account-report', \App\Livewire\Accounting\Report\Index\Page::class)
             ->name('accounts.report.index');
+        //
+        //        Route::get('/events/report/{event}', function (Event $event, EventReportService $reportService) {
+        //            return $reportService->generate($event);
+        //        })->name('backend.events.report');
 
-        Route::get('/account-report/print/{account_report}', function (\App\Models\Accounting\AccountReport $accountReport, \App\Services\AccountReportService $reportService) {
-            return $reportService->generate($accountReport);
+        Route::get('/events/report/{event}', function (Event $event) {
+            $pdfContent = PdfGeneratorService::generatePdf('event-report', $event, null, true);
+
+            return response($pdfContent)->header('Content-Type', 'application/pdf');
+        })->name('backend.events.report');
+
+        //        Route::get('/account-report/print/{account_report}', function (\App\Models\Accounting\AccountReport $accountReport, \App\Services\AccountReportService $reportService) {
+        //            return $reportService->generate($accountReport);
+        //        })->name('accounts.report.print');
+
+        Route::get('/account-report/print/{account_report}', function (AccountReport $accountReport) {
+            $pdfContent = PdfGeneratorService::generatePdf('account-report', $accountReport, null, true);
+
+            return response($pdfContent)->header('Content-Type', 'application/pdf');
         })->name('accounts.report.print');
 
-        Route::get('/transaction/invoice/preview/{transaction}', function (Transaction $transaction, \App\Services\MemberInvoiceService $invoiceService) {
+        //        Route::get('/transaction/invoice/preview/{transaction}', function (Transaction $transaction, \App\Services\MemberInvoiceService $invoiceService) {
+        //            $member = $transaction->member_transaction->member ?? null;
+        //            $pdfContent = $invoiceService->generate($transaction, $member, app()->getLocale());
+        //
+        //            return response($pdfContent)
+        //                ->header('Content-Type', 'application/pdf')
+        //                ->header('Content-Disposition', 'inline; filename="Rechnung_'.$transaction->id.'.pdf"');
+        //        })->name('transaction.invoice.preview');
+
+        Route::get('/transaction/invoice/preview/{transaction}', function (Transaction $transaction) {
             $member = $transaction->member_transaction->member ?? null;
-            $pdfContent = $invoiceService->generate($transaction, $member, app()->getLocale());
+            $pdfContent = PdfGeneratorService::generatePdf('invoice', ['transaction' => $transaction, 'member' => $member], null, true);
 
             return response($pdfContent)
                 ->header('Content-Type', 'application/pdf')
-                ->header('Content-Disposition', 'inline; filename="Rechnung_'.$transaction->id.'.pdf"');
+                ->header('Content-Disposition', "inline; filename=\"Rechnung_{$transaction->id}.pdf\"");
         })->name('transaction.invoice.preview');
 
-        Route::get('/account-report/audit/{account_report_audit}', function (\App\Models\Accounting\AccountReportAudit $accountReportAudit) {
+        Route::get('/account-report/audit/{account_report_audit}', function (AccountReportAudit $accountReportAudit) {
             if (Auth::user()->id === $accountReportAudit->user_id) {
                 return view('accounts.reports.audit', [
                     'accountReportAuditId' => $accountReportAudit->id,
@@ -137,7 +170,7 @@ Route::middleware([
         Route::get('/accounts', \App\Livewire\Accounting\Account\Index\Page::class)
             ->name('accounts.index');
 
-        Route::get('/receipts', \App\Livewire\Accounting\Receipt\Index\Page::class)
+        Route::get('/receipts', Page::class)
             ->name('receipts.index');
 
         Route::get('/dashboard', function () {
@@ -176,6 +209,6 @@ Route::middleware([
  *   Routes for testing, subject to future deletion
  */
 if (app()->isLocal()) {
-    Route::get('/mailer-test', [\App\Http\Controllers\TestingController::class, 'mailTest'])
+    Route::get('/mailer-test', [TestingController::class, 'mailTest'])
         ->name('mail-tester');
 }

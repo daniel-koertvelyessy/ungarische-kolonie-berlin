@@ -5,6 +5,7 @@ namespace Database\Factories\Membership;
 use App\Enums\Gender;
 use App\Enums\MemberType;
 use App\Models\Membership\Member;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class MemberFactory extends Factory
@@ -19,7 +20,7 @@ class MemberFactory extends Factory
     public function definition(): array
     {
 
-        $gen = Gender::ma;
+        $gen = Gender::ma->value;
 
         return [
             'applied_at' => fake()->dateTimeBetween('-55 years', 'now')->format('Y-m-d'),
@@ -37,7 +38,7 @@ class MemberFactory extends Factory
             'country' => fake()->country,
             'gender' => $gen,
             'type' => MemberType::ST->value,
-            'user_id' => null,
+            'user_id' => User::factory()->create()->id,
 
         ];
     }

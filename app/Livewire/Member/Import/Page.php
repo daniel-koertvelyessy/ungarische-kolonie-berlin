@@ -3,6 +3,7 @@
 namespace App\Livewire\Member\Import;
 
 use App\Models\Membership\Member;
+use Exception;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -24,7 +25,7 @@ class Page extends Component
         'parsedUsers.*.email' => 'nullable|email|max:255',
     ];
 
-    public function updatedJsonFile()
+    public function updatedJsonFile(): void
     {
         $this->validateOnly('jsonFile');
 
@@ -33,25 +34,25 @@ class Page extends Component
         $this->parseJson($content);
     }
 
-    public function updatedJsonText()
+    public function updatedJsonText(): void
     {
         $this->parseJson($this->jsonText);
     }
 
-    private function parseJson($json)
+    private function parseJson($json): void
     {
         try {
             $data = json_decode($json, true);
 
             if (! is_array($data)) {
-                throw new \Exception('Invalid JSON format.');
+                throw new Exception('Invalid JSON format.');
             }
 
             // Validate structure and populate $parsedUsers
             $this->parsedUsers = collect($data)
                 ->map(function ($item) {
                     if (! isset($item['name'], $item['first_name'], $item['email'])) {
-                        throw new \Exception('Invalid JSON structure.');
+                        throw new Exception('Invalid JSON structure.');
                     }
 
                     return [
@@ -61,13 +62,13 @@ class Page extends Component
                     ];
                 })
                 ->toArray();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->addError('jsonText', 'Invalid JSON: '.$e->getMessage());
             $this->parsedUsers = [];
         }
     }
 
-    public function import()
+    public function import(): void
     {
         $this->validate();
 
@@ -89,7 +90,7 @@ class Page extends Component
         session()->flash('success', 'Users imported successfully!');
     }
 
-    public function render()
+    public function render(): \Illuminate\View\View
     {
         return view('livewire.member.import.page');
     }

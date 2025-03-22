@@ -6,11 +6,12 @@ use App\Livewire\Forms\Event\EventForm;
 use App\Models\Accounting\Account;
 use App\Models\Event\Event;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class CreateEvent
 {
     /**
-     * @throws \Throwable
+     * @throws Throwable
      */
     public static function handle(EventForm $eventForm): Event
     {

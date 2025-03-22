@@ -2,6 +2,8 @@
 
 namespace App\Enums;
 
+use InvalidArgumentException;
+
 enum PostType: string
 {
     case review = 'review';
@@ -21,7 +23,7 @@ enum PostType: string
             'other' => __('post.type.other'),
             'announcement' => __('post.type.announcement'),
             'report' => __('post.type.report'),
-            default => throw new \InvalidArgumentException("Unknown PostType: $value"),
+            default => throw new InvalidArgumentException("Unknown PostType: $value"),
 
         };
     }
@@ -33,7 +35,7 @@ enum PostType: string
             'other' => 'pink',
             'announcement' => 'orange',
             'report' => 'blue',
-            default => throw new \InvalidArgumentException("Unknown PostType: $value"),
+            default => throw new InvalidArgumentException("Unknown PostType: $value"),
 
         };
     }

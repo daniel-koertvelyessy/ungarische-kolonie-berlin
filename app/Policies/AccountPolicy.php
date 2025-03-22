@@ -76,7 +76,7 @@ class AccountPolicy
         return false;
     }
 
-    public function bookItem()
+    public function bookItem(): bool
     {
         return $this->getAdminPrivileges(Auth::user());
     }

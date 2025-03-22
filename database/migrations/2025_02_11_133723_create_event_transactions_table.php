@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Gender;
 use App\Models\Accounting\Transaction;
 use App\Models\Event\Event;
 use Illuminate\Database\Migrations\Migration;
@@ -16,7 +17,7 @@ return new class extends Migration
         Schema::create('event_transactions', function (Blueprint $table) {
             $table->id();
             $table->string('visitor_name')->nullable()->index();
-            $table->enum('gender', \App\Enums\Gender::toArray())->nullable();
+            $table->enum('gender', Gender::toArray())->nullable();
             $table->foreignIdFor(Transaction::class);
             $table->foreignIdFor(Event::class);
             $table->timestamps();

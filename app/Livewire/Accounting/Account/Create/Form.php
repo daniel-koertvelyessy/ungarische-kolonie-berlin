@@ -15,12 +15,12 @@ class Form extends Component
 
     public Account $account;
 
-    public function mount(Account $account)
+    public function mount(Account $account): void
     {
         $this->form->set($account);
     }
 
-    public function updatedAccount(Account $account)
+    public function updatedAccount(Account $account): void
     {
         $this->form->set($account);
     }
@@ -51,7 +51,7 @@ class Form extends Component
         }
     }
 
-    public function render()
+    public function render(): \Illuminate\View\View
     {
         return view('livewire.accounting.account.create.form');
     }

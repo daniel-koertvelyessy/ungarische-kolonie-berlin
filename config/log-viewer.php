@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Middleware\SetLogViewerAccess;
+use Opcodes\LogViewer\Http\Middleware\AuthorizeLogViewer;
+use Opcodes\LogViewer\Http\Middleware\EnsureFrontendRequestsAreStateful;
+
 return [
 
     /*
@@ -75,7 +79,7 @@ return [
         'web',
         //        'auth',
         //        \Opcodes\LogViewer\Http\Middleware\AuthorizeLogViewer::class,
-        \App\Http\Middleware\SetLogViewerAccess::class,
+        SetLogViewerAccess::class,
     ],
 
     /*
@@ -88,8 +92,8 @@ return [
     */
 
     'api_middleware' => [
-        \Opcodes\LogViewer\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-        \Opcodes\LogViewer\Http\Middleware\AuthorizeLogViewer::class,
+        EnsureFrontendRequestsAreStateful::class,
+        AuthorizeLogViewer::class,
     ],
 
     'api_stateful_domains' => env('LOG_VIEWER_API_STATEFUL_DOMAINS') ? explode(',', env('LOG_VIEWER_API_STATEFUL_DOMAINS')) : null,

@@ -1,9 +1,12 @@
+@php use App\Models\Blog\Post; @endphp
+@php use App\Enums\EventStatus; @endphp
+@php use App\Models\Blog\PostType; @endphp
 <div class="space-y-6">
 
     <flux:heading size="lg">{{__('post.backend.index.page.title')}}</flux:heading>
 
     <nav class="flex gap-3 items-center">
-        @can('create',\App\Models\Blog\Post::class)
+        @can('create',Post::class)
             <flux:button href="{{ route('backend.posts.create') }}"
                          variant="primary"
                          icon-trailing="plus"
@@ -28,8 +31,8 @@
                      wire:model.live="filteredByStatus"
                      selected-suffix="{{ __('gewählt') }}"
         >
-            @foreach(\App\Enums\EventStatus::cases() as $status)
-                <flux:select.option value="{{ $status->value }}">{{ \App\Enums\EventStatus::value($status->value) }}</flux:select.option>
+            @foreach(EventStatus::cases() as $status)
+                <flux:select.option value="{{ $status->value }}">{{ EventStatus::value($status->value) }}</flux:select.option>
             @endforeach
         </flux:select>
         <flux:select variant="listbox"
@@ -39,7 +42,7 @@
                      wire:model.live="filteredByType"
                      selected-suffix="{{ __('gewählt') }}"
         >
-            @foreach(\App\Models\Blog\PostType::all() as $type)
+            @foreach(PostType::all() as $type)
                 <flux:select.option value="{{ $type->id }}">{{ $type->name[$locale] }}</flux:select.option>
             @endforeach
         </flux:select>
@@ -104,31 +107,31 @@
                     </flux:table.cell>
 
                     <flux:table.cell variant="strong">{{ $post->title[$locale] }}</flux:table.cell>
-@can('update',$post)
-                    <flux:table.cell>
-                        <flux:dropdown>
-                            <flux:button variant="ghost"
-                                         size="sm"
-                                         icon="ellipsis-horizontal"
-                                         inset="top bottom"
-                            ></flux:button>
-                            <flux:menu>
-                                <flux:menu.item wire:navigate
-                                                href="{{ route('backend.posts.show',$post) }}"
-                                                icon="pencil-square"
-                                >bearbeiten
-                                </flux:menu.item>
-                                @can('delete',$post)
-                                    <flux:menu.item variant="danger"
-                                                    wire:click="confirmDeletion({{ $post->id }})"
-                                                    icon="trash"
-                                    >löschen
+                    @can('update',$post)
+                        <flux:table.cell>
+                            <flux:dropdown>
+                                <flux:button variant="ghost"
+                                             size="sm"
+                                             icon="ellipsis-horizontal"
+                                             inset="top bottom"
+                                ></flux:button>
+                                <flux:menu>
+                                    <flux:menu.item wire:navigate
+                                                    href="{{ route('backend.posts.show',$post) }}"
+                                                    icon="pencil-square"
+                                    >bearbeiten
                                     </flux:menu.item>
-                                @endcan
-                            </flux:menu>
-                        </flux:dropdown>
-                    </flux:table.cell>
-    @endcan
+                                    @can('delete',$post)
+                                        <flux:menu.item variant="danger"
+                                                        wire:click="confirmDeletion({{ $post->id }})"
+                                                        icon="trash"
+                                        >löschen
+                                        </flux:menu.item>
+                                    @endcan
+                                </flux:menu>
+                            </flux:dropdown>
+                        </flux:table.cell>
+                    @endcan
                 </flux:table.row>
             @endforeach
         </flux:table.rows>

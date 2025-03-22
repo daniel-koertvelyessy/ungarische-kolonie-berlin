@@ -2,10 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\Accounting\BookingAccount;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Accounting\BookingAccount>
+ * @extends Factory<BookingAccount>
  */
 class BookingAccountFactory extends Factory
 {

@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Throwable;
 
 class Form extends Component
 {
@@ -71,14 +72,14 @@ class Form extends Component
     protected $listeners = ['edit-transaction' => 'loadTransaction', 'fileDropped'];
 
     #[Computed]
-    public function accounts()
+    public function accounts(): \Illuminate\Database\Eloquent\Collection
     {
         return Account::query()->select('id', 'name')
             ->get();
     }
 
     #[Computed]
-    public function booking_accounts()
+    public function booking_accounts(): \Illuminate\Database\Eloquent\Collection
     {
         return BookingAccount::query()->select('id', 'label', 'number')
             ->get();
@@ -90,7 +91,7 @@ class Form extends Component
             $this->visitor_name = '';
             $this->visitor_has_member_id = false;
         } else {
-            $member = \App\Models\Membership\Member::query()->find($value);
+            $member = Member::query()->find($value);
             $this->visitor_name = $member ? $member->fullName() : '';
             $this->visitor_has_member_id = $value;
         }
@@ -208,7 +209,7 @@ class Form extends Component
             );
             Flux::modal('add-new-payment')->close();
             $this->dispatch('updated-payments');
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             Flux::toast(
                 text: 'Die Transaktion konnte nicht gespeichert werden: '.$e->getMessage(),
                 heading: 'Fehler',
@@ -252,7 +253,7 @@ class Form extends Component
             Flux::modal('add-new-payment')->close();
             $this->dispatch('updated-payments');
 
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             Flux::toast(
                 text: 'Die Transaktion konnte nicht gespeichert werden: '.$e->getMessage(),
                 heading: 'Fehler',

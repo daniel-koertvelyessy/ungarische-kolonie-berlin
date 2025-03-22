@@ -1,4 +1,7 @@
-<!DOCTYPE html>
+@php use App\Enums\Gender; @endphp
+@php use App\Models\Membership\Member; @endphp
+@php use App\Enums\MembershipFee; @endphp
+    <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
 >
 <head>
@@ -18,33 +21,38 @@
     />
 
 
-
-<style>
-    p{padding: 0;margin: 0;}
-</style>
+    <style>
+        p {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
 </head>
-<body style="font-size: 10pt" >
+<body style="font-size: 10pt">
 <br>
 <br>
 <br>
-    <p><span style="font-size: 8pt">Atn:</span>
+<p><span style="font-size: 8pt">Atn:</span>
     <br>Magayar Kolónia Berlin E. V.
-    <br>Bulgarstraße 12 <br>13458 Berlin</p>
+    <br>Hanns-Eisler-Straße 44 12 <br>10409 Berlin</p>
 
 <br><br>
 
-    <h3>{{ __('members.apply.print.title') }}</h3>
+<h3>{{ __('members.apply.print.title') }}</h3>
 
 <br><br>
-    <p>{{ __('members.apply.print.greeting') }}</p>
+<p>{{ __('members.apply.print.greeting') }}</p>
 
-    <p>{{ __('members.apply.print.text') }}</p>
+<p>{{ __('members.apply.print.text') }}</p>
 <br><br><br><br>
 
-    <p  style="font-size: 11pt;">{{ __('members.apply.print.overview.person') }}</p>
+<p style="font-size: 11pt;">{{ __('members.apply.print.overview.person') }}</p>
 
 
-<table cellpadding="2" cellspacing="0" border="0">
+<table cellpadding="2"
+       cellspacing="0"
+       border="0"
+>
     <tr>
         <th>{{ __('members.name') }}, {{ __('members.first_name') }}</th>
         <td>{{ $member->name }}, {{ $member->first_name }}</td>
@@ -55,17 +63,24 @@
     </tr>
     <tr>
         <th>{{ __('members.gender') }}</th>
-        <td>{{ \App\Enums\Gender::value($member->gender )  }}</td>
+        <td>{{ Gender::value($member->gender )  }}</td>
     </tr>
     <tr>
         <th>{{ __('members.locale') }}</th>
-        <td>{{ \App\Enums\Locale::value($member->locale )  }}</td>
+        @if($member->locale)
+            <td>{{ \App\Enums\Locale::value($member->locale )  }}</td>
+        @else
+            <td>{{ app()->getLocale()  }}</td>
+        @endif
     </tr>
 </table>
 <br>
-    <p style="font-size: 11pt;">{{ __('members.apply.print.overview.contact') }}</p>
+<p style="font-size: 11pt;">{{ __('members.apply.print.overview.contact') }}</p>
 <br>
-<table cellpadding="2" cellspacing="0" border="0">
+<table cellpadding="2"
+       cellspacing="0"
+       border="0"
+>
     <tr>
         <th>{{ __('members.address') }}</th>
         <td>{{ $member->address??'-' }}</td>
@@ -75,10 +90,10 @@
         <td>{{ $member->city??'-' }}</td>
     </tr>
     @if($member->country !== 'Deutschland')
-    <tr>
-        <th>{{ __('members.country') }}</th>
-        <td>{{ $member->country??'-'}} </td>
-    </tr>
+        <tr>
+            <th>{{ __('members.country') }}</th>
+            <td>{{ $member->country??'-'}} </td>
+        </tr>
     @endif
     <tr>
         <th>{{ __('members.phone') }}</th>
@@ -95,27 +110,34 @@
 </table>
 
 
-    @if($member->is_deducted)
+@if($member->is_deducted)
 
-        <br><br>
-        <p>{{ __('members.apply.discount.label') }}</p>
-        <table cellpadding="2" cellspacing="0" border="0">
+    <br><br>
+    <p>{{ __('members.apply.discount.label') }}</p>
+    <table cellpadding="2"
+           cellspacing="0"
+           border="0"
+    >
         <tr>
             <th>{{ __('members.apply.discount.reason.label') }} </th>
             <td>{{ $member->deduction_reason??'-' }}</td>
         </tr>
-        </table>
-        <br><br>
+    </table>
+    <br><br>
 
-    @else
-        <br><br>
-        <p style="font-size: 12pt; font-weight: bold;">{{ __('members.apply.fee.text', ['sum' => \App\Models\Membership\Member::$fee/100]) }}</p>
-    @endif
+@else
+    <br><br>
+    <p style="font-size: 12pt; font-weight: bold;">{{ __('members.apply.fee.text', ['sum' => Member::feeForHumans(MembershipFee::FULL->value)]) }}</p>
+@endif
 
-    <p>{{ __('members.apply.print.regards') }}<br><span style="font-size: 11pt;">{{ $member->name }}, {{ $member->first_name }}</span>
-    </p>
+<p>{{ __('members.apply.print.regards') }}<br><span style="font-size: 11pt;">{{ $member->name }}, {{ $member->first_name }}</span>
+</p>
 
-<table cellpadding="2" cellspacing="0" border="0" width="30%">
+<table cellpadding="2"
+       cellspacing="0"
+       border="0"
+       width="30%"
+>
     <tr>
         <td>
             <br><br><br><br><br>

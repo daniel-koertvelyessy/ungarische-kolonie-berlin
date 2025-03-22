@@ -44,7 +44,7 @@ class Form extends Component
         'email.unique' => 'Überprüfe, ob du schon eine E-Mail von uns erhalten hast.',
     ];
 
-    public function subscribe()
+    public function subscribe(): void
     {
         $this->validate([
             'name' => 'required|string|max:255',
@@ -84,7 +84,7 @@ class Form extends Component
 
     }
 
-    public function render()
+    public function render(): \Illuminate\View\View
     {
         return view('livewire.event.subscription.create.form');
     }

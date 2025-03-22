@@ -18,7 +18,7 @@ class BookingAccountForm extends Form
 
     public $label;
 
-    public function create()
+    public function create(): void
     {
         $this->validate();
 

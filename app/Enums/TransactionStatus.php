@@ -2,6 +2,8 @@
 
 namespace App\Enums;
 
+use InvalidArgumentException;
+
 enum TransactionStatus: string
 {
     case submitted = 'eingereicht';
@@ -18,7 +20,7 @@ enum TransactionStatus: string
         return match ($value) {
             'eingereicht' => 'gray',
             'gebucht' => 'lime',
-            default => throw new \InvalidArgumentException("Unknown TransactionStatus: $value"),
+            default => throw new InvalidArgumentException("Unknown TransactionStatus: $value"),
 
             //            'storniert' => 'red',
         };

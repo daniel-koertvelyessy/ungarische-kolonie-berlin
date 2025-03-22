@@ -8,19 +8,19 @@ class DarkModeToggle extends Component
 {
     public string $theme = 'system'; // Standardwert: 'system'
 
-    public function mount()
+    public function mount(): void
     {
         $this->theme = session('theme', 'system');
     }
 
-    public function setTheme(string $theme)
+    public function setTheme(string $theme): void
     {
         $this->theme = $theme;
         session(['theme' => $theme]);
         $this->dispatch('theme-changed', $theme);
     }
 
-    public function render()
+    public function render(): \Illuminate\View\View
     {
         return view('livewire.app.global.dark-mode-toggle');
     }

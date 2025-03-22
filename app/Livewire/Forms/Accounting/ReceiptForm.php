@@ -3,9 +3,11 @@
 namespace App\Livewire\Forms\Accounting;
 
 use App\Models\Accounting\Receipt;
+use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Imagick;
 use Livewire\Form;
 use Livewire\WithFileUploads;
@@ -22,7 +24,7 @@ class ReceiptForm extends Form
 
     public $file_name_original;
 
-    public function set(Receipt $receipt)
+    public function set(Receipt $receipt): void
     {
         $this->id = $receipt->id;
         $this->file_name = $receipt->file_name;
@@ -60,7 +62,7 @@ class ReceiptForm extends Form
             $imagick->destroy();
 
             return Storage::url($outputPath);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error('PDF Preview Error: '.$e->getMessage());
 
             return '';
@@ -94,7 +96,7 @@ class ReceiptForm extends Form
         return [
 
             'file_name_original' => [
-                'nullable', \Illuminate\Validation\Rule::unique('receipts', 'file_name')
+                'nullable', Rule::unique('receipts', 'file_name')
                     ->ignore($this->transaction_id),
             ],
             'file_name' => [

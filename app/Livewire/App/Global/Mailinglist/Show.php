@@ -10,18 +10,20 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
-use Throwable;
 
 class Show extends Component
 {
     public $token;
+
     public $mailingList;
 
     public $update_on_events;
+
     public $update_on_articles;
+
     public $update_on_notifications;
 
-    public function mount($token):void
+    public function mount($token): void
     {
         $this->token = $token;
 
@@ -33,21 +35,21 @@ class Show extends Component
             $this->update_on_notifications = $this->mailingList->update_on_notifications;
             app()->setLocale($this->mailingList->locale->value);
         } catch (ModelNotFoundException $exception) {
-            Log::alert('provided token not found '. $exception->getMessage());
+            Log::alert('provided token not found '.$exception->getMessage());
             $this->redirect(route('home'));
         }
     }
 
-    public function verify():void
+    public function verify(): void
     {
-        if (!$this->mailingList->verified_at) {
+        if (! $this->mailingList->verified_at) {
             $this->mailingList->verify();
             $this->mailingList->generateNewToken(); // For future updates
-            Flux::toast( __('mails.mailing_list.show.confirmation_msg'), __('mails.toast.header.success'), 7000,'success');
+            Flux::toast(__('mails.mailing_list.show.confirmation_msg'), __('mails.toast.header.success'), 7000, 'success');
         }
     }
 
-    public function updatePreferences():void
+    public function updatePreferences(): void
     {
         $this->mailingList->update([
             'update_on_events' => $this->update_on_events,
@@ -56,12 +58,12 @@ class Show extends Component
             'verification_token' => Str::random(40), // Refresh token
         ]);
 
-        Flux::toast(__('mails.mailing_list.show.confirmation_msg'), __('mails.toast.header.success'), 7000,'success');
+        Flux::toast(__('mails.mailing_list.show.confirmation_msg'), __('mails.toast.header.success'), 7000, 'success');
 
     }
 
     #[Layout(GuestLayout::class)]
-    public function render()
+    public function render(): \Illuminate\View\View
     {
         return view('livewire.app.global.mailinglist.show');
     }

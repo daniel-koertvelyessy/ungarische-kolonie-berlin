@@ -10,12 +10,12 @@ class LanguageSwitcher extends Component
 {
     public string $currentLocale;
 
-    public function mount()
+    public function mount(): void
     {
         $this->currentLocale = App::getLocale();
     }
 
-    public function switchLanguage(string $locale)
+    public function switchLanguage(string $locale): \Illuminate\Http\RedirectResponse
     {
         if (! in_array($locale, ['en', 'de', 'hu'])) {
             abort(404);
@@ -29,7 +29,7 @@ class LanguageSwitcher extends Component
         return redirect(request()->header('Referer'));
     }
 
-    public function render()
+    public function render(): \Illuminate\View\View
     {
         return view('livewire.app.global.language-switcher');
     }

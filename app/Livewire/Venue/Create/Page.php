@@ -10,7 +10,7 @@ class Page extends Component
 {
     public VenueForm $form;
 
-    public function storeVenue()
+    public function storeVenue(): void
     {
         $id = $this->form->store();
 
@@ -21,7 +21,7 @@ class Page extends Component
 
     }
 
-    public function render()
+    public function render(): \Illuminate\View\View
     {
         return view('livewire.venue.create.page');
     }

@@ -18,7 +18,7 @@ class TransferTransactionForm extends Form
 
     public $reason;
 
-    public function set(Transaction $transaction)
+    public function set(Transaction $transaction): void
     {
         $this->user_id = Auth::user()->id;
         $this->transaction_id = $transaction->id;

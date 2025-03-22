@@ -2,10 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\Accounting\Receipt;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Accounting\Receipt>
+ * @extends Factory<Receipt>
  */
 class ReceiptFactory extends Factory
 {

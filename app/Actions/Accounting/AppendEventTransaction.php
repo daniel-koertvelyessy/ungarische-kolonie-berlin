@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class AppendEventTransaction
 {
-    public static function handle(Transaction $transaction, Event $event, $name, $gender): Transaction
+    public static function handle(Transaction $transaction, Event $event, string $name, string $gender): Transaction
     {
         return DB::transaction(function () use ($transaction, $event, $name, $gender) {
 

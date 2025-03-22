@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+@php use App\Models\Membership\Member; @endphp
+@php use App\Models\Accounting\Account; @endphp
+        <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
@@ -94,7 +96,7 @@
                            :current="request()->is('dashboard')"
         >{{ __('nav.dashboard') }}</flux:navlist.item>
 
-        @can('create',\App\Models\Membership\Member::class)
+        @can('create',Member::class)
             <flux:navlist.item wire:navigate
                                icon="cog-6-tooth"
                                href="{{ route('tools.index')  }}"
@@ -125,12 +127,25 @@
         <flux:navlist.group heading="{{ __('nav.kasse') }}"
                             expandable
         >
-            <flux:navlist.item wire:navigate href="{{ route('accounting.index') }}">Übersicht</flux:navlist.item>
-            <flux:navlist.item wire:navigate href="{{ route('transaction.index') }}">Buchungen</flux:navlist.item>
-            <flux:navlist.item wire:navigate href="{{ route('receipts.index') }}">Belege</flux:navlist.item>
-            <flux:navlist.item wire:navigate href="{{ route('accounts.report.index') }}">Berichte</flux:navlist.item>
-            @can('create', \App\Models\Accounting\Account::class)
-                <flux:navlist.item wire:navigate href="{{ route('accounts.index') }}"
+            <flux:navlist.item wire:navigate
+                               href="{{ route('accounting.index') }}"
+            >Übersicht
+            </flux:navlist.item>
+            <flux:navlist.item wire:navigate
+                               href="{{ route('transaction.index') }}"
+            >Buchungen
+            </flux:navlist.item>
+            <flux:navlist.item wire:navigate
+                               href="{{ route('receipts.index') }}"
+            >Belege
+            </flux:navlist.item>
+            <flux:navlist.item wire:navigate
+                               href="{{ route('accounts.report.index') }}"
+            >Berichte
+            </flux:navlist.item>
+            @can('create', Account::class)
+                <flux:navlist.item wire:navigate
+                                   href="{{ route('accounts.index') }}"
                                    :current="request()->is('accounts*')"
                 >Konten
                 </flux:navlist.item>
@@ -163,10 +178,10 @@
 
 
             <livewire:app.global.notifications-menu/>
- {{--           <flux:menu.separator/>
-            <livewire:app.global.dark-mode-toggle />--}}
+            {{--           <flux:menu.separator/>
+                       <livewire:app.global.dark-mode-toggle />--}}
             <flux:menu.separator/>
-            <livewire:app.global.language-switcher />
+            <livewire:app.global.language-switcher/>
             <flux:menu.separator/>
             <form method="POST"
                   action="{{ route('logout') }}"
@@ -174,7 +189,7 @@
                 @csrf
 
                 <flux:menu.item type="submit"
-                             icon="arrow-right-start-on-rectangle"
+                                icon="arrow-right-start-on-rectangle"
                 >{{ __('nav.logout') }}</flux:menu.item>
             </form>
         </flux:menu>
@@ -198,7 +213,7 @@
 
         <flux:menu>
             <livewire:app.global.notifications-menu/>
-            <livewire:app.global.language-switcher />
+            <livewire:app.global.language-switcher/>
             <flux:menu.item icon="user"
                             href="{{ route('profile.show') }}"
             >{{ Auth::user()->first_name. ' '. Auth::user()->name }}</flux:menu.item>
@@ -215,7 +230,7 @@
                 @csrf
 
                 <flux:menu.item type="submit"
-                             icon="arrow-right-start-on-rectangle"
+                                icon="arrow-right-start-on-rectangle"
                 >{{ __('nav.logout') }}</flux:menu.item>
             </form>
 

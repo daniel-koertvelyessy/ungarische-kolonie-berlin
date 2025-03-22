@@ -8,18 +8,18 @@ use Illuminate\Support\Facades\Auth;
 
 class StaticController extends Controller
 {
-    public function imprint()
+    public function imprint(): \Illuminate\View\View
     {
         return view('impressum');
     }
 
-    public function aboutUs()
+    public function aboutUs(): \Illuminate\View\View
     {
 
         return view('about-us');
     }
 
-    public function rollbackMail(Request $request)
+    public function rollbackMail(Request $request): \Illuminate\Http\RedirectResponse
     {
         $decrypted = decrypt($request->query('token'));
         [$userId, $oldEmail] = explode('|', $decrypted);

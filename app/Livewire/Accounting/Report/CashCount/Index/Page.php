@@ -12,7 +12,7 @@ class Page extends Component
         $this->redirect(Form::class);
     }
 
-    public function render()
+    public function render(): \Illuminate\View\View
     {
         return view('livewire.accounting.report.cash-count.index.page');
     }
