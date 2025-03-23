@@ -1,7 +1,7 @@
 <?php
 
 test('example', function () {
-    $response = $this->get('/');
+    $response = $this->get('/events/');
 
     $response->assertStatus(200);
 });

@@ -6,6 +6,7 @@ use App\Models\Accounting\Transaction;
 use App\Models\Event\Event;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
@@ -37,6 +38,8 @@ use Illuminate\Support\Carbon;
  */
 class MemberTransaction extends Model
 {
+    use HasFactory;
+
     protected $guarded = [];
 
     public function member(): BelongsTo

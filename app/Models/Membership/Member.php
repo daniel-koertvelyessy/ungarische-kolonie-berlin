@@ -124,7 +124,7 @@ class Member extends Model
             ->count();
     }
 
-    public static function Applicants()
+    public static function Applicants(): \Illuminate\Database\Eloquent\Collection
     {
         return Member::query()->whereIn('type', [MemberType::AP->value])
             ->get();
@@ -147,9 +147,10 @@ class Member extends Model
         return false;
     }
 
-    public function transactions(): hasMany
+    public function transactions(): \Illuminate\Database\Eloquent\Relations\HasManyThrough|\Illuminate\Database\Eloquent\Builder
     {
-        return $this->hasMany(Transaction::class);
+//        return $this->hasMany(Transaction::class);
+        return $this->hasManyThrough(Transaction::class, MemberTransaction::class, 'member_id', 'id', 'id', 'transaction_id');
     }
 
     public function feeStatus(): array
