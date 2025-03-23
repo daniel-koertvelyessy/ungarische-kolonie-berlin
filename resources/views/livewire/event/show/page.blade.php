@@ -9,7 +9,6 @@
     <flux:heading class="lg:mb-9 lg:flex hidden">{{ __('event.show.page.title') }}</flux:heading>
     <flux:subheading size="xl">{{ $form->name ?? $form->title[app()->getLocale()] }}</flux:subheading>
 
-
     <flux:tab.group class="mt-3">
         <flux:tabs wire:model="selectedTab">
             <flux:tab name="event-show-dates"

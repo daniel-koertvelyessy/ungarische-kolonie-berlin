@@ -92,6 +92,10 @@ class EventAssignment extends Model
 
     public function getDueString(): string
     {
+        if ($this->due_at === null) {
+            return '-';
+        }
+
         return $this->due_at->isPast() ? $this->due_at->format('Y-m-d') : $this->due_at->diffForHumans();
 
     }

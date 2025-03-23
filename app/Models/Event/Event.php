@@ -90,6 +90,7 @@ class Event extends Model
     ];
 
     protected $casts = [
+        'name' => 'string',
         'title' => 'array',
         'excerpt' => 'array',
         'slug' => 'array',

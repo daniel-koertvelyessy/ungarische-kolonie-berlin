@@ -74,5 +74,5 @@
                      type="submit"
         >{{ __('event.visitor-modal.btn.submit') }}</flux:button>
     </form>
-    @dump($form)
+{{--    @dump($form)--}}
 </div>

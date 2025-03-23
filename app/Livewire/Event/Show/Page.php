@@ -47,6 +47,7 @@ class Page extends Component
     protected $listeners = [
         'updated-payments' => 'payments',
         'event-visitor-added' => 'visitors',
+        'new-venue-created' => 'venues',
     ];
 
     #[Computed]
@@ -115,8 +116,7 @@ class Page extends Component
     public function addVisitor(): void
     {
         $this->checkPrivilege(Event::class);
-        Flux::modal('add-new-visitor')
-            ->show();
+        $this->dispatch('modal-show', ['name' => 'add-new-visitor']);
     }
 
     public function updateEventData(): void
@@ -129,11 +129,7 @@ class Page extends Component
     public function storeImage($file): void
     {
         if ($this->form->storeImage($file)) {
-            Flux::toast(
-                text: __('event.store_image.success.content'),
-                heading: __('event.store_image.success.title'),
-                variant: 'success',
-            );
+            $this->dispatch('flux-toast', ['variant' => 'success']);
         } else {
             dd('fehler');
         }
@@ -150,8 +146,6 @@ class Page extends Component
                 heading: __('event.delete_image.success.title'),
                 variant: 'success',
             );
-        } else {
-            dd('fehler');
         }
     }
 
@@ -204,10 +198,9 @@ class Page extends Component
         $this->checkPrivilege(Event::class);
         if (EventAssignment::find($assignmentId)->delete()) {
             Flux::toast(
-                text: __('assignment.deletion_success.msg'),
-                heading: __('assignment.deletion_success.header'),
-                variant: 'success',
+                text: __('assignment.deletion_success.msg'), heading: __('assignment.deletion_success.header'), variant: 'success',
             );
+
         }
     }
 

@@ -2,7 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Enums\AssignmentStatus;
+use App\Models\Event\Event;
 use App\Models\EventAssignment;
+use App\Models\Membership\Member;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,8 +20,15 @@ class EventAssignmentFactory extends Factory
      */
     public function definition(): array
     {
+        $user = \App\Models\User::factory()->create();
+        $member = Member::factory()->create(['user_id' => $user->id]);
+
         return [
-            //
+            'task' => fake()->text(),
+            'status' => fake()->randomElement(AssignmentStatus::toArray()),
+            'event_id' => Event::factory()->create()->id,
+            'member_id' => $member->id,
+            'user_id' => $user->id,
         ];
     }
 }

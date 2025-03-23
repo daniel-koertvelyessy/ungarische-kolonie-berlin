@@ -90,7 +90,7 @@ class Applicants extends Component
     #[Computed]
     public function applicants(): LengthAwarePaginator
     {
-
+        /** @phpstan-ignore-next-line */
         $this->allApplicants = Member::Applicants()->map(fn ($member) => (string) $member->id)->toArray();
 
         $applicantList = \App\Models\Membership\Member::query()
