@@ -10,10 +10,10 @@
 | need to change it using the "pest()" function to bind a different classes or traits.
 |
 */
-
-pest()->extend(Tests\TestCase::class)
-    ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
-    ->in('Feature');
+//
+// pest()->extend(Tests\TestCase::class)
+//    ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
+//    ->in('Feature');
 
 /*
 |--------------------------------------------------------------------------
@@ -45,3 +45,28 @@ function something()
 {
     // ..
 }
+
+pest()->extend(Tests\TestCase::class)
+    ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
+    ->in('Feature');
+/*
+function assertTranslationsRendered($componentClass, $langFile, $prefix): void
+{
+    $user = \App\Models\User::factory()
+        ->create(['is_admin' => true]);
+    test()->actingAs($user);
+
+    $component = Livewire::test($componentClass);
+
+    $keys = [];
+    foreach (\App\Enums\Locale::cases() as $locale) {
+        $translations = require "lang/{$locale->value}/{$langFile}";
+        $keys = array_merge($keys, array_keys(Arr::dot($translations, $prefix)));
+    }
+
+    foreach ($keys as $key) {
+        if ($key !== $prefix) {
+            $component->assertDontSee($key);
+        }
+    }
+}*/

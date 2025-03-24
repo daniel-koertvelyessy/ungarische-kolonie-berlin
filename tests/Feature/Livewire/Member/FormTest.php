@@ -4,7 +4,9 @@ use App\Livewire\Member\Create\Form;
 use App\Models\Membership\Member;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Arr;
 use Livewire\Livewire;
+use Tests\Traits\ValidatesTranslations;
 
 // uses(RefreshDatabase::class);
 
@@ -182,4 +184,26 @@ test('store creates member without application with authorization', function () 
             $payload['slots']['heading'] === __('members.apply.submission.success.head');
     });
     $component->assertRedirect(route('members.show', ['member' => $member]));
+});
+
+
+test('all translations are rendered', function () {
+
+    $user = \App\Models\User::factory()
+        ->create(['is_admin' => true]);
+    $this->actingAs($user);
+
+    $keys = [];
+    $prefix = 'members.';
+    foreach (\App\Enums\Locale::cases() as $locale) {
+        $translations = require "lang/{$locale->value}/members.php";
+        $keys = array_merge($keys, array_keys(Arr::dot($translations, $prefix)));
+    }
+    $component = Livewire::test(Form::class);
+
+    foreach ($keys as $key) {
+        if ($key !== $prefix) {
+            $component->assertDontSee($key);
+        }
+    }
 });

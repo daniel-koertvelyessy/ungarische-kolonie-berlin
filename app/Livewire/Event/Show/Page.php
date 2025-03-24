@@ -103,6 +103,8 @@ class Page extends Component
 
     public function mount(Event $event): void
     {
+
+        $this->event = $event;
         $this->event_id = $event->id;
         $this->form->setEvent($event);
         $this->selectedTab = $this->getSelectedTab();
@@ -247,6 +249,7 @@ class Page extends Component
 
     public function render(): \Illuminate\View\View
     {
-        return view('livewire.event.show.page');
+        return view('livewire.event.show.page')
+            ->title('Veranstaltung bearbeiten: '.$this->event->name);
     }
 }

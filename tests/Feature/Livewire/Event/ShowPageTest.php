@@ -6,6 +6,7 @@ use App\Models\Membership\Member;
 use App\Models\User;
 use App\Models\Venue;
 use Illuminate\Http\UploadedFile;
+use Tests\Traits\TranslationTestTrait;
 
 test('event show page component renders correctly', function () {
 
@@ -153,3 +154,42 @@ test('venue creation updates event show page venues', function () {
     $createComponent->call('storeVenue'); // Triggers new-venue-created
     $showComponent->assertSet('venues', Venue::select('id', 'name')->get());
 });
+
+
+test('all translations are rendered', function () {
+
+    $user = \App\Models\User::factory()
+        ->create(['is_admin' => true]);
+    $this->actingAs($user);
+
+    $member = Member::factory()->create(['user_id' => $user->id]);
+
+    $event = \App\Models\Event\Event::factory()->create();
+
+    $keys = [];
+    $prefix = 'event.';
+    foreach (\App\Enums\Locale::cases() as $locale) {
+        $translations = require "lang/{$locale->value}/event.php";
+        $keys = array_merge($keys, array_keys(Arr::dot($translations, $prefix)));
+    }
+
+    $component = Livewire::test(Page::class, ['event' => $event]);
+
+    foreach ($keys as $key) {
+        if ($key !== $prefix) {
+            $component->assertDontSee($key);
+        }
+    }
+});
+//
+//test('try trait test topic', function ()
+//{
+//    $user = \App\Models\User::factory()
+//        ->create(['is_admin' => true]);
+//    $this->actingAs($user);
+//
+//    $member = Member::factory()->create(['user_id' => $user->id]);
+//    $event = \App\Models\Event\Event::factory()->create();
+//
+//    $this->assertTranslationsRendered(Page::class, 'event.php','event.',$event->id);
+//});

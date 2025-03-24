@@ -10,9 +10,11 @@
     <meta name="csrf-token"
           content="{{ csrf_token() }}"
     >
-
-    <title>{{$title??'Magyar Kolónia Berlin e.V.'}}</title>
-
+@if(isset($title))
+    <title>{{$title . ' @ Magyar Kolónia Berlin e.V.'}}</title>
+    @else
+    <title>Portal @ Magyar Kolónia Berlin e.V.</title>
+@endif
     <!-- Fonts -->
     <link rel="preconnect"
           href="https://fonts.bunny.net"

@@ -5,6 +5,7 @@ namespace Database\Factories\Event;
 use App\Enums\EventStatus;
 use App\Models\Event\Event;
 use App\Models\Venue;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,7 +22,7 @@ class EventFactory extends Factory
     {
         $inter = fake()->numberBetween(0, 5);
 
-        $event_date = now();
+        $event_date = Carbon::today();
         $start = $event_date->format('H:i');
         $end = $event_date->addHours($inter)->format('H:i');
 

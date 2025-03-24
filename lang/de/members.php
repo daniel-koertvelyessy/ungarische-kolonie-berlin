@@ -28,6 +28,18 @@ return [
     'apply.fee.text' => 'Ich wurde über den monatlichen Mitgliedsbeitrag von :sum EUR informiert und verpflichte mich zur Zahlung.',
     'apply.discount.reason.label' => 'Grund für die Ermäßigung',
 
+    'apply.full_fee.label' => 'A fizető tagoknak :sum EUR havi díjat kell fizetniük.',
+    'apply.discounted_fee.label' => 'A :kor és annál idősebb tagok esetén :sum EUR havi díjat kell fizetni.',
+    'apply.free_fee.label' => 'Az éven felüli tagok mentesülnek a tagdíj fizetése alól.',
+    'apply.discount.reason.label' => 'A mentesség oka',
+
+    'apply.fee.label' => 'Bezahlende Mitglieder müssen monatlich einen Betrag von :sum EUR zahlen. Mitglieder über 75 Jahre sind von der Beitragspflicht befreit.',
+    'apply.email.none' => 'Ich habe keine E-Mail-Adresse!',
+    'apply.email.without.text' => 'Wenn Sie keine E-Mail-Adresse haben, können Sie dieses Formular ausdrucken, unterschreiben und an die folgende Adresse per Post senden:',
+    'apply.email.benefits' => 'Mitglieder mit einer E-Mail-Adresse erhalten automatisch Benachrichtigungen über Veranstaltungen und haben Zugang zum Schwarzen Brett.',
+    'apply.checkAndSubmit' => 'Informationen überprüfen und Formular absenden',
+    'apply.printAndSubmit' => 'Formular drucken',
+
     'birth_date' => 'Geburtsdatum',
     'birth_place' => 'Geburtsort',
     'name' => 'Nachname',
@@ -105,6 +117,12 @@ return [
     'register.checkCapital' => 'Mindestens ein Großbuchstabe',
     'register.checkNumbers' => 'Mindestens eine Zahl',
     'register.checkSpecial' => 'Mindestens ein Sonderzeichen (!"$§%(){}[])',
+
+    'section.person' => 'Person',
+    'section.address' => 'Anschrift',
+    'section.phone' => 'Telefon',
+    'section.fees' => 'Beitrag',
+    'section.email' => 'E-Mail adresse',
 
     '' => '',
 
