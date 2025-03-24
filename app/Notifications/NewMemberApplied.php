@@ -10,16 +10,10 @@ class NewMemberApplied extends Notification // implements ShouldQueue
 {
     // use Queueable;
 
-    protected $member;
-
     /**
      * Create a new notification instance.
      */
-    public function __construct(Member $member)
-    {
-
-        $this->member = $member;
-    }
+    public function __construct(public Member $member) {}
 
     /**
      * Get the notification's delivery channels.
