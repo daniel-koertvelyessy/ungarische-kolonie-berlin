@@ -124,6 +124,22 @@ return [
     'section.fees' => 'Beitrag',
     'section.email' => 'E-Mail adresse',
 
+    'appliance_received.mail.subject' => 'Wir haben Ihren Mitgliedsantrag erhalten!',
+    'appliance_received.mail.greeting' => 'Hallo :name',
+    'appliance_received.mail.text' => 'Wir haben Ihren Mitgliedsantrag erhalten und danken Ihnen für Ihr Interesse an unserer Gemeinschaft. Ihr Antrag wird so schnell wie möglich bearbeitet, und wir werden uns bald mit Ihnen in Verbindung setzen.',
+    'widgets.applicants.title' => 'Neue Mitgliedsanträge',
+    'widgets.applicants.empty_search' => 'Kein passender Eintrag',
+    'widgets.applicants.empty_list' => 'Keine offenen Anträge',
+    'widgets.applicants.confirm.deletion.title' => 'Erfolg',
+    'widgets.applicants.confirm.deletion.text' => 'Die ausgewählten Anträge wurden gelöscht',
+    'widgets.applicants.options.label' => 'Optionen',
+    'widgets.applicants.options.deletion.confirm' => 'Bitte bestätigen Sie die Löschung der ausgewählten Anträge!',
+    'widgets.applicants.options.edit.btn.label' => 'Bearbeiten',
+    'widgets.applicants.options.deletion.btn.label' => 'Löschen',
+    'widgets.applicants.tab.header.from' => 'Datum',
+    'widgets.applicants.tab.header.name' => 'Name',
+    //    'widgets.applicants.search.label' => 'Suche',
+
     '' => '',
 
 ];

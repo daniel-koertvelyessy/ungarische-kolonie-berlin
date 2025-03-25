@@ -3,6 +3,7 @@
 namespace App\Livewire\Event\Show;
 
 use App\Enums\AssignmentStatus;
+use App\Enums\EventStatus;
 use App\Livewire\Forms\Event\AssignmentForm;
 use App\Livewire\Forms\Event\EventForm;
 use App\Livewire\Forms\Event\EventTimelineForm;
@@ -247,9 +248,51 @@ class Page extends Component
 
     public function sendAssignmentNotification(int $assignmentId) {}
 
+    public function publishEvent(): void
+    {
+        $this->checkPrivilege(Event::class);
+
+        $this->form->status = EventStatus::PUBLISHED->value;
+
+        $this->form->update();
+
+        Flux::toast(
+            text: __('event.section.published.toast_success.msg'),
+            heading: __('timeline.deletion_success.header'),
+            variant: 'success',
+        );
+    }
+
+    public function resetPublication(): void
+    {
+        $this->checkPrivilege(Event::class);
+
+        $this->form->status = EventStatus::RETRACTED->value;
+
+        $this->form->update();
+
+        Flux::toast(text: __('post.form.toasts.msg.post_retracted'), heading: __('post.form.toasts.heading.success'), duration: 3000, variant: 'warning');
+    }
+
+    public function sendPublicationNotification(): void
+    {
+
+        $mailingService = app(\App\Services\MailingService::class);
+
+        $mailingService->sendNotificationsToSubscribers(
+            'events',
+            $this->event,
+            __('event.notification_mail.subject'),
+            'emails.new_event_notification',
+            []
+        );
+        Flux::toast(text: __('post.form.toasts.notification_sent_success'), heading: __('post.form.toasts.heading.success'), duration: 8000, variant: 'success');
+
+    }
+
     public function render(): \Illuminate\View\View
     {
         return view('livewire.event.show.page')
-            ->title('Veranstaltung bearbeiten: '.$this->event->name);
+            ->title(__('event.show.title').$this->event->name);
     }
 }

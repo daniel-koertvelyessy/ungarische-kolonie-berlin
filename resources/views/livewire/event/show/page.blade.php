@@ -92,18 +92,67 @@
                             </div>
                         </flux:field>
 
-                        <flux:select wire:model="form.status"
-                                     variant="listbox"
-                                     placeholder="Choose industry..."
-                                     label="{{__('event.form.status')}}"
-                        >
-                            @foreach(EventStatus::cases() as $status)
-                                <flux:select.option value="{{ $status }}">
-                                    <flux:badge color="{{ EventStatus::color($status->value) }}">{{ EventStatus::value($status->value) }}</flux:badge>
-                                </flux:select.option>
-                            @endforeach
-                        </flux:select>
+                        @if($form->status === EventStatus::PUBLISHED->value)
+                            <div class="rounded-md bg-green-50 dark:bg-zinc-900 dark:border-lime-700 dark:border p-4">
+                                <div class="flex">
+                                    <div class="shrink-0">
+                                        <svg class="size-5 text-green-400 dark:text-lime-600"
+                                             viewBox="0 0 20 20"
+                                             fill="currentColor"
+                                             aria-hidden="true"
+                                             data-slot="icon"
+                                        >
+                                            <path fill-rule="evenodd"
+                                                  d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z"
+                                                  clip-rule="evenodd"
+                                            />
+                                        </svg>
+                                    </div>
+                                    <div class="ml-3">
+                                        <h3 class="text-sm font-medium text-green-800 dark:text-zinc-200">{{ __('event.show.tab.main.published.header') }}</h3>
+                                        <div class="mt-2 text-sm text-green-700 dark:text-zinc-100">
+                                            <p>{{ __('event.show.tab.main.published.status_msg') }}</p>
 
+                                        </div>
+                                        <div class="mt-4">
+                                            <div class="-mx-2 -my-1.5 flex gap-3">
+                                                <flux:button size="sm"
+                                                             icon-trailing="arrow-uturn-left"
+                                                             variant="ghost"
+                                                             wire:click="resetPublication"
+                                                             wire:confirm="{{ __('event.show.tab.main.published.confirmation_msg') }}"
+                                                >{{ __('event.show.tab.main.published.btn_reset') }}</flux:button>
+                                                <flux:button size="sm"
+                                                             icon-trailing="megaphone"
+                                                             variant="filled"
+                                                             wire:click="sendPublicationNotification"
+                                                >{{ __('event.show.tab.main.published.btn_sendMails') }}</flux:button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @else
+                            <div class="flex items-end space-x-2">
+                                <flux:select wire:model="form.status"
+                                             variant="listbox"
+                                             placeholder="Choose industry..."
+                                             label="{{__('event.form.status')}}"
+                                >
+                                    @foreach(EventStatus::cases() as $status)
+                                        <flux:select.option value="{{ $status }}">
+                                            <flux:badge color="{{ EventStatus::color($status->value) }}">{{ EventStatus::value($status->value) }}</flux:badge>
+                                        </flux:select.option>
+                                    @endforeach
+                                </flux:select>
+                                <flux:button variant="primary"
+                                             icon-trailing="cloud-arrow-up"
+                                             wire:click="publishEvent"
+                                >{{ __('event.show.section.published.btn_publish_now') }}</flux:button>
+                            </div>
+
+                        @endif
 
                     </section>
 
@@ -142,7 +191,7 @@
                         @if($form->event->image)
                             <img src="{{ asset('storage/images/'.$form->event->image) }}"
                                  alt=""
-                                 class="my-3 lg:my-9 rounded-md shadow-sm"
+                                 class="w-1/3 my-3 lg:my-9 rounded-md shadow-sm"
                             >
                             @can('update',\App\Models\Event\Event::class)
                                 <flux:button size="sm"

@@ -15,7 +15,7 @@ class LanguageSwitcher extends Component
         $this->currentLocale = App::getLocale();
     }
 
-    public function switchLanguage(string $locale): \Illuminate\Http\RedirectResponse
+    public function switchLanguage(string $locale): \Illuminate\Foundation\Application|\Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
     {
         if (! in_array($locale, ['en', 'de', 'hu'])) {
             abort(404);

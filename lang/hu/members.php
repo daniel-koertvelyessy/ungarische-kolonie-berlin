@@ -140,6 +140,7 @@ return [
     'widgets.applicants.options.deletion.btn.label' => 'Törlés',
     'widgets.applicants.tab.header.from' => 'Mikor',
     'widgets.applicants.tab.header.name' => 'Név',
+    //    'widgets.applicants.search.label' => 'Keresés',
 
     'show.created_at' => 'Létrehozva',
     'show.updated_at' => 'Utoljára szerkesztve:',
@@ -154,7 +155,6 @@ return [
     'show.select_user' => 'Felhasználó kiválasztása',
     'show.empty_user_list' => 'Nincsen felhasználó ???',
 
-
     'register.title' => 'Most adja meg a jelszavát',
     'register.password_requirements' => 'A biztonságos jelszóhoz a következő követelményeknek kellene megfelelni:',
     'register.password' => 'Jelszó',
@@ -165,10 +165,6 @@ return [
     'register.checkNumbers' => 'legalább egy szám',
     'register.checkSpecial' => 'legalább egy speciális karakter !"$§%(){}[]',
 
-
     '' => '',
-
-
-
 
 ];

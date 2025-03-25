@@ -12,7 +12,7 @@ return [
     'status' => 'Status',
     'make_ics' => 'Kalendereintrag erstellen',
     'buy_tickets' => 'Jetzt Karten kaufen',
-    'show.title' => 'Übersicht Veranstaltung',
+    'show.title' => 'Veranstaltung bearbeiten - ',
 
     'tabs.nav.dates' => 'Daten',
     'tabs.nav.texts' => 'Texte',
@@ -120,9 +120,32 @@ return [
     'timeline.performer' => 'Künstler',
 
     'timeline.' => 'Rückblick',
-    'timeline.' => '',
-    'timeline.' => '',
-    'timeline.' => '',
+
+    'show.section.published.btn_publish_now' => 'Veranstaltung veröffentlichen',
+
+    'section.published.toast_success.msg' => 'Die Veranstalung wurde erfolgreich veröffentlicht.',
+    'section.published.toast_success.msg' => 'Die Veranstalung wurde erfolgreich veröffentlicht.',
+    'section.published.toast_success.heading' => 'Erfolg',
+    'show.tab.main.published.confirmation_msg' => 'Bitte die Absage der Veranstaltung bestätigen',
+    'show.tab.main.published.btn_reset' => 'Veranstaltung absagen',
+    'show.tab.main.published.btn_sendMails' => 'Rundmail versenden',
+    'show.tab.main.published.header' => 'Veranstaltung ist veröffentlicht',
+    'show.tab.main.published.status_msg' => '',
+
+    'notification_mail.subject' => 'Neue Veranstaltung auf unserer Webseite!',
+    'notification_mail.header_subscriber' => 'Neu erschienen: Eine Veranstaltung für Sie',
+    'notification_mail.header_member' => 'Neu erschienen: Eine Veranstaltung für Dich',
+    'notification_mail.content_member' => 'Tolle Neuigkeiten für Dich! Eine neue Veranstaltung wurde auf unserer Webseite veröffentlicht – wir freuen uns, wenn Du vorbeischaust!',
+    'notification_mail.content_subscriber' => 'Tolle Neuigkeiten für Sie! Eine neue Veranstaltung wurde auf unserer Webseite veröffentlicht – schauen Sie doch mal rein!',
+    'notification_mail.btn_link_label' => 'Mehr erfahren',
+    'notification_mail.btn_unsubscribe_link_label' => 'Sie erhalten diese E-Mail, weil Sie unsere Updates abonniert haben. Möchten Sie Ihre Einstellungen ändern oder sich abmelden? Klicken Sie hier:',
+    'notification_mail.content.excerpt.header' => 'Kurzbeschreibung',
+    'notification_mail.content.details.header' => 'Termin',
+    'notification_mail.content.details.event_date' => 'Datum',
+    'notification_mail.content.details.start_time' => 'Startzeit',
+    'notification_mail.content.details.venue' => 'Veranstaltungsort',
+    '' => '',
+    '' => '',
     '' => '',
 
 ];

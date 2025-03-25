@@ -56,4 +56,9 @@ class Venue extends Model
     {
         return $this->hasMany(Event::class);
     }
+
+    public function address(): string
+    {
+        return $this->name.' '.$this->address.' '.$this->postal_code.' '.$this->city;
+    }
 }
