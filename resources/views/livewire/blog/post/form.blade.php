@@ -22,9 +22,14 @@
 
                 <section class="grid grid-cols-1 gap-3 lg:grid-cols-2 lg:gap-9">
                     <section class="space-y-6">
-                        <flux:input wire:model="form.label"
-                                    label="{{ __('post.label') }}"
+
+
+                        <x-input-with-counter
+                            model="form.label"
+                            label="{{ __('post.label') }}"
+                            max-length="40"
                         />
+
                         <flux:separator text="Titel"/>
                         <flux:text size="lg">{{ __('post.create.title_explanation') }}</flux:text>
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
@@ -32,12 +37,12 @@
                             <x-input-with-counter
                                     model="form.title.de"
                                     label="{{ __('post.title_de') }}"
-                                    max-length="100"
+                                    max-length="60"
                             />
                             <x-input-with-counter
                                     model="form.title.hu"
                                     label="{{ __('post.title_hu') }}"
-                                    max-length="100"
+                                    max-length="60"
                             />
                         </div>
                         <flux:separator text="Slugs"/>

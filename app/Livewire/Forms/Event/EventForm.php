@@ -9,6 +9,7 @@ use App\Models\Event\Event;
 use App\Rules\UniqueJsonSlug;
 use Flux\Flux;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Validate;
@@ -55,6 +56,7 @@ class EventForm extends Form
 
     public function setEvent(Event $event): void
     {
+//        Log::debug('event object recieved in form: ', ['event' => $event->id]);
         $this->event = $event;
         $this->locale = session('locale') ?? app()->getLocale();
         $this->locales = Locale::cases();

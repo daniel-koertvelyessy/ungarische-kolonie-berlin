@@ -12,7 +12,7 @@ return [
     'status' => 'Status',
     'make_ics' => 'Kalendereintrag erstellen',
     'buy_tickets' => 'Jetzt Karten kaufen',
-    'show.title' => 'Veranstaltung bearbeiten - ',
+    'show.title' => 'Veranstaltung',
 
     'tabs.nav.dates' => 'Daten',
     'tabs.nav.texts' => 'Texte',
@@ -119,7 +119,11 @@ return [
     'timeline.place' => 'Ort',
     'timeline.performer' => 'Künstler',
 
-    'timeline.' => 'Rückblick',
+    'timeline.type' => 'Rückblick',
+    'show.timeline.empty.heading' => 'Noch kein Programm verfügbar',
+    'show.timeline.empty.message' => 'Der Programmablauf wurde noch nicht veröffentlicht. Tragen Sie sich gerne in unsere Mailingliste ein, um auf dem Laufenden zu bleiben.',
+    'show.timeline.heading' => 'Programmablauf',
+    'show.details.heading' => 'Übersicht',
 
     'show.section.published.btn_publish_now' => 'Veranstaltung veröffentlichen',
 
@@ -144,6 +148,7 @@ return [
     'notification_mail.content.details.event_date' => 'Datum',
     'notification_mail.content.details.start_time' => 'Startzeit',
     'notification_mail.content.details.venue' => 'Veranstaltungsort',
+
     '' => '',
     '' => '',
     '' => '',

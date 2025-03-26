@@ -4,9 +4,10 @@ use App\Livewire\Member\Create\Form;
 use App\Models\Membership\Member;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Arr;
 use Livewire\Livewire;
-use Tests\Traits\ValidatesTranslations;
+use Tests\Traits\TranslationTestTrait;
+
+uses(TranslationTestTrait::class);
 
 // uses(RefreshDatabase::class);
 
@@ -134,17 +135,6 @@ test('store creates member with application and sends notifications', function (
 
     Notification::assertSentTo($boardMemberFresh, \App\Notifications\NewMemberApplied::class);
 
-    /**
-     * , function ($notification, $channels) use ($boardMemberFresh, $member) {
-     * dump('NewMemberApplied sent - To ID:', $boardMemberFresh->id, 'Member ID:', 'Channels:', $channels, '$boardMemberFresh->id === $member->id', $boardMemberFresh->id === $member->id);
-     * return $boardMemberFresh->id != $member->id;
-     * }
-     *
-     * ,function ($notification, $channels) use ($member) {
-     * dump('ApplianceReceivedNotification sent - To ID:', $member->id, 'Member ID:', $notification->member->id, 'Channels:', $channels);
-     * return $notification->member->id === $member->id;
-     * }
-     */
     Notification::assertSentTo($member, \App\Notifications\ApplianceReceivedNotification::class);
 
     $component->assertDispatched('toast-show', function ($event, $payload) {
@@ -186,24 +176,17 @@ test('store creates member without application with authorization', function () 
     $component->assertRedirect(route('members.show', ['member' => $member]));
 });
 
-
 test('all translations are rendered', function () {
-
     $user = \App\Models\User::factory()
         ->create(['is_admin' => true]);
     $this->actingAs($user);
 
-    $keys = [];
-    $prefix = 'members.';
-    foreach (\App\Enums\Locale::cases() as $locale) {
-        $translations = require "lang/{$locale->value}/members.php";
-        $keys = array_merge($keys, array_keys(Arr::dot($translations, $prefix)));
-    }
-    $component = Livewire::test(Form::class);
+    $member = Member::factory()->create(['user_id' => $user->id]);
 
-    foreach ($keys as $key) {
-        if ($key !== $prefix) {
-            $component->assertDontSee($key);
-        }
-    }
+    $this->assertTranslationsRendered(
+        Form::class,
+        [],
+        'members',
+        'members.',
+    );
 });

@@ -84,6 +84,7 @@
     <h1 class="text-xl mb-3"> {{ $event->title[$locale??'de'] }}</h1>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-6">
+
         <article>
             <flux:text class="my-3 prose prose-emerald dark:prose-invert">{!! $event->description[$locale??'de']  !!}</flux:text>
 
@@ -95,11 +96,11 @@
                 >
             @endif
 
-
         </article>
+
         <aside class="space-y-6">
             <flux:card>
-                <h3 class="text-xl font-bold text-zinc-900 dark:text-emerald-400">Übersicht</h3>
+                <h3 class="text-xl font-bold text-zinc-900 dark:text-emerald-400">{{ __('event.show.details.heading') }}</h3>
 
                 <dl class="divide-y divide-zinc-100">
 
@@ -187,10 +188,10 @@
 
             </flux:card>
 
-            @if($event->timelines)
-                <flux:card>
-                    <h3 class="text-xl font-bold text-zinc-900 dark:text-emerald-400">Programmablauf</h3>
 
+            <flux:card>
+                <h3 class="text-xl font-bold text-zinc-900 dark:text-emerald-400">{{ __('event.show.timeline.heading') }}</h3>
+                @if($event->timelines->count()>0)
                     <flux:table>
                         <flux:table.columns>
                             <flux:table.column class="hidden lg:table-cell">{{ __('event.timeline.title') }}</flux:table.column>
@@ -266,9 +267,16 @@
 
                         </flux:table.rows>
                     </flux:table>
+                @else
 
-                </flux:card>
-            @endif
+                    <flux:callout color="emerald" class="my-9">
+                        <flux:callout.heading icon="newspaper">{{ __('event.show.timeline.empty.heading') }}</flux:callout.heading>
+                        <flux:callout.text>{{ __('event.show.timeline.empty.message') }}</flux:callout.text>
+                    </flux:callout>
+
+                @endif
+            </flux:card>
+
         </aside>
     </div>
 

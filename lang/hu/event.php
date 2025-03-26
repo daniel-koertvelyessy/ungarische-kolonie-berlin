@@ -26,6 +26,12 @@ return [
     'visitor-table.header.is_subscriber' => 'Előfizető',
 
     'show.title' => 'Esemény áttekintése',
+    'show.page.title' => 'Esemény szerkesztése :name',
+
+    'show.timeline.empty.heading' => 'Még nincs elérhető program',
+    'show.timeline.empty.message' => 'A program menete még nem került közzétételre. Iratkozzon fel hírlevelünkre, hogy értesüljön a frissítésekről.',
+    'show.timeline.heading' => 'Program menete',
+    'show.details.heading' => 'Esemény részletek',
 
     'subscribe' => 'Érdekel?',
     'subscription.title' => 'Esemény követése',
@@ -70,8 +76,6 @@ return [
     'visitor.name' => 'Látogató',
     'create.slug.notice' => 'A slug linkként jön létre két nyelven. Ezt utólag nem lehet megváltoztatni!',
     'create.page.title' => 'Új esemény létrehozása',
-
-    'show.page.title' => 'Esemény szerkesztése :name',
 
     'form.event_date' => 'Dátum',
     'form.start_time' => 'Kezdés',

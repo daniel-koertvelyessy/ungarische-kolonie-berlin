@@ -89,9 +89,9 @@ class Form extends Component
         $this->checkPrivilege(Post::class);
 
         $this->validate([
-            'form.label' => 'required|string|max:100',
-            'form.title.de' => 'required|string|max:100',
-            'form.title.hu' => 'required|string|max:100',
+            'form.label' => 'required|string|max:50',
+            'form.title.de' => 'required|string|max:60',
+            'form.title.hu' => 'required|string|max:60',
             'form.slug.de' => ['required', 'string', 'max:255', Rule::unique('posts', 'slug->de')->ignore($this->form->id)],
             'form.slug.hu' => ['required', 'string', 'max:255', Rule::unique('posts', 'slug->hu')->ignore($this->form->id)],
             'form.body.de' => 'nullable|string',
@@ -208,6 +208,7 @@ class Form extends Component
 
     public function sendPublicationNotification(): void
     {
+        $this->checkPrivilege(Post::class);
 
         $mailingService = app(MailingService::class);
 

@@ -16,6 +16,7 @@ use App\Models\Event\EventTransaction;
 use App\Models\Event\EventVisitor;
 use App\Models\EventAssignment;
 use App\Models\EventTimeline;
+use App\Models\User;
 use App\Models\Venue;
 use Carbon\Carbon;
 use Flux\Flux;
@@ -102,7 +103,7 @@ class Page extends Component
             ->paginate(10);
     }
 
-    public function mount(Event $event): void
+    public function mount(Event $event, ?User $user): void
     {
 
         $this->event = $event;
@@ -293,6 +294,6 @@ class Page extends Component
     public function render(): \Illuminate\View\View
     {
         return view('livewire.event.show.page')
-            ->title(__('event.show.title').$this->event->name);
+            ->title(__('event.show.title').' '.$this->event->name);
     }
 }

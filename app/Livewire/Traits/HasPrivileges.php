@@ -19,7 +19,7 @@ trait HasPrivileges
             return true;
         } catch (AuthorizationException $e) {
             Flux::toast(
-                text: 'Sie haben keine Berechtigungen zur Erstellung von '.(is_string($resource) ? $resource : get_class($resource)).'. => '.$e->getMessage(),
+                text: 'You have no persmission to access '.(is_string($resource) ? $resource : get_class($resource)).'. => '.$e->getMessage(),
                 heading: 'Forbidden',
                 variant: 'danger',
             );
