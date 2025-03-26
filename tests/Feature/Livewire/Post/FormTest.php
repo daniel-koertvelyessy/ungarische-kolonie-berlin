@@ -126,8 +126,6 @@ describe('Blog Post Form - Image Uploads', function () {
         $post = Post::latest()
             ->first();
 
-        $imageList = $post->images;
-
         $this->assertCount(2, $post->images);
         $this->assertEquals('First Image Caption', $post->images[0]->caption['de']);
         $this->assertEquals('Első kép felirata', $post->images[0]->caption['hu']);
