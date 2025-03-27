@@ -35,22 +35,32 @@
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
 
                             <x-input-with-counter
-                                    model="form.title.de"
-                                    label="{{ __('post.title_de') }}"
-                                    max-length="60"
+                                model="form.title.de"
+                                label="{{ __('post.title_de') }}"
+                                max-length="60"
                             />
                             <x-input-with-counter
-                                    model="form.title.hu"
-                                    label="{{ __('post.title_hu') }}"
-                                    max-length="60"
+                                model="form.title.hu"
+                                label="{{ __('post.title_hu') }}"
+                                max-length="60"
                             />
                         </div>
                         <flux:separator text="Slugs"/>
-                        <flux:text size="lg">{{ __('post.create.slug_explanation') }}</flux:text>
-                        <flux:button wire:click="makeSlugs"
-                                     size="sm"
-                        >{{ __('post.show.tab.main.btn_make_slug') }}
-                        </flux:button>
+
+                        <flux:callout icon="exclamation-triangle"
+                                      variant="warning"
+                        >
+                            <flux:callout.heading>{{ __('post.show.tab.main.btn_make_slug') }}</flux:callout.heading>
+                            <flux:callout.text>{{ __('post.create.slug_explanation') }}</flux:callout.text>
+                            <x-slot name="actions">
+                                <flux:button wire:click="makeSlugs"
+                                             variant="filled"
+                                             size="sm"
+                                >{{ __('post.show.tab.main.btn_make_slug') }}</flux:button>
+                            </x-slot>
+                        </flux:callout>
+
+
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
                             <flux:input wire:model="form.slug.de"
                                         label="{{ __('post.slug_de') }}"
@@ -61,6 +71,7 @@
                         </div>
 
                     </section>
+
                     <section class="space-y-6">
 
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
@@ -81,50 +92,53 @@
 
                         </div>
 
+                        @if($editPost)
+                            @if($form->event_id === null)
+
+                                <livewire:blog.post.event-selector :post="$post"/>
+
+                            @else
+
+                                <flux:callout icon="calendar-days">
+                                    <flux:callout.heading>{{ __('post.show.tab.main.attached_event.header') }}</flux:callout.heading>
+                                    <flux:callout.text>{{ __('post.show.tab.main.attached_event.status_msg',['title' => \App\Models\Event\Event::findOrFail($form->event_id)->name ] ) }}</flux:callout.text>
+                                    <x-slot name="actions">
+                                        <flux:button size="sm"
+                                                     icon-trailing="arrow-uturn-left"
+                                                     variant="ghost"
+                                                     wire:click="detachFromEvent"
+                                                     wire:confirm="{{ __('post.show.tab.main.detach_from_event.confirmation_msg') }}"
+                                        >{{ __('post.show.tab.main.detach.btn_reset') }}</flux:button>
+                                    </x-slot>
+                                </flux:callout>
+
+                            @endif
+
+                        @endif
+
                         @if($form->published_at)
 
-                            <div class="rounded-md bg-green-50 dark:bg-zinc-900 dark:border-lime-700 dark:border p-4">
-                                <div class="flex">
-                                    <div class="shrink-0">
-                                        <svg class="size-5 text-green-400 dark:text-lime-600"
-                                             viewBox="0 0 20 20"
-                                             fill="currentColor"
-                                             aria-hidden="true"
-                                             data-slot="icon"
-                                        >
-                                            <path fill-rule="evenodd"
-                                                  d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z"
-                                                  clip-rule="evenodd"
-                                            />
-                                        </svg>
-                                    </div>
-                                    <div class="ml-3">
-                                        <h3 class="text-sm font-medium text-green-800 dark:text-zinc-200">{{ __('post.show.tab.main.published.header') }}</h3>
-                                        <div class="mt-2 text-sm text-green-700 dark:text-zinc-100">
-                                            <p>{{ __('post.show.tab.main.published.status_msg', ['datum' => $form->published_at->locale($locale)->isoFormat('LLLL')]) }}</p>
+                            <flux:callout icon="check"
+                                          variant="success"
+                            >
+                                <flux:callout.heading>{{ __('post.show.tab.main.published.header') }}</flux:callout.heading>
+                                <flux:callout.text>{{ __('post.show.tab.main.published.status_msg', ['datum' => \Carbon\Carbon::createFromDate($form->published_at)->locale($locale)->isoFormat('LLLL')] ) }}</flux:callout.text>
+                                <x-slot name="actions">
+                                    <flux:button size="sm"
+                                                 icon-trailing="arrow-uturn-left"
+                                                 variant="ghost"
+                                                 wire:click="resetPublication"
+                                                 wire:confirm="{{ __('post.show.tab.main.published.confirmation_msg') }}"
+                                    >{{ __('post.show.tab.main.published.btn_reset') }}</flux:button>
+                                    <flux:button size="sm"
+                                                 icon-trailing="megaphone"
+                                                 variant="filled"
+                                                 wire:click="sendPublicationNotification"
+                                    >{{ __('post.show.tab.main.published.btn_sendMails') }}</flux:button>
+                                </x-slot>
+                            </flux:callout>
 
-                                        </div>
-                                        <div class="mt-4">
-                                            <div class="-mx-2 -my-1.5 flex gap-3">
-                                                <flux:button size="sm"
-                                                             icon-trailing="arrow-uturn-left"
-                                                             variant="ghost"
-                                                             wire:click="resetPublication"
-                                                             wire:confirm="{{ __('post.show.tab.main.published.confirmation_msg') }}"
-                                                >{{ __('post.show.tab.main.published.btn_reset') }}</flux:button>
-                                                <flux:button size="sm"
-                                                             icon-trailing="megaphone"
-                                                             variant="filled"
-                                                             wire:click="sendPublicationNotification"
-                                                >{{ __('post.show.tab.main.published.btn_sendMails') }}</flux:button>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        @else
+                        @elseif($form->id)
 
                             <flux:button variant="primary"
                                          icon-trailing="cloud-arrow-up"
@@ -143,6 +157,7 @@
                     </section>
                 </section>
             </flux:tab.panel>
+
             <flux:tab.panel name="post-create-text-panel">
                 <flux:tab.group class="mb-6">
                     <flux:tabs wire:model="tabsBody"
@@ -270,10 +285,10 @@
                     <section class="space-y-6">
                         <flux:text size="lg">{{ __('post.images.upload_explanation') }}</flux:text>
                         <flux:input.file
-                                wire:model="newImages"
-                                multiple
-                                accept="image/*"
-                                label="{{ __('post.images.upload') }}"
+                            wire:model="newImages"
+                            multiple
+                            accept="image/*"
+                            label="{{ __('post.images.upload') }}"
                         />
                         <flux:button variant="primary"
                                      type="submit"
@@ -330,6 +345,7 @@
             </flux:tab.panel>
         </flux:tab.group>
     </form>
+
 
     <flux:modal name="show-md-keys">
         <table class="[:where(&amp;)]:min-w-full table-fixed text-zinc-800 divide-y divide-zinc-800/10 dark:divide-white/20 whitespace-nowrap [&amp;_dialog]:whitespace-normal [&amp;_[popover]]:whitespace-normal mt-2"

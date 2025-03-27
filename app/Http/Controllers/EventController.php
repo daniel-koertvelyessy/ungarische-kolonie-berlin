@@ -7,6 +7,7 @@ use App\Enums\EventStatus;
 use App\Models\Event\Event;
 use App\Models\Event\EventSubscription;
 use App\Services\IcsGeneratorService;
+use Illuminate\Support\Facades\Log;
 
 class EventController extends Controller
 {
@@ -28,28 +29,39 @@ class EventController extends Controller
     public function show(string $slug): \Illuminate\View\View
     {
         $locale = App::getLocale();
+        $event = Event::query()
+            ->with('venue')
+            ->with('posts')
+            ->with('timelines')
+            ->where("slug->{$locale}", $slug) // Match the slug for the specific locale
+            ->firstOrFail();
+        $relatedPosts = $event->relatedPosts();
+        $relatedPostsCount = $event->relatedPosts()
+            ->count();
 
         return view('events.show', [
-            'event' => Event::query()
-                ->with('venue')
-                ->with('timelines')
-                ->where("slug->{$locale}", $slug) // Match the slug for the specific locale
-                ->firstOrFail(),
+            'event' => $event,
             'locale' => $locale,
+            'relatedPosts' => $relatedPosts,
+            'relatedPostsCount' => $relatedPostsCount,
         ]);
     }
 
-    public function confirmSubscription(EventSubscription $eventSubscription, string $token)
+    public function confirmSubscription(int $eventSubscriptionId, string $token)
     {
-        $storedToken = cache()->get("event_subscription_{$eventSubscription->id}_token");
+        $storedToken = cache()->get("event_subscription_{$eventSubscriptionId}_token");
+
+        //        Log::debug('compare tokens', ['token' => $token, 'eventSubscription' => $eventSubscriptionId, 'storedToken' => $storedToken]);
 
         if ($storedToken && $storedToken === $token) {
+
+            $eventSubscription = EventSubscription::query()
+                ->findOrFail($eventSubscriptionId);
             $eventSubscription->update(['confirmed_at' => now()]);
+            session()->flash('status', 'Deine Anmeldung wurde bestätigt! 🎉');
             cache()->forget("event_subscription_{$eventSubscription->id}_token");
 
-            session()->flash('status', 'Deine Anmeldung wurde bestätigt! 🎉');
-
-            return view('events.show', ['event' => $eventSubscription->event, 'locale' => app()->getLocale()]);
+            return $this->show($eventSubscription->event->slug[app()->getLocale()]);
         }
 
         abort(403);

@@ -7,91 +7,60 @@
 </tr><!-- end tr -->
 <!-- 1 Column Text + Button : END -->
 </table>
-<!--
-
-FOOTER
-
--->
-<table align="center"
-       role="presentation"
-       cellspacing="0"
-       cellpadding="0"
-       border="0"
-       width="100%"
-       style="margin: auto;"
->
+<!-- FOOTER -->
+<table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: 0 auto !important; border-spacing: 0 !important; border-collapse: collapse !important; table-layout: fixed !important;">
     <tr>
-        <td valign="middle"
-            class="bg_light footer email-section"
-        >
-            <table>
-                <tr>
-                    @if(isset($token))
+        <td valign="middle" class="bg_light footer email-section" style="background: #fafafa; border-top: 1px solid rgba(0,0,0,.05); color: rgba(0,0,0,.5); padding: 2.5em;">
+            <table style="border-spacing: 0 !important; border-collapse: collapse !important; table-layout: fixed !important;">
+                @if(isset($token))
                     <tr>
-                        <td valign="top"
-                            width="50%"
-                            style="padding-bottom: 20px; padding-right:5px; font-size: 8pt; text-align: center;"
-                            align="center"
-                            colspan="2"
-                        >
-                            <p style="font-size: 8pt; text-align: center;">{{ __('post.notification_mail.btn_unsubscribe_link_label') }}</p>
-                            <a href=" {{ route('mailing-list.unsubscribe', $token) }}">{{ __('mails.unsubscribe_link_label') }}</a>
+                        <td valign="top" width="50%" style="padding-bottom: 20px; padding-right: 5px; font-size: 8pt; text-align: center;" align="center" colspan="2">
+                            <p style="font-size: 8pt; text-align: center; margin-top: 0;">{{ __('post.notification_mail.btn_unsubscribe_link_label') }}</p>
+                            <a href="{{ route('mailing-list.unsubscribe', $token) }}" style="color: #096; text-decoration: none; font-size: 10px;">{{ __('mails.unsubscribe_link_label') }}</a>
                         </td>
                     </tr>
                 @endif
-                    <td valign="top"
-                        width="50%"
-                        style="padding-top: 20px; padding-right:5px"
-                    >
-                        <h3 class="heading">{{ __('mails.contact') }}</h3>
-                        <ul>
-                            <li>
-                                        <span class="text">
-                                            Hanns-Eisler-Str. 44<br>10409 Berlin <br> Tel: +49 163 377 20 91
-                                        </span>
+                <tr>
+                    <td valign="top" width="50%" style="padding-top: 20px; padding-right: 5px;">
+                        <h3 class="heading" style="color: #000; font-size: 17px; margin-top: 0; font-family: Lato, sans-serif; font-weight: 400;">{{ __('mails.contact') }}</h3>
+                        <ul style="margin: 0; padding: 0;">
+                            <li style="list-style: none; margin-bottom: 10px;">
+                                <span class="text" style="font-size: 10px;">Hanns-Eisler-Str. 44<br>10409 Berlin <br> Tel: +49 163 377 20 91</span>
                             </li>
-                            <li>
-                                        <span class="text">
-                                        <a href="mailto:szia@magyar-kolonia-berlin.org">szia@magyar-kolonia-berlin.org</a>
-                                        </span>
+                            <li style="list-style: none; margin-bottom: 10px;">
+                                <span class="text" style="font-size: 10px;">
+                                    <a href="mailto:szia@magyar-kolonia-berlin.org" style="color: #000; text-decoration: none;">szia@magyar-kolonia-berlin.org</a>
+                                </span>
                             </li>
                         </ul>
                     </td>
-                    <td valign="top"
-                        width="50%"
-                        style="padding-top: 20px; padding-left:20px;"
-                    >
-                        <h3 class="heading">Internet</h3>
-                        <ul>
-                            <li>
-                                <a href="mailto:szia@magyar-kolonia-berlin.org">szia@magyar-kolonia-berlin.org</a>
+                    <td valign="top" width="50%" style="padding-top: 20px; padding-left: 20px;">
+                        <h3 class="heading" style="color: #000; font-size: 17px; margin-top: 0; font-family: Lato, sans-serif; font-weight: 400;">Internet</h3>
+                        <ul style="margin: 0; padding: 0;">
+                            <li style="list-style: none; margin-bottom: 10px;">
+                                <a href="mailto:szia@magyar-kolonia-berlin.org" style="color: #000; text-decoration: none; font-size: 10px;">szia@magyar-kolonia-berlin.org</a>
                             </li>
-                            <li>
-                                <a href="https://magyar-kolonia-berlin.org">Magyar Kolónia Berlin e.V.</a>
+                            <li style="list-style: none; margin-bottom: 10px;">
+                                <a href="https://magyar-kolonia-berlin.org" style="color: #000; text-decoration: none; font-size: 10px;">Magyar Kolónia Berlin e.V.</a>
                             </li>
-                            <li>
-                                <a href="#">Facebook</a>
+                            <li style="list-style: none; margin-bottom: 10px;">
+                                <a href="#" style="color: #000; text-decoration: none; font-size: 10px;">Facebook</a>
                             </li>
                         </ul>
-
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2"
-                        valign="top"
-                        width="100%"
-                        style="padding-top: 20px;"
-                    >
-                        <h3 class="heading">Magyar Kolónia Berlin e. V.</h3>
-                        <p>
-                            <span class="text">{{ __('mails.president') }} <strong>Robotka József</strong></span> |
-                            <span class="text">{{ __('mails.president.deputy') }} <strong>Temesi Mátyás</strong></span> |
-                            <span class="text">{{ __('mails.treasury') }} <strong>Körtvélyesy Dániel</strong></span> |
-                            <span class="text">{{ __('mails.cultural.director') }} <strong>László Levente</strong></span> |
-                            <span class="text">{{ __('mails.social.affairs') }} <strong>Heuer Judith</strong></span> |
-                            <span class="text">{{ __('mails.social.affairs.deputy') }} <strong>Kovács Ágnes</strong></span>
-                            <span class="text">{{ __('mails.secretariat.hu') }} <strong>Simó Enikö</strong></span> |
-                            <span class="text">{{ __('mails.secretariat.de') }} <strong>Hoffmann Andreas</strong></span> |
+                    <td colspan="2" valign="top" width="100%" style="padding-top: 20px;">
+                        <h3 class="heading" style="color: #000; font-size: 17px; margin-top: 0; font-family: Lato, sans-serif; font-weight: 400;">Magyar Kolónia Berlin e. V.</h3>
+                        <p style="margin-top: 0;">
+                            <span class="text" style="font-size: 10px;">{{ __('mails.president') }} <strong>Robotka József</strong></span> |
+                            <span class="text" style="font-size: 10px;">{{ __('mails.president.deputy') }} <strong>Temesi Mátyás</strong></span> |
+                            <span class="text" style="font-size: 10px;">{{ __('mails.treasury') }} <strong>Körtvélyesy Dániel</strong></span> |
+                            <span class="text" style="font-size: 10px;">{{ __('mails.cultural.director') }} <strong>László Levente</strong></span> |
+                            <span class="text" style="font-size: 10px;">{{ __('mails.social.affairs') }} <strong>Heuer Judith</strong></span> |
+                            <span class="text" style="font-size: 10px;">{{ __('mails.social.affairs.deputy') }} <strong>Kovács Ágnes</strong></span> |
+                            <span class="text" style="font-size: 10px;">{{ __('mails.secretariat.hu') }} <strong>Simó Enikö</strong></span> |
+                            <span class="text" style="font-size: 10px;">{{ __('mails.secretariat.de') }} <strong>Hoffmann Andreas</strong></span> |
                         </p>
                     </td>
                 </tr>
@@ -100,14 +69,10 @@ FOOTER
     </tr><!-- end: tr -->
     @if(isset($unsubscribe))
         <tr>
-            <td class="bg_light"
-                style="text-align: center;"
-            >
-                <p>No longer want to receive these email? You can
-                    <a href="#"
-                       style="color: rgba(0,0,0,.8);"
-                    >Unsubscribe here
-                    </a>
+            <td class="bg_light" style="text-align: center; background: #fafafa;">
+                <p style="margin-top: 0; font-size: 10px; color: rgba(0,0,0,.5);">
+                    No longer want to receive these emails? You can
+                    <a href="#" style="color: rgba(0,0,0,.8); text-decoration: none;">Unsubscribe here</a>
                 </p>
             </td>
         </tr>
@@ -118,4 +83,3 @@ FOOTER
 </center>
 </body>
 </html>
-

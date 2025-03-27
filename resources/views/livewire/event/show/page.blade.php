@@ -777,7 +777,6 @@
                 class="space-y-6"
     >
 
-
         <livewire:accounting.transaction.create.form :event="$form->event"/>
 
     </flux:modal>

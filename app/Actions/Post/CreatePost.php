@@ -12,7 +12,7 @@ final class CreatePost extends Action
 {
     public static function handle(Postform $form, array $images = []): Post
     {
-        return DB::transaction(function () use ($form, $images) {
+        return DB::transaction(function () use ($form) {
 
             Log::debug('post_type_id . '.$form->post_type_id);
 
@@ -25,16 +25,8 @@ final class CreatePost extends Action
                 'label' => $form->label,
                 'post_type_id' => $form->post_type_id,
                 'published_at' => $form->published_at,
+                'event_id' => $form->event_id,
             ]);
-
-            foreach ($images as $image) {
-                $filename = $image->store('post-images', 'public');
-                $post->images()->create([
-                    'filename' => $filename,
-                    'original_filename' => $image->getClientOriginalName(),
-                    'caption' => ['de' => '', 'hu' => ''],
-                ]);
-            }
 
             return $post;
         });

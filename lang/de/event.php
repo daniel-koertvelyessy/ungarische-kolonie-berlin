@@ -125,6 +125,10 @@ return [
     'show.timeline.heading' => 'Programmablauf',
     'show.details.heading' => 'Übersicht',
 
+    'show.posts.heading' => 'Artikel',
+    'show.posts.content' => 'Zu dieser Veranstaltung sind folgende Artikel veröffentlicht worden.',
+    'show.btn.link_to_post' => 'Artikel lesen',
+
     'show.section.published.btn_publish_now' => 'Veranstaltung veröffentlichen',
 
     'section.published.toast_success.msg' => 'Die Veranstalung wurde erfolgreich veröffentlicht.',

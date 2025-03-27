@@ -21,13 +21,11 @@ class Form extends Component
 {
     use HasPrivileges, PersistsTabs, WithFileUploads;
 
+    protected $listeners = ['event-id-updated' => 'updatedEventId'];
+
     public ?Post $post = null;
 
     public PostForm $form;
-
-    public $images = [];
-
-    public $newImages = [];
 
     public $defaultTab = 'post-create-head-section-panel';
 
@@ -39,6 +37,10 @@ class Form extends Component
 
     public $locale;
 
+    public $images = [];
+
+    public $newImages = [];
+
     public array $captionsDe = []; // Captions in German
 
     public array $captionsHu = []; // Captions in Hungarian
@@ -47,10 +49,11 @@ class Form extends Component
 
     public function mount(?Post $post, MailingService $mailingService): void
     {
+        $this->form = new PostForm($this, $post);
         $this->locale = app()->getLocale();
         $this->selectedTab = $this->getSelectedTab();
         $this->tabsBody = 'body-de';
-        $this->form = new PostForm($this, $post);
+
         if ($post->id) {
             $this->form->set($post->id);
             $this->post = $post;
@@ -59,7 +62,14 @@ class Form extends Component
             $this->form->post_type_id = 2;
             $this->form->status = EventStatus::DRAFT;
             $this->form->user_id = auth()->id();
+
         }
+    }
+
+    public function updatedEventId(int $eventId): void
+    {
+        $this->form->event_id = $eventId;
+
     }
 
     public function updatedNewImages($value): void
@@ -112,6 +122,7 @@ class Form extends Component
             $post = $this->form->create();
             $this->handleImages($post);
             Flux::toast(text: __('post.form.toasts.create_success', ['num' => count($post->images)]), heading: __('post.form.toasts.heading.success'), duration: 8000, variant: 'success');
+            $this->redirect(route('backend.posts.show', $post), true);
         }
 
     }
@@ -220,6 +231,18 @@ class Form extends Component
             []
         );
         Flux::toast(text: __('post.form.toasts.notification_sent_success'), heading: __('post.form.toasts.heading.success'), duration: 8000, variant: 'success');
+
+    }
+
+    public function detachFromEvent(): void
+    {
+        $this->checkPrivilege(Post::class);
+
+        $this->form->event_id = null;
+
+        $this->form->update();
+
+        Flux::toast(text: __('post.form.toasts.eventDetachedSuccess'), heading: __('post.form.toasts.heading.success'), variant: 'success');
 
     }
 

@@ -27,20 +27,25 @@ class PostForm extends Form
 
     public $label;
 
+    public $event_id;
+
     public $post_type_id;
 
     public function set(int $postId): void
     {
-        $this->post = Post::query()->findOrFail($postId);
-        $this->id = $this->post->id;
-        $this->slug = $this->post->slug;
-        $this->body = $this->post->body;
-        $this->user_id = $this->post->user_id;
-        $this->title = $this->post->title;
-        $this->status = $this->post->status;
-        $this->label = $this->post->label;
-        $this->post_type_id = $this->post->post_type_id;
-        $this->published_at = $this->post->published_at;
+        $post = Post::query()->findOrFail($postId);
+
+        $this->fill($post->toArray());
+
+        //        $this->id = $this->post->id;
+        //        $this->slug = $this->post->slug;
+        //        $this->body = $this->post->body;
+        //        $this->user_id = $this->post->user_id;
+        //        $this->title = $this->post->title;
+        //        $this->status = $this->post->status;
+        //        $this->label = $this->post->label;
+        //        $this->post_type_id = $this->post->post_type_id;
+        //        $this->published_at = $this->post->published_at;
     }
 
     public function create(): Post

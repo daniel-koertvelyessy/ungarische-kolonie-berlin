@@ -23,7 +23,9 @@
 
 <p>Hallo & Szia {{ $subscription->name }},</p>
 <p>{{ __('event.subscription.mail.text') }}</p>
-<p><a href="{{ $confirmUrl }}">{{ __('event.subscription.mail.link.label') }}</a></p>
+<p>
+<x-mails.link-button  href="{{ $confirmUrl }}" >{{ __('event.subscription.mail.link.label') }}</x-mails.link-button>
+</p>
 
 @if($subscription->brings_guests)
 <p>{{ __('event.subscription.mail.bring_a_guest', ['num' => $subscription->amount_guests ]) }}</p>

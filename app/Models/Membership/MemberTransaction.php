@@ -33,6 +33,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $receipt_sent_timestamp
  *
  * @method static Builder<static>|MemberTransaction whereReceiptSentTimestamp($value)
+ * @method static \Database\Factories\Membership\MemberTransactionFactory factory($count = null, $state = [])
  *
  * @mixin Eloquent
  */

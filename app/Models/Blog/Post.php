@@ -65,6 +65,7 @@ class Post extends Model
         'label',
         'published_at',
         'post_type_id',
+        'event_id',
     ];
 
     protected $casts = [
@@ -131,11 +132,16 @@ class Post extends Model
         $text = preg_replace('/<\/?(p|div|br|li|h[1-6])\b[^>]*>/', ' ', $this->body[app()->getLocale()]);
         $excerpt = trim(strip_tags($text));
 
-        return Str::limit($excerpt, $limit, '...', true);
+        return Str::limit($excerpt, $limit, ' ...', true);
     }
 
     public function images(): HasMany
     {
         return $this->hasMany(PostImage::class);
+    }
+
+    public function event(): BelongsTo
+    {
+        return $this->belongsTo(\App\Models\Event\Event::class);
     }
 }

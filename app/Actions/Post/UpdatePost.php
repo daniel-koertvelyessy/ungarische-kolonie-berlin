@@ -11,6 +11,7 @@ final class UpdatePost extends Action
 {
     public static function handle(Postform $form): Post
     {
+
         return DB::transaction(function () use ($form) {
             Post::query()->findOrFail($form->id)->update([
                 'title' => $form->title,
@@ -21,6 +22,7 @@ final class UpdatePost extends Action
                 'label' => $form->label,
                 'post_type_id' => $form->post_type_id,
                 'published_at' => $form->published_at,
+                'event_id' => $form->event_id,
             ]);
 
             return Post::query()->findOrFail($form->id);

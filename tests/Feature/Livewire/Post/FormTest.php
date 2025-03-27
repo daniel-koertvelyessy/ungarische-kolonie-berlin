@@ -9,6 +9,14 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 
+it('can access the create post page', function () {
+    $this->user = User::factory()->create();
+    $this->member = Member::factory()->create(['user_id' => $this->user->id]);
+    $this->actingAs($this->user); // Authenticate the user
+    $response = $this->get(route('backend.posts.create'));
+    $response->assertStatus(200);
+});
+
 // Authentication and Authorization Tests
 describe('Blog Post Form - Authorization', function () {
     it('prevents unauthorized users from accessing the form', function () {
@@ -81,51 +89,37 @@ describe('Blog Post Form - Creation', function () {
 // Image Upload Tests
 describe('Blog Post Form - Image Uploads', function () {
     beforeEach(function () {
-        $this->user = User::factory()
-            ->create();
-        $this->member = Member::factory()
-            ->create(['user_id' => $this->user->id]);
+        $this->user = User::factory()->create();
+        $this->member = Member::factory()->create(['user_id' => $this->user->id]);
         $this->actingAs($this->user);
         Storage::fake('public');
+        //        \App\Models\Blog\PostType::factory()->create(['id' => 1]);
+        //        \App\Models\Blog\PostType::factory()->create(['id' => 2]);
     });
 
     it('can upload multiple images with captions', function () {
         $images = [
-            UploadedFile::fake()
-                ->image('post-image-1.jpg', 800, 600),
-            UploadedFile::fake()
-                ->image('post-image-2.jpg', 1024, 768),
+            UploadedFile::fake()->image('post-image-1.jpg', 800, 600),
+            UploadedFile::fake()->image('post-image-2.jpg', 1024, 768),
         ];
-
-        $post = Post::factory()
-            ->create(['user_id' => $this->user->id]);
 
         $component = Livewire::test(Form::class)
             ->set('newImages', $images)
-//            ->call('updatedNewImages', $images)
             ->set('captionsDe', ['First Image Caption', 'Second Image Caption'])
             ->set('captionsHu', ['Első kép felirata', 'Második kép felirata'])
             ->set('form.title', ['de' => 'Test Titel', 'hu' => 'Test Cím'])
             ->set('form.slug', ['de' => 'Test Slug', 'hu' => 'Test Cím-Slug'])
             ->set('form.label', 'what label')
-            ->set('form.post_type_id', $post->post_type_id)
-            ->set('form.status', 'draft')
+            ->set('form.post_type_id', 1)
+            ->set('form.status', \App\Enums\EventStatus::DRAFT)
             ->call('save');
 
         $component->assertHasNoErrors();
 
-        // Assert images were stored
-        Storage::disk('public')
-            ->assertExists(
-                collect($images)
-                    ->map(fn ($image) => 'post-images/'.$image->hashName())
-                    ->toArray()
-            );
+        $storedPaths = collect($images)->map(fn ($image) => 'post-images/'.$image->hashName())->toArray();
+        Storage::disk('public')->assertExists($storedPaths);
 
-        // Assert database records created
-        $post = Post::latest()
-            ->first();
-
+        $post = Post::latest()->first();
         $this->assertCount(2, $post->images);
         $this->assertEquals('First Image Caption', $post->images[0]->caption['de']);
         $this->assertEquals('Első kép felirata', $post->images[0]->caption['hu']);
@@ -133,28 +127,23 @@ describe('Blog Post Form - Image Uploads', function () {
 
     it('can remove images before saving', function () {
         $images = [
-            UploadedFile::fake()
-                ->image('post-image-1.jpg'),
-            UploadedFile::fake()
-                ->image('post-image-2.jpg'),
+            UploadedFile::fake()->image('post-image-1.jpg'),
+            UploadedFile::fake()->image('post-image-2.jpg'),
         ];
 
         $component = Livewire::test(Form::class)
             ->set('newImages', $images)
-//            ->call('updatedNewImages', $images)
             ->call('removeImage', 0)
             ->set('form.title', ['de' => 'Test Titel', 'hu' => 'Test Cím'])
             ->set('form.slug', ['de' => 'Test Slug', 'hu' => 'Test Cím-Slug'])
             ->set('form.label', 'Test Post')
             ->set('form.post_type_id', 2)
-            ->set('form.status', 'draft')
+            ->set('form.status', \App\Enums\EventStatus::DRAFT)
             ->call('save');
 
         $component->assertHasNoErrors();
 
-        // Assert only one image was saved
-        $post = Post::latest()
-            ->first();
+        $post = Post::latest()->first();
         $this->assertCount(1, $post->images);
     });
 });

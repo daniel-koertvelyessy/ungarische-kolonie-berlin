@@ -20,6 +20,8 @@ class Page extends Component
 
     public function render(): \Illuminate\View\View
     {
-        return view('livewire.blog.post.show.page');
+        $label = $this->post->label ?? 'neu';
+
+        return view('livewire.blog.post.show.page')->title(__('post.show.title').': '.$label);
     }
 }

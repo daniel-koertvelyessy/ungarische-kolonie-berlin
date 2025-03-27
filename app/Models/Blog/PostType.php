@@ -29,6 +29,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder<static>|PostType whereName($value)
  * @method static Builder<static>|PostType whereSlug($value)
  * @method static Builder<static>|PostType whereUpdatedAt($value)
+ * @method static \Database\Factories\Blog\PostTypeFactory factory($count = null, $state = [])
  *
  * @mixin Eloquent
  */

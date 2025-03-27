@@ -203,6 +203,8 @@
                         </div>
                     </section>
                 </form>
+
+                <x-debug />
             </flux:card>
 
 
@@ -270,75 +272,6 @@
                     </form>
                 </section>
 
-                @if($event)
-
-                    <section class="space-y-6">
-                        <flux:separator text="Besucher"/>
-
-                        <flux:select wire:model.live="selectedMember"
-                                     variant="listbox"
-                                     searchable
-                                     placeholder="Mitglied auswählen ..."
-                        >
-                            <flux:select.option value="extern">Externer Gast</flux:select.option>
-                            @foreach(Member::select('id', 'name', 'first_name')->get() as $key => $member)
-                                <flux:select.option value="{{ $member->id }}">{{ $member->fullName() }}</flux:select.option>
-                            @endforeach
-                        </flux:select>
-
-                        <input type="hidden"
-                               wire:model="visitor_has_member_id"
-                        >
-
-                        <flux:field>
-                            <flux:input wire:model="visitor_name"
-                                        placeholder="Name des Gastes"
-                                        clearable
-                            />
-                            <flux:error name="visitor_name"/>
-                        </flux:field>
-
-
-                        <flux:radio.group wire:model="gender"
-                                          label="Geschlecht"
-                                          variant="segmented"
-                        >
-                            @foreach(Gender::cases() as $gender)
-                                <flux:radio value="{{ $gender->value }}"
-                                            label="{{ Gender::value($gender->value) }}"
-                                />
-                            @endforeach
-
-                        </flux:radio.group>
-                    </section>
-
-
-
-                    {{--   TODO:: Implement Gästeliste mit Zähler
-
-                            <flux:input wire:model="external_visitor_name"
-                                                x-cloak
-                                                x-show="$wire.selectedMember === 'extern'"
-                                    />
-
-                           <flux:button @click="addVisitor">Hinzufügen</flux:button>
-
-
-
-                                 @forelse($visitors as $visitor)
-
-                                        <flux:badge as="button"
-                                                    variant="pill"
-                                                    icon="minus"
-                                        >{{ $visitor }}
-                                        </flux:badge>
-
-                                    @empty
-                                        Keine Gäste erfasst
-                                    @endforelse
-                                    @dump($visitors)--}}
-
-                @endif
             </flux:card>
         </div>
         @script

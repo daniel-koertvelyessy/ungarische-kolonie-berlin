@@ -184,22 +184,19 @@ class Form extends Component
             'form.account_id' => ['required', 'doesnt_start_with:new'],
             'transaction.id' => 'unique:event_transactions,transaction_id',
             'event' => 'required',
-            'visitor_name' => 'required',
-            'gender' => 'required',
         ], [
             'form.account_id.required' => 'Bitte Zahlungskonto angeben',
             'form.account_id.doesnt_start_with' => 'Bitte Zahlungskonto angeben oder anlegen',
             'event.required' => 'Event is required.',
-            'visitor_name.required' => 'Der Gast hat noch keinen Namen',
             'transaction.id.unique' => 'Diese Buchung wurde bereits vergeben.',
         ]);
 
         try {
             if (isset($this->receiptForm->file_name)) {
-                $this->transaction = CreateEventTransaction::handle($this->form, $this->event, $this->visitor_name, $this->gender);
+                $this->transaction = CreateEventTransaction::handle($this->form, $this->event);
                 $this->submitReceipt();
             } else {
-                CreateEventTransaction::handle($this->form, $this->event, $this->visitor_name, $this->gender);
+                CreateEventTransaction::handle($this->form, $this->event);
             }
 
             Flux::toast(

@@ -149,7 +149,7 @@ class Member extends Model
 
     public function transactions(): \Illuminate\Database\Eloquent\Relations\HasManyThrough|\Illuminate\Database\Eloquent\Builder
     {
-//        return $this->hasMany(Transaction::class);
+        //        return $this->hasMany(Transaction::class);
         return $this->hasManyThrough(Transaction::class, MemberTransaction::class, 'member_id', 'id', 'id', 'transaction_id');
     }
 

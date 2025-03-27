@@ -32,7 +32,7 @@ class ConfirmEventSubscription extends Mailable
             ->from('szia@magyar-kolonia-berlin.org', 'Körtvélyessy, Daniel')
             ->view('emails.confirm-event-subscription')
             ->with([
-                'confirmUrl' => route('event.subscription.confirm', ['id' => $this->subscription->id, 'token' => $this->token]),
+                'confirmUrl' => route('events.subscription.confirm', ['eventSubscription' => $this->subscription->id, 'token' => $this->token]),
             ]);
     }
 }

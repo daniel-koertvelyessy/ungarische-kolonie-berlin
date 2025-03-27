@@ -49,18 +49,27 @@ return [
     'form.toasts.notifications_sent_success' => 'Mitteilungen über die Veröffentlichung wurden versendet',
     'form.toasts.notification_sent_success' => 'Mitteilungen über die Veröffentlichung wurden versendet',
 
+    'form.toasts.eventDetachedSuccess' => 'Die Verknüpung zum Artikel wurde gelöscht',
+    'form.toasts.eventAtachedSuccess' => 'Die Verknüpung zum Artikel wurde erstellt',
+    'show.tab.main.detach_from_event.confirmation_msg' => 'Bitte bestätigen, dass der Atikel von der Veranstaltung werden soll.',
+    'show.tab.main.detach.btn_reset' => 'Verknüpfung lösen',
+
     'show.title' => 'Artikel bearbeiten',
     'show.tabs.header.main' => 'Kopfdaten',
     'show.tabs.header.content' => 'Inhalt',
     'show.tabs.header.images' => 'Bilder',
-    'show.tab.main.btn_make_slug' => 'Slup erstellen',
+    'show.tab.main.btn_make_slug' => 'Slug erstellen',
     'show.tab.main.published.header' => 'Artikel ist veröffentlicht',
     'show.tab.main.published.status_msg' => 'Dieser Artikel wurde am :datum veröffentlicht.',
+    'show.tab.main.attached_event.header' => 'Artikel ist verknüpft',
+    'show.tab.main.attached_event.status_msg' => 'Dieser Artikel wurde am mit der Veranstaltung :title veröffentlicht.',
     'show.btn.save' => 'Speichern',
     'show.tab.main.published.btn_reset' => 'Widerrufen',
     'show.tab.main.published.confirmation_msg' => 'Bitte bestätigen, dass der Atikel widerrufen werden soll. Dieser ist dann nicht mehr auf dem öffentlichen Teil der Seite sichtbar.',
     'show.tab.main.published.btn_sendMails' => 'Rundbrief verschicken',
     'show.tab.main.published.btn_publish_now' => 'Artikel jetzt veröffentlichen',
+
+    'show.tab.main.event.btn_connect_now' => 'Artikel jetzt mit Veranstaltung verknüpfen',
 
     'show.label.created_at' => 'Erstellt',
     'show.label.updated_at' => 'Zuletzt geändert',

@@ -22,6 +22,7 @@ test('confirm subscription', function () {
     $response->assertStatus(200);
 
     $evs->refresh();
+
     expect($evs->confirmed_at)->not->toBeNull();
 
 });

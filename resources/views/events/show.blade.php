@@ -144,47 +144,49 @@
                         </dd>
                     </div>
 
-                    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                        <dt class="text-sm/6 font-medium text-zinc-900 dark:text-emerald-400">{{ __('event.make_ics') }}</dt>
-                        <dd class="mt-1 text-sm/6 text-zinc-700 dark:text-zinc-100 sm:col-span-2 sm:mt-0">
-                            <flux:button variant="primary"
-                                         size="xs"
-                                         href="{{ route('events.ics',$event->slug[$locale??'de'] ) }}"
-                                         icon-trailing="calendar-days"
-                                         target="_blank"
-
-                            />
-                        </dd>
-                    </div>
-
-                    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                        <dt class="text-sm/6 font-medium text-zinc-900 dark:text-emerald-400">{{ __('event.subscribe') }}</dt>
-                        <dd class="mt-1 text-sm/6 text-zinc-700 dark:text-zinc-100 sm:col-span-2 sm:mt-0">
-                            <flux:modal.trigger name="subscribe-event">
-                                <flux:button variant="primary"
-                                             icon-trailing="user-plus"
-                                >{{ __('event.subscription.subscribe-button.label') }}</flux:button>
-                            </flux:modal.trigger>
-                        </dd>
-                    </div>
-
-                    @if($event->payment_link)
+                    @if(! $event->event_date->isBefore(\Carbon\Carbon::today()))
 
                         <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                            <dt class="text-sm/6 font-medium text-zinc-900 dark:text-emerald-400">{{ __('event.buy_tickets') }}</dt>
+                            <dt class="text-sm/6 font-medium text-zinc-900 dark:text-emerald-400">{{ __('event.make_ics') }}</dt>
                             <dd class="mt-1 text-sm/6 text-zinc-700 dark:text-zinc-100 sm:col-span-2 sm:mt-0">
-                                <flux:button href="{{ $event->payment_link }}"
+                                <flux:button variant="primary"
+                                             size="xs"
+                                             href="{{ route('events.ics',$event->slug[$locale??'de'] ) }}"
+                                             icon-trailing="calendar-days"
                                              target="_blank"
-                                             variant="primary"
-                                             icon-trailing="banknotes"
-                                >PayPal
-                                </flux:button>
+
+                                />
                             </dd>
                         </div>
 
-                    @endif
-                </dl>
+                        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                            <dt class="text-sm/6 font-medium text-zinc-900 dark:text-emerald-400">{{ __('event.subscribe') }}</dt>
+                            <dd class="mt-1 text-sm/6 text-zinc-700 dark:text-zinc-100 sm:col-span-2 sm:mt-0">
+                                <flux:modal.trigger name="subscribe-event">
+                                    <flux:button variant="primary"
+                                                 icon-trailing="user-plus"
+                                    >{{ __('event.subscription.subscribe-button.label') }}</flux:button>
+                                </flux:modal.trigger>
+                            </dd>
+                        </div>
 
+                        @if($event->payment_link)
+
+                            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                <dt class="text-sm/6 font-medium text-zinc-900 dark:text-emerald-400">{{ __('event.buy_tickets') }}</dt>
+                                <dd class="mt-1 text-sm/6 text-zinc-700 dark:text-zinc-100 sm:col-span-2 sm:mt-0">
+                                    <flux:button href="{{ $event->payment_link }}"
+                                                 target="_blank"
+                                                 variant="primary"
+                                                 icon-trailing="banknotes"
+                                    >PayPal
+                                    </flux:button>
+                                </dd>
+                            </div>
+
+                        @endif
+                </dl>
+                @endif
 
             </flux:card>
 
@@ -267,15 +269,35 @@
 
                         </flux:table.rows>
                     </flux:table>
+
                 @else
 
-                    <flux:callout color="emerald" class="my-9">
+                    <flux:callout color="zinc"
+                                  class="my-9"
+                    >
                         <flux:callout.heading icon="newspaper">{{ __('event.show.timeline.empty.heading') }}</flux:callout.heading>
                         <flux:callout.text>{{ __('event.show.timeline.empty.message') }}</flux:callout.text>
                     </flux:callout>
 
                 @endif
             </flux:card>
+
+            @if ($relatedPostsCount > 0)
+                <flux:card>
+                    <h3 class="text-xl my-3 font-bold text-zinc-900 dark:text-emerald-400">{{ __('event.show.posts.heading') }}</h3>
+                    <flux:text>{{ __('event.show.posts.content') }}</flux:text>
+
+                    <section class="space-y-6 my-3 lg:my-6">
+                        @foreach($relatedPosts as $post)
+                            <x-posts.post-tile :post="$post"
+                                               :locale="$locale"
+                            />
+                        @endforeach
+
+                    </section>
+
+                </flux:card>
+            @endif
 
         </aside>
     </div>

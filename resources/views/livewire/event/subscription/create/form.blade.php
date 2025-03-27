@@ -19,7 +19,7 @@
 
 
 
-            <flux:button type="submit" icon-trailing="user-plus">{{ __('event.subscription.submit-button.label') }}</flux:button>
+            <flux:button type="submit" icon-trailing="user-plus" variant="primary">{{ __('event.subscription.submit-button.label') }}</flux:button>
         </section>
     </form>
 
