@@ -462,7 +462,7 @@
                                           variant="segmented"
                         >
                             @foreach( App\Enums\Gender::cases() as $gender)
-                                <flux:radio value="{{ $gender->value }}">{{ Gender::value($gender->value) }}</flux:radio>
+                                <flux:radio value="{{ $gender->value }}">{{ App\Enums\Gender::value($gender->value) }}</flux:radio>
                             @endforeach
                         </flux:radio.group>
                     </section>
