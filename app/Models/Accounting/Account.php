@@ -4,6 +4,7 @@ namespace App\Models\Accounting;
 
 use App\Enums\TransactionStatus;
 use App\Enums\TransactionType;
+use App\Models\Traits\HasHistory;
 use Database\Factories\Accounting\AccountFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
@@ -49,7 +50,7 @@ use Illuminate\Support\Carbon;
 class Account extends Model
 {
     /** @use HasFactory<AccountFactory> */
-    use HasFactory;
+    use HasFactory, HasHistory;
 
     protected $fillable = [
         'name',

@@ -137,7 +137,7 @@
                             <div class="flex items-end space-x-2">
                                 <flux:select wire:model="form.status"
                                              variant="listbox"
-                                             placeholder="Choose industry..."
+                                             placeholder="Status ..."
                                              label="{{__('event.form.status')}}"
                                 >
                                     @foreach(EventStatus::cases() as $status)

@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Queue;
+
 /*
 |--------------------------------------------------------------------------
 | Test Case
@@ -41,6 +43,11 @@ expect()->extend('toBeOne', function () {
 |
 */
 
+beforeEach(function () {
+    //  Queue::fake(); // Optional: fake queue to inspect jobs
+    //  config(['queue.default' => 'sync']); // Run jobs immediately
+});
+
 function something()
 {
     // ..
@@ -48,7 +55,8 @@ function something()
 
 pest()->extend(Tests\TestCase::class)
     ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
-    ->in('Feature');
+    ->in('Feature', 'Feature\Models');
+
 /*
 function assertTranslationsRendered($componentClass, $langFile, $prefix): void
 {

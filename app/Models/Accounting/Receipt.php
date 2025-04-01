@@ -2,6 +2,7 @@
 
 namespace App\Models\Accounting;
 
+use App\Models\Traits\HasHistory;
 use Database\Factories\ReceiptFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
@@ -34,7 +35,7 @@ use Illuminate\Support\Carbon;
 class Receipt extends Model
 {
     /** @use HasFactory<ReceiptFactory> */
-    use HasFactory;
+    use HasFactory, HasHistory;
 
     protected $guarded = [];
 

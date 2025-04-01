@@ -6,6 +6,7 @@ use App\Enums\MemberFeeType;
 use App\Enums\MemberType;
 use App\Enums\TransactionStatus;
 use App\Models\Accounting\Transaction;
+use App\Models\Traits\HasHistory;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -86,6 +87,8 @@ class Member extends Model
 {
     /** @use HasFactory<\Database\Factories\Membership\MemberFactory> */
     use HasFactory, Notifiable;
+
+    use HasHistory;
 
     public static int $age_discounted = 65;
 

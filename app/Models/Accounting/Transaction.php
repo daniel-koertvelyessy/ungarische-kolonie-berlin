@@ -7,6 +7,7 @@ use App\Models\Event\EventTransaction;
 use App\Models\Event\EventVisitor;
 use App\Models\Membership\Member;
 use App\Models\Membership\MemberTransaction;
+use App\Models\Traits\HasHistory;
 use Database\Factories\Accounting\TransactionFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
@@ -68,7 +69,7 @@ use Illuminate\Support\Carbon;
 class Transaction extends Model
 {
     /** @use HasFactory<TransactionFactory> */
-    use HasFactory;
+    use HasFactory, HasHistory;
 
     protected int $decimals = 2;
 

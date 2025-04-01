@@ -2,6 +2,7 @@
 
 namespace App\Models\Accounting;
 
+use App\Models\Traits\HasHistory;
 use App\Models\User;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
@@ -65,6 +66,8 @@ use Illuminate\Support\Carbon;
  */
 class CashCount extends Model
 {
+    use HasHistory;
+
     protected $guarded = [];
 
     protected $casts = [

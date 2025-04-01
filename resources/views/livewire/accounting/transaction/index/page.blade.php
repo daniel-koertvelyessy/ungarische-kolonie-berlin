@@ -1,9 +1,3 @@
-@php use App\Enums\DateRange; @endphp
-@php use App\Enums\Transactiontype; @endphp
-@php use App\Enums\TransactionStatus; @endphp
-@php use App\Models\Accounting\Account; @endphp
-@php use App\Enums\Gender; @endphp
-@php use App\Models\Membership\Member; @endphp
 <div x-data="{showFilter: true}">
     <header class="flex justify-between items-center mb-3 lg:mb-6">
         <flux:heading size="xl">Übersicht der Buchungen</flux:heading>
@@ -33,7 +27,7 @@
                      wire:model.live="filter_date_range"
                      size="sm"
         >
-            @foreach(DateRange::cases() as $range)
+            @foreach(App\Enums\DateRange::cases() as $range)
                 <flux:select.option value="{{ $range->value }}">{{ $range->label() }}</flux:select.option>
             @endforeach
         </flux:select>
@@ -42,7 +36,7 @@
         <flux:checkbox.group wire:model.live="filter_type"
                              class="flex space-x-4"
         >
-            @foreach(TransactionType::cases() as $type)
+            @foreach(App\Enums\TransactionType::cases() as $type)
                 <flux:checkbox value="{{ $type->value }}"
                                label="{{ $type->value }}"
                 />
@@ -52,7 +46,7 @@
         <flux:checkbox.group wire:model.live="filter_status"
                              class="flex space-x-4"
         >
-            @foreach(TransactionStatus::cases() as $status)
+            @foreach(App\Enums\TransactionStatus::cases() as $status)
                 <flux:checkbox value="{{ $status->value }}"
                                label="{{ $status->value }}"
                 />
@@ -72,7 +66,7 @@
                      wire:model.live="filter_status"
                      size="sm"
         >
-            @foreach(TransactionStatus::cases() as $status)
+            @foreach(App\Enums\TransactionStatus::cases() as $status)
                 <flux:select.option value="{{ $status->value }}">{{ $status->value }}</flux:select.option>
             @endforeach
         </flux:select>
@@ -84,7 +78,7 @@
                      size="sm"
 
         >
-            @foreach(Transactiontype::cases() as $status)
+            @foreach(App\Enums\Transactiontype::cases() as $status)
                 <flux:select.option value="{{ $status->value }}">{{ $status->value }}</flux:select.option>
             @endforeach
         </flux:select>
@@ -282,7 +276,7 @@
                                     <flux:menu.group heading="Buchung"
                                                      class="mt-4"
                                     >
-                                        @if(isset($item->status) && $item->status === TransactionStatus::submitted->value)
+                                        @if(isset($item->status) && $item->status === App\Enums\TransactionStatus::submitted->value)
                                             <flux:menu.item icon="check"
                                                             wire:click="bookItem({{ $item->id }})"
                                             >{{ __('transaction.index.menu-item.book') }}
@@ -395,7 +389,7 @@
         </flux:table.rows>
     </flux:table>
 
-    @can('create', Account::class)
+    @can('create', \App\Models\Accounting\Account::class)
         <div class="flex mt-3">
             <flux:spacer/>
             <flux:button variant="primary"
@@ -501,7 +495,7 @@
                              searchable
                              placeholder="Mitglied wählen"
                 >
-                    @foreach(Member::select('id', 'name', 'first_name')->get() as $key => $member)
+                    @foreach(App\Models\Membership\Member::select('id', 'name', 'first_name')->get() as $key => $member)
                         <flux:select.option value="{{ $member->id }}">{{ $member->fullName() }}</flux:select.option>
                     @endforeach
                 </flux:select>

@@ -5,6 +5,7 @@ namespace App\Models\Event;
 use App\Enums\EventStatus;
 use App\Models\EventAssignment;
 use App\Models\EventTimeline;
+use App\Models\Traits\HasHistory;
 use App\Models\Venue;
 use Database\Factories\Event\EventFactory;
 use Eloquent;
@@ -73,6 +74,7 @@ use Illuminate\Support\Carbon;
 class Event extends Model
 {
     use HasFactory;
+    use HasHistory;
 
     protected $fillable = [
         'name',

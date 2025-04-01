@@ -2,6 +2,7 @@
 
 namespace App\Models\Accounting;
 
+use App\Models\Traits\HasHistory;
 use App\Models\User;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
@@ -37,6 +38,8 @@ use Illuminate\Support\Carbon;
  */
 class AccountReportAudit extends Model
 {
+    use HasHistory;
+
     protected $fillable = [
         'account_report_id',
         'user_id',

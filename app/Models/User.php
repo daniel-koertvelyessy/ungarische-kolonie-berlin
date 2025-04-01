@@ -6,6 +6,7 @@ namespace App\Models;
 use App\Enums\MemberType;
 use App\Models\Accounting\CancelTransaction;
 use App\Models\Membership\Member;
+use App\Models\Traits\HasHistory;
 use Database\Factories\UserFactory;
 use Eloquent;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -91,6 +92,7 @@ class User extends Authenticatable implements MustVerifyEmail
     /** @use HasFactory<UserFactory> */
     use HasFactory;
 
+    use HasHistory;
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;

@@ -2,7 +2,6 @@
 
 use App\Models\Membership\Member;
 use App\Models\User;
-use Illuminate\Support\Facades\Cache;
 use Carbon\Carbon;
 
 test('a member can be created', function () {
@@ -40,7 +39,7 @@ test('a member can have multiple transactions', function () {
 });
 
 test('a member can detect a birthday', function () {
-    $member = Member::factory()->create(['birth_date' => Carbon::today()]);
+    $member = Member::factory()->create(['birth_date' => Carbon::today('Europe/Berlin')]);
 
     expect($member->hasBirthdayToday())->toBeTrue();
 });

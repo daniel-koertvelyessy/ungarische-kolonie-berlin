@@ -21,6 +21,7 @@ use App\Models\Venue;
 use Carbon\Carbon;
 use Flux\Flux;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -133,9 +134,10 @@ class Page extends Component
     public function storeImage($file): void
     {
         if ($this->form->storeImage($file)) {
+            Log::debug('upload image', ['file' => $file]);
             $this->dispatch('flux-toast', ['variant' => 'success']);
         } else {
-            dd('fehler');
+            Log::error('fehler beim hochladen der Datei', ['file' => $file]);
         }
     }
 

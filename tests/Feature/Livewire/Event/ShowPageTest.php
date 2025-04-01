@@ -88,31 +88,58 @@ test('assign venue listener works', function () {
 
 });
 
-test('event image upload stores correctly', function () {
-    $user = User::factory()->create();
-    $member = Member::factory()->create([
-        'user_id' => $user->id, // Member mit User verknüpfen
-    ]);
-
-    // Nutzer authentifizieren
+test('event page stores image and dispatches success toast', function () {
+    $user = User::factory()->create(['is_admin' => true]);
+    $member = Member::factory()->create(['user_id' => $user->id]);
     $this->actingAs($user);
     $event = \App\Models\Event\Event::factory()->create();
 
-    $fakeImage = UploadedFile::fake()->image('test.jpg');
-
-    $component = Livewire::test(Page::class, ['event' => $event])
-        ->dispatch('image-uploaded', $fakeImage);
-
-    \Illuminate\Support\Facades\Gate::define('manage', fn ($user, $class) => true);
-
-    $fakeImage = UploadedFile::fake()->image('test.jpg');
-
-    Livewire::test(Page::class, ['event' => $event])
-        ->dispatch('image-uploaded', $fakeImage)
+    Livewire::test(\App\Livewire\Event\Show\Page::class, ['event' => $event])
+        ->dispatch('image-uploaded', file: 'test.jpg') // Simulate ImageUpload's output
         ->assertDispatched('flux-toast', function ($name, $params) {
-            return $params[0]['variant'] === 'success'; // Access nested params
-
+            return $params[0]['variant'] === 'success';
         });
+
+    // Verify the event was updated with the image filename
+    expect($event->fresh()->image)->toBe('test.jpg');
+
+    // Optional: Verify history was recorded (if Event uses HasHistory)
+    expect(\App\Models\History::where('historable_id', $event->id)
+        ->where('historable_type', get_class($event))
+        ->where('action', 'updated')
+        ->count())->toBe(1);
+});
+
+test('image upload component processes file and dispatches event', function () {
+    // Setup: Authenticated user with member
+    $user = User::factory()->create();
+    $member = Member::factory()->create(['user_id' => $user->id]);
+    $this->actingAs($user);
+
+    // Create an event for the component
+    $event = \App\Models\Event\Event::factory()->create();
+
+    $user = User::factory()->create();
+    $member = Member::factory()->create(['user_id' => $user->id]);
+    $this->actingAs($user);
+
+    $fakeImage = UploadedFile::fake()->image('test.jpg');
+
+    Storage::fake('public'); // Use a fake disk for consistency
+
+    $component = Livewire::test(\App\Livewire\App\Global\ImageUpload::class)
+        ->set('image', $fakeImage);
+
+    // Get the stored filename
+    $storedFiles = Storage::disk('public')->files('images');
+    $storedFile = ! empty($storedFiles) ? basename($storedFiles[0]) : null;
+
+    $component->assertDispatched('image-uploaded', function ($event, $params) use ($storedFile) {
+        return isset($params['file']) && $params['file'] === $storedFile;
+    });
+
+    Storage::disk('public')->assertExists("images/{$storedFile}");
+    Storage::disk('public')->assertExists("thumbnails/{$storedFile}");
 });
 
 test('clicking add visitor opens modal', function () {

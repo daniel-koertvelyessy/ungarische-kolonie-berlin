@@ -6,13 +6,21 @@ use Laravel\Jetstream\Http\Livewire\DeleteUserForm;
 use Livewire\Livewire;
 
 test('user accounts can be deleted', function () {
-    $this->actingAs($user = User::factory()->create());
+    Queue::fake();
+    $admin = User::factory()->create([
+        'is_admin' => true,
+        'password' => bcrypt('password'), // Ensure password is hashed
+    ]);
+    $this->actingAs($admin);
+
+    $admin->email = 'admin@example.com';
+    $admin->save();
 
     Livewire::test(DeleteUserForm::class)
-        ->set('password', 'password')
+        ->set('password', 'password') // Plaintext password for form input
         ->call('deleteUser');
 
-    expect($user->fresh())->toBeNull();
+    expect($admin->fresh())->toBeNull();
 })->skip(function () {
     return ! Features::hasAccountDeletionFeatures();
 }, 'Account deletion is not enabled.');
@@ -29,3 +37,12 @@ test('correct password must be provided before account can be deleted', function
 })->skip(function () {
     return ! Features::hasAccountDeletionFeatures();
 }, 'Account deletion is not enabled.');
+
+test('user deletion triggers history', function () {
+    config(['queue.default' => 'sync']);
+    $this->actingAs($user = User::factory()->create());
+    $user->delete();
+
+    expect($user->fresh())->toBeNull();
+    expect(\App\Models\History::where('action', 'deleted')->count())->toBe(1);
+});

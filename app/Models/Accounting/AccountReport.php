@@ -4,6 +4,7 @@ namespace App\Models\Accounting;
 
 use App\Enums\ReportStatus;
 use App\Livewire\Traits\HasPrivileges;
+use App\Models\Traits\HasHistory;
 use App\Models\User;
 use Database\Factories\Accounting\AccountReportFactory;
 use Eloquent;
@@ -57,7 +58,7 @@ use Illuminate\Support\Collection;
 final class AccountReport extends Model
 {
     /** @use HasFactory<AccountReportFactory> */
-    use HasFactory, HasPrivileges;
+    use HasFactory, HasHistory, HasPrivileges;
 
     protected $guarded = [];
 
