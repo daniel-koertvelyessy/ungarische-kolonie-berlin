@@ -34,7 +34,7 @@ class MailingService
 
         // Send emails to members and mailing list subscribers
         foreach ($emailRecipients as $recipient) {
-            Log::info('Sending email to ', ['data' => $recipient]);
+//            Log::info('Sending email to ', ['data' => $recipient]);
             $recipientData = array_merge($data, [
                 'notificationType' => $notificationType,
                 'notifiable' => $notifiable,

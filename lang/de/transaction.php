@@ -55,7 +55,8 @@ return [
     'account.iban' => 'IBAN',
     'account.bic' => 'BIC',
     'account.starting_amount' => 'Startguthaben',
-    '' => '',
+
+    'index.title' => 'Übersicht Buchungen',
     '' => '',
     '' => '',
 ];

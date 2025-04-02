@@ -28,7 +28,7 @@
                              class="hidden lg:flex lg:flex-row space-x-2"
         >
             @foreach(\App\Enums\MemberType::cases() as $type)
-                <flux:checkbox label="{{ MemberType::value($type->value) }}"
+                <flux:checkbox label="{{ \App\Enums\MemberType\MemberType::value($type->value) }}"
                                value="{{ $type->value }}"
                 />
             @endforeach

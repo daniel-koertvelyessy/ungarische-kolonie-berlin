@@ -8,6 +8,7 @@ class Page extends Component
 {
     public function render(): \Illuminate\View\View
     {
-        return view('livewire.accounting.transaction.create.page');
+        return view('livewire.accounting.transaction.create.page')
+            ->title(__('transaction.create.title'));
     }
 }

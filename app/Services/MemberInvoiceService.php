@@ -14,12 +14,12 @@ class MemberInvoiceService
         $filename = 'Rechnung-'.$transaction->id.'.pdf';
 
         $pdf = new TransactionInvoicePdf($transaction, $member, $locale);
-        Log::debug('Starting PDF generation for transaction '.$transaction->id);
+//        Log::debug('Starting PDF generation for transaction '.$transaction->id);
         $pdf->generateContent();
-        Log::debug('Content generated for transaction '.$transaction->id);
+//        Log::debug('Content generated for transaction '.$transaction->id);
 
         $pdfContent = $pdf->Output($filename, 'S'); // 'S' to get as string
-        Log::debug('PDF content length: '.strlen($pdfContent));
+//        Log::debug('PDF content length: '.strlen($pdfContent));
 
         return $pdfContent;
     }

@@ -74,6 +74,8 @@ return [
     'show.label.created_at' => 'Erstellt',
     'show.label.updated_at' => 'Zuletzt geändert',
 
+    'show.delete.confirm_prompt' => 'Der Artikel ist veröffentlicht. Bitte die Löschung bestätigen. Der Artikel und alle Bilder gehen verloren!',
+
     'images.empty_list' => 'Keine Bilder ausgewählt',
 
     'notification_mail.subject' => 'Neuer Artikel auf unserer Webseite veröffentlicht!',

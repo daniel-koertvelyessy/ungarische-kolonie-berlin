@@ -382,6 +382,7 @@ class Page extends Component
 
     public function render(): \Illuminate\View\View
     {
-        return view('livewire.accounting.transaction.index.page');
+        return view('livewire.accounting.transaction.index.page')
+            ->title(__('transaction.index.title'));
     }
 }

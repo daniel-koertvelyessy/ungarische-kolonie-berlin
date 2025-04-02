@@ -40,7 +40,7 @@
                      wire:model.live="filteredByType"
                      selected-suffix="{{ __('gewählt') }}"
         >
-            @foreach(\App\Models\Blog\PostType::query()->select('id', 'name') as $type)
+            @foreach(\App\Models\Blog\PostType::query()->select('id', 'name')->get() as $type)
                 <flux:select.option value="{{ $type->id }}">{{ $type->name[$locale] }}</flux:select.option>
             @endforeach
         </flux:select>
@@ -122,6 +122,7 @@
                                     @can('delete',$post)
                                         <flux:menu.item variant="danger"
                                                         wire:click="confirmDeletion({{ $post->id }})"
+                                                        wire:confirm="{{__('post.show.delete.confirm_prompt')}}"
                                                         icon="trash"
                                         >löschen
                                         </flux:menu.item>

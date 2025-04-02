@@ -18,11 +18,14 @@ return [
     'attach-event-success.text' => 'A foglalás és az esemény kapcsolatának létrehozása sikeresen megtörtént',
     'detach-event-success.text' => 'A foglalás és az esemény kapcsolatának törlése sikeresen megtörtént',
     'detach-event-success.heading' => 'Siker',
+
     'access.denied' => 'Nincs jogosultsága a foglalások kezeléséhez: ',
+
     'cancel-transaction-modal.reason.label' => 'A lemondás indoklása',
     'cancel-transaction-modal.reason.error' => 'Meg kell adni a lemondás indokát!',
     'cancel-transaction-modal.heading' => 'Foglalás lemondása',
     'cancel-transaction-modal.btn.submit.label' => 'Lemondás',
+
     'index.menu-item.book' => 'Foglalás',
     'index.menu-item.edit' => 'Szerkesztés',
     'index.menu-item.cancel' => 'Lemondás',
@@ -36,6 +39,10 @@ return [
 
     'index.menu-item.send_invoice' => 'E-mail küldése',
     'index.menu-item.print_invoice' => 'Nyomtatás',
+
+    'index.title' => 'Tranzakciók áttekintése',
+
+    'create.title' => 'Uj Tranzakció',
 
     'account-transfer-modal.btn.submit' => 'Végrehajtás',
     'account-transfer-modal.heading' => 'Átfoglalás (pénzügyi számla módosítása)',
