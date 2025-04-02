@@ -393,7 +393,7 @@
                             <flux:table.cell variant="strong"
                                              align="end"
                             >
-                                <span class="text-{{ TransactionType::color($payment->transaction->type) }}-600">
+                                <span class="text-{{ \App\Enums\TransactionType::color($payment->transaction->type) }}-600">
                                     {{ $payment->transaction->grossForHumans() }}
                                 </span>
                             </flux:table.cell>
