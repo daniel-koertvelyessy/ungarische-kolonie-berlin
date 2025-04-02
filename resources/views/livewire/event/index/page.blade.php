@@ -1,4 +1,4 @@
-@php use App\Enums\EventStatus; @endphp
+
 <div class="space-y-6">
 
 
@@ -31,8 +31,8 @@
                      wire:model.live="filteredBy"
                      selected-suffix="{{ __('gewählt') }}"
         >
-            @foreach(EventStatus::cases() as $type)
-                <flux:select.option value="{{ $type->value }}">{{ EventStatus::value($type->value) }}</flux:select.option>
+            @foreach(App\Enums\EventStatus::cases() as $type)
+                <flux:select.option value="{{ $type->value }}">{{ App\Enums\EventStatus::value($type->value) }}</flux:select.option>
             @endforeach
         </flux:select>
 
@@ -88,7 +88,7 @@
                     <flux:table.cell variant="strong">
                         <a class="underline text-emerald-600"
                            href="{{ route('backend.events.show',$event) }}"
-                        >{{ Str::limit($event->name??'öffnen', 45, preserveWords: true)  }}</a>
+                        >{{ \Illuminate\Support\Str::limit($event->name??'öffnen', 45, preserveWords: true)  }}</a>
                     </flux:table.cell>
                     <flux:table.cell class="hidden sm:table-cell">
                         @if($event->image)
@@ -122,8 +122,8 @@
                     </flux:table.cell>
                     <flux:table.cell>
                         <flux:badge size="sm"
-                                    color="{{ EventStatus::color($event->status) }}"
-                        >{{ EventStatus::value($event->status) }}</flux:badge>
+                                    color="{{ App\Enums\EventStatus::color($event->status) }}"
+                        >{{ App\Enums\EventStatus::value($event->status) }}</flux:badge>
                     </flux:table.cell>
                 </flux:table.row>
             @endforeach

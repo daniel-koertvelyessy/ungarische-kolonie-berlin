@@ -1,5 +1,3 @@
-@php use App\Models\Accounting\Account; @endphp
-@php use App\Models\Membership\Member; @endphp
 <div>
     <flux:heading size="lg">Monatsberichte</flux:heading>
 
@@ -81,7 +79,7 @@
                             />
                         @endif
                     </flux:table.cell>
-                    @can('create', Account::class)
+                    @can('create', \App\Models\Accounting\Account::class)
                         <flux:table.cell>
                             <flux:dropdown>
                                 <flux:button variant="ghost"
@@ -127,7 +125,7 @@
                                  placeholder="Mitglied wählen"
                                  wire:model="selectedMember"
                     >
-                        @foreach(Member::select()->get() as $member)
+                        @foreach(App\Models\Membership\Member::select()->get() as $member)
                             <flux:select.option value="{{ $member->id }}">{{ $member->fullName() }}</flux:select.option>
                         @endforeach
                     </flux:select>

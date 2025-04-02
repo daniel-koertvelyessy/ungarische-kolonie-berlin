@@ -10,7 +10,7 @@ use Tests\Traits\TranslationTestTrait;
 
 uses(TranslationTestTrait::class);
 
-test('event show page component renders correctly', function () {
+test('backend event show page component renders correctly', function () {
 
     // Nutzer mit Member erstellen
     $user = User::factory()->create();
@@ -27,7 +27,7 @@ test('event show page component renders correctly', function () {
         ->assertStatus(200);
 });
 
-test('event show page loads the correct event data', function () {
+test('backend event show page loads the correct event data', function () {
     $user = User::factory()->create();
     $member = Member::factory()->create([
         'user_id' => $user->id, // Member mit User verknüpfen
@@ -42,7 +42,7 @@ test('event show page loads the correct event data', function () {
         ->assertSee($event->name); // Adjust according to your event fields
 });
 
-test('event show page loads subscriptions', function () {
+test('backend event show page loads subscriptions', function () {
     $user = User::factory()->create();
     $member = Member::factory()->create([
         'user_id' => $user->id, // Member mit User verknüpfen
@@ -88,7 +88,7 @@ test('assign venue listener works', function () {
 
 });
 
-test('event page stores image and dispatches success toast', function () {
+test('backend event page stores image and dispatches success toast', function () {
     $user = User::factory()->create(['is_admin' => true]);
     $member = Member::factory()->create(['user_id' => $user->id]);
     $this->actingAs($user);

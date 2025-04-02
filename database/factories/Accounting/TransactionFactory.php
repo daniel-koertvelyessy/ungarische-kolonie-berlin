@@ -25,14 +25,14 @@ class TransactionFactory extends Factory
         $amount_net = $amount_gross * (100 - $vat) / 100;
 
         return [
-            'date' => fake()->dateTimeBetween('-1 month', 'now')->format('Y-m-d'),
-            'label' => fake()->slug,
-            'amount_gross' => Account::makeCentInteger($amount_gross),
-            'vat' => $vat,
-            'amount_net' => Account::makeCentInteger($amount_net),
-            'account_id' => Account::factory()->create()->id, // $this->faker->randomElement(Account::all()->pluck('id')->toArray()),
-            'type' => $this->faker->randomElement([TransactionType::Withdrawal, TransactionType::Deposit]),
-            'status' => TransactionStatus::booked->value,
+            'date' => fake()->dateTimeBetween('-1 week', 'now')->format('Y-m-d'), // date
+            'label' => fake()->slug, // label
+            'amount_gross' => Account::makeCentInteger($amount_gross), // amount_gross
+            'vat' => $vat, // vat
+            'amount_net' => Account::makeCentInteger($amount_net), // amount_net
+            'account_id' => Account::factory()->create()->id, // $this->faker->randomElement(Account::all()->pluck('id')->toArray()), // Account
+            'type' => $this->faker->randomElement([TransactionType::Withdrawal, TransactionType::Deposit]), // type
+            'status' => TransactionStatus::booked->value, // status
         ];
     }
 }

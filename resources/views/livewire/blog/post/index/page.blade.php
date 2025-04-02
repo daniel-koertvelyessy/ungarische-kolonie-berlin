@@ -1,12 +1,10 @@
-@php use App\Models\Blog\Post; @endphp
-@php use App\Enums\EventStatus; @endphp
-@php use App\Models\Blog\PostType; @endphp
+
 <div class="space-y-6">
 
     <flux:heading size="lg">{{__('post.backend.index.page.title')}}</flux:heading>
 
     <nav class="flex gap-3 items-center">
-        @can('create',Post::class)
+        @can('create',\App\Models\Blog\Post::class)
             <flux:button href="{{ route('backend.posts.create') }}"
                          variant="primary"
                          icon-trailing="plus"
@@ -31,8 +29,8 @@
                      wire:model.live="filteredByStatus"
                      selected-suffix="{{ __('gewählt') }}"
         >
-            @foreach(EventStatus::cases() as $status)
-                <flux:select.option value="{{ $status->value }}">{{ EventStatus::value($status->value) }}</flux:select.option>
+            @foreach(App\Enums\EventStatus::cases() as $status)
+                <flux:select.option value="{{ $status->value }}">{{ App\Enums\EventStatus::value($status->value) }}</flux:select.option>
             @endforeach
         </flux:select>
         <flux:select variant="listbox"
@@ -42,7 +40,7 @@
                      wire:model.live="filteredByType"
                      selected-suffix="{{ __('gewählt') }}"
         >
-            @foreach(PostType::all() as $type)
+            @foreach(\App\Models\Blog\PostType::query()->select('id', 'name') as $type)
                 <flux:select.option value="{{ $type->id }}">{{ $type->name[$locale] }}</flux:select.option>
             @endforeach
         </flux:select>

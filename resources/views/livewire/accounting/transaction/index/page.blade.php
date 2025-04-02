@@ -148,7 +148,7 @@
 
                 <flux:table.row :key="$item->id">
                     <flux:table.cell variant="strong"
-                                     class="flex lg:items-center justify-start  flex-col lg:flex-row space-y-3 lg:space-y-0 items-start"
+                                     class="flex lg:items-center justify-start flex-col lg:flex-row space-y-3 lg:space-y-0 items-start"
                     >
                         <span class="text-wrap">{{ $item->label}}</span>
 
@@ -263,7 +263,7 @@
 
                     </flux:table.cell>
 
-                    @can('update', Account::class)
+                    @can('update', \App\Models\Accounting\Account::class)
                         <flux:table.cell>
                             <flux:dropdown>
                                 <flux:button variant="ghost"

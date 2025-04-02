@@ -2,7 +2,7 @@
 
 use App\Models\Event\EventSubscription;
 
-test('generate ics', function () {
+test('external event can generate ics', function () {
     $event = \App\Models\Event\Event::factory()->create();
 
     $response = $this->get('/events/ics/'.$event->slug['de']);
@@ -11,7 +11,7 @@ test('generate ics', function () {
 
 });
 
-test('confirm subscription', function () {
+test('external event can confirm subscription', function () {
     $evs = EventSubscription::factory()->create();
 
     $token = 'event_subscription_'.$evs->id.'_token';
@@ -27,14 +27,14 @@ test('confirm subscription', function () {
 
 });
 
-test('index', function () {
+test('external event index page can be accessed', function () {
     $response = $this->get('/events');
 
     $response->assertStatus(200)
         ->assertViewIs('events.index');
 });
 
-test('show', function () {
+test('external event can show page can be accessed', function () {
     $event = \App\Models\Event\Event::factory()->create();
 
     $response = $this->get('/events/'.$event->slug['de']);

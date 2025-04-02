@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Accounting\FiscalYearSwitcher;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Livewire\Component;
@@ -14,7 +15,8 @@ class Form extends Component
 
     public function mount(): void
     {
-        $this->current_fiscal_year = session('financialYear');
+        $this->current_fiscal_year = session('financialYear') ?? Carbon::now()->format('Y');
+
         $this->fiscalYears = DB::table('transactions')
             ->selectRaw('DISTINCT strftime("%Y", date) as year')
             ->orderBy('year', 'asc')

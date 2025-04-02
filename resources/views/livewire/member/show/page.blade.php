@@ -1,8 +1,3 @@
-@php use App\Enums\Gender; @endphp
-@php use App\Enums\MemberFamilyStatus; @endphp
-@php use App\Enums\MemberType; @endphp
-@php use App\Enums\MemberFeeType; @endphp
-@php use App\Enums\TransactionStatus; @endphp
 <div class="space-y-6">
 
     <flux:heading size="xl">{{ __('members.show.title',['name' => $member->first_name . ' ' . $member->name]) }}</flux:heading>
@@ -111,10 +106,10 @@
                                           variant="segmented"
                                           size="sm"
                         >
-                            @foreach(Gender::toArray() as $key => $gender)
+                            @foreach(\App\Enums\Gender::toArray() as $key => $gender)
                                 <flux:radio :key
                                             value="{{ $gender }}"
-                                >{{ Gender::value($gender) }}</flux:radio>
+                                >{{ \App\Enums\Gender::value($gender) }}</flux:radio>
                             @endforeach
                         </flux:radio.group>
 
@@ -124,10 +119,10 @@
                                           variant="segmented"
                                           size="sm"
                         >
-                            @foreach(MemberFamilyStatus::cases() as $key => $status)
+                            @foreach(\App\Enums\MemberFamilyStatus::cases() as $key => $status)
                                 <flux:radio :key
                                             value="{{ $status->value }}"
-                                >{{ MemberFamilyStatus::value($status->value) }}</flux:radio>
+                                >{{ \App\Enums\MemberFamilyStatus::value($status->value) }}</flux:radio>
                             @endforeach
                         </flux:radio.group>
 
@@ -157,9 +152,9 @@
                                               class="max-sm:flex-col"
                             >
 
-                                @foreach(MemberType::cases() as $key => $type)
+                                @foreach(\App\Enums\MemberType::cases() as $key => $type)
                                     <flux:radio value="{{ $type->value }}"
-                                                label="{{ MemberType::value($type->value) }}"
+                                                label="{{ \App\Enums\MemberType::value($type->value) }}"
                                     />
                                 @endforeach
                             </flux:radio.group>
@@ -167,8 +162,8 @@
                             <flux:field>
                                 <flux:label>{{ __('members.type') }}</flux:label>
                                 <flux:badge size="lg"
-                                            color=" {{ MemberType::color($member_type) }}"
-                                > {{ MemberType::value($member_type) }}</flux:badge>
+                                            color=" {{ \App\Enums\MemberType::color($member_type) }}"
+                                > {{ \App\Enums\MemberType::value($member_type) }}</flux:badge>
                             </flux:field>
                         @endcan
 
@@ -179,9 +174,9 @@
                                               class="max-sm:flex-col"
                             >
 
-                                @foreach(MemberFeeType::cases() as $key => $type)
+                                @foreach(\App\Enums\MemberFeeType::cases() as $key => $type)
                                     <flux:radio value="{{ $type->value }}"
-                                                label="{{ MemberFeeType::value($type->value) }}"
+                                                label="{{ \App\Enums\MemberFeeType::value($type->value) }}"
                                     />
                                 @endforeach
                             </flux:radio.group>
@@ -189,8 +184,8 @@
                             <flux:field>
                                 <flux:label>{{ __('members.fee_type') }}</flux:label>
                                 <flux:badge size="lg"
-                                            color=" {{ MemberFeeType::color($member_type) }}"
-                                > {{ MemberFeeType::value($member_type) }}</flux:badge>
+                                            color=" {{ \App\Enums\MemberFeeType::color($member_type) }}"
+                                > {{ \App\Enums\MemberFeeType::value($member_type) }}</flux:badge>
                             </flux:field>
                         @endcan
 
@@ -210,7 +205,7 @@
 
                     <flux:field>
 
-                        @if($fee_type === MemberFeeType::FREE->value )
+                        @if($fee_type === \App\Enums\MemberFeeType::FREE->value )
                             <flux:badge color="lime"
                                         size="lg"
                             >{{ __('members.') }}
@@ -461,7 +456,7 @@
                                 </flux:table.cell>
 
                                 <flux:table.cell>
-                                    <flux:badge color="{{ TransactionStatus::color($payment->transaction->status) }}">{{ $payment->transaction->status }}</flux:badge>
+                                    <flux:badge color="{{ \App\Enums\TransactionStatus::color($payment->transaction->status) }}">{{ $payment->transaction->status }}</flux:badge>
 
                                 </flux:table.cell>
 

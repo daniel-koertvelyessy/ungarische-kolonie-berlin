@@ -1,4 +1,3 @@
-@php use App\Models\Accounting\Account; @endphp
 <div>
     <header class="py-3 border-b border-zinc-200 mb-6 flex justify-between">
         <flux:heading size="xl">Kassenjahr {{ session('financialYear') }}</flux:heading>
@@ -41,7 +40,7 @@
 
             <section class="my-3 flex justify-between items-center gap-3">
                 <flux:button href="{{ route('transaction.index') }}">Übersicht</flux:button>
-                @can('create', Account::class)
+                @can('create', App\Models\Accounting\Account::class)
                     <flux:button variant="primary"
                                  href="{{ route('transaction.create') }}"
                     ><span class="hidden lg:inline">Buchung</span> Einreichen

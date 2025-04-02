@@ -1,4 +1,4 @@
-@php use App\Enums\Gender; @endphp
+
 <div class="pt-10 space-y-6">
 
 
@@ -29,9 +29,9 @@
             <flux:radio.group wire:model="form.gender"
                               variant="segmented"
             >
-                @foreach(Gender::cases() as $gender)
+                @foreach(\App\Enums\Gender::cases() as $gender)
                     <flux:radio value="{{ $gender->value }}"
-                                label="{{ Gender::value($gender->value) }}"
+                                label="{{ \App\Enums\Gender::value($gender->value) }}"
                     />
                 @endforeach
             </flux:radio.group>

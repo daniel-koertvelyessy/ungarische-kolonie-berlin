@@ -1,5 +1,3 @@
-@php use App\Models\Blog\PostType; @endphp
-@php use App\Enums\EventStatus; @endphp
 <div>
     <form wire:submit="save">
         <flux:tab.group>
@@ -78,15 +76,15 @@
                             <flux:select wire:model="form.post_type_id"
                                          label="{{ __('post.type') }}"
                             >
-                                @foreach(PostType::all() as $type)
+                                @foreach(\App\Models\Blog\PostType::query()->select('id','name')->get() as $type)
                                     <flux:select.option value="{{ $type->id }}">{{ $type->name[$locale] }}</flux:select.option>
                                 @endforeach
                             </flux:select>
                             <flux:select wire:model="form.status"
                                          label="{{ __('post.status') }}"
                             >
-                                @foreach(EventStatus::cases() as $status)
-                                    <flux:select.option value="{{ $status }}">{{ EventStatus::value($status->value) }}</flux:select.option>
+                                @foreach(\App\Enums\EventStatus::cases() as $status)
+                                    <flux:select.option value="{{ $status }}">{{ \App\Enums\EventStatus::value($status->value) }}</flux:select.option>
                                 @endforeach
                             </flux:select>
 
@@ -255,7 +253,7 @@
                             @forelse ($post->images as $image)
 
                                 <div class="flex flex-col mb-4 break-inside-avoid">
-                                    <img src="{{ Storage::url($image->filename) }}"
+                                    <img src="{{ \Illuminate\Support\Facades\Storage::url($image->filename) }}"
                                          alt="{{ $image->caption[app()->getLocale()] ?? $image->original_filename }}"
                                          class="max-w-xs h-auto"
                                     >

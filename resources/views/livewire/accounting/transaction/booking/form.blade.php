@@ -1,6 +1,3 @@
-@php use App\Enums\TransactionStatus; @endphp
-@php use App\Models\Accounting\Account; @endphp
-@php use App\Models\Accounting\BookingAccount; @endphp
 <div>
     <form wire:submit="updateBookingStatus"
           class="space-y-6"
@@ -13,7 +10,7 @@
                           label="Status setzen"
                           variant="segmented"
         >
-            @foreach(TransactionStatus::cases() as $key => $type)
+            @foreach(\App\Enums\TransactionStatus::cases() as $key => $type)
                 <flux:radio :key
                             value="{{ $type->value }}"
                 >{{ $type->value }}</flux:radio>
@@ -28,10 +25,10 @@
                      clearable
                      searchable
         >
-            @can('create', Account::class)
+            @can('create', \App\Models\Accounting\Account::class)
                 <flux:select.option value="new">Neues SKR 49 Buchungskonto</flux:select.option>
             @endcan
-            @foreach(BookingAccount::select('id', 'label', 'number')->get() as $key => $account)
+            @foreach(\App\Models\Accounting\BookingAccount::select('id', 'label', 'number')->get() as $key => $account)
                 <flux:select.option :key
                                     value="{{ $account->id }}"
                 >{{ $account->number }} - {{ $account->label }}</flux:select.option>

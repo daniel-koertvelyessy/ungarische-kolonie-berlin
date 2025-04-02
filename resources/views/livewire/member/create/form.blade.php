@@ -1,19 +1,6 @@
-@php use App\Enums\Gender; @endphp
-@php use App\Enums\MemberFamilyStatus; @endphp
-@php use App\Enums\MembershipFee; @endphp
-@php use App\Models\Membership\Member; @endphp
-@php use App\Enums\MemberType; @endphp
 <div>
     @if(! app()->isProduction())
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+        <x-debug />
     @endif
     <form wire:submit="store">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
@@ -69,10 +56,10 @@
                                               variant="segmented"
                                               size="sm"
                             >
-                                @foreach(Gender::toArray() as $key => $gender)
+                                @foreach(\App\Enums\Gender::toArray() as $key => $gender)
                                     <flux:radio :key
                                                 value="{{ $gender }}"
-                                    >{{ Gender::value($gender) }}</flux:radio>
+                                    >{{ \App\Enums\Gender::value($gender) }}</flux:radio>
                                 @endforeach
                             </flux:radio.group>
 
@@ -82,10 +69,10 @@
                                                   variant="segmented"
                                                   size="sm"
                                 >
-                                    @foreach(MemberFamilyStatus::cases() as $key => $status)
+                                    @foreach(\App\Enums\MemberFamilyStatus::cases() as $key => $status)
                                         <flux:radio :key
                                                     value="{{ $status->value }}"
-                                        >{{ MemberFamilyStatus::value($status->value) }}</flux:radio>
+                                        >{{ \App\Enums\MemberFamilyStatus::value($status->value) }}</flux:radio>
                                     @endforeach
                                 </flux:radio.group>
                             </div>
@@ -93,10 +80,10 @@
                                 <flux:select wire:model="form.family_status"
                                              label="{{ __('members.familystatus.label') }}"
                                 >
-                                    @foreach(MemberFamilyStatus::cases() as $key => $status)
+                                    @foreach(\App\Enums\MemberFamilyStatus::cases() as $key => $status)
                                         <flux:select.option :key
                                                             value="{{ $status->value }}"
-                                        >{{ MemberFamilyStatus::value($status->value) }}</flux:select.option>
+                                        >{{ \App\Enums\MemberFamilyStatus::value($status->value) }}</flux:select.option>
                                     @endforeach
 
                                 </flux:select>
@@ -159,11 +146,11 @@
 
                 <flux:separator text="{{ __('members.section.fees') }}"/>
 
-                <flux:text>{{ __('members.apply.full_fee.label', ['sum' => MembershipFee::FULL->value/100 ]) }}</flux:text>
+                <flux:text>{{ __('members.apply.full_fee.label', ['sum' => \App\Enums\MembershipFee::FULL->value/100 ]) }}</flux:text>
 
-                <flux:text>{{ __('members.apply.discounted_fee.label', ['sum' => MembershipFee::DISCOUNTED->value/100 , 'age' =>  Member::$age_discounted]) }}</flux:text>
+                <flux:text>{{ __('members.apply.discounted_fee.label', ['sum' => \App\Enums\MembershipFee::DISCOUNTED->value/100 , 'age' =>  App\Models\Membership\Member::$age_discounted]) }}</flux:text>
 
-                <flux:text>{{ __('members.apply.free_fee.label', ['sum' => MembershipFee::FREE->value/100 , 'age' =>  Member::$age_free]) }}</flux:text>
+                <flux:text>{{ __('members.apply.free_fee.label', ['sum' => \App\Enums\MembershipFee::FREE->value/100 , 'age' =>  App\Models\Membership\Member::$age_free]) }}</flux:text>
 
                 <flux:checkbox wire:model="form.is_deducted"
                                label="{{ __('members.apply.discount.label') }}"
@@ -189,7 +176,7 @@
 
                 <flux:text x-show="$wire.nomail">{{ __('members.apply.email.without.text') }}</flux:text>
 
-                @can('create', Member::class)
+                @can('create', \App\Models\Membership\Member::class)
 
                     <flux:separator text="{{ __('members.section.admins') }}"/>
 
@@ -212,10 +199,10 @@
                                           label="{{ __('members.type') }}"
                                           variant="segmented"
                         >
-                            @foreach(MemberType::cases() as $key => $type)
+                            @foreach(\App\Enums\MemberType::cases() as $key => $type)
                                 <flux:radio :key
                                             value="{{ $type->value }}"
-                                >{{ MemberType::value($type->value) }}</flux:radio>
+                                >{{ \App\Enums\MemberType::value($type->value) }}</flux:radio>
                             @endforeach
 
                         </flux:radio.group>
@@ -225,10 +212,10 @@
                         <flux:select wire:model="form.type"
                                      label="{{ __('members.type') }}"
                         >
-                            @foreach(MemberType::cases() as $key => $type)
+                            @foreach(\App\Enums\MemberType::cases() as $key => $type)
                                 <flux:select.option :key
                                                     value="{{ $type->value }}"
-                                >{{ MemberType::value($type->value) }}</flux:select.option>
+                                >{{ \App\Enums\MemberType::value($type->value) }}</flux:select.option>
                             @endforeach
 
                         </flux:select>

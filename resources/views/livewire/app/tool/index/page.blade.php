@@ -1,4 +1,3 @@
-@php use Carbon\Carbon; @endphp
 <div>
     <flux:heading size="xl">{{ __('nav.tools') }}</flux:heading>
     <section class="grid grid-cols-1 lg:grid-cols-2 gap-3 my-6">
@@ -203,7 +202,7 @@
                             <flux:badge color="lime"
                                         size="sm"
                             >{{ count($monthlySubscriptions) }}</flux:badge>
-                            neue Anmeldungen in {{ Carbon::today()->locale('de')->isoFormat('MMMM') }}</flux:heading>
+                            neue Anmeldungen in {{ \Carbon\Carbon\Carbon::today()->locale('de')->isoFormat('MMMM') }}</flux:heading>
 
                         <flux:chart wire:model="monthlySubscriptions"
                                     class="aspect-3/1"
@@ -256,7 +255,7 @@
                                     </svg>
                                 </div>
                                 <div class="ml-3 flex-1 md:flex md:justify-between">
-                                    <p class="text-sm text-teal-700"> Eine Anmeldung in {{ Carbon::today()->locale('de')->isoFormat('MMMM') }}</p>
+                                    <p class="text-sm text-teal-700"> Eine Anmeldung in {{ \Carbon\Carbon::today()->locale('de')->isoFormat('MMMM') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -277,7 +276,7 @@
                                     </svg>
                                 </div>
                                 <div class="ml-3 flex-1 md:flex md:justify-between">
-                                    <p class="text-sm text-zinc-700"> Keine neuen Anmeldungen in {{ Carbon::today()->locale('de')->isoFormat('MMMM') }}</p>
+                                    <p class="text-sm text-zinc-700"> Keine neuen Anmeldungen in {{ \Carbon\Carbon::today()->locale('de')->isoFormat('MMMM') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -294,7 +293,7 @@
                             <flux:badge color="lime"
                                         size="sm"
                             >{{ $totalSubscriptionsThisYear }}</flux:badge>
-                            neue Anmeldungen in {{ Carbon::today()->year }}</flux:heading>
+                            neue Anmeldungen in {{ \Carbon\Carbon::today()->year }}</flux:heading>
                         <flux:chart wire:model="yearlySubscriptions"
                                     class="aspect-3/1"
                                     wire:loading.remove
@@ -345,7 +344,7 @@
                                     </svg>
                                 </div>
                                 <div class="ml-3 flex-1 md:flex md:justify-between">
-                                    <p class="text-sm text-teal-700"> Eine neue Anmeldung in {{ Carbon::today()->year }}</p>
+                                    <p class="text-sm text-teal-700"> Eine neue Anmeldung in {{ \Carbon\Carbon::today()->year }}</p>
                                 </div>
                             </div>
                         </div>
@@ -366,7 +365,7 @@
                                     </svg>
                                 </div>
                                 <div class="ml-3 flex-1 md:flex md:justify-between">
-                                    <p class="text-sm text-zinc-700"> Keine neuen Anmeldungen in {{ Carbon::today()->year }}</p>
+                                    <p class="text-sm text-zinc-700"> Keine neuen Anmeldungen in {{ \Carbon\Carbon::today()->year }}</p>
                                 </div>
                             </div>
                         </div>

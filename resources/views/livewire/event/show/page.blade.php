@@ -1,7 +1,3 @@
-@php use App\Enums\EventStatus; @endphp
-@php use App\Enums\TransactionType; @endphp
-@php use App\Enums\AssignmentStatus; @endphp
-@php use App\Models\Membership\Member; @endphp
 <div>
     <flux:heading class="lg:mb-9 lg:hidden"
                   size="lg"
@@ -92,7 +88,7 @@
                             </div>
                         </flux:field>
 
-                        @if($form->status === EventStatus::PUBLISHED->value)
+                        @if($form->status === \App\Enums\EventStatus::PUBLISHED->value)
                             <div class="rounded-md bg-green-50 dark:bg-zinc-900 dark:border-lime-700 dark:border p-4">
                                 <div class="flex">
                                     <div class="shrink-0">
@@ -140,9 +136,9 @@
                                              placeholder="Status ..."
                                              label="{{__('event.form.status')}}"
                                 >
-                                    @foreach(EventStatus::cases() as $status)
+                                    @foreach(\App\Enums\EventStatus::cases() as $status)
                                         <flux:select.option value="{{ $status }}">
-                                            <flux:badge color="{{ EventStatus::color($status->value) }}">{{ EventStatus::value($status->value) }}</flux:badge>
+                                            <flux:badge color="{{ \App\Enums\EventStatus::color($status->value) }}">{{ \App\Enums\EventStatus::value($status->value) }}</flux:badge>
                                         </flux:select.option>
                                     @endforeach
                                 </flux:select>
@@ -811,7 +807,7 @@
                              searchable
                              label="{{__('assignment.lead')}}"
                 >
-                    @foreach(Member::select('id', 'name', 'first_name')->get() as $member)
+                    @foreach(\App\Models\Membership\Member::select('id', 'name', 'first_name')->get() as $member)
                         <flux:select.option value="{{ $member->id }}">{{ $member->fullName() }}</flux:select.option>
                     @endforeach
                 </flux:select>
@@ -824,8 +820,8 @@
                              wire:model="assignmentForm.status"
                              label="{{__('assignment.status')}}"
                 >
-                    @foreach(AssignmentStatus::cases() as $status)
-                        <flux:select.option value="{{$status->value}}">{{ AssignmentStatus::value($status->value) }}</flux:select.option>
+                    @foreach(App\Enums\AssignmentStatus::cases() as $status)
+                        <flux:select.option value="{{$status->value}}">{{ App\Enums\AssignmentStatus::value($status->value) }}</flux:select.option>
                     @endforeach
                 </flux:select>
 
@@ -918,7 +914,7 @@
                              clearable
                              label="{{__('timeline.table.header.member')}}"
                 >
-                    @foreach(Member::select('id', 'name', 'first_name')->get() as $member)
+                    @foreach(\App\Models\Membership\Member::select('id', 'name', 'first_name')->get() as $member)
                         <flux:select.option value="{{ $member->id }}">{{ $member->fullName() }}</flux:select.option>
                     @endforeach
                 </flux:select>

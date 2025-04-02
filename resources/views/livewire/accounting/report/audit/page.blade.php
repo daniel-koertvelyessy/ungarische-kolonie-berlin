@@ -1,5 +1,3 @@
-@php use App\Enums\TransactionType; @endphp
-@php use App\Models\Accounting\Account; @endphp
 <div>
     <section class="lg:flex lg:flex-row gap-6">
 
@@ -14,7 +12,7 @@
                     <dd class="mt-1 text-zinc-700 sm:col-span-2 sm:mt-0">{{$report->account->type }}</dd>
 
                     <dt class="text-sm/6 font-medium text-zinc-900">Start Guthaben</dt>
-                    <dd class="mt-1 text-zinc-700 sm:col-span-2 sm:mt-0">{{ Account::formatedAmount($report->starting_amount) }} <span class="text-xs">EUR</span></dd>
+                    <dd class="mt-1 text-zinc-700 sm:col-span-2 sm:mt-0">{{ \App\Models\Accounting\Account::formatedAmount($report->starting_amount) }} <span class="text-xs">EUR</span></dd>
                 </div>
             </dl>
 
@@ -41,7 +39,7 @@
                         <flux:table.cell class="hidden md:table-cell"></flux:table.cell>
                         <flux:table.cell></flux:table.cell>
 
-                        <flux:table.cell align="end">{{ Account::formatedAmount($report->starting_amount) }}</flux:table.cell>
+                        <flux:table.cell align="end">{{ \App\Models\Accounting\Account::formatedAmount($report->starting_amount) }}</flux:table.cell>
 
 
                     </flux:table.row>
@@ -52,13 +50,13 @@
                     @endphp
                     @foreach($transactions as $transaction)
                         @php
-                            if ($transaction->type === TransactionType::Deposit->value) {
-                               $in = $transaction->amount_gross * TransactionType::calc($transaction->type);
+                            if ($transaction->type === \App\Enums\TransactionType::Deposit->value) {
+                               $in = $transaction->amount_gross * \App\Enums\TransactionType::calc($transaction->type);
                                $out = 0;
                                $sub += $in;
                                $total_in += $in;
                            } else {
-                               $out = $transaction->amount_gross * TransactionType::calc($transaction->type);
+                               $out = $transaction->amount_gross * \App\Enums\TransactionType::calc($transaction->type);
                                $in = 0;
                                $sub += $out;
                                $total_out += $out;
@@ -68,10 +66,10 @@
                             <flux:table.cell>{{ $transaction->date->isoFormat('Do MMMM') }}</flux:table.cell>
                             <flux:table.cell class="hidden md:table-cell text-wrap hyphens-auto">{{ $transaction->label }}</flux:table.cell>
                             <flux:table.cell class="hidden lg:table-cell text-wrap hyphens-auto">{{ $transaction->reference }}</flux:table.cell>
-                            <flux:table.cell align="end"><span class="{{ TransactionType::color($transaction->type) }}">{{ Account::formatedAmount($in) }}</span></flux:table.cell>
-                            <flux:table.cell align="end"><span class="{{ TransactionType::color($transaction->type) }}">{{ Account::formatedAmount($out) }}</span></flux:table.cell>
+                            <flux:table.cell align="end"><span class="{{ \App\Enums\TransactionType::color($transaction->type) }}">{{ Account::formatedAmount($in) }}</span></flux:table.cell>
+                            <flux:table.cell align="end"><span class="{{ \App\Enums\TransactionType::color($transaction->type) }}">{{ Account::formatedAmount($out) }}</span></flux:table.cell>
                             <flux:table.cell class="hidden md:table-cell">{{ $transaction->type }}</flux:table.cell>
-                            <flux:table.cell align="end">{{ Account::formatedAmount($sub) }}</flux:table.cell>
+                            <flux:table.cell align="end">{{ \App\Models\Accounting\AccountAccount::formatedAmount($sub) }}</flux:table.cell>
                         </flux:table.row>
                     @endforeach
                 </flux:table.rows>

@@ -1,4 +1,3 @@
-@php use App\Enums\TransactionStatus; @endphp
 <div>
     <form wire:submit="cancel"
           class="space-y-6"
@@ -15,7 +14,7 @@
                           label="Status"
                           variant="segmented"
         >
-            @foreach(TransactionStatus::cases() as $key => $status)
+            @foreach(\App\Enums\TransactionStatus::cases() as $key => $status)
                 <flux:radio :key
                             value="{{ $status->value }}"
                 >{{ $status->value }}</flux:radio>

@@ -1,4 +1,4 @@
-@php use App\Enums\EventStatus; @endphp
+
 <div>
 
     <flux:heading size="xl"
@@ -95,11 +95,11 @@
                                          placeholder="Choose venue_id"
                                          wire:model="form.status"
                             >
-                                @foreach(EventStatus::cases() as $key => $status)
+                                @foreach(App\Enums\EventStatus::cases() as $key => $status)
                                     <flux:select.option value="{{ $status->value }}"
                                                         :key
                                     >
-                                        <flux:badge color="{{ EventStatus::color($status->value) }}">{{ EventStatus::value($status->value) }}</flux:badge>
+                                        <flux:badge color="{{ App\Enums\EventStatus::color($status->value) }}">{{ App\Enums\EventStatus::value($status->value) }}</flux:badge>
                                     </flux:select.option>
                                 @endforeach
 
@@ -172,17 +172,19 @@
         </flux:button>
     </form>
 
+@can('create', \App\Models\Event\Event::class)
+        <flux:modal name="add-new-venue"
+                    variant="flyout"
+                    position="right"
+                    class="space-y-6"
+        >
+            <flux:heading size="lg">{{ __('venue.new.btn.label') }}</flux:heading>
 
-    <flux:modal name="add-new-venue"
-                variant="flyout"
-                position="right"
-                class="space-y-6"
-    >
-        <flux:heading size="lg">{{ __('venue.new.btn.label') }}</flux:heading>
+            <livewire:venue.create.page/>
 
-        <livewire:venue.create.page/>
+        </flux:modal>
+@endcan
 
-    </flux:modal>
 
 
 </div>

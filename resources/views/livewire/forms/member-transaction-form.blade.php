@@ -1,8 +1,5 @@
-@php use App\Models\Membership\MemberTransaction; @endphp
-@php use App\Models\Accounting\Account; @endphp
-@php use App\Models\Accounting\BookingAccount; @endphp
 <div>
-    @can('create', MemberTransaction::class)
+    @can('create', \App\Models\Membership\MemberTransaction::class)
         <form wire:submit="addTransaction"
               x-data="checkVat"
         >
@@ -35,7 +32,7 @@
                                  searchable
                     >
 
-                        @foreach(Account::select('id', 'name')->get() as $key => $account)
+                        @foreach(\App\Models\Accounting\Account::select('id', 'name')->get() as $key => $account)
                             <flux:select.option :key
                                                 value="{{ $account->id }}"
                             >{{ $account->name }}</flux:select.option>
@@ -54,7 +51,7 @@
                              clearable
                              searchable
                 >
-                    @foreach(BookingAccount::select('id', 'label', 'number')->get() as $key => $account)
+                    @foreach(\App\Models\Accounting\BookingAccount::select('id', 'label', 'number')->get() as $key => $account)
                         <flux:select.option :key
                                             value="{{ $account->id }}"
                         >{{ $account->number }} - {{ $account->label }}</flux:select.option>

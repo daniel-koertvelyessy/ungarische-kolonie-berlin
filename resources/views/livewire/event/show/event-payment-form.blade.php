@@ -1,4 +1,4 @@
-@php use App\Enums\TransactionType; @endphp
+
 <div>
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -23,7 +23,7 @@
                               label="Buchung"
                               variant="segmented"
             >
-                @foreach(TransactionType::cases() as $key => $type)
+                @foreach(App\Enums\TransactionType::cases() as $key => $type)
                     <flux:radio :key
                                 value="{{ $type->value }}"
                     >{{ $type->value }}</flux:radio>

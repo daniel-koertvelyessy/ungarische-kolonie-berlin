@@ -1,6 +1,3 @@
-@php use App\Enums\MemberType; @endphp
-@php use App\Enums\MemberFeeType; @endphp
-@php use App\Models\Membership\Member; @endphp
 <div class="space-y-6">
 
     <flux:heading size="xl">{{ __('members.title') }}</flux:heading>
@@ -30,7 +27,7 @@
         <flux:checkbox.group wire:model.live="filteredBy"
                              class="hidden lg:flex lg:flex-row space-x-2"
         >
-            @foreach(MemberType::cases() as $type)
+            @foreach(\App\Enums\MemberType::cases() as $type)
                 <flux:checkbox label="{{ MemberType::value($type->value) }}"
                                value="{{ $type->value }}"
                 />
@@ -47,13 +44,13 @@
                      placeholder="Filter ..."
                      class=" lg:hidden"
         >
-            @foreach(MemberType::cases() as $type)
-                <flux:select.option value="{{ $type->value }}">{{ MemberType::value($type->value) }}</flux:select.option>
+            @foreach(\App\Enums\MemberType::cases() as $type)
+                <flux:select.option value="{{ $type->value }}">{{ \App\Enums\MemberType::value($type->value) }}</flux:select.option>
             @endforeach
 
         </flux:select>
 
-        @can('create',Member::class)
+        @can('create',App\Models\Membership\Member::class)
             <flux:separator vertical/>
             <flux:button href="{{ route('members.create') }}"
                          size="sm"
@@ -108,13 +105,13 @@
                         <flux:badge size="sm"
                                     :color="\App\Enums\MemberType::color($member->type)"
                                     inset="top bottom"
-                        >{{ MemberType::value($member->type) }}</flux:badge>
+                        >{{ \App\Enums\MemberType::value($member->type) }}</flux:badge>
                     </flux:table.cell>
                     <flux:table.cell class=" hidden sm:table-cell">
                         @php
                             $fee_status = $member->feeStatus();
                         $color = $fee_status['status'] ? 'lime' : 'orange';
-                        $paid = $member->fee_type === MemberFeeType::FREE->value ? __('members.fee-type.free') :  $fee_status['paid'];
+                        $paid = $member->fee_type === \App\Enums\MemberFeeType::FREE->value ? __('members.fee-type.free') :  $fee_status['paid'];
                         @endphp
                         <flux:badge size="sm"
                                     color="{{ $color }}"
@@ -125,7 +122,7 @@
                         {{ optional($member->birth_date)->format('Y-m-d') }}
                     </flux:table.cell>
 
-                    @can('view', Member::class)
+                    @can('view', App\Models\Membership\Member::class)
                         <flux:table.cell>
                             <flux:dropdown :key="$member->id">
                                 <flux:button variant="ghost"
