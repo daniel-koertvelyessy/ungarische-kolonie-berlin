@@ -10,6 +10,6 @@ class Page extends Component
     #[Layout('layouts.guest')]
     public function render(): \Illuminate\View\View
     {
-        return view('livewire.member.apply.page');
+        return view('livewire.member.apply.page')->title(__('welcome.members.apply.header'));
     }
 }

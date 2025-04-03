@@ -34,6 +34,10 @@ Route::get('/mailing-list/{token}', Show::class)->name('mailing-list.show');
 
 Route::get('/rollback-email', [StaticController::class, 'rollbackMail'])->name('rollback-email');
 
+Route::get('/mitglied-werden', function () {
+    return redirect()->route('members.application');
+});
+
 Route::prefix('members')->name('members.')->group(function () {
     Route::get('/application', \App\Livewire\Member\Apply\Page::class)
         ->name('application');

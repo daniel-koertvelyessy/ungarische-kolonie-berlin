@@ -30,6 +30,7 @@
                                                   wire:blur="checkBirthDate"
                                                   label="{{ __('members.birth_date') }}"
                                                   autocomplete="bday"
+                                                  placeholder=""
                                 />
                                 <flux:input wire:model="form.birth_place"
                                             label="{{ __('members.birth_place') }}"
