@@ -10,7 +10,9 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "ext-fileinfo": "*",
         "ext-imagick": "*",
+        "guzzlehttp/guzzle": "^7.9",
         "intervention/image": "^3.11",
         "laravel/framework": "^v12.2.0",
         "laravel/jetstream": "^5.3",
@@ -21,8 +23,7 @@
         "livewire/livewire": "^v3.6.0",
         "opcodesio/log-viewer": "^3.15",
         "ryangjchandler/laravel-cloudflare-turnstile": "^v2.0.1",
-        "tecnickcom/tcpdf": "^6.8",
-        "ext-fileinfo": "*"
+        "tecnickcom/tcpdf": "^6.8"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.5",

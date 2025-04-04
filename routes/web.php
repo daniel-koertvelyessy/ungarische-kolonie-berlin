@@ -71,6 +71,11 @@ Route::prefix('posts')->name('posts.')->group(function () {
 
 });
 
+Route::prefix('chatter')->name('chat.')->group(function () {
+    Route::get('/', [\App\Http\Controllers\WhatsAppController::class, 'index'])->name('index');
+    Route::post('/send', [\App\Http\Controllers\WhatsAppController::class, 'sendMessage'])->name('send');
+});
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
