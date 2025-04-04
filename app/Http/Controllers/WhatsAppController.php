@@ -26,9 +26,9 @@ class WhatsAppController extends Controller
     }
 
     public function getMessage(Request $request ) {
-        $token = 'myfixtoken';
+     
 
-        if($request->get('hub_mode') === 'subscribe' && $request->get('hub_verify_token') === $token) {
+        if($request->get('hub_mode') === 'subscribe' && $request->get('hub_verify_token') === config('services.whatsapp.hook_token')) {
             return response($request->get('hub_challenge'),200);
         }
         return response('Token mismatch',403);
