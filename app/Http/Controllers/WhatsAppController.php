@@ -30,7 +30,14 @@ class WhatsAppController extends Controller
 
         Log::info('incomming request',['request' => $request]);
         if ($request->get('hub_mode') === 'subscribe' && $request->get('hub_verify_token') === config('services.whatsapp.hook_token')) {
-            return response($request->get('hub.challenge'), 200);
+
+            Log::info('request verified',[
+                'hub_verify_token' => $request->get('hub_verify_token'),
+                'vs_token' =>config('services.whatsapp.hook_token'),
+                'hub_challenge' => $request->get('hub_challenge'),
+            ]);
+
+            return response($request->get('hub_challenge'), 200);
         }
 
         return response('Token mismatch', 403);
