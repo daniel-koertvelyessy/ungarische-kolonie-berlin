@@ -15,40 +15,40 @@ class WhatsAppController extends Controller
 
         $respose = Http::withToken($accessToken)
             ->post($hook_url, [
-                    'messaging_product' => 'whatsapp',
-                    'to'                => $request->input('to'),
-                    'type'              => 'text',
-                    'text'              => ['body' => $request->input('message')],
-                ]
+                'messaging_product' => 'whatsapp',
+                'to' => $request->input('to'),
+                'type' => 'text',
+                'text' => ['body' => $request->input('message')],
+            ]
             );
 
         return response()->json($respose->json());
     }
 
-    public function getMessage(Request $request ) {
-
-
-        if($request->get('hub_mode') === 'subscribe' && $request->get('hub_verify_token') === config('services.whatsapp.hook_token')) {
-            return response($request->get('hub_challenge'),200);
-        } else {
-            return response('Token mismatch',403);
+    public function verify(Request $request)
+    {
+        if ($request->get('hub_mode') === 'subscribe' && $request->get('hub_verify_token') === config('services.whatsapp.hook_token')) {
+            return response($request->get('hub_challenge'), 200);
         }
 
+        return response('Token mismatch', 403);
+    }
 
-
+    public function getMessage(Request $request)
+    {
         $data = $request->all();
 
-        Log::info('recieved data from whatsapp webhook:',$data);
+        Log::info('recieved data from whatsapp webhook:', $data);
 
         $message = $data['entry'][0]['changes'][0]['value']['messages'][0] ?? null;
 
-        if($message) {
+        if ($message) {
             $from = $message['from'];
             $body = $message['text']['body'] ?? 'empty body';
-            Log::info('recieved message from whatsapp webhook:',['from'> $from, 'body' => $body]);
+            Log::info('recieved message from whatsapp webhook:', [$from < 'from', 'body' => $body]);
 
         }
 
-        return response('OK',200);
+        return response('OK', 200);
     }
 }

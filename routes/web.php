@@ -72,7 +72,8 @@ Route::prefix('posts')->name('posts.')->group(function () {
 });
 
 Route::prefix('chatter')->name('chat.')->group(function () {
-    Route::get('/', [\App\Http\Controllers\WhatsAppController::class, 'index'])->name('index');
+    Route::get('/', [\App\Http\Controllers\WhatsAppController::class, 'verify']);
+    Route::post('/', [\App\Http\Controllers\WhatsAppController::class, 'getMessage'])->name('get-message');
     Route::post('/send', [\App\Http\Controllers\WhatsAppController::class, 'sendMessage'])->name('send');
 });
 
