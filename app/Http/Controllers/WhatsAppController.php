@@ -27,7 +27,8 @@ class WhatsAppController extends Controller
 
     public function verify(Request $request)
     {
-        if ($request->get('hub.mode') === 'subscribe' && $request->get('hub.verify_token') === config('services.whatsapp.hook_token')) {
+
+        if ($request->get('hub_mode') === 'subscribe' && $request->get('hub_verify_token') === config('services.whatsapp.hook_token')) {
             return response($request->get('hub.challenge'), 200);
         }
 
