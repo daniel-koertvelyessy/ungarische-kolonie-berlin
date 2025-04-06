@@ -88,14 +88,14 @@ class EventForm extends Form
         return [
             'name' => 'required',
             'venue_id' => 'nullable|exists:venues,id',
-            'event_date' => 'nullable|date',
+            'event_date' => 'required|date',
             'start_time' => 'required_with:event_date',
             'end_time' => 'required_with:event_date',
             'title.*' => [  // Using wildcard for each locale key
                 'required',
                 new UniqueJsonSlug('events', 'title', $this->id),
             ],
-            'slug.*' => new UniqueJsonSlug('events', 'slug', $this->id),
+            'slug.*' => ['required', new UniqueJsonSlug('events', 'slug', $this->id)],
             'excerpt' => 'nullable',
             'description' => 'nullable',
             'image' => 'nullable',

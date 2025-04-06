@@ -49,6 +49,11 @@ use Illuminate\Support\Str;
  * @method static Builder<static>|Post whereUpdatedAt($value)
  * @method static Builder<static>|Post whereUserId($value)
  *
+ * @property int|null $event_id
+ * @property-read \App\Models\Event\Event|null $event
+ *
+ * @method static Builder<static>|Post whereEventId($value)
+ *
  * @mixin Eloquent
  */
 class Post extends Model

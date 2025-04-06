@@ -69,6 +69,11 @@ use Illuminate\Support\Carbon;
  * @method static Builder<static>|Event whereUpdatedAt($value)
  * @method static Builder<static>|Event whereVenueId($value)
  *
+ * @property-read Collection<int, \App\Models\History> $histories
+ * @property-read int|null $histories_count
+ * @property-read Collection<int, \App\Models\Blog\Post> $posts
+ * @property-read int|null $posts_count
+ *
  * @mixin Eloquent
  */
 class Event extends Model

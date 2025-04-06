@@ -64,6 +64,9 @@ use Illuminate\Support\Carbon;
  * @method static Builder<static>|Transaction whereUpdatedAt($value)
  * @method static Builder<static>|Transaction whereVat($value)
  *
+ * @property-read Collection<int, \App\Models\History> $histories
+ * @property-read int|null $histories_count
+ *
  * @mixin Eloquent
  */
 class Transaction extends Model

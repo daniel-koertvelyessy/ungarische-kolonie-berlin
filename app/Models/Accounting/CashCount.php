@@ -62,6 +62,9 @@ use Illuminate\Support\Carbon;
  * @method static Builder<static>|CashCount whereUpdatedAt($value)
  * @method static Builder<static>|CashCount whereUserId($value)
  *
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\History> $histories
+ * @property-read int|null $histories_count
+ *
  * @mixin Eloquent
  */
 class CashCount extends Model

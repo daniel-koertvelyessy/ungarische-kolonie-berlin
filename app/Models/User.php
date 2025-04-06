@@ -83,6 +83,9 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @method static Builder<static>|User whereUpdatedAt($value)
  * @method static Builder<static>|User whereUsername($value)
  *
+ * @property-read Collection<int, \App\Models\History> $histories
+ * @property-read int|null $histories_count
+ *
  * @mixin Eloquent
  */
 class User extends Authenticatable implements MustVerifyEmail

@@ -45,6 +45,9 @@ use Illuminate\Support\Carbon;
  * @method static Builder<static>|Account whereUpdatedAt($value)
  * @method static \Database\Factories\Accounting\AccountFactory factory($count = null, $state = [])
  *
+ * @property-read Collection<int, \App\Models\History> $histories
+ * @property-read int|null $histories_count
+ *
  * @mixin Eloquent
  */
 class Account extends Model

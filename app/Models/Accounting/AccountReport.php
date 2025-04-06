@@ -53,6 +53,9 @@ use Illuminate\Support\Collection;
  * @method static Builder<static>|AccountReport whereUpdatedAt($value)
  * @method static \Database\Factories\Accounting\AccountReportFactory factory($count = null, $state = [])
  *
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\History> $histories
+ * @property-read int|null $histories_count
+ *
  * @mixin Eloquent
  */
 final class AccountReport extends Model

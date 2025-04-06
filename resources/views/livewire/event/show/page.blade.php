@@ -158,7 +158,7 @@
                             <flux:label>{{__('event.form.entry_fee')}}</flux:label>
                             <flux:input.group>
                                 <flux:input type="number"
-                                            min="1"
+                                            min="0"
                                             wire:model="form.entry_fee"
                                             placeholder="entry_fee"
                                 />

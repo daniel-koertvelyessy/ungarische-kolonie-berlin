@@ -30,6 +30,9 @@ use Illuminate\Support\Carbon;
  * @method static Builder<static>|Receipt whereTransactionId($value)
  * @method static Builder<static>|Receipt whereUpdatedAt($value)
  *
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\History> $histories
+ * @property-read int|null $histories_count
+ *
  * @mixin Eloquent
  */
 class Receipt extends Model

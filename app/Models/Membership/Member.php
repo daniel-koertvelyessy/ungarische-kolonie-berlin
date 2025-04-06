@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 
@@ -80,6 +81,14 @@ use Illuminate\Notifications\Notifiable;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereZip($value)
+ *
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\History> $histories
+ * @property-read int|null $histories_count
+ * @property-read \App\Models\Membership\MemberRole|null $pivot
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Membership\Role> $roles
+ * @property-read int|null $roles_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Membership\Role> $activeRoles
+ * @property-read int|null $active_roles_count
  *
  * @mixin \Eloquent
  */
@@ -222,5 +231,25 @@ class Member extends Model
     public function age(): int
     {
         return (int) $this->birth_date->diffInYears();
+    }
+
+    /**
+     * The roles that belong to the member.
+     */
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class, 'member_role') // Matches convention
+            ->withPivot('designated_at', 'resigned_at', 'about_me', 'profile_image')
+            ->withTimestamps()
+            ->using(MemberRole::class)
+            ->orderBy('roles.sort', 'asc');
+    }
+
+    /**
+     * The active roles that belong to the member.
+     */
+    public function activeRoles(): BelongsToMany
+    {
+        return $this->roles()->wherePivot('resigned_at', null);
     }
 }

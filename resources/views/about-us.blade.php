@@ -81,6 +81,17 @@
                 <h2 class="text-4xl font-semibold tracking-tight text-pretty  sm:text-5xl">{{ __('aboutus.section.board.title') }}</h2>
                 <p class="mt-6 text-lg/8 ">{{  __('aboutus.section.board.body')  }}</p>
             </div>
+
+
+            @foreach ($team as $member)
+                @foreach ($member->activeRoles as $role)
+                    <div>
+                        <h3>{{ $role->name }}: {{ $member->name }}</h3>
+                        <p>{{ $role->pivot->about_me }}</p>
+                    </div>
+                @endforeach
+            @endforeach
+
             <ul role="list"
                 class="divide-y divide-gray-200 xl:col-span-3"
             >
