@@ -9,9 +9,7 @@ test('registration screen cannot be rendered without token', function () {
     $response = $this->get('/members/register');
     $response->assertStatus(302)
         ->assertSessionHas('error', 'Invalid or expired invitation link. Requested token: ');
-})->skip(function () {
-    return ! Features::enabled(Features::registration());
-}, 'Registration support is not enabled.');
+});
 
 test('registration screen can be rendered with a valid token', function () {
     // Arrange: Create a member and invitation
@@ -34,9 +32,7 @@ test('registration screen can be rendered with a valid token', function () {
         ->assertViewHas('token', $invitation->token)
         ->assertViewHas('invitation', $invitation)
         ->assertViewHas('member', $member);
-})->skip(function () {
-    return ! Features::enabled(Features::registration());
-}, 'Registration support is not enabled.');
+});
 
 test('registration screen cannot be rendered if support is disabled', function () {
     $response = $this->get('/register');
@@ -98,9 +94,7 @@ test('user can register and login with a valid invitation token', function () {
         'id' => $member->id,
         'user_id' => $user->id,
     ]);
-})->skip(function () {
-    return ! Features::enabled(Features::registration());
-}, 'Registration support is not enabled.');
+});
 
 test('fortify registration route is disabled', function () {
     $response = $this->get('/register');

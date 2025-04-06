@@ -25,9 +25,14 @@
                                href="{{ route('members.application') }}"
             >{{__('app.become-member')}}</flux:navlist.item>
             <flux:separator/>
+
             <flux:navlist.item wire:navigate
                                href="{{ route('imprint') }}"
             >{{__('app.imprint')}}</flux:navlist.item>
+
+            <flux:navlist.item wire:navigate
+                               href="{{ route('privacy') }}"
+            >{{__('app.privacy')}}</flux:navlist.item>
 
             @if (Route::has('login'))
 
@@ -105,6 +110,7 @@
         <span class="text-zinc-400 mx-3 text-sm">(c) Magyar Kolónia Berlin e. V.</span>
 
         <x-footer-link link="{{ route('imprint') }}">{{__('app.imprint')}}</x-footer-link>
+        <x-footer-link link="{{ route('privacy') }}">{{__('app.privacy')}}</x-footer-link>
 
 
 

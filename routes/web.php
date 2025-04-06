@@ -26,6 +26,8 @@ Route::get('/lang/{locale}', [LocaleController::class, 'switch'])->name('locale.
 
 Route::get('/imprint', [StaticController::class, 'imprint'])->name('imprint');
 
+Route::get('/privacy', [StaticController::class, 'privacy'])->name('privacy');
+
 Route::get('/about-us', [StaticController::class, 'aboutUs'])->name('about-us');
 
 Route::get('/mailing-list/unsubscribe/{token}', Unsubscribe::class)->name('mailing-list.unsubscribe');

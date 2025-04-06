@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Auth;
 
 class StaticController extends Controller
 {
+    public function privacy(): \Illuminate\View\View
+    {
+        return view('privacy');
+    }
+
     public function imprint(): \Illuminate\View\View
     {
         return view('impressum');

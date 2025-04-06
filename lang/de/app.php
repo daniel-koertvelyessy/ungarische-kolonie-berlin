@@ -11,6 +11,7 @@ return [
     'locale.hu' => 'Ungarisch',
     'home' => 'Startseite',
     'imprint' => 'Impressum',
+    'privacy' => 'Datenschutz',
     'events' => 'Veranstaltungen',
     'blog' => 'Artikel',
     'about-us' => 'Über uns',
