@@ -2,6 +2,7 @@
 
 namespace App\Models\Membership;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 /**
@@ -50,5 +51,15 @@ class MemberRole extends Pivot
     public function activeRolePivot(): ?MemberRole
     {
         return $this->resigned_at === null ? $this : null;
+    }
+
+    public function member(): BelongsTo
+    {
+        return $this->belongsTo(Member::class);
+    }
+
+    public function role(): BelongsTo
+    {
+        return $this->belongsTo(Role::class);
     }
 }

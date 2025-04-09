@@ -102,7 +102,7 @@ class Form extends Component
                 variant: 'success',
             );
 
-            $this->redirect(route('members.show', ['member' => $member]), true);
+            $this->redirect(route('backend.members.show', ['member' => $member]), true);
         }
 
     }

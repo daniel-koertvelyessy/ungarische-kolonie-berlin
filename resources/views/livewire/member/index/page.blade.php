@@ -52,7 +52,7 @@
 
         @can('create',App\Models\Membership\Member::class)
             <flux:separator vertical/>
-            <flux:button href="{{ route('members.create') }}"
+            <flux:button href="{{ route('backend.members.create') }}"
                          size="sm"
                          variant="primary"
             >
@@ -132,7 +132,7 @@
                                 ></flux:button>
 
                                 <flux:menu>
-                                    <flux:menu.item href="{{ route('members.show',$member) }}"
+                                    <flux:menu.item href="{{ route('backend.members.show',$member) }}"
                                                     icon="pencil"
                                     >{{ __('members.con.men.edit') }}</flux:menu.item>
                                     <flux:menu.item icon="currency-euro">{{ __('members.con.men.payment') }}</flux:menu.item>

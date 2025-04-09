@@ -4,6 +4,9 @@ return [
     'dashboard' => 'Dashboard',
     'tools' => 'Werkzeuge',
     'members' => 'Mitglieder',
+    'members.overview' => 'Übersicht',
+    'members.roles' => 'Rollen',
+
     'events' => 'Veranstaltungen',
     'event.overview' => 'Übersicht',
     'event.timeline' => 'Zeitplan',

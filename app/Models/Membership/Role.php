@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @property int $id
- * @property string $name
+ * @property array $name
  * @property string|null $description
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -41,6 +41,7 @@ class Role extends Model
 
     protected $casts = [
         'sort' => 'integer',
+        'name' => 'array',
     ];
 
     /**

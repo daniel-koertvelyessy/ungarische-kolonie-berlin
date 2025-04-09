@@ -1,6 +1,4 @@
-@php use App\Models\Membership\Member; @endphp
-@php use App\Models\Accounting\Account; @endphp
-        <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
@@ -66,7 +64,7 @@
 <body class="font-sans antialiased min-h-screen bg-white dark:bg-zinc-800">
 <flux:sidebar sticky
               stashable
-              class="bg-zinc-50 dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-700"
+              class="bg-zinc-50 dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-700 w-60"
 >
     <div class="flex justify-between">
         <flux:brand href="/"
@@ -98,7 +96,7 @@
                            :current="request()->is('dashboard')"
         >{{ __('nav.dashboard') }}</flux:navlist.item>
 
-        @can('create',Member::class)
+        @can('create', \App\Models\Membership\Member::class)
             <flux:navlist.item wire:navigate
                                icon="cog-6-tooth"
                                href="{{ route('tools.index')  }}"
@@ -107,11 +105,18 @@
 
         @endcan
 
-        <flux:navlist.item wire:navigate
-                           icon="users"
-                           href="{{ route('members.index')  }}"
-                           :current="request()->is('*members*')"
-        >{{ __('nav.members') }}</flux:navlist.item>
+        <flux:navlist.group heading="{{ __('nav.members') }}"
+                            expandable
+        >
+            <flux:navlist.item wire:navigate
+                               href="{{ route('backend.members.index')  }}"
+            >{{ __('nav.members.overview') }}</flux:navlist.item>
+            <flux:navlist.item wire:navigate
+                               href="{{ route('backend.members.roles')  }}"
+            >{{ __('nav.members.roles') }}</flux:navlist.item>
+
+        </flux:navlist.group>
+
 
         <flux:navlist.item wire:navigate
                            icon="newspaper"

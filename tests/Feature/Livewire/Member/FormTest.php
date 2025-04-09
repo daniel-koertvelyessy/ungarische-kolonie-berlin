@@ -173,7 +173,7 @@ test('store creates member without application with authorization', function () 
             $payload['slots']['text'] === __('members.apply.submission.success.msg') &&
             $payload['slots']['heading'] === __('members.apply.submission.success.head');
     });
-    $component->assertRedirect(route('members.show', ['member' => $member]));
+    $component->assertRedirect(route('backend.members.show', ['member' => $member]));
 });
 
 test('all translations are rendered', function () {

@@ -86,50 +86,37 @@ Route::middleware([
 ])->prefix('backend')
     ->group(function () {
 
-        Route::get('/tools', \App\Livewire\App\Tool\Index\Page::class)
-            ->name('tools.index');
+        Route::get('/tools', \App\Livewire\App\Tool\Index\Page::class)->name('tools.index');
 
-        Route::get('/members', \App\Livewire\Member\Index\Page::class)
-            ->name('members.index');
+        Route::get('/members', \App\Livewire\Member\Index\Page::class)->name('backend.members.index');
 
-        Route::get('/members/{member}', \App\Livewire\Member\Show\Page::class)
-            ->name('members.show');
+        Route::get('/members/create', \App\Livewire\Member\Create\Page::class)->name('backend.members.create');
 
-        Route::get('/members-create', \App\Livewire\Member\Create\Page::class)
-            ->name('members.create');
+        Route::get('/members/import', \App\Livewire\Member\Import\Page::class)->name('backend.members.import');
 
-        Route::get('/members-import', \App\Livewire\Member\Import\Page::class)
-            ->name('members.import');
+        Route::get('/members/roles', \App\Livewire\Member\Roles\Page::class)->name('backend.members.roles');
 
-        Route::get('/events', \App\Livewire\Event\Index\Page::class)
-            ->name('backend.events.index');
+        Route::get('/members/{member}', \App\Livewire\Member\Show\Page::class)->name('backend.members.show');
 
-        Route::get('/events/create', \App\Livewire\Event\Create\Page::class)
-            ->name('backend.events.create');
+        Route::get('/events', \App\Livewire\Event\Index\Page::class)->name('backend.events.index');
 
-        Route::get('/events/{event}', \App\Livewire\Event\Show\Page::class)
-            ->name('backend.events.show');
+        Route::get('/events/create', \App\Livewire\Event\Create\Page::class)->name('backend.events.create');
 
-        Route::get('/posts', \App\Livewire\Blog\Post\Index\Page::class)
-            ->name('backend.posts.index');
+        Route::get('/events/{event}', \App\Livewire\Event\Show\Page::class)->name('backend.events.show');
 
-        Route::get('/posts/create', \App\Livewire\Blog\Post\Create\Page::class)
-            ->name('backend.posts.create');
+        Route::get('/posts', \App\Livewire\Blog\Post\Index\Page::class)->name('backend.posts.index');
 
-        Route::get('/posts/{post}', \App\Livewire\Blog\Post\Show\Page::class)
-            ->name('backend.posts.show');
+        Route::get('/posts/create', \App\Livewire\Blog\Post\Create\Page::class)->name('backend.posts.create');
 
-        Route::get('/accounting', \App\Livewire\Accounting\Index\Page::class)
-            ->name('accounting.index');
+        Route::get('/posts/{post}', \App\Livewire\Blog\Post\Show\Page::class)->name('backend.posts.show');
 
-        Route::get('/transaction', \App\Livewire\Accounting\Transaction\Create\Page::class)
-            ->name('transaction.create');
+        Route::get('/accounting', \App\Livewire\Accounting\Index\Page::class)->name('accounting.index');
 
-        Route::get('/transactions', \App\Livewire\Accounting\Transaction\Index\Page::class)
-            ->name('transaction.index');
+        Route::get('/transaction', \App\Livewire\Accounting\Transaction\Create\Page::class)->name('transaction.create');
 
-        Route::get('/account-report', \App\Livewire\Accounting\Report\Index\Page::class)
-            ->name('accounts.report.index');
+        Route::get('/transactions', \App\Livewire\Accounting\Transaction\Index\Page::class)->name('transaction.index');
+
+        Route::get('/account-report', \App\Livewire\Accounting\Report\Index\Page::class)->name('accounts.report.index');
         //
         //        Route::get('/events/report/{event}', function (Event $event, EventReportService $reportService) {
         //            return $reportService->generate($event);
@@ -164,51 +151,34 @@ Route::middleware([
             $member = $transaction->member_transaction->member ?? null;
             $pdfContent = PdfGeneratorService::generatePdf('invoice', ['transaction' => $transaction, 'member' => $member], null, true);
 
-            return response($pdfContent)
-                ->header('Content-Type', 'application/pdf')
-                ->header('Content-Disposition', "inline; filename=\"Rechnung_{$transaction->id}.pdf\"");
+            return response($pdfContent)->header('Content-Type', 'application/pdf')->header('Content-Disposition', "inline; filename=\"Rechnung_{$transaction->id}.pdf\"");
         })->name('transaction.invoice.preview');
 
         Route::get('/account-report/audit/{account_report_audit}', function (AccountReportAudit $accountReportAudit) {
             if (Auth::user()->id === $accountReportAudit->user_id) {
-                return view('accounts.reports.audit', [
-                    'accountReportAuditId' => $accountReportAudit->id,
-                ]);
+                return view('accounts.reports.audit', ['accountReportAuditId' => $accountReportAudit->id]);
             } else {
                 return redirect()->route('accounts.report.index');
             }
         })->name('account-report.audit');
 
-        Route::get('/accounts', \App\Livewire\Accounting\Account\Index\Page::class)
-            ->name('accounts.index');
+        Route::get('/accounts', \App\Livewire\Accounting\Account\Index\Page::class)->name('accounts.index');
 
-        Route::get('/receipts', Page::class)
-            ->name('receipts.index');
+        Route::get('/receipts', Page::class)->name('receipts.index');
 
         Route::get('/dashboard', function () {
             return view('dashboard');
         })->name('dashboard');
 
         Route::get('/test-mail-preview', function () {
-            $mailable = new SendMemberMassMail(
-                'Daniel',
-                request('subject'),
-                request('message'),
-                request('locale'),
-                request('url'),
-                request('url_label'),
-                []
-            );
+            $mailable = new SendMemberMassMail('Daniel', request('subject'), request('message'), request('locale'), request('url'), request('url_label'), []);
 
             return $mailable->render();
         })->name('test-mail-preview');
 
         Route::get('/secure-image/{filename}', function (Request $request, $filename) {
-
             abort_unless(auth()->check(), 403);
-
             $path = storage_path("app/private/accounting/receipts/previews/{$filename}.png");
-
             abort_unless(Storage::disk('local')->exists($path), 404);
 
             return response()->file($path, ['Content-Type' => 'image/png']);

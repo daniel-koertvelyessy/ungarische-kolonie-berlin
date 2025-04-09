@@ -271,7 +271,6 @@
                         </flux:field>
                     @endif
 
-
                     <flux:field class="space-y-2">
                         @if($member->left_at)
 
@@ -360,12 +359,6 @@
                         @endcan
 
                     </flux:field>
-
-                    @can('create',$member)
-                        <flux:modal.trigger name="assign-member-role">
-                            <flux:button variant="primary">Rolle zuordnen</flux:button>
-                        </flux:modal.trigger>
-                    @endcan
 
                 </flux:card>
 
@@ -524,10 +517,5 @@
         </form>
     </flux:modal>
 
-    @can('create',$member)
-        <flux:modal name="assign-member-role">
-            <livewire:member.assign-role.form/>
-        </flux:modal>
-    @endcan
 
 </div>

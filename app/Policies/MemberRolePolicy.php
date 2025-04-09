@@ -4,15 +4,18 @@ namespace App\Policies;
 
 use App\Models\Membership\MemberRole;
 use App\Models\User;
+use App\Policies\Traits\HasAdminPrivileges;
 
 class MemberRolePolicy
 {
+    use HasAdminPrivileges;
+
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return $user->exists();
     }
 
     /**
@@ -20,7 +23,7 @@ class MemberRolePolicy
      */
     public function view(User $user, MemberRole $memberRole): bool
     {
-        return false;
+        return $user->exists();
     }
 
     /**
@@ -28,7 +31,7 @@ class MemberRolePolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $this->getAdminPrivileges($user);
     }
 
     /**
@@ -36,7 +39,7 @@ class MemberRolePolicy
      */
     public function update(User $user, MemberRole $memberRole): bool
     {
-        return false;
+        return $this->getAdminPrivileges($user);
     }
 
     /**
@@ -44,7 +47,7 @@ class MemberRolePolicy
      */
     public function delete(User $user, MemberRole $memberRole): bool
     {
-        return false;
+        return $this->getAdminPrivileges($user);
     }
 
     /**
@@ -52,7 +55,7 @@ class MemberRolePolicy
      */
     public function restore(User $user, MemberRole $memberRole): bool
     {
-        return false;
+        return $this->getAdminPrivileges($user);
     }
 
     /**
@@ -60,6 +63,6 @@ class MemberRolePolicy
      */
     public function forceDelete(User $user, MemberRole $memberRole): bool
     {
-        return false;
+        return $this->getAdminPrivileges($user);
     }
 }
