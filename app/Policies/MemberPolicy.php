@@ -5,10 +5,14 @@ namespace App\Policies;
 use App\Enums\MemberType;
 use App\Models\Membership\Member;
 use App\Models\User;
+use App\Policies\Traits\HasAdminPrivileges;
 use Illuminate\Support\Facades\Auth;
 
 class MemberPolicy
 {
+
+    use HasAdminPrivileges;
+
     /**
      * Determine whether the user can view any models.
      */
@@ -20,9 +24,13 @@ class MemberPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(): bool
+    public function view(User $user, Member $member): bool
     {
-        return $this->checkThis();
+        if ($user->member && $user->member->id == $member->id) {
+            return true;
+        }
+
+        return $this->getAdminPrivileges($user);
 
     }
 
@@ -31,7 +39,7 @@ class MemberPolicy
      */
     public function create(User $user): bool
     {
-        return $this->checkThis();
+        return $this->getAdminPrivileges($user);
     }
 
     /**
@@ -48,7 +56,7 @@ class MemberPolicy
             return true;
         }
 
-        return $this->checkThis();
+        return $this->getAdminPrivileges($user);
     }
 
     /**
@@ -85,19 +93,4 @@ class MemberPolicy
         return false;
     }
 
-    private function checkThis(): bool
-    {
-
-        $user = Auth::user();
-
-        if ($user->is_admin) {
-            return true;
-        }
-
-        if ($user->member && $user->member->type === MemberType::MD->value) {
-            return true;
-        }
-
-        return false;
-    }
 }

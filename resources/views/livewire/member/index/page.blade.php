@@ -5,17 +5,6 @@
 
     <nav class="flex gap-2 items-center ">
 
-        {{--        @if(\Illuminate\Support\Facades\Auth::user()->is_admin)
-                    <flux:button href="{{ route('members.import') }}"
-                                 size="sm"
-                                 icon-trailing="arrow-down-on-square-stack"
-                    ><span class="hidden lg:flex">Importieren</span>
-                    </flux:button>
-                    <flux:separator vertical/>
-
-                @endif--}}
-
-
         <flux:input size="sm"
                     wire:model.live.debounce="search"
                     clearable
@@ -122,7 +111,7 @@
                         {{ optional($member->birth_date)->format('Y-m-d') }}
                     </flux:table.cell>
 
-                    @can('view', App\Models\Membership\Member::class)
+                    @can('view', $member)
                         <flux:table.cell>
                             <flux:dropdown :key="$member->id">
                                 <flux:button variant="ghost"

@@ -56,7 +56,11 @@ return [
     'date.entered_at' => 'Mitgliedschaft bestätigt am',
     'date.left_at' => 'Ausgetreten am',
     'btn.sendVerificationMail.label' => 'Verifizierungs-Erinnerung senden',
-    'btn.sendAcceptanceMail.label' => 'Antrag annehmen',
+
+    'btn.sendAcceptanceMail.label' => 'Antrag annehmen und E-Mail senden',
+    'btn.sendAcceptance.label' => 'Antrag annehmen',
+    'btn.setEnteredAt.label' => 'Angenommen am',
+
     'btn.inviteAsUser.label' => 'Mitglied als Benutzer einladen',
     'accordion.optionals.label' => 'Optionale Angaben',
     'appliance_received.mail.subject' => 'Ihr Mitgliedsantrag ist eingegangen!',

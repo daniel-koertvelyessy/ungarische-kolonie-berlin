@@ -20,6 +20,7 @@ use Flux\Flux;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -61,7 +62,7 @@ class Page extends Component
 
     public $invitation_status;
 
-    protected $listeners = ['updated-payments' => 'payments'];
+    protected $listeners = ['updated-payments' => 'payments', 'membershipAccepted'];
 
     public $fee_type;
 
@@ -81,6 +82,17 @@ class Page extends Component
 
     public function mount(Member $member): void
     {
+        try{
+            $this->authorize('view', $member);
+        } catch (AuthorizationException $e) {
+            Flux::toast($e->getMessage(), 'error');
+            Log::alert('Unberechtigter Zugriffsversuch ',[
+                'Mitglied' => $member,
+                'User' => Auth::user()??'extern',
+                'msg' => $e->getMessage(),
+            ]);
+            $this->redirect(route('backend.members.index'),true);
+        }
         $this->selectedTab = $this->getSelectedTab();
         $this->memberForm->set($member);
         $this->users = User::select('id', 'name')
@@ -180,7 +192,7 @@ class Page extends Component
         }
     }
 
-    public function acceptApplication(): void
+    public function acceptApplication(bool $sendEMail = true): void
     {
         $this->checkPrivilege(Member::class);
 
@@ -193,8 +205,11 @@ class Page extends Component
                 heading: __('Erfolg'),
                 variant: 'success',
             );
-            Mail::to($this->memberForm->email)
-                ->send(new AcceptMembershipMail($this->member));
+            if ($sendEMail) {
+                Mail::to($this->memberForm->email)
+                    ->send(new AcceptMembershipMail($this->member));
+            }
+            $this->dispatch('membershipAccepted');
         }
     }
 
@@ -283,6 +298,8 @@ class Page extends Component
         Flux::modal('add-new-payment')
             ->show();
     }
+
+    public function checkBirthDate() {}
 
     public function render(): \Illuminate\View\View
     {

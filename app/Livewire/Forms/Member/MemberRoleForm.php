@@ -54,7 +54,7 @@ class MemberRoleForm extends Form
 
     protected function uploadFile(): void
     {
-        if (isset($this->profile_image) &&   $this->profile_image === anInstanceOf(TemporaryUploadedFile::class))  {
+        if (isset($this->profile_image) && $this->profile_image === anInstanceOf(TemporaryUploadedFile::class)) {
             $file = $this->profile_image->store('profile_images', 'public');
             $this->profile_image = $file;
         }
@@ -82,16 +82,16 @@ class MemberRoleForm extends Form
     {
         $profile_image_rule = ['nullable'];
 
-        if ($this->profile_image instanceof \Livewire\TemporaryUploadedFile) {
+        if ($this->profile_image instanceof TemporaryUploadedFile) {
             $profile_image_rule = array_merge($profile_image_rule, ['image', 'mimes:jpg, jpeg, gif, png', 'max:20000']);
         }
 
         return [
-            'member_id'     => ['required', 'integer', 'exists:App\Models\Membership\Member,id'],
-            'role_id'       => ['required', 'integer', 'exists:App\Models\Membership\Role,id'],
+            'member_id' => ['required', 'integer', 'exists:App\Models\Membership\Member,id'],
+            'role_id' => ['required', 'integer', 'exists:App\Models\Membership\Role,id'],
             'designated_at' => ['required', 'date'],
-            'resigned_at'   => ['nullable', 'date'],
-            'about_me.*'    => ['nullable', 'string'],
+            'resigned_at' => ['nullable', 'date'],
+            'about_me.*' => ['nullable', 'string'],
             'profile_image' => $profile_image_rule,
         ];
     }
@@ -100,8 +100,8 @@ class MemberRoleForm extends Form
     {
         return [
             'designated_at.required' => __('role.validation.error_required.designated_at'),
-            'member_id.required'     => __('role.validation.error_required.member_id'),
-            'role_id.required'       => __('role.validation.error_required.role_id'),
+            'member_id.required' => __('role.validation.error_required.member_id'),
+            'role_id.required' => __('role.validation.error_required.role_id'),
         ];
     }
 }

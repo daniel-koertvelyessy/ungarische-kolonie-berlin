@@ -25,19 +25,18 @@
             </flux:modal.trigger>
 
         @endcan
-
-        @dump($memberRoleForm)
-        @dump($edit)
-
     </flux:card>
 
     <flux:card>
 
         <header class="flex justify-between items-center">
             <flux:heading>Rollen</flux:heading>
+            @can('create', \App\Models\Membership\Role::class)
+
             <flux:modal.trigger name="make-new-role">
                 <flux:button size="xs" variant="primary">{{ __('role.create.form.btn_add_new_role.label') }}</flux:button>
             </flux:modal.trigger>
+                @endcan
         </header>
 
         @foreach($this->roles as $role)

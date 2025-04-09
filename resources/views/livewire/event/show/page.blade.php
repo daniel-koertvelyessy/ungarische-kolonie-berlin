@@ -70,7 +70,9 @@
                                          placeholder="Choose venue_id"
                                          wire:model="form.venue_id"
                             >
+                                @can('update',\App\Models\Event\Event::class)
                                 <flux:select.option value="new">Neu</flux:select.option>
+                                @endcan
                                 @foreach($this->venues as $key => $venue)
                                     <flux:select.option value="{{ $venue->id }}"
                                                         :key
@@ -82,9 +84,11 @@
                             <div x-show="$wire.form.venue_id ==='new'"
                                  class="pt-3"
                             >
+                                @can('update',\App\Models\Event\Event::class)
                                 <flux:modal.trigger name="add-new-venue">
                                     <flux:button>{{ __('venue.new.btn.label') }}</flux:button>
                                 </flux:modal.trigger>
+                                    @endcan
                             </div>
                         </flux:field>
 
@@ -110,6 +114,7 @@
                                             <p>{{ __('event.show.tab.main.published.status_msg') }}</p>
 
                                         </div>
+                                        @can('update',\App\Models\Event\Event::class)
                                         <div class="mt-4">
                                             <div class="-mx-2 -my-1.5 flex gap-3">
                                                 <flux:button size="sm"
@@ -126,6 +131,7 @@
 
                                             </div>
                                         </div>
+                                            @endcan
                                     </div>
                                 </div>
                             </div>
@@ -142,10 +148,12 @@
                                         </flux:select.option>
                                     @endforeach
                                 </flux:select>
+                                @can('update',\App\Models\Event\Event::class)
                                 <flux:button variant="primary"
                                              icon-trailing="cloud-arrow-up"
                                              wire:click="publishEvent"
                                 >{{ __('event.show.section.published.btn_publish_now') }}</flux:button>
+                                    @endcan
                             </div>
 
                         @endif

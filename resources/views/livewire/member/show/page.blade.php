@@ -34,8 +34,7 @@
                                     label="{{ __('members.name') }}"
                         />
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
-                            <flux:input type="date"
-                                        wire:model="memberForm.birth_date"
+                            <flux:date-picker with-today selectable-header wire:model="memberForm.birth_date"
                                         wire:blur="checkBirthDate"
                                         label="{{ __('members.birth_date') }}"
                                         autocomplete="bday"
@@ -246,10 +245,15 @@
                             <flux:text>{{ __('members.date.entered_at') }} {{ $member->entered_at }}</flux:text>
                             <flux:heading size="lg">{{ $member->entered_at->diffForHumans() }}</flux:heading>
 
-                        @else
-                            <flux:button variant="primary"
-                                         wire:click="acceptApplication"
-                            >{{ __('members.btn.sendAcceptanceMail.label') }}</flux:button>
+                       @else
+                            <flux:button wire:click="acceptApplication(false)"
+                            >{{ __('members.btn.sendAcceptance.label') }}</flux:button>
+
+
+                                <flux:button variant="primary"
+                                             wire:click="acceptApplication"
+                                >{{ __('members.btn.sendAcceptanceMail.label') }}</flux:button>
+
                         @endif
                     </flux:field>
 
