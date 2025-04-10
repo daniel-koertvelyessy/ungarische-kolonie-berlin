@@ -52,6 +52,12 @@
                                class="hidden sm:table-cell"
             >{{ __('event.index.table.header.image') }}</flux:table.column>
             <flux:table.column sortable
+                               :sorted="$sortBy === 'subscriptions'"
+                               :direction="$sortDirection"
+                               wire:click="sort('subscriptions')"
+                               class="hidden sm:table-cell"
+            >{{ __('event.index.table.header.subscriptions') }}</flux:table.column>
+            <flux:table.column sortable
                                :sorted="$sortBy === 'date'"
                                :direction="$sortDirection"
                                wire:click="sort('event_date')"
@@ -101,8 +107,9 @@
                             />
                         @endif
                     </flux:table.cell>
-
-
+                    <flux:table.cell class="hidden sm:table-cell">
+                       <flux:badge color="{{ $event->subscriptions->count() > 0 ? 'lime' : 'grey' }}" size="sm"> {{ $event->subscriptions->count() }}</flux:badge>
+                    </flux:table.cell>
                     <flux:table.cell class="hidden sm:table-cell">
                         {{ optional($event->event_date)->format('Y-m-d') }}
                     </flux:table.cell>

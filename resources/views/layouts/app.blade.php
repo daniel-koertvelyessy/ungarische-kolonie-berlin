@@ -173,7 +173,6 @@
         />
 
         <flux:menu>
-
             <flux:menu.item wire:navigate
                             icon="user"
                             href="{{ route('profile.show') }}"
@@ -182,13 +181,15 @@
                             icon="key"
                             href="{{ route('api-tokens.index') }}"
             >{{ __('nav.profile.api') }}</flux:menu.item>
-
-
             <livewire:app.global.notifications-menu/>
             {{--           <flux:menu.separator/>
                        <livewire:app.global.dark-mode-toggle />--}}
             <flux:menu.separator/>
             <livewire:app.global.language-switcher/>
+            @if(Auth::user()->is_admin)
+                <flux:menu.item href="/log-viewer" target="_blank"
+                >Logs</flux:menu.item>
+            @endif
             <flux:menu.separator/>
             <form method="POST"
                   action="{{ route('logout') }}"

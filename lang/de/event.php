@@ -86,6 +86,7 @@ return [
     'index.btn.start_new' => 'Neu erstellen',
     'index.table.header.title' => 'Titel',
     'index.table.header.image' => 'Titelbild',
+    'index.table.header.subscriptions' => 'Anmeldungen',
 
     'create.slug.notice' => 'Der slug wird als Link in zwei Sprachen angelegt. Dieser kann nachträglich nicht mehr geändert werden!',
     'create.page.title' => 'Neue Veranstaltung erstellen',

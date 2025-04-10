@@ -22,6 +22,9 @@ class AppLayout extends Component
 
     public function mount(): void {}
 
+    /**
+     * Get the view / view contents that represent the component.
+     */
     public function render(): View
     {
         return view('layouts.app');

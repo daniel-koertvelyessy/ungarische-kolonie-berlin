@@ -6,13 +6,18 @@ use App\Enums\EventStatus;
 use App\Livewire\Traits\Sortable;
 use App\Models\Event\Event;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
 
+/**
+ *
+ */
 class Page extends Component
 {
-    use Sortable, WithPagination;
+    use Sortable;
+    use WithPagination;
 
     public string $locale;
 
@@ -23,11 +28,17 @@ class Page extends Component
         EventStatus::PUBLISHED->value,
     ];
 
+    /**
+     * @return void
+     */
     public function updatedSearch(): void
     {
         $this->resetPage();
     }
 
+    /**
+     * @return void
+     */
     public function mount(): void
     {
         $this->locale = session('locale') ?? app()->getLocale();
@@ -35,11 +46,15 @@ class Page extends Component
         $this->sortDirection = 'desc';
     }
 
+    /**
+     * @return LengthAwarePaginator
+     */
     #[Computed]
     public function events(): LengthAwarePaginator
     {
         return Event::query()
             ->with('venue')
+            ->with('subscriptions')
             ->tap(fn ($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
             ->tap(fn ($query) => $this->search ? $query->where('title', 'LIKE', '%'.$this->search.'%')
                 ->orWhere('name', 'LIKE', '%'.$this->search.'%')
@@ -48,7 +63,10 @@ class Page extends Component
             ->paginate(10);
     }
 
-    public function render(): \Illuminate\View\View
+    /**
+     * @return View
+     */
+    public function render(): View
     {
         return view('livewire.event.index.page');
     }
