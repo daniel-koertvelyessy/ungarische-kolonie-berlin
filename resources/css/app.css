@@ -68,16 +68,20 @@
 }
 
 
-
-h1{
-    @apply text-emerald-600 dark:text-emerald-400;
+@layer base {
+    h1 {
+        @apply text-emerald-600 dark:text-emerald-400;
+    }
 }
 
-.positive{
-    @apply text-emerald-600 dark:text-emerald-400 ;
-}
-.negative{
-    @apply text-orange-600 dark:text-orange-400 ;
+@layer components {
+    .positive {
+        @apply text-emerald-600 dark:text-emerald-400;
+    }
+
+    .negative {
+        @apply text-orange-600 dark:text-orange-400;
+    }
 }
 
 [x-cloak] {
