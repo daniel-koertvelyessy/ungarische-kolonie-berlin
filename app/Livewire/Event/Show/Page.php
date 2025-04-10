@@ -18,10 +18,13 @@ use App\Models\EventAssignment;
 use App\Models\EventTimeline;
 use App\Models\User;
 use App\Models\Venue;
+use App\Services\MailingService;
 use Carbon\Carbon;
 use Flux\Flux;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -29,7 +32,10 @@ use Livewire\WithPagination;
 
 class Page extends Component
 {
-    use HasPrivileges, PersistsTabs, Sortable, WithPagination;
+    use HasPrivileges;
+    use PersistsTabs;
+    use Sortable;
+    use WithPagination;
 
     public EventForm $form;
 
@@ -68,7 +74,7 @@ class Page extends Component
     }
 
     #[Computed]
-    public function venues(): \Illuminate\Database\Eloquent\Collection
+    public function venues(): Collection
     {
         return Venue::select('id', 'name')
             ->get();
@@ -136,7 +142,7 @@ class Page extends Component
     public function storeImage($file): void
     {
         if ($this->form->storeImage($file)) {
-            Log::debug('upload image', ['file' => $file]);
+            //            Log::debug('upload image', ['file' => $file]);
             $this->dispatch('flux-toast', ['variant' => 'success']);
         } else {
             Log::error('fehler beim hochladen der Datei', ['file' => $file]);
@@ -282,7 +288,7 @@ class Page extends Component
     public function sendPublicationNotification(): void
     {
 
-        $mailingService = app(\App\Services\MailingService::class);
+        $mailingService = app(MailingService::class);
 
         $mailingService->sendNotificationsToSubscribers(
             'events',
@@ -295,7 +301,7 @@ class Page extends Component
 
     }
 
-    public function render(): \Illuminate\View\View
+    public function render(): View
     {
         return view('livewire.event.show.page')
             ->title(__('event.show.title').' '.$this->event->name);

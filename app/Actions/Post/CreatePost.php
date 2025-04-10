@@ -1,22 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Post;
 
 use App\Livewire\Forms\Blog\PostForm;
 use App\Models\Blog\Post;
 use Illuminate\Notifications\Action;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 final class CreatePost extends Action
 {
-    public static function handle(Postform $form, array $images = []): Post
+    public static function handle(PostForm $form): Post
     {
         return DB::transaction(function () use ($form) {
 
-            Log::debug('post_type_id . '.$form->post_type_id);
+            //            Log::debug('post_type_id . '.$form->post_type_id);
 
-            $post = Post::create([
+            return Post::create([
                 'title' => $form->title,
                 'slug' => $form->slug,
                 'body' => $form->body,
@@ -27,8 +28,6 @@ final class CreatePost extends Action
                 'published_at' => $form->published_at,
                 'event_id' => $form->event_id,
             ]);
-
-            return $post;
         });
 
     }

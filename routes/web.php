@@ -7,6 +7,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\StaticController;
 use App\Http\Controllers\TestingController;
+use App\Http\Controllers\WhatsAppController;
 use App\Livewire\Accounting\Receipt\Index\Page;
 use App\Livewire\App\Global\Mailinglist\Show;
 use App\Livewire\App\Global\Mailinglist\Unsubscribe;
@@ -74,10 +75,21 @@ Route::prefix('posts')->name('posts.')->group(function () {
 });
 
 Route::prefix('chatter')->name('chat.')->group(function () {
-    Route::get('/', [\App\Http\Controllers\WhatsAppController::class, 'verify']);
-    Route::post('/', [\App\Http\Controllers\WhatsAppController::class, 'getMessage'])->name('get-message');
-    Route::post('/send', [\App\Http\Controllers\WhatsAppController::class, 'sendMessage'])->name('send');
+    Route::get('/', [WhatsAppController::class, 'verify']);
+    Route::post('/', [WhatsAppController::class, 'getMessage'])->name('get-message');
+    Route::post('/send', [WhatsAppController::class, 'sendMessage'])->name('send');
 });
+
+// TODO delete route if log entries do not show up after 3 months
+Route::get('/dashboard', function () {
+    \Illuminate\Support\Facades\Log::info('dashboard accessed from old route');
+
+    return redirect()->route('dashboard');
+})->middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+]);
 
 Route::middleware([
     'auth:sanctum',

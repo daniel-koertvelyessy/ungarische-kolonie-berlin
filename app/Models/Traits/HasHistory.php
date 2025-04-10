@@ -3,9 +3,13 @@
 namespace App\Models\Traits;
 
 use App\Jobs\RecordHistory;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
+/**
+ *  track changes in important models
+ */
 trait HasHistory
 {
     public static function bootHasHistory(): void
@@ -20,13 +24,13 @@ trait HasHistory
         });
 
         static::deleting(function ($model) {
-            Log::debug('make static deleted', ['model' => $model]);
+            //            Log::debug('make static deleted', ['model' => $model]);
             $model->recordHistory('deleted');
         });
 
     }
 
-    public function histories()
+    public function histories(): MorphMany
     {
         return $this->morphMany(\App\Models\History::class, 'historable');
     }
@@ -53,7 +57,7 @@ trait HasHistory
         //            'changed_at' => now(),
         //        ]);
         //
-        Log::debug('issue job', ['changes' => $changes]);
+        //        Log::debug('issue job', ['changes' => $changes]);
 
         RecordHistory::dispatch($this, $action, $changes, Auth::id());
     }
