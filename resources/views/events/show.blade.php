@@ -1,4 +1,4 @@
-<x-guest-layout :title="$event->title[$locale]">
+<x-guest-layout :title="$event->title[$locale]" :$event>
     <x-slot name="head">
         <!-- Canonical URL -->
         <link rel="canonical"

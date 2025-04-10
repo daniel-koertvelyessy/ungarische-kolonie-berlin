@@ -7,16 +7,20 @@ use App\Enums\EventStatus;
 use App\Models\Event\Event;
 use App\Models\Event\EventSubscription;
 use App\Services\IcsGeneratorService;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class EventController extends Controller
 {
-    public function generateIcs(string $slug, IcsGeneratorService $service): \Illuminate\Http\Response
+    public function generateIcs(string $slug, IcsGeneratorService $service): Response
     {
         return $service->generate($slug);
     }
 
-    public function index(int $numPages = 5): \Illuminate\View\View
+    public function index(int $numPages = 5): View
     {
         return view('events.index', [
             'events' => Event::orderBy('event_date')
@@ -26,27 +30,66 @@ class EventController extends Controller
         ]);
     }
 
-    public function show(string $slug): \Illuminate\View\View
+    public function show(string $slug): View
     {
-        $locale = App::getLocale();
-        $event = Event::query()
+
+        $event_hu = Event::query()
             ->with('venue')
             ->with('posts')
             ->with('timelines')
-            ->where("slug->{$locale}", $slug) // Match the slug for the specific locale
-            ->firstOrFail();
-        $relatedPosts = $event->relatedPosts();
-        $relatedPostsCount = $event->relatedPosts()
-            ->count();
+            ->whereJsonContains('slug->hu', $slug) // Match the slug for the specific locale
+            ->first();
 
-        return view('events.show', [
-            'event' => $event,
-            'locale' => $locale,
-            'relatedPosts' => $relatedPosts,
-            'relatedPostsCount' => $relatedPostsCount,
-        ]);
+        $event_de = Event::query()
+            ->with('venue')
+            ->with('posts')
+            ->with('timelines')
+            ->whereJsonContains('slug->de', $slug) // Match the slug for the specific locale
+            ->first();
+
+        if ($event_hu) {
+            $event = $event_hu;
+            $locale = App\Enums\Locale::HU->value;
+            app()->setLocale($locale);
+            $related_posts = $event->relatedPosts();
+            $posts_count = $event->relatedPosts()
+                ->count();
+
+            return view('events.show', [
+                'event' => $event,
+                'locale' => $locale,
+                'relatedPosts' => $related_posts,
+                'relatedPostsCount' => $posts_count,
+            ]);
+        }
+
+        if ($event_de) {
+            $event = $event_de;
+            $locale = App\Enums\Locale::DE->value;
+            app()->setLocale($locale);
+            $related_posts = $event->relatedPosts();
+            $posts_count = $event->relatedPosts()
+                ->count();
+
+            return view(
+                'events.show', [
+                    'event' => $event,
+                    'locale' => $locale,
+                    'relatedPosts' => $related_posts,
+                    'relatedPostsCount' => $posts_count,
+                ]);
+        }
+
+        abort(404);
+
     }
 
+    /**
+     * @return View|void
+     *
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function confirmSubscription(int $eventSubscriptionId, string $token)
     {
         $storedToken = cache()->get("event_subscription_{$eventSubscriptionId}_token");

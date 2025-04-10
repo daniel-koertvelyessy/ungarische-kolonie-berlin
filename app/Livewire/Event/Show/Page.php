@@ -121,7 +121,9 @@ class Page extends Component
     public function addVisitor(): void
     {
         $this->checkPrivilege(Event::class);
-        $this->dispatch('modal-show', ['name' => 'add-new-visitor']);
+        Flux::modal('add-new-visitor')->show();
+        //        $this->dispatch('modal-show', ['name' => 'add-new-visitor']);
+
     }
 
     public function updateEventData(): void

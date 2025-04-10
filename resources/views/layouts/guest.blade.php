@@ -69,7 +69,14 @@
             </flux:navbar>
             {{ $slot }}
         </div>
-        <x-guest-footer/>
+        @if(isset($event))
+            <x-guest-footer :event="$event"/>
+        @elseif(isset($post))
+            <x-guest-footer :post="$post"/>
+        @else
+            <x-guest-footer/>
+        @endif
+
         @persist('toast')
         <flux:toast position="top right"/>
         @endpersist

@@ -31,8 +31,6 @@ return [
 
     'tickets.start.label' => 'Karten reservieren',
     'tickets.start.btn' => 'Reservieren',
-
-    'subscription.title' => 'Veranstaltung folgen',
     'subscription.text' => 'Wir freuen uns sehr, dass ein Interesse an der Veranstaltung besteht. Für eine bessere Planung kannst Du Dich in dem Formular unten eintragen. So erhalten wir eine bessere Übersicht zu der erwartenden Besucherzahl.',
     'subscription.consent' => 'Zudem können wir diese E-Mail-Adresse benutzen, um Dich über Änderungen zu informieren. Bitte aktiviere den Schalter, wenn das gewünscht ist',
     'subscription.consent.label' => 'Ja bitte zu dieser Veranstaltung Nachrichten senden.',
@@ -46,6 +44,21 @@ return [
     'subscription.mail.bring_a_guest' => 'Wir freuen uns, dass Du :num Gäste mitbringen möchtest.',
     'subscription.mail.notification' => 'Wir werden uns melden, wenn sich Änderungen ergeben',
     'subscription.mail.ignore' => 'Falls du dich nicht angemeldet hast, ignoriere diese E-Mail.',
+
+    'subscription.title' => 'An Veranstaltung teilnehmen',
+    'subscription.name' => 'Ihr vollständiger Name',
+    'subscription.email' => 'E-Mail-Adresse',
+    'subscription.phone' => 'Telefon- oder Mobilnummer',
+    'subscription.remarks' => 'Weitere Anmerkungen',
+    'subscription.amountGuests' => 'Anzahl zusätzlicher Gäste',
+    'subscription.bringFriends' => 'Ich bringe Gäste mit',
+
+    'backend.subscription.title' => 'Besucherregistrierung',
+    'backend.subscription.sendNotification.label' => 'Bestätigungs-E-Mail an Besucher senden',
+    'backend.subscription.consent.label' => 'Besucher zur Mailingliste hinzufügen',
+    'backend.subscription.confirm_subscription_message' => 'Eine Bestätigungs-E-Mail wurde erfolgreich versendet.',
+    'backend.subscription.submit-button.label' => 'Anmeldung speichern',
+    'backend.subscription.subscribe-button.label' => 'Teilnahme ankündigen',
 
     'visitors.empty_results_msg' => 'Bislang keine Besucher erfasst',
     'visitor.btn.add.label' => 'Neuen Besucher erfassen',
@@ -131,7 +144,6 @@ return [
 
     'show.section.published.btn_publish_now' => 'Veranstaltung veröffentlichen',
 
-    'section.published.toast_success.msg' => 'Die Veranstalung wurde erfolgreich veröffentlicht.',
     'section.published.toast_success.msg' => 'Die Veranstalung wurde erfolgreich veröffentlicht.',
     'section.published.toast_success.heading' => 'Erfolg',
     'show.tab.main.published.confirmation_msg' => 'Bitte die Absage der Veranstaltung bestätigen',

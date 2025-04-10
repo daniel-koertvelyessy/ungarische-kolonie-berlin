@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Enums\EventStatus;
+use App\Enums\Locale;
 use App\Models\Blog\Post;
 use Flux\Flux;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\View\View;
 
 class PostController extends Controller
 {
-    public function index(): \Illuminate\View\View
+    public function index(): View
     {
         return view('posts.index', [
             'posts' => Post::query()
@@ -20,28 +21,39 @@ class PostController extends Controller
         ]);
     }
 
-    public function show(string $slug): \Illuminate\View\View
+    public function show(string $slug): View
     {
-        $locale = app()->getLocale();
 
-        try {
-            $post = Post::query()
-                ->with('images')
-                ->where("slug->{$locale}", $slug) // Match the slug for the specific locale
-                ->firstOrFail();
+        $post_de = Post::query()->with('images')->whereJsonContains('slug->de', $slug)->first();
+        $post_hu = Post::query()->with('images')->whereJsonContains('slug->hu', $slug)->first();
+
+        if ($post_de) {
+            $post = $post_de;
             $images = $post->images;
 
             return view('posts.show', [
                 'post' => $post,
                 'images' => $images,
-                'locale' => $locale,
+                'locale' => Locale::DE->value,
             ]);
 
-        } catch (ModelNotFoundException $e) {
-            Flux::toast('Post not found!', 'Fehler');
-
-            return view('posts.index');
         }
+
+        if ($post_hu) {
+            $post = $post_hu;
+            $images = $post->images;
+
+            return view('posts.show', [
+                'post' => $post,
+                'images' => $images,
+                'locale' => Locale::HU->value,
+            ]);
+
+        }
+
+        Flux::toast('Post not found!', 'Fehler');
+
+        return view('posts.index');
 
     }
 }

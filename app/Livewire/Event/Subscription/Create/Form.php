@@ -28,6 +28,8 @@ class Form extends Component
 
     public $amountGuests = 0;
 
+    public bool $sendNotification = true;
+
     protected $rules = [
         'name' => 'required|string|max:255',
         'email' => 'required|email|max:255',
@@ -74,13 +76,16 @@ class Form extends Component
             'amount_guests' => $this->bringsGuests ? $this->amountGuests : 0,
         ]);
 
-        // Bestätigungsmail senden
-        $token = Str::random(32);
-        cache()->put("event_subscription_{$subscription->id}_token", $token, now()->addHours(24));
+        if ($this->sendNotification) {
+            // Bestätigungsmail senden
+            $token = Str::random(32);
+            cache()->put("event_subscription_{$subscription->id}_token", $token, now()->addHours(24));
 
-        Mail::to($subscription->email)->send(new ConfirmEventSubscription($subscription, $token));
+            Mail::to($subscription->email)
+                ->send(new ConfirmEventSubscription($subscription, $token));
 
-        Flux::toast(__('event.subscription.confirm_subscription_message'));
+            Flux::toast(__('event.subscription.confirm_subscription_message'));
+        }
 
     }
 

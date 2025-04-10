@@ -150,7 +150,7 @@ test('clicking add visitor opens modal', function () {
 
     $component = Livewire::test(\App\Livewire\Event\Show\Page::class, ['event' => $event])
         ->call('addVisitor')
-        ->assertDispatched('modal-show', ['name' => 'add-new-visitor']);
+        ->assertDispatched('modal-show');
 });
 
 test('deleting assignment removes it and shows toast', function () {

@@ -1,16 +1,17 @@
 <?php
 
 return [
-    'welcome' => 'Üdvözöllek',
+    'welcome' => 'Üdvözlünk!',
     'male' => 'Férfi',
     'female' => 'Nő',
     'locale' => 'Nyelv',
     'locale.de' => 'Német',
-    'locale.to-de' => 'Magyar',
-    'locale.to-hu' => 'Német',
+    'locale.to-de' => 'Váltás németre',
+    'locale.to-hu' => 'Váltás magyarra',
     'locale.hu' => 'Magyar',
     'home' => 'Kezdőlap',
     'imprint' => 'Impresszum',
+    'privacy' => 'Adatvédelem',
     'events' => 'Események',
     'blog' => 'Cikkek',
     'about-us' => 'Rólunk',

@@ -34,7 +34,7 @@ return [
     'show.details.heading' => 'Esemény részletek',
 
     'subscribe' => 'Érdekel?',
-    'subscription.title' => 'Esemény követése',
+
     'subscription.text' => 'Nagyon örülünk, hogy érdeklődsz az esemény iránt. A jobb tervezés érdekében kérünk, hogy töltsd ki az alábbi űrlapot. Így jobb áttekintést kapunk a várható látogatószámról.',
     'subscription.consent' => 'Ezenkívül ezt az e-mail címet felhasználhatjuk arra, hogy értesítsünk a változásokról. Kérlek, engedélyezd ezt a lehetőséget, ha szeretnéd megkapni az értesítéseket.',
     'subscription.consent.label' => 'Igen, kérek értesítéseket erről az eseményről.',
@@ -48,6 +48,21 @@ return [
     'subscription.mail.bring_a_guest' => 'Örülünk, hogy :num vendéget hozol magaddal.',
     'subscription.mail.notification' => 'Értesítünk, ha változások történnek.',
     'subscription.mail.ignore' => 'Ha nem jelentkeztél, hagyd figyelmen kívül ezt az e-mailt.',
+
+    'subscription.title' => 'Csatlakozz az eseményhez',
+    'subscription.name' => 'Neved',
+    'subscription.email' => 'E-mail címed',
+    'subscription.phone' => 'Telefon / mobil',
+    'subscription.remarks' => 'Megjegyzés',
+    'subscription.amountGuests' => 'Vendégek száma',
+    'subscription.bringFriends' => 'Hozok magammal vendéget',
+
+    'backend.subscription.title' => 'Látogatók regisztrálása',
+    'backend.subscription.sendNotification.label' => 'Küldjünk visszaigazolást e-mailben?',
+    'backend.subscription.consent.label' => 'Felvétel a levelezőlistára',
+    'backend.subscription.confirm_subscription_message' => 'Egy megerősítő e-mailt elküldtünk.',
+    'backend.subscription.submit-button.label' => 'Regisztráció mentése',
+    'backend.subscription.subscribe-button.label' => 'Jelentkezem',
 
     'name.required' => 'Kérlek, add meg a neved!',
     'email.required' => 'Szükségünk van az e-mail címedre.',

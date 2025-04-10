@@ -281,6 +281,13 @@
         </flux:tab.panel>
 
         <flux:tab.panel name="event-show-subscriptions">
+            @can('create',\App\Models\Event\Event::class)
+
+                <flux:modal.trigger name="add-subscription">
+                    <flux:button variant="primary">neue Anmeldung hinzufügen</flux:button>
+                </flux:modal.trigger>
+            @endcan
+
             <flux:table :paginate="$this->subscriptions">
                 <flux:table.columns>
                     <flux:table.column>Name</flux:table.column>
@@ -763,6 +770,14 @@
         </flux:tab.panel>
     </flux:tab.group>
 
+    <flux:modal name="add-subscription"
+                variant="flyout"
+                position="right"
+                class="space-y-6"
+    >
+    <livewire:event.subscription.create.form  :event-id="$event->id"/>
+
+    </flux:modal>
 
     <flux:modal name="add-new-venue"
                 variant="flyout"

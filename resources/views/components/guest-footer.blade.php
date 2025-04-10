@@ -47,16 +47,25 @@
                 @endauth
 
             @endif
-
-            <flux:navlist.group heading="{{__('app.locale')}}"
-                                expandable
-                                :expanded="false"
-            >
-                @foreach (\App\Enums\Locale::toArray() as $locale)
-                    <flux:navlist.item href="{{url('/lang/'.$locale)}}">{{ strtoupper($locale) }}</flux:navlist.item>
-                @endforeach
-            </flux:navlist.group>
-
+            @if(isset($event))
+                <flux:navlist.group heading="{{__('app.locale')}}"
+                                    expandable
+                                    :expanded="false"
+                >
+                    @foreach (\App\Enums\Locale::toArray() as $locale)
+                        <flux:navlist.item href="{{ route('events.show', [ $event->slug[$locale]])}}">{{ strtoupper($locale) }}</flux:navlist.item>
+                    @endforeach
+                </flux:navlist.group>
+            @else
+                <flux:navlist.group heading="{{__('app.locale')}}"
+                                    expandable
+                                    :expanded="false"
+                >
+                    @foreach (\App\Enums\Locale::toArray() as $locale)
+                        <flux:navlist.item href="{{url('/lang/'.$locale)}}">{{ strtoupper($locale) }}</flux:navlist.item>
+                    @endforeach
+                </flux:navlist.group>
+            @endif
 
         </flux:navlist>
     </flux:sidebar>
@@ -91,16 +100,30 @@
             <flux:navbar.item icon-trailing="chevron-down">{{__('app.locale')}}</flux:navbar.item>
 
             <flux:navmenu>
-                @foreach (\App\Enums\Locale::toArray() as $locale)
-                    <flux:navmenu.item wire:navigate
-                                       href="{{url('/lang/'.$locale)}}"
-                    >
+
+                @if(isset($event))
+                    @foreach (\App\Enums\Locale::toArray() as $locale)
+                        <flux:navmenu.item wire:navigate
+                                           href="{{ route('events.show', [ $event->slug[$locale]])}}"
+                        >{{ strtoupper($locale) }}</flux:navmenu.item>
+                    @endforeach
+                @elseif(isset($post))
+                    @foreach (\App\Enums\Locale::toArray() as $locale)
+                        <flux:navmenu.item wire:navigate
+                                           href="{{ route('posts.show', [ $post->slug[$locale]])}}"
+                        >{{ strtoupper($locale) }}</flux:navmenu.item>
+                    @endforeach
+                @else
+                    @foreach (\App\Enums\Locale::toArray() as $locale)
+                        <flux:navmenu.item wire:navigate
+                                           href="{{url('/lang/'.$locale)}}"
+                        >
                         <span class="{{ app()->getLocale() === $locale ? 'font-semibold' : 'font-light' }}">
                             {{ strtoupper($locale) }}
                         </span>
-                    </flux:navmenu.item>
-                @endforeach
-
+                        </flux:navmenu.item>
+                    @endforeach
+                @endif
             </flux:navmenu>
 
 
@@ -111,7 +134,6 @@
 
         <x-footer-link link="{{ route('imprint') }}">{{__('app.imprint')}}</x-footer-link>
         <x-footer-link link="{{ route('privacy') }}">{{__('app.privacy')}}</x-footer-link>
-
 
 
         @if (Route::has('login'))

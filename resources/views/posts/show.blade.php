@@ -1,4 +1,4 @@
-<x-guest-layout :title="$post->title[$locale]">
+<x-guest-layout :title="$post->title[$locale]" :$post>
 
     <x-slot name="head">
         @php
