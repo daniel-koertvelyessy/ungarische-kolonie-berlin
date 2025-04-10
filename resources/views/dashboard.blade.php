@@ -1,5 +1,5 @@
 <x-app-layout title="{{ __('nav.dashboard') }}">
-    <div class="columns space-y-4 sm:columns-2 xl:columns-3">
+    <div class="columns space-y-4 lg:columns-2 2xl:columns-3">
         <livewire:dashboard.widgets.events />
         <flux:card class="break-inside-avoid">
             <flux:heading size="lg">Kontostände</flux:heading>

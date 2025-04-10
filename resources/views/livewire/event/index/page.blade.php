@@ -45,17 +45,9 @@
                                :direction="$sortDirection"
                                wire:click="sort('name')"
             >{{ __('event.index.table.header.name') }}</flux:table.column>
-            <flux:table.column sortable
-                               :sorted="$sortBy === 'image'"
-                               :direction="$sortDirection"
-                               wire:click="sort('image')"
-                               class="hidden sm:table-cell"
+            <flux:table.column  class="hidden sm:table-cell"
             >{{ __('event.index.table.header.image') }}</flux:table.column>
-            <flux:table.column sortable
-                               :sorted="$sortBy === 'subscriptions'"
-                               :direction="$sortDirection"
-                               wire:click="sort('subscriptions')"
-                               class="hidden sm:table-cell"
+            <flux:table.column class="hidden sm:table-cell"
             >{{ __('event.index.table.header.subscriptions') }}</flux:table.column>
             <flux:table.column sortable
                                :sorted="$sortBy === 'date'"
@@ -67,13 +59,13 @@
                                :sorted="$sortBy === 'starts_at'"
                                :direction="$sortDirection"
                                wire:click="sort('starts_at')"
-                               class="hidden sm:table-cell"
+                               class="hidden 2xl:table-cell"
             >{{ __('event.begins')}}</flux:table.column>
             <flux:table.column sortable
                                :sorted="$sortBy === 'ends_at'"
                                :direction="$sortDirection"
                                wire:click="sort('ends_at')"
-                               class="hidden md:table-cell"
+                               class="hidden 2xl:table-cell"
             >{{ __('event.ends')  }}</flux:table.column>
             <flux:table.column sortable
                                :sorted="$sortBy === 'venue'"
@@ -114,11 +106,11 @@
                         {{ optional($event->event_date)->format('Y-m-d') }}
                     </flux:table.cell>
 
-                    <flux:table.cell class="hidden sm:table-cell">
+                    <flux:table.cell class="hidden 2xl:table-cell">
                         {{ optional($event->start_time)->format('H:i') }}
                     </flux:table.cell>
 
-                    <flux:table.cell class=" hidden md:table-cell">
+                    <flux:table.cell class=" hidden 2xl:table-cell">
                         {{optional($event->end_time)->format('H:i')}}
                     </flux:table.cell>
 

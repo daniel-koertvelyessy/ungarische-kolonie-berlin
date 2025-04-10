@@ -173,6 +173,7 @@
         />
 
         <flux:menu>
+
             <flux:menu.item wire:navigate
                             icon="user"
                             href="{{ route('profile.show') }}"

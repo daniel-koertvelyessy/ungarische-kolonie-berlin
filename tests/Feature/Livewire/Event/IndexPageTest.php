@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Livewire\Event\Index\Page;
 use App\Models\Event\Event;
 use App\Models\Membership\Member;
