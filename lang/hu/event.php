@@ -126,6 +126,7 @@ return [
     'notification_mail.content_subscriber' => 'Nagyszerű hírünk van Önnek! Egy új esemény jelent meg a weboldalunkon – nézzen be hozzánk!',
     'notification_mail.btn_link_label' => 'További információ',
     'notification_mail.btn_unsubscribe_link_label' => 'Azért kapja ezt az e-mailt, mert feliratkozott frissítéseinkre. Szeretné módosítani beállításait vagy leiratkozni? Kattintson ide:',
+    'notification_mail.content.excerpt.header' => 'Rövid leírás',
     'notification_mail.content.details.header' => 'Részletek',
     'notification_mail.content.details.event_date' => 'Dátum',
     'notification_mail.content.details.start_time' => 'Kezdés',

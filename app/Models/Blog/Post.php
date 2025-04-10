@@ -149,4 +149,9 @@ class Post extends Model
     {
         return $this->belongsTo(\App\Models\Event\Event::class);
     }
+
+    public function getEmailSubject(string $locale): string
+    {
+        return trans('post.notification_mail.subject', [], $locale);
+    }
 }

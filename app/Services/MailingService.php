@@ -34,14 +34,16 @@ class MailingService
 
         // Send emails to members and mailing list subscribers
         foreach ($emailRecipients as $recipient) {
-//            Log::info('Sending email to ', ['data' => $recipient]);
+            //            Log::info('Sending email to ', ['data' => $recipient]);
             $recipientData = array_merge($data, [
                 'notificationType' => $notificationType,
                 'notifiable' => $notifiable,
                 'recipient' => $recipient, // Pass the entire recipient array
             ]);
 
-            Mail::to($recipient['email'])
+            $subject = $notifiable->getEmailSubject($recipient['locale']);
+
+            Mail::to($recipient['email'])->locale($recipient['locale'])
                 ->queue(new CustomNotificationMail(
                     $subject,
                     $view,

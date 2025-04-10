@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\App\Tool\Index;
 
 use App\Jobs\DeleteEmailAttachments;
@@ -25,7 +27,10 @@ use Livewire\WithPagination;
 
 class Page extends Component
 {
-    use HasPrivileges, Sortable, WithFileUploads, WithPagination;
+    use HasPrivileges;
+    use Sortable;
+    use WithFileUploads;
+    use WithPagination;
 
     public array $subject;
 
@@ -33,7 +38,7 @@ class Page extends Component
 
     public array $attachments;
 
-    public bool $include_mailing_list;
+    public bool $include_mailing_list = false;
 
     public bool $target_type;
 
@@ -58,7 +63,6 @@ class Page extends Component
 
     protected function subscriptionCurrentMonth(): array
     {
-
         return DB::table('mailing_lists')
             ->selectRaw('DATE(verified_at) as date, COUNT(*) as visitors')
             ->whereBetween('verified_at', [now()->startOfMonth(), now()->endOfMonth()])
@@ -66,12 +70,10 @@ class Page extends Component
             ->get()
             ->map(fn ($item) => ['date' => $item->date, 'visitors' => $item->visitors])
             ->toArray();
-
     }
 
     protected function subscriptionCurrentYear(): array
     {
-
         return DB::table('mailing_lists')
             ->selectRaw('strftime("%m", verified_at) as month, COUNT(*) as visitors')
             ->whereYear('verified_at', Carbon::now('Europe/Berlin')->year)
@@ -80,16 +82,13 @@ class Page extends Component
             ->get()
             ->map(fn ($item) => ['month' => $item->month, 'visitors' => $item->visitors])
             ->toArray();
-
     }
 
     public function totalSubscriptionCurrentYear(): int
     {
-
         return DB::table('mailing_lists')
             ->whereYear('verified_at', Carbon::now('Europe/Berlin')->year)
             ->count();
-
     }
 
     public function sendMembersMail(): void
@@ -102,53 +101,68 @@ class Page extends Component
             'subject' => $this->subject,
             'message' => $this->message,
         ]);
-
         $savedFiles = [];
-        foreach ($this->attachments as $locale => $file) {
-            if ($file instanceof TemporaryUploadedFile) {
-                $originalFileName = $file->getClientOriginalName();
-                $path = $file->store('mail_attachments'); // Save file
-                $fullPath = storage_path("app/private/{$path}"); // Get absolute path
-                $savedFiles[$locale] = [
-                    'local' => $fullPath,
-                    'original' => $originalFileName,
-                ]; // Store full path
+        if (count($this->attachments) > 0) {
 
-            } else {
-                Log::error('Invalid file detected:', ['file' => $file]);
+            foreach ($this->attachments as $locale => $file) {
+                if ($file instanceof TemporaryUploadedFile) {
+                    $originalFileName = $file->getClientOriginalName();
+                    $path = $file->store('mail_attachments'); // Save file
+                    $fullPath = storage_path("app/private/{$path}"); // Get absolute path
+                    $savedFiles[$locale] = [
+                        'local' => $fullPath,
+                        'original' => $originalFileName,
+                    ]; // Store full path
+
+                } else {
+                    Log::error('Invalid file detected:', ['file' => $file]);
+                }
             }
-        }
 
-        if (empty($savedFiles)) {
-            Log::error('No valid attachments were saved!');
-        }
-
-        $counter = 0;
-        foreach (Member::all() as $member) {
-            if ($member->email) {
-
-                Log::info('Sending email with attachments: '.json_encode([$savedFiles[$member->locale]]));
-                Mail::to($member->email)
-                    ->queue(new SendMemberMassMail(
-                        $member->fullName(),
-                        $this->subject[$member->locale],
-                        $this->message[$member->locale],
-                        $member->locale,
-                        $this->url,
-                        $this->url_label[$member->locale],
-                        [$savedFiles[$member->locale]]
-                    ));
-                $counter++;
+            $counter = 0;
+            foreach (Member::all() as $member) {
+                if ($member->email) {
+                    Mail::to($member->email)
+                        ->queue(new SendMemberMassMail(
+                            $member->fullName(),
+                            $this->subject[$member->locale],
+                            $this->message[$member->locale],
+                            $member->locale,
+                            $this->url,
+                            $this->url_label[$member->locale],
+                            [$savedFiles[$member->locale]]
+                        ));
+                    $counter++;
+                }
             }
+        } else {
+            // no attachments existing
+            $counter = 0;
+            foreach (Member::all() as $member) {
+                if ($member->email) {
+                    Mail::to($member->email)
+                        ->queue(new SendMemberMassMail(
+                            $member->fullName(),
+                            $this->subject[$member->locale],
+                            $this->message[$member->locale],
+                            $member->locale,
+                            $this->url,
+                            $this->url_label[$member->locale]
+                        ));
+                    $counter++;
+                }
+            }
+
         }
 
         if ($this->include_mailing_list) {
-
+            // TODO make stuuff
         }
 
         Flux::toast('Die E-Mail wurde an '.$counter.' verschickt!', 'Erfolg', 6000, 'success');
 
-        DeleteEmailAttachments::dispatch($savedFiles)->delay(now()->addMinutes(5));
+        DeleteEmailAttachments::dispatch($savedFiles)
+            ->delay(now()->addMinutes(5));
     }
 
     public function sendTestMailToSelf(): void
@@ -204,11 +218,9 @@ class Page extends Component
 
     public function mount(): void
     {
-
         $this->monthlySubscriptions = $this->subscriptionCurrentMonth();
         $this->yearlySubscriptions = $this->subscriptionCurrentYear();
         $this->totalSubscriptionsThisYear = $this->totalSubscriptionCurrentYear();
-
     }
 
     public function render(): \Illuminate\View\View

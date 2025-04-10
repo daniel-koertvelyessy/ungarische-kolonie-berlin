@@ -46,7 +46,7 @@ class SendMemberMassMail extends Mailable implements ShouldQueue
         return new Content(
             view: 'emails.email-to-all-members',
             with: [ // Pass variables here
-                'url' => $this->url,
+                'url' => $this->url ?? null,
                 'url_label' => $this->url_label,
                 'mail_name' => $this->mail_name,
                 'mail_subject' => $this->mail_subject,
@@ -62,32 +62,28 @@ class SendMemberMassMail extends Mailable implements ShouldQueue
     {
         $emailAttachments = [];
 
-        foreach ($this->mail_attachments as $key => $filePath) {
+        if ($this->mail_attachments) {
+            foreach ($this->mail_attachments as $key => $filePath) {
+                // Extract the relative path from the absolute file path
+                $relativeFilePath = str_replace(storage_path('app/private').'/', '', $filePath['local']);
 
-            // Extract the relative path from the absolute file path
-            $relativeFilePath = str_replace(storage_path('app/private').'/', '', $filePath['local']);
-            Log::info("relativeFilePath: {$relativeFilePath}");
+                // Check if the relative file path exists in the storage
+                if (! Storage::exists($relativeFilePath)) {
+                    Log::error('Attachment file missing!', ['filePath' => $relativeFilePath]);
+                    throw new Exception('Attachment file missing! Aborting');
+                }
 
-            // Check if the relative file path exists in the storage
-            if (! Storage::exists($relativeFilePath)) {
-                Log::error('Attachment file missing!', ['filePath' => $relativeFilePath]);
-                throw new Exception('Attachment file missing! Aborting');
+                // Get the MIME type of the file
+                $mimeType = Storage::mimeType($relativeFilePath); // ?? 'application/octet-stream';
+
+                // Attach the file using the relative path
+                $emailAttachments[] = Attachment::fromPath(storage_path("app/private/{$relativeFilePath}"))
+                    ->as(basename($filePath['original']))  // Use basename for the file name
+                    ->withMime($mimeType);              // Set MIME type for the file
+
             }
 
-            // Get the MIME type of the file
-            $mimeType = Storage::mimeType($relativeFilePath); // ?? 'application/octet-stream';
-
-            Log::info("Attaching file: {$relativeFilePath}, MIME: {$mimeType}");
-
-            // Attach the file using the relative path
-            $emailAttachments[] = Attachment::fromPath(storage_path("app/private/{$relativeFilePath}"))
-                ->as(basename($filePath['original']))  // Use basename for the file name
-                ->withMime($mimeType);              // Set MIME type for the file
-
-            Log::info("Attachment added: {$relativeFilePath}");
         }
-
-        Log::info('Final attachments being sent:', ['attachments' => $emailAttachments]);
 
         return $emailAttachments;
     }

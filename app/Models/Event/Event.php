@@ -3,6 +3,7 @@
 namespace App\Models\Event;
 
 use App\Enums\EventStatus;
+use App\Enums\Locale;
 use App\Models\EventAssignment;
 use App\Models\EventTimeline;
 use App\Models\Traits\HasHistory;
@@ -138,7 +139,7 @@ class Event extends Model
         return $this->hasMany(EventAssignment::class);
     }
 
-    public function posts(): hasMany
+    public function posts(): HasMany
     {
         return $this->hasMany(\App\Models\Blog\Post::class);
     }
@@ -146,5 +147,10 @@ class Event extends Model
     public function relatedPosts(): \Illuminate\Support\Collection
     {
         return $this->posts()->where('status', EventStatus::PUBLISHED->value)->get();
+    }
+
+    public function getEmailSubject(string $locale = Locale::HU->value): string
+    {
+        return trans('event.notification_mail.subject', [], $locale);
     }
 }

@@ -1,6 +1,6 @@
 @php use App\Models\Membership\Member; @endphp
 @php use App\Enums\Gender; @endphp
-<x-mails.header/>
+<x-mails.header :title="$notifiable->getEmailSubject($recipient['locale'])"/>
 
 @if($recipient['type'] === 'member')
     @php
@@ -33,7 +33,8 @@
 <p>{{ __('post.notification_mail.content.excerpt.header') }}</p>
 {!! \Illuminate\Support\Str::limit($notifiable->body[$recipient['locale']], 200,' ... ', true) !!}
 
-<a href="{{ route($notificationType.'.show',$notifiable->slug[$recipient['locale']]) }}">{{ __('post.notification_mail.btn_link_label') }}</a>
+
+<x-mails.link-button href="{{ route($notificationType.'.show',$notifiable->slug[$recipient['locale']]) }}" >{{ __('post.notification_mail.btn_link_label') }}</x-mails.link-button>
 <br><br><br>
 
 @if(isset($recipient['verification_token']))

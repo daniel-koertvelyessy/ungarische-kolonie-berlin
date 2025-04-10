@@ -13,7 +13,8 @@
           content="IE=edge"
     > <!-- Use the latest (edge) version of IE rendering engine -->
     <meta name="x-apple-disable-message-reformatting">  <!-- Disable auto-scale in iOS 10 Mail entirely -->
-    <title></title> <!-- The title tag shows in email notifications, like Android 4.4. -->
+
+    <title>{{ $title??'' }}</title> <!-- The title tag shows in email notifications, like Android 4.4. -->
 
 </head>
 <body width="100%" style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; height: 100% !important; width: 100% !important; background: #f9f9f9; font-weight: 400; font-size: 11pt; line-height: 1.8; color: rgba(0,0,0,.4); font-family: Lato, sans-serif;">
