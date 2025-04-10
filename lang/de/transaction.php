@@ -34,8 +34,8 @@ return [
     'index.menu-item.detach_member' => 'Mitglied',
     'index.table.empty-results' => 'Keine Buchungen gefunden',
 
-    'index.menu-item.send_invoice'=> 'E-Mail senden',
-    'index.menu-item.print_invoice'=> 'Ausdrucken',
+    'index.menu-item.send_invoice' => 'E-Mail senden',
+    'index.menu-item.print_invoice' => 'Ausdrucken',
 
     'account-transfer-modal.btn.submit' => 'durchführen',
     'account-transfer-modal' => '',
@@ -57,6 +57,16 @@ return [
     'account.starting_amount' => 'Startguthaben',
 
     'index.title' => 'Übersicht Buchungen',
-    '' => '',
+
+    'mail.receipt.subject' => 'Quittung über erhaltenen Beitrag',
+    'mail.receipt.title' => 'Quittung über erhaltenen Beitrag',
+    'mail.receipt.greeting' => '',
+    'mail.receipt.header' => 'Übersicht',
+    'mail.receipt.body' => 'Vielen Dank für Ihren Beitrag! Im Anhang finden Sie den Quittungsbeleg für Ihre Unterlagen. Bei Fragen gerne auf diese E-Mail antworten.',
+    'mail.receipt.date' => 'Zahlung erhalten am:',
+    'mail.receipt.amount' => 'Erhaltener Betrag',
+    'mail.receipt.label' => 'Verwendungszwecks/Betreff',
+    'mail.receipt.reference' => 'Referenz',
+
     '' => '',
 ];

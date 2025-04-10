@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Mail;
 
 use Exception;
@@ -15,7 +17,8 @@ use Illuminate\Support\Facades\Storage;
 
 class SendMemberMassMail extends Mailable implements ShouldQueue
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     public function __construct(
         public string $mail_name,

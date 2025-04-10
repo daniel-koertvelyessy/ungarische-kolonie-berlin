@@ -1,8 +1,7 @@
-@php use App\Enums\Gender; @endphp
-<x-mails.header>
+<x-mails.header title="{{ __('transaction.mail.receipt.title') }}">
     <x-slot name="icon">
-        <svg width="140"
-             height="140"
+        <svg width="120"
+             height="120"
              xmlns="http://www.w3.org/2000/svg"
              fill="grey"
              stroke="none"
@@ -14,23 +13,29 @@
     </x-slot>
 </x-mails.header>
 
-@if($member->gender === Gender::fe->value)
-    <h1>Sehr geehrte Frau {{ $member->name }},</h1>
-@elseif($member->gender === Gender::ma->value)
-    <h1>Sehr geehrter Herr {{ $member->name }},</h1>
+@if($member->locale === 'hu')
+
+    <h1>Kedves {{ $member->fullName() }}</h1>
+
 @else
-    <h1>Szia {{ $member->fullName() }},</h1>
+
+    @if($member->gender === App\Enums\Gender::fe->value)
+        <h1>Sehr geehrte Frau {{ $member->name }},</h1>
+    @elseif($member->gender === App\Enums\Gender::ma->value)
+        <h1>Sehr geehrter Herr {{ $member->name }},</h1>
+    @else
+        <h1>Hallo {{ $member->fullName() }},</h1>
+    @endif
+
 @endif
+<p style="font-size: 14pt;">{{ __('transaction.mail.receipt.body') }}</p>
 
 
-<p style="font-size: 14pt;">{{ __('Vielen Dank für Ihren Beitrag! Im Anhang finden Sie den Quittungsbeleg für Ihre Unterlagen. Bei Fragen gerne auf diese E-Mail antworten.') }}</p>
-
-
-<p><strong>Übersicht</strong>
-    <br>Zahlung erhalten am: <strong>{{ $transaction->date->locale(app()->getLocale())->isoFormat('Do MMMM YYYY') }}</strong>
-    <br>Erhaltener Betrag: <span style="font-size: 8pt; font-weight: bold; margin-right: 3px">EUR</span> <strong>{{ $transaction->grossForHumans()  }}</strong>
-    <br>Verwendungszwecks/Betreff <strong>{{ $transaction->label }}</strong>
-    <br>Referenz: <strong>{{ $transaction->reference ?? '' }}</strong>
+<p><strong></strong>
+    <br>{{ __('transaction.mail.receipt.date') }}: <strong>{{ $transaction->date->locale(app()->getLocale())->isoFormat('Do MMMM YYYY') }}</strong>
+    <br>{{ __('transaction.mail.receipt.amount') }}: <span style="font-size: 8pt; font-weight: bold; margin-right: 3px">EUR</span> <strong>{{ $transaction->grossForHumans()  }}</strong>
+    <br>{{ __('transaction.mail.receipt.label') }}: <strong>{{ $transaction->label }}</strong>
+    <br>{{ __('transaction.mail.receipt.reference') }}: <strong>{{ $transaction->reference ?? '' }}</strong>
 </p>
 
 

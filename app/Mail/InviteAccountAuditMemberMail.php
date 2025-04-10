@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Mail;
 
 use App\Models\Accounting\AccountReport;
@@ -14,7 +16,8 @@ use Illuminate\Queue\SerializesModels;
 
 class InviteAccountAuditMemberMail extends Mailable implements ShouldQueue
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     public function __construct(public Member $member, public AccountReport $accountReport, public AccountReportAudit $accountReportAudit) {}
 

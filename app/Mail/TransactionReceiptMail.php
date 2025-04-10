@@ -27,7 +27,7 @@ class TransactionReceiptMail extends Mailable
     {
         return new Envelope(
             from: 'szia@magyar-kolonia-berlin.org',
-            subject: 'Quittung über erhaltenen Beitrag',
+            subject: __('transaction.mail.receipt.subject'),
         );
     }
 

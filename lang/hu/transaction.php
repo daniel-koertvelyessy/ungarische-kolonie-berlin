@@ -61,5 +61,16 @@ return [
     'account.iban' => 'IBAN',
     'account.bic' => 'BIC',
     'account.starting_amount' => 'Kezdő egyenleg',
+
+    'mail.receipt.subject' => 'Nyugta a befizetett hozzájárulásról',
+    'mail.receipt.title' => 'Nyugta a befizetett hozzájárulásról',
+    'mail.receipt.greeting' => '',
+    'mail.receipt.header' => 'Áttekintés',
+    'mail.receipt.body' => 'Köszönjük a hozzájárulásodat! A csatolmányban megtalálod a nyugtát, amit eltehetsz a saját nyilvántartásodhoz. Ha kérdésed van, nyugodtan válaszolj erre az e-mailre.',
+    'mail.receipt.date' => 'Befizetés dátuma:',
+    'mail.receipt.amount' => 'Befizetett összeg',
+    'mail.receipt.label' => 'Megjegyzés/tárgy',
+    'mail.receipt.reference' => 'Hivatkozási szám',
+
     '' => '',
 ];

@@ -91,13 +91,13 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
                     <section class="space-y-6">
                         <flux:input label="Maygar link szöveg"
-                                    wire:model="url_label.hu"
+                                    wire:model="urlLabel.hu"
                         />
 
                     </section>
                     <section class="space-y-6">
                         <flux:input label="Deutscher Link Label"
-                                    wire:model="url_label.de"
+                                    wire:model="urlLabel.de"
                         />
 
                     </section>
@@ -140,7 +140,7 @@
             'message' => $this->message['de'] ?? 'Kein Inhalt???',
             'locale' => 'de',
             'url' => $this->url ?? 'www-popo',
-            'url_label' => $this->url_label['de'] ?? 'nix label',
+            'urlLabel' => $this->urlLabel['de'] ?? 'nix label',
         ]) }}"
                              target="_blank"
                 >{{ __('mails.members.btn.preview') }}</flux:button>

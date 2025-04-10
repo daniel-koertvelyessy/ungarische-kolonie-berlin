@@ -26,6 +26,7 @@ return [
     'audit_invitation.header' => 'Wir brauchen dich!',
     'audit_invitation.text' => 'Wir laden dich ein, den monatlichen Kassenbericht für den Zeitraum :range zu prüfen. Du kannst entweder mit einem Klick auf den Link unten die Prüfung starten oder im Portal über Kasse -> Berichte und dann im entsprechenden Bericht auf den Button "Jetzt prüfen" drücken. Vielen Dank für deine Mühen!',
     'audit.invitation.subject' => 'Prüfung des monatlichen Kassenberichtes',
+    'audit.invitation.link_label' => 'Hier geht es zur Prüfung',
 
     'members.heading' => 'E-Mail an alle Mitglieder mit hinterlegter E-Mail-Adresse',
     'members.content' => 'Die E-Mail wird in der Sprache erstellt, die der jeweilige Nutzer in seinem Profil angegeben hat.',
@@ -91,4 +92,3 @@ return [
     'toast.header.success' => 'Erfolg',
     '' => '',
 ];
-

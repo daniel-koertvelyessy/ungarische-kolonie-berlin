@@ -9,7 +9,7 @@
 <h2>{{ __('mails.audit_invitation.header') }}</h2><br>
 <p>{{ __('mails.audit_invitation.text', ['range' => $accountReport->period_start->format('m-d') . ' - '.$accountReport->period_end->format('m-d')]) }}</p>
 
-
-<a href="{{ $url }}"  class="btn btn-primary">Hier geht es zum Audit</a>
+<br>
+<x-mails.link-button href="{{ $url }}" >{{ __('mails.audit.invitation.link_label') }}</x-mails.link-button>
 
 <x-mails.footer/>

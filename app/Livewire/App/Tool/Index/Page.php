@@ -48,7 +48,7 @@ class Page extends Component
 
     public int $totalSubscriptionsThisYear;
 
-    public array $url_label;
+    public array $urlLabel;
 
     public string $url;
 
@@ -123,13 +123,14 @@ class Page extends Component
             foreach (Member::all() as $member) {
                 if ($member->email) {
                     Mail::to($member->email)
+                        ->locale($member->locale)
                         ->queue(new SendMemberMassMail(
                             $member->fullName(),
                             $this->subject[$member->locale],
                             $this->message[$member->locale],
                             $member->locale,
                             $this->url,
-                            $this->url_label[$member->locale],
+                            $this->urlLabel[$member->locale],
                             [$savedFiles[$member->locale]]
                         ));
                     $counter++;
@@ -141,13 +142,14 @@ class Page extends Component
             foreach (Member::all() as $member) {
                 if ($member->email) {
                     Mail::to($member->email)
+                        ->locale($member->locale)
                         ->queue(new SendMemberMassMail(
                             $member->fullName(),
                             $this->subject[$member->locale],
                             $this->message[$member->locale],
                             $member->locale,
                             $this->url,
-                            $this->url_label[$member->locale]
+                            $this->urlLabel[$member->locale]
                         ));
                     $counter++;
                 }
@@ -182,7 +184,7 @@ class Page extends Component
                     (string) $this->message[$user->locale], // Ensure it's a string
                     $user->locale,
                     $this->url,
-                    (string) $this->url_label[$user->locale], // Ensure it's a string
+                    (string) $this->urlLabel[$user->locale], // Ensure it's a string
                     null
                 ));
             Flux::toast('Testmail sent');
@@ -200,8 +202,8 @@ class Page extends Component
             'message.hu' => 'required',
             'message.de' => 'required',
             'url' => 'nullable',
-            'url_label.de' => 'nullable',
-            'url_label.hu' => 'nullable',
+            'urlLabel.de' => 'nullable',
+            'urlLabel.hu' => 'nullable',
         ];
     }
 
@@ -212,8 +214,8 @@ class Page extends Component
         $this->message['hu'] = fake()->realTextBetween(20);
         $this->message['de'] = fake()->realTextBetween(20);
         $this->url = 'magyar-kolonia-berlin-org';
-        $this->url_label['hu'] = 'Kattincs ide';
-        $this->url_label['de'] = 'Click hier';
+        $this->urlLabel['hu'] = 'Kattincs ide';
+        $this->urlLabel['de'] = 'Click hier';
     }
 
     public function mount(): void

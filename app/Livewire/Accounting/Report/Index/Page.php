@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Accounting\Report\Index;
 
 use App\Actions\Report\CreateAccountReportAudit;
@@ -20,7 +22,9 @@ use Livewire\WithPagination;
 
 class Page extends Component
 {
-    use HasPrivileges, Sortable, WithPagination;
+    use HasPrivileges;
+    use Sortable;
+    use WithPagination;
 
     public Collection $auditorList;
 
@@ -98,6 +102,7 @@ class Page extends Component
                     $audit = CreateAccountReportAudit::handle($this->form);
 
                     Mail::to($auditor->email)
+                        ->locale($auditor->locale)
                         ->queue(new InviteAccountAuditMemberMail($auditor, $this->selectedReport, $audit));
 
                     Flux::toast(

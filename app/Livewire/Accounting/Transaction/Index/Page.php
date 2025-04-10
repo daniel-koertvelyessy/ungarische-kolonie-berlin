@@ -118,6 +118,7 @@ class Page extends Component
 
                 try {
                     Mail::to($member->email)
+                        ->locale($member->locale)
                         ->send(new TransactionReceiptMail($member, $filename, $transaction));
                     unlink($filename);
                     Flux::toast('Rechnung wurde erfolgreich an '.$member->email.' gesendet.', 'Erfolg');
