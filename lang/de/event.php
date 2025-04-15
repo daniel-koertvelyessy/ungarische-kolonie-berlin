@@ -166,7 +166,7 @@ return [
     'notification_mail.content.details.start_time' => 'startzeit',
     'notification_mail.content.details.venue' => 'veranstaltungsort',
 
-    '' => '',
+    'poster.separator.text' => 'Poster für Veranstaltung erstellen',
     '' => '',
     '' => '',
 

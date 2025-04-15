@@ -205,4 +205,16 @@ Route::middleware([
 if (app()->isLocal()) {
     Route::get('/mailer-test', [TestingController::class, 'mailTest'])
         ->name('mail-tester');
+
+    Route::get('/poster/preview/{event}', function ($eventId) {
+        // Fetch the event (or use a dummy one for testing)
+        $event = Event::findOrFail($eventId); // Replace with your model logic
+        $imagePath = null; // Optional: Add a sample image path if needed
+
+        // Render the same view as Browsershot
+        return view('event_template.main', [
+            'event' => $event,
+            'imagePath' => $imagePath,
+        ]);
+    })->name('poster.preview');
 }

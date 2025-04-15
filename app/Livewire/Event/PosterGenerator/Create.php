@@ -1,0 +1,95 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Livewire\Event\PosterGenerator;
+
+use App\Enums\Locale;
+use App\Models\Event\Event;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\View\View;
+use Livewire\Component;
+use Spatie\Browsershot\Browsershot;
+use Spatie\Browsershot\Exceptions\CouldNotTakeBrowsershot;
+
+class Create extends Component
+{
+    public $event;
+
+    protected $posterPath;
+
+    protected $fullPath;
+
+    public $imagePath;
+
+    public function mount(?Event $event): void
+    {
+        $this->event = $event;
+        $this->imagePath = '';
+    }
+
+    /**
+     * @throws \Throwable
+     * @throws CouldNotTakeBrowsershot
+     */
+    public function generateJpeg(): void
+    {
+        foreach (Locale::toArray() as $value) {
+            $htmlContent = view('event_posters.main_jpeg', ['event' => $this->event, 'imagePath' => $this->imagePath, 'locale' => $value])->render();
+
+            $this->setImagePath('jpg', $value);
+
+            $this->makeImage($htmlContent)->windowSize(1280, 960)
+                ->format('jpeg')
+                ->save($this->fullPath);
+
+            session()->flash('message', 'JPG files generated successfully!');
+
+        }
+    }
+
+    public function generatePdf(): void
+    {
+        foreach (Locale::toArray() as $value) {
+            $htmlContent = view('event_posters.main_pdf', ['event' => $this->event, 'imagePath' => $this->imagePath, 'locale' => $value])->render();
+
+            $this->setImagePath('pdf', $value);
+
+            $this->makeImage($htmlContent)
+                ->windowSize(2480, 3508)
+                ->fullPage()
+                ->save($this->fullPath);
+
+            session()->flash('message', 'PDF generated successfully!');
+        }
+    }
+
+    protected function makeImage(string $htmlContent): Browsershot
+    {
+        return Browsershot::html($htmlContent)
+            ->setNodeBinary('/Users/daniel.kortvelyessy/Library/Application\ Support/Herd/config/nvm/versions/node/v22.14.0/bin/node')
+            ->setNpmBinary('/Users/daniel.kortvelyessy/Library/Application\ Support/Herd/config/nvm/versions/node/v22.14.0/bin/npm')
+            ->setIncludePath('/Users/daniel.kortvelyessy/Library/Application\ Support/Herd/config/nvm/versions/node/v22.14.0/bin');
+    }
+
+    protected function setImagePath(string $type = 'jpg', $locale = 'de'): void
+    {
+        $this->posterPath = 'images/posters/'.$this->event->id.'_poster_'.$locale.'.'.$type;
+
+        // Ensure the directory exists
+        Storage::disk('public')
+            ->makeDirectory('images/posters');
+
+        // Full path for Browsershot
+        $this->fullPath = Storage::disk('public')
+            ->path($this->posterPath);
+
+        $this->imagePath = Storage::disk('public')
+            ->get($this->fullPath);
+    }
+
+    public function render(): View
+    {
+        return view('livewire.event.poster-generator.create');
+    }
+}

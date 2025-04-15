@@ -21,8 +21,6 @@
           rel="stylesheet"
     />
 
-    <!-- Styles / Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="icon"
           href="{{ Vite::asset('resources/images/favicon.ico') }}"
           sizes="48x48"

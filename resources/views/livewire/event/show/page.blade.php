@@ -209,7 +209,10 @@
                                 <livewire:app.global.image-upload/>
                             @endcan
                         @endif
+                        <livewire:event.poster-generator.create :event="$event" />
+
                     </section>
+
                 </div>
 
 

@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @method static Event create(array $attributes)
@@ -152,5 +153,15 @@ class Event extends Model
     public function getEmailSubject(string $locale = Locale::HU->value): string
     {
         return trans('event.notification_mail.subject', [], $locale);
+    }
+
+    public function hasPoster(string $locale, string $type = 'jpg'): bool
+    {
+        return Storage::disk('public')->exists('images/posters/'.$this->id.'_poster_'.$locale.'.'.$type);
+    }
+
+    public function getPoster(string $locale = 'de', string $type = 'jpg'): string
+    {
+        return Storage::disk('public')->url('images/posters/'.$this->id.'_poster_'.$locale.'.'.$type);
     }
 }

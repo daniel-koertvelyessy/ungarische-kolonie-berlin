@@ -1,0 +1,37 @@
+<?php
+
+declare(strict_types=1);
+
+use App\Livewire\Event\PosterGenerator\Create;
+use App\Models\Membership\Member;
+use Tests\Traits\TranslationTestTrait;
+
+uses(TranslationTestTrait::class);
+
+test('can create jpeg poster from template', function () {
+
+    Livewire::test(Create::class)
+        ->assertSeeLivewire(Create::class) // Ensures Livewire renders
+        ->assertStatus(200);
+
+});
+
+test('can create pdf poste from template', function () {
+
+    Livewire::test(Create::class)
+        ->assertSeeLivewire(Create::class) // Ensures Livewire renders
+        ->assertStatus(200);
+
+});
+
+test('if all translations are rendered on backend event index page', function () {
+    $this->actingAs(Member::factory()->create()->user);
+
+    $event = \App\Models\Event\Event::factory()->create();
+
+    $this->assertTranslationsRendered(
+        Create::class, [],
+        'event',
+        'event.',
+    );
+});

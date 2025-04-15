@@ -3,14 +3,13 @@ import tailwindcss from "tailwindcss";
 module.exports = {
     content: [
         './resources/**/*.blade.php',
-        './resources/**/*.js',
-        './resources/**/*.vue',
+        './resources/views/event_template/*.blade.php', // Main template
+        './resources/views/components/**/*.blade.php',  // Flux components
     ],
     theme: {
         extend: {
             backgroundImage: {
-                // Use a relative path from resources, Vite will process it
-                'parchment-stretch': "url('../images/parchment.svg')",
+                'parchment': "url('/build/assets/parchment-DBxaA9Y_.svg)", // Adjust to your image path
             },
         },
     },
