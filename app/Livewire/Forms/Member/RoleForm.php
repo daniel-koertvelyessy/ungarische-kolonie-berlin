@@ -40,6 +40,12 @@ class RoleForm extends Form
     public function create(): Role
     {
         $this->validate();
+        if (Role::query()->count() === 0) {
+            $this->sort = 0;
+        } else {
+            $this->sort = Role::query()
+                ->max('sort') + 1;
+        }
 
         return CreateRole::handle($this);
     }

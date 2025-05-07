@@ -13,11 +13,13 @@
           content="IE=edge"
     > <!-- Use the latest (edge) version of IE rendering engine -->
     <meta name="x-apple-disable-message-reformatting">  <!-- Disable auto-scale in iOS 10 Mail entirely -->
-
+    <meta name="format-detection" content="telephone=no">
+    <meta name="color-scheme" content="light dark">
+    <meta name="supported-color-schemes" content="light dark">
     <title>{{ $title??'' }}</title> <!-- The title tag shows in email notifications, like Android 4.4. -->
 
 </head>
-<body width="100%" style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; height: 100% !important; width: 100% !important; background: #f9f9f9; font-weight: 400; font-size: 11pt; line-height: 1.8; color: rgba(0,0,0,.4); font-family: Lato, sans-serif;">
+<body width="100%" style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; height: 100% !important; width: 100% !important; background: #f9f9f9; font-weight: 400; font-size: 11pt; line-height: 1.8; color: rgba(0,0,0,.4); font-family: Lato, Arial, sans-serif;">
 <center style="width: 100%;">
     <div style="display: none; font-size: 1px; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden; mso-hide: all; font-family: sans-serif;">
         ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌
@@ -68,7 +70,7 @@
             @endif
             <tr>
                 <td valign="middle" class="hero bg_white" style="padding: 2em 0 4em 0; background: #fff; position: relative; z-index: 0;">
-                    <table style="border-spacing: 0 !important; border-collapse: collapse !important; table-layout: fixed !important;">
+                    <table style="border-spacing: 0 !important; border-collapse: collapse !important; table-layout: fixed !important; width: 100%; margin: 0 auto;">
                         <tr>
                             <td>
                                 <div class="text" style="padding: 0 2.5em; color: rgba(0,0,0,.75);">

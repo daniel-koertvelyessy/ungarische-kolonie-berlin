@@ -132,6 +132,9 @@ return [
     'notification_mail.content.details.start_time' => 'Kezdés',
     'notification_mail.content.details.venue' => 'Helyszín',
 
+    'backend.text-nav.btn-make-web-texts' => 'Kivonatot és slug linket',
+    'backend.text-nav.btn-store' => 'Szöveg mentése',
+
     'loockpacj' => 'Visszatekintés',
     '' => '',
 

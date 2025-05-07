@@ -4,6 +4,9 @@ namespace App\Policies\Traits;
 
 use App\Models\User;
 
+/**
+ * User
+ */
 trait HasAdminPrivileges
 {
     protected function getAdminPrivileges(User $user): bool

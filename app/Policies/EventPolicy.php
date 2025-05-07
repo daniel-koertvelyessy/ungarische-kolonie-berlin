@@ -2,12 +2,13 @@
 
 namespace App\Policies;
 
-use App\Enums\MemberType;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+use App\Policies\Traits\HasAdminPrivileges;
 
 class EventPolicy
 {
+    use HasAdminPrivileges;
+
     /**
      * Determine whether the user can view any models.
      */
@@ -29,52 +30,39 @@ class EventPolicy
      */
     public function create(User $user): bool
     {
-        return $this->checkThis();
+
+        return $this->getAdminPrivileges($user);
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(): bool
+    public function update(User $user): bool
     {
-        return $this->checkThis();
+        return $this->getAdminPrivileges($user);
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(): bool
+    public function delete(User $user): bool
     {
-        return $this->checkThis();
+        return $this->getAdminPrivileges($user);
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(): bool
+    public function restore(User $user): bool
     {
-        return $this->checkThis();
+        return $this->getAdminPrivileges($user);
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(): bool
+    public function forceDelete(User $user): bool
     {
-        return $this->checkThis();
-    }
-
-    private function checkThis(): bool
-    {
-        $user = Auth::user();
-        if ($user->is_admin) {
-            return true;
-        }
-
-        if ($user->member->type === MemberType::MD->value) {
-            return true;
-        }
-
-        return false;
+        return $this->getAdminPrivileges($user);
     }
 }

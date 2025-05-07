@@ -14,10 +14,7 @@ class EventPublishedNotification extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct(public Event $event)
-    {
-        //
-    }
+    public function __construct(public Event $event) {}
 
     /**
      * Get the notification's delivery channels.

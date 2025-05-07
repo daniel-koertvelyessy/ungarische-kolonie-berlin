@@ -11,6 +11,7 @@ use Flux\Flux;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
@@ -54,9 +55,11 @@ class EventForm extends Form
 
     public $venue_id;
 
+    public $notification_sent_at;
+
     public function setEvent(Event $event): void
     {
-//        Log::debug('event object recieved in form: ', ['event' => $event->id]);
+        //        Log::debug('event object recieved in form: ', ['event' => $event->id]);
         $this->event = $event;
         $this->locale = session('locale') ?? app()->getLocale();
         $this->locales = Locale::cases();
@@ -74,6 +77,7 @@ class EventForm extends Form
         $this->entry_fee = $this->event->entry_fee;
         $this->entry_fee_discounted = $this->event->entry_fee_discounted;
         $this->venue_id = $this->event->venue_id;
+        $this->notification_sent_at = $this->event->notification_sent_at;
     }
 
     public function create(): Event
@@ -88,7 +92,7 @@ class EventForm extends Form
         return [
             'name' => 'required',
             'venue_id' => 'nullable|exists:venues,id',
-            'event_date' => 'required|date',
+            'event_date' => 'required|date|after:today',
             'start_time' => 'required_with:event_date',
             'end_time' => 'required_with:event_date',
             'title.*' => [  // Using wildcard for each locale key
@@ -103,6 +107,15 @@ class EventForm extends Form
             'status' => ['nullable', Rule::enum(EventStatus::class)],
             'entry_fee' => 'nullable|numeric',
             'entry_fee_discounted' => 'nullable|numeric',
+        ];
+    }
+
+    protected function messages(): array
+    {
+        return [
+            'name.required' => __('event.validation.name.required'),
+            'event_date.after' => __('event.validation.event_date.after'),
+            'title.*.required' => __('event.validation.title.required'),
         ];
     }
 
@@ -122,6 +135,7 @@ class EventForm extends Form
         $this->event->payment_link = $this->payment_link;
         $this->event->status = $this->status;
         $this->event->name = $this->name;
+        $this->event->notification_sent_at = $this->notification_sent_at;
 
         if ($this->event->save()) {
             Flux::toast(
@@ -158,5 +172,34 @@ class EventForm extends Form
         }
 
         return false;
+    }
+
+    public function makeWebText(): void
+    {
+        foreach (Locale::cases() as $locale) {
+            if (isset($this->title[$locale->value])) {
+                $this->slug[$locale->value] = date('Y').'-'.Str::slug($this->title[$locale->value]);
+            }
+
+            if (isset($this->description[$locale->value])) {
+                $this->excerpt[$locale->value] = Str::of($this->description[$locale->value])
+                    ->stripTags(['<p>', '<strong>', '<br>']);
+                $this->excerpt[$locale->value] = str_replace('.', '. ', $this->excerpt[$locale->value]);
+                $this->excerpt[$locale->value] = Str::of($this->excerpt[$locale->value])->limit(200, ' ..', true);
+
+            }
+
+        }
+    }
+
+    public function demoData(): void
+    {
+        $this->event_date = fake()->dateTimeBetween('today', '+1 year');
+        $this->name = fake()->realText(50);
+        $this->title['de'] = fake()->realText(50);
+        $this->description['de'] = fake()->randomHtml(12, 8);
+
+        $this->title['hu'] = fake()->realText(50);
+        $this->description['hu'] = fake()->randomHtml(12, 8);
     }
 }

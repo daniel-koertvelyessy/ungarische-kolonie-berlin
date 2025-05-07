@@ -14,6 +14,15 @@ return [
     'buy_tickets' => 'Jetzt Karten kaufen',
     'show.title' => 'Veranstaltung',
 
+    'validation_error.event_date.required' => 'Bitte ein Datum angeben',
+    'validation_error.event_date.after' => 'Das Datum muss in der Zukunft liegen',
+    'validation_error.start_time.required' => 'Bitte eine Startzeit angeben',
+    'validation_error.end_time.after' => 'Das Ende sollte nach dem Start liegen',
+    'validation_error.entry_fee' => '',
+    'validation_error.entry_fee_discounted' => '',
+    'validation_error.venue_id' => '',
+    'validation_error.' => '',
+
     'tabs.nav.dates' => 'Daten',
     'tabs.nav.texts' => 'Texte',
     'tabs.nav.payments' => 'Zahlungen',
@@ -94,6 +103,8 @@ return [
     'store.success.title' => 'Erfolg',
 
     'show.page.title' => 'Veranstaltung',
+
+    'form.name' => 'Name (intern)',
     'form.event_date' => 'Datum',
     'form.start_time' => 'Startet um',
     'form.end_time' => 'Endet um',
@@ -107,6 +118,7 @@ return [
     'form.entry_fee' => 'Eintritt',
     'form.entry_fee_discounted' => 'Reduzierter Eintritt',
     'form.venue_id' => 'Veranstaltungsort',
+    'form.venue.select' => 'Ort wählen',
     'form.status' => 'Status',
     'form.payment_link' => 'Link für Bezahlung',
 
@@ -140,6 +152,8 @@ return [
     'show.details.heading' => 'Übersicht',
 
     'show.posts.heading' => 'Artikel',
+    'show.posts.poster.heading' => 'Poster',
+    'show.posts.poster.download' => 'PDF Poster laden',
     'show.posts.content' => 'Zu dieser Veranstaltung sind folgende Artikel veröffentlicht worden.',
     'show.btn.link_to_post' => 'Artikel lesen',
 
@@ -160,14 +174,16 @@ return [
     'notification_mail.content_subscriber' => 'Tolle Neuigkeiten für Sie! Eine neue Veranstaltung wurde auf unserer Webseite veröffentlicht – schauen Sie doch mal rein!',
     'notification_mail.btn_link_label' => 'Mehr erfahren',
     'notification_mail.btn_unsubscribe_link_label' => 'Sie erhalten diese E-Mail, weil Sie unsere Updates abonniert haben. Möchten Sie Ihre Einstellungen ändern oder sich abmelden? Klicken Sie hier:',
-    'notification_mail.content.excerpt.header' => 'kurzbeschreibung',
-    'notification_mail.content.details.header' => 'termin',
-    'notification_mail.content.details.event_date' => 'datum',
-    'notification_mail.content.details.start_time' => 'startzeit',
-    'notification_mail.content.details.venue' => 'veranstaltungsort',
+    'notification_mail.content.excerpt.header' => 'Kurzbeschreibung',
+    'notification_mail.content.details.header' => 'Termin',
+    'notification_mail.content.details.event_date' => 'Datum',
+    'notification_mail.content.details.start_time' => 'Startzeit',
+    'notification_mail.content.details.venue' => 'Veranstaltungsort',
 
     'poster.separator.text' => 'Poster für Veranstaltung erstellen',
-    '' => '',
+    'backend.text-nav.btn-make-web-texts' => 'Auszug und Slug für Link erstellen',
+    'backend.text-nav.btn-store' => 'Texte speichern',
+
     '' => '',
 
 ];

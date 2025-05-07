@@ -54,9 +54,8 @@ class MemberRoleForm extends Form
 
     protected function uploadFile(): void
     {
-        if (isset($this->profile_image) && $this->profile_image === anInstanceOf(TemporaryUploadedFile::class)) {
-            $file = $this->profile_image->store('profile_images', 'public');
-            $this->profile_image = $file;
+        if (isset($this->profile_image) && $this->profile_image instanceof (TemporaryUploadedFile::class)) {
+            $this->profile_image = $this->profile_image->store('profile_images', 'public');
         }
     }
 

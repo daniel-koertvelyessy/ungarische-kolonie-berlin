@@ -71,7 +71,7 @@
                                          wire:model="form.venue_id"
                             >
                                 @can('update',\App\Models\Event\Event::class)
-                                <flux:select.option value="new">Neu</flux:select.option>
+                                    <flux:select.option value="new">Neu</flux:select.option>
                                 @endcan
                                 @foreach($this->venues as $key => $venue)
                                     <flux:select.option value="{{ $venue->id }}"
@@ -85,10 +85,10 @@
                                  class="pt-3"
                             >
                                 @can('update',\App\Models\Event\Event::class)
-                                <flux:modal.trigger name="add-new-venue">
-                                    <flux:button>{{ __('venue.new.btn.label') }}</flux:button>
-                                </flux:modal.trigger>
-                                    @endcan
+                                    <flux:modal.trigger name="add-new-venue">
+                                        <flux:button>{{ __('venue.new.btn.label') }}</flux:button>
+                                    </flux:modal.trigger>
+                                @endcan
                             </div>
                         </flux:field>
 
@@ -115,27 +115,34 @@
 
                                         </div>
                                         @can('update',\App\Models\Event\Event::class)
-                                        <div class="mt-4">
-                                            <div class="-mx-2 -my-1.5 flex gap-3">
-                                                <flux:button size="sm"
-                                                             icon-trailing="arrow-uturn-left"
-                                                             variant="ghost"
-                                                             wire:click="resetPublication"
-                                                             wire:confirm="{{ __('event.show.tab.main.published.confirmation_msg') }}"
-                                                >{{ __('event.show.tab.main.published.btn_reset') }}</flux:button>
-                                                <flux:button size="sm"
-                                                             icon-trailing="megaphone"
-                                                             variant="filled"
-                                                             wire:click="sendPublicationNotification"
-                                                >{{ __('event.show.tab.main.published.btn_sendMails') }}</flux:button>
+                                            <div class="mt-4">
+                                                <div class="-mx-2 -my-1.5 flex gap-3 items-center">
+                                                    <flux:button size="sm"
+                                                                 icon-trailing="arrow-uturn-left"
+                                                                 variant="ghost"
+                                                                 wire:click="resetPublication"
+                                                                 wire:confirm="{{ __('event.show.tab.main.published.confirmation_msg') }}"
+                                                    >{{ __('event.show.tab.main.published.btn_reset') }}</flux:button>
 
+                                                    <flux:button size="sm"
+                                                                 icon-trailing="megaphone"
+                                                                 variant="filled"
+                                                                 wire:click="sendPublicationNotification"
+                                                    >{{ __('event.show.tab.main.published.btn_sendMails') }}</flux:button>
+                                                    @if($form->notification_sent_at)
+                                                        <flux:text size="sm"
+                                                                   variant="ghost"
+                                                                   class="text-lime-700"
+                                                        >verschickt {{ $form->notification_sent_at->diffForHumans() }}</flux:text>
+                                                    @endif
+
+                                                </div>
                                             </div>
-                                        </div>
-                                            @endcan
+                                        @endcan
                                     </div>
                                 </div>
                             </div>
-                            @else
+                        @else
                             <div class="flex items-end space-x-2">
                                 <flux:select wire:model="form.status"
                                              variant="listbox"
@@ -149,11 +156,11 @@
                                     @endforeach
                                 </flux:select>
                                 @can('update',\App\Models\Event\Event::class)
-                                <flux:button variant="primary"
-                                             icon-trailing="cloud-arrow-up"
-                                             wire:click="publishEvent"
-                                >{{ __('event.show.section.published.btn_publish_now') }}</flux:button>
-                                    @endcan
+                                    <flux:button variant="primary"
+                                                 icon-trailing="cloud-arrow-up"
+                                                 wire:click="publishEvent"
+                                    >{{ __('event.show.section.published.btn_publish_now') }}</flux:button>
+                                @endcan
                             </div>
 
                         @endif
@@ -209,7 +216,7 @@
                                 <livewire:app.global.image-upload/>
                             @endcan
                         @endif
-                        <livewire:event.poster-generator.create :event="$event" />
+                        <livewire:event.poster-generator.create :event="$event"/>
 
                     </section>
 
@@ -228,6 +235,20 @@
 
         <flux:tab.panel name="event-show-descriptions">
             <form wire:submit="updateEventData">
+                @can('update',\App\Models\Event\Event::class)
+                    <nav class="flex gap-6 my-3">
+                        <flux:button size="sm"
+                                     wire:click="makeWebText"
+                                     variant="primary"
+                                     icon-trailing="document"
+                        >{{ __('event.backend.text-nav.btn-make-web-texts') }}</flux:button>
+                        <flux:button type="submit"
+                                     variant="primary"
+                                     size="sm"
+                        >{{ __('event.backend.text-nav.btn-store') }}
+                        </flux:button>
+                    </nav>
+                @endcan
 
                 <section class="grid grid-cols-1 lg:grid-cols-2 gap-3 mb-3"
                 >
@@ -242,6 +263,14 @@
                                             description="Der Titel wird für die Seite verwendet"
                                 />
                             </flux:field>
+
+                            <flux:field>
+                                <flux:label>Inhalt/Beschreibung für Sprache
+                                    <flux:badge color="lime">{{ $locale->value }}</flux:badge>
+                                </flux:label>
+                                <flux:editor wire:model="form.description.{{$locale->value}}"/>
+                            </flux:field>
+
 
                             <flux:field>
                                 <flux:label>slug Sprache
@@ -261,25 +290,10 @@
                                              wire:model="form.excerpt.{{$locale->value}}"
                                 />
                             </flux:field>
-
-                            <flux:field>
-                                <flux:label>Inhalt/Beschreibung für Sprache
-                                    <flux:badge color="lime">{{ $locale->value }}</flux:badge>
-                                </flux:label>
-                                <flux:editor wire:model="form.description.{{$locale->value}}"/>
-                            </flux:field>
-
                         </flux:card>
                     @endforeach
                 </section>
 
-
-                @can('update',\App\Models\Event\Event::class)
-                    <flux:button type="submit"
-                                 variant="primary"
-                    >Speichern
-                    </flux:button>
-                @endcan
             </form>
         </flux:tab.panel>
 
@@ -545,7 +559,7 @@
                                                :sorted="$sortBy === 'member_id'"
                                                :direction="$sortDirection"
                                                wire:click="sort('member')"
-                                               class="hidden sm:table-cell"
+                                               class="hidden xl:table-cell"
                             >{{ __('assignment.table.header.lead') }}</flux:table.column>
                             <flux:table.column sortable
                                                :sorted="$sortBy === 'status'"
@@ -556,7 +570,7 @@
                                                :sorted="$sortBy === 'due_at'"
                                                :direction="$sortDirection"
                                                wire:click="sort('due_at')"
-                                               class="hidden sm:table-cell"
+                                               class="hidden 2xl:table-cell"
                             >{{ __('assignment.table.header.due_at')}}</flux:table.column>
                             <flux:table.column sortable
                                                :sorted="$sortBy === 'amount'"
@@ -585,7 +599,7 @@
                                             </flux:tooltip>
                                         @endif
                                     </flux:table.cell>
-                                    <flux:table.cell class="hidden sm:table-cell">
+                                    <flux:table.cell class="hidden xl:table-cell">
                                         {{ $assignment->member->fullName() }}
                                     </flux:table.cell>
                                     <flux:table.cell>
@@ -596,7 +610,7 @@
                                     <flux:table.cell class="hidden sm:table-cell">
                                         {{ $assignment->getDueString() }}
                                     </flux:table.cell>
-                                    <flux:table.cell class="hidden sm:table-cell"
+                                    <flux:table.cell class="hidden 2xl:table-cell"
                                                      align="end"
                                     >
                                         {{ $assignment->amountString() }}
@@ -662,13 +676,13 @@
                                                :sorted="$sortBy === 'performer'"
                                                :direction="$sortDirection"
                                                wire:click="sort('performer')"
-                                               class="hidden sm:table-cell"
+                                               class="hidden xl:table-cell"
                             >{{ __('timeline.table.header.performer') }}</flux:table.column>
                             <flux:table.column sortable
                                                :sorted="$sortBy === 'place'"
                                                :direction="$sortDirection"
                                                wire:click="sort('place')"
-                                               class="hidden sm:table-cell"
+                                               class="hidden 2xl:table-cell"
                             >{{ __('timeline.table.header.place') }}</flux:table.column>
                             <flux:table.column sortable
                                                :sorted="$sortBy === 'start'"
@@ -685,7 +699,7 @@
                                                :sorted="$sortBy === 'member_id'"
                                                :direction="$sortDirection"
                                                wire:click="sort('member')"
-                                               class="hidden lg:table-cell"
+                                               class="hidden 2xl:table-cell"
                             >{{ __('timeline.table.header.member')}}</flux:table.column>
 
                         </flux:table.columns>
@@ -718,19 +732,19 @@
                                             </flux:tooltip>
                                         @endif
                                     </flux:table.cell>
-                                    <flux:table.cell class="hidden sm:table-cell">
+                                    <flux:table.cell class="hidden xl:table-cell">
                                         {{ $timeItem->performer }}
                                     </flux:table.cell>
-                                    <flux:table.cell class="hidden sm:table-cell">
+                                    <flux:table.cell class="hidden 2xl:table-cell">
                                         {{ $timeItem->place }}
                                     </flux:table.cell>
                                     <flux:table.cell class="hidden sm:table-cell">
-                                        {{ $timeItem->start }}
+                                        {{ $timeItem->start->format('H:s') }}
                                     </flux:table.cell>
                                     <flux:table.cell class="hidden sm:table-cell">
-                                        {{ $timeItem->end }}
+                                        {{ $timeItem->end->format('H:s') }}
                                     </flux:table.cell>
-                                    <flux:table.cell class="hidden lg:table-cell">
+                                    <flux:table.cell class="hidden 2xl:table-cell">
                                         {{ optional($timeItem->member)->fullName() }}
                                     </flux:table.cell>
 
@@ -773,12 +787,34 @@
         </flux:tab.panel>
     </flux:tab.group>
 
+    <flux:modal name="confirm-resending-publication-notification"
+                class="min-w-[22rem]"
+    >
+        <div class="space-y-6">
+            <div>
+                <flux:heading size="lg">Bitte bestätigen</flux:heading>
+                <flux:text class="mt-2"><p>Die Benachrichtigung wurde bereits am {{ $event->notification_sent_at??'' }} verschickt.</p>
+                    <p>Soll diese erneut verschickt werden?</p></flux:text>
+            </div>
+            <div class="flex gap-2">
+                <flux:spacer/>
+                <flux:modal.close>
+                    <flux:button variant="ghost">Doch nicht</flux:button>
+                </flux:modal.close>
+                <flux:button wire:click="reSendPublicationNotification"
+                             variant="danger"
+                >Ja, bitte erneut versenden
+                </flux:button>
+            </div>
+        </div>
+    </flux:modal>
+
     <flux:modal name="add-subscription"
                 variant="flyout"
                 position="right"
                 class="space-y-6"
     >
-    <livewire:event.subscription.create.form  :event-id="$event->id"/>
+        <livewire:event.subscription.create.form :event-id="$event->id"/>
 
     </flux:modal>
 

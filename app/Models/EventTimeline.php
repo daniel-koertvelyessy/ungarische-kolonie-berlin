@@ -65,6 +65,8 @@ class EventTimeline extends Model
 
     protected $casts = [
         'title_extern' => 'array',
+        'start' => 'datetime',
+        'end' => 'datetime',
     ];
 
     public function event(): BelongsTo

@@ -2,7 +2,7 @@
     @php
     $profile_link = $leader->profile_image ?  '/'.$leader->profile_image : 'https://ui-avatars.com/api/?name='.urlencode($leader->member->first_name.' '.$leader->member->name).'&color=7F9CF5&background=EBF4FF';
     @endphp
-    <li class="flex flex-col gap-10 py-12 first:pt-0 last:pb-0 sm:flex-row" wire:key="{{ $leader->id }}">
+    <li class="flex flex-col gap-10 py-12 first:pt-0 last:pb-0 " wire:key="{{ $leader->id }}">
         <img class="aspect-4/5 w-52 flex-none rounded-2xl object-cover" src="{{ $profile_link }}" alt="Profile image {{ $leader->member->fullName() }}">
         <div class="max-w-xl flex-auto">
             <h3 class="text-lg/8 font-semibold tracking-tight text-gray-900 dark:text-zinc-300">{{ $leader->member->fullName() }}</h3>

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
@@ -8,10 +10,13 @@ use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class CustomNotificationMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * Create a new message instance.
@@ -47,6 +52,34 @@ class CustomNotificationMail extends Mailable
      */
     public function attachments(): array
     {
-        return [];
+        $attachments = [];
+        if (isset($this->data['event_poster'])) {
+            $filePath = 'images/posters/'.$this->data['event_poster'];
+            $filename = $this->data['event_poster'];
+
+            if (Storage::disk('public')->exists($filePath)) {
+                try {
+                    // Read the file content
+                    $fileContent = Storage::disk('public')->get($filePath);
+                    // Attach the file content
+                    $attachments[] = Attachment::fromData(
+                        fn () => $fileContent,
+                        $filename
+                    )->withMime('application/pdf');
+                } catch (\Exception $e) {
+                    Log::error('Failed to attach file', [
+                        'file_path' => $filePath,
+                        'filename' => $filename,
+                        'error' => $e->getMessage(),
+                    ]);
+                }
+            } else {
+                Log::error('Poster file not found in storage', ['file_path' => $filePath]);
+            }
+        } else {
+            Log::info('No poster specified for attachment');
+        }
+
+        return $attachments;
     }
 }

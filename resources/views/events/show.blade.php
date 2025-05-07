@@ -89,16 +89,18 @@
             <flux:text class="my-3 prose prose-emerald dark:prose-invert">{!! $event->description[$locale??'de']  !!}</flux:text>
 
 
+
+
+        </article>
+
+        <aside class="space-y-6">
+
             @if($event->image)
                 <img src="{{ asset('storage/images/'.$event->image) }}"
                      alt=""
                      class="my-3 lg:my-9 rounded-md shadow-sm"
                 >
             @endif
-
-        </article>
-
-        <aside class="space-y-6">
             <flux:card>
                 <h3 class="text-xl font-bold text-zinc-900 dark:text-emerald-400">{{ __('event.show.details.heading') }}</h3>
 
@@ -185,6 +187,22 @@
                             </div>
 
                         @endif
+
+                        @if($event->hasPoster($locale,'pdf'))
+
+                            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                <dt class="text-sm/6 font-medium text-zinc-900 dark:text-emerald-400">{{ __('event.show.posts.poster.heading') }}</dt>
+                                <dd class="mt-1 text-sm/6 text-zinc-700 dark:text-zinc-100 sm:col-span-2 sm:mt-0">
+                                    <flux:button
+                                        href="{{ $event->getPoster($locale, 'pdf') }}"
+                                        download="{{ basename($event->getPoster($locale, 'pdf')) }}"
+                                    >
+                                      {{ __('event.show.posts.poster.download') }}  ( {{ $event->getPosterSize($locale, 'pdf') }}kB)
+                                    </flux:button>
+                                </dd>
+                            </div>
+
+                        @endif
                 </dl>
                 @endif
 
@@ -250,16 +268,14 @@
                                         </div>
                                     </flux:table.cell>
                                     <flux:table.cell class="hidden lg:table-cell">
-                                        <flux:badge color="green"
-                                                    size="sm"
+                                        <flux:badge size="sm"
                                                     inset="top bottom"
-                                        >{{ $item->start }}</flux:badge>
+                                        >{{ $item->start->format('H:s') }}</flux:badge>
                                     </flux:table.cell>
                                     <flux:table.cell class="hidden lg:table-cell">
-                                        <flux:badge color="green"
-                                                    size="sm"
+                                        <flux:badge size="sm"
                                                     inset="top bottom"
-                                        >{{ $item->end }}</flux:badge>
+                                        >{{ $item->end->format('H:s') }}</flux:badge>
                                     </flux:table.cell>
                                     <flux:table.cell class="hidden md:table-cell"
                                                      variant="strong"

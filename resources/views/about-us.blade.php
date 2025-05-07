@@ -82,114 +82,31 @@
                 <p class="mt-6 text-lg/8 ">{{  __('aboutus.section.board.body')  }}</p>
             </div>
 
-
-            @foreach ($team as $member)
-                @foreach ($member->activeRoles as $role)
-                    <div>
-                        <h3>{{ $role->name }}: {{ $member->name }}</h3>
-                        <p>{{ $role->pivot->about_me }}</p>
-                    </div>
-                @endforeach
-            @endforeach
-
             <ul role="list"
                 class="divide-y divide-gray-200 xl:col-span-3"
-            >
+            > @foreach ($team as $member)
+                    @foreach ($member->activeRoles as $role)
                 <li class="flex flex-col gap-10 py-12 first:pt-0 last:pb-0 sm:flex-row">
                     <img class="aspect-4/5 w-52 flex-none rounded-2xl object-cover"
-                         src="{{ Vite::asset('resources/images/robotka_jozsef.webp') }}"
+                         src="{{ $role->pivot->profile_image }}"
                          alt="Präsident der Magyar Kolónia e.V. József Robotka"
                     >
                     <div class="max-w-xl flex-auto">
-                        <h3 class="text-lg/8 font-semibold tracking-tight ">Robotka, József</h3>
-                        <p class="text-base/7 ">{{ __('aboutus.section.board.president.label') }}</p>
-                        <p class="mt-6 text-base/7 ">{{ __('aboutus.section.board.president.description') }}</p>
+                        <h3 class="text-lg/8 font-semibold tracking-tight ">{{ $member->fullName() }}</h3>
+                        <p class="text-base/7 ">{{ $role->name[app()->getLocale()] }}</p>
+                        <p class="mt-6 text-sm/6 ">{{ $role->pivot->about_me[app()->getLocale()] }}</p>
 
-                        <a href="mailto:jozsef@magyar-kolonia-berlin.org"
+                        <a href="mailto:{{ \Illuminate\Support\Str::slug($member->first_name) }}@magyar-kolonia-berlin.org"
                            class="text-gray-400 hover:text-gray-500 mt-6 flex gap-x-6"
                         >
                             <flux:icon.envelope-open/>
-                            jozsef@magyar-kolonia-berlin.org
+                            {{ \Illuminate\Support\Str::slug($member->first_name) }}@magyar-kolonia-berlin.org
                         </a>
 
                     </div>
                 </li>
-                <li class="flex flex-col gap-10 py-12 first:pt-0 last:pb-0 sm:flex-row">
-                    <img class="aspect-4/5 w-52 flex-none rounded-2xl object-cover"
-                         src="{{ Vite::asset('resources/images/temesi_matyas.webp') }}"
-                         alt=""
-                    >
-                    <div class="max-w-xl flex-auto">
-                        <h3 class="text-lg/8 font-semibold tracking-tight ">Temesi, Mátyás</h3>
-                        <p class="text-base/7 ">{{ __('aboutus.section.board.vice_president.label') }}</p>
-                        <p class="mt-6 text-base/7 ">{{ __('aboutus.section.board.vice_president.description') }}</p>
-
-                        <a href="mailto:matyas@magyar-kolonia-berlin.org"
-                           class="text-gray-400 hover:text-gray-500 mt-6 flex gap-x-6"
-                        >
-                            <flux:icon.envelope-open/>
-                            matyas@magyar-kolonia-berlin.org
-                        </a>
-
-                    </div>
-                </li>
-                <li class="flex flex-col gap-10 py-12 first:pt-0 last:pb-0 sm:flex-row">
-                    <img class="aspect-4/5 w-52 flex-none rounded-2xl object-cover"
-                         src="{{ Vite::asset('resources/images/laszlo_levente.webp') }}"
-                         alt=""
-                    >
-                    <div class="max-w-xl flex-auto">
-                        <h3 class="text-lg/8 font-semibold tracking-tight ">László, Levente</h3>
-                        <p class="text-base/7 ">{{ __('aboutus.section.board.culture.label') }}</p>
-                        <p class="mt-6 text-base/7 ">{{ __('aboutus.section.board.culture.description') }}</p>
-
-                        <a href="mailto:levente@magyar-kolonia-berlin.org"
-                           class="text-gray-400 hover:text-gray-500 mt-6 flex gap-x-6"
-                        >
-                            <flux:icon.envelope-open/>
-                            levente@magyar-kolonia-berlin.org
-                        </a>
-
-                    </div>
-                </li>
-                <li class="flex flex-col gap-10 py-12 first:pt-0 last:pb-0 sm:flex-row">
-                    <img class="aspect-4/5 w-52 flex-none rounded-2xl object-cover"
-                         src="{{ Vite::asset('resources/images/heuer_judith.webp') }}"
-                         alt=""
-                    >
-                    <div class="max-w-xl flex-auto">
-                        <h3 class="text-lg/8 font-semibold tracking-tight ">Heuer, Judith</h3>
-                        <p class="text-base/7 ">{{ __('aboutus.section.board.social.label') }}</p>
-                        <p class="mt-6 text-base/7 ">{{ __('aboutus.section.board.social.description') }}</p>
-
-                        <a href="mailto:levente@magyar-kolonia-berlin.org"
-                           class="text-gray-400 hover:text-gray-500 mt-6 flex gap-x-6"
-                        >
-                            <flux:icon.envelope-open/>
-                            judith@magyar-kolonia-berlin.org
-                        </a>
-
-                    </div>
-                </li>
-                <li class="flex flex-col gap-10 py-12 first:pt-0 last:pb-0 sm:flex-row">
-                    <img class="aspect-4/5 w-52 flex-none rounded-2xl object-cover"
-                         src="{{ Vite::asset('resources/images/koertvelyessy_daniel.webp') }}"
-                         alt=""
-                    >
-                    <div class="max-w-xl flex-auto">
-                        <h3 class="text-lg/8 font-semibold tracking-tight ">Körtvélyessy, Daniel</h3>
-                        <p class="text-base/7 ">{{ __('aboutus.section.board.financial.label') }}</p>
-                        <p class="mt-6 text-base/7 ">{{ __('aboutus.section.board.financial.description') }}</p>
-
-                        <a href="mailto:levente@magyar-kolonia-berlin.org"
-                           class="text-gray-400 hover:text-gray-500 mt-6 flex gap-x-6"
-                        >
-                            <flux:icon.envelope-open/>
-                            daniel@magyar-kolonia-berlin.org
-                        </a>
-
-                    </div>
-                </li>
+                    @endforeach
+                @endforeach
             </ul>
         </div>
 

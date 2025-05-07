@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 /**
  * @method static Event create(array $attributes)
@@ -105,6 +106,7 @@ class Event extends Model
         'excerpt' => 'array',
         'slug' => 'array',
         'description' => 'array',
+        'notification_sent_at' => 'datetime',
         'event_date' => 'date', // Cast as Carbon instance
         'start_time' => 'datetime:H:i:s', // Cast time as Carbon (only hours & minutes)
         'end_time' => 'datetime:H:i:s',
@@ -132,7 +134,7 @@ class Event extends Model
 
     public function timelines(): HasMany
     {
-        return $this->hasMany(EventTimeline::class);
+        return $this->hasMany(EventTimeline::class)->orderBy('start');
     }
 
     public function assignments(): HasMany
@@ -157,11 +159,34 @@ class Event extends Model
 
     public function hasPoster(string $locale, string $type = 'jpg'): bool
     {
-        return Storage::disk('public')->exists('images/posters/'.$this->id.'_poster_'.$locale.'.'.$type);
+        return Storage::disk('public')->exists('images/posters/'.$this->makePosterName($locale).'.'.$type);
     }
 
     public function getPoster(string $locale = 'de', string $type = 'jpg'): string
     {
-        return Storage::disk('public')->url('images/posters/'.$this->id.'_poster_'.$locale.'.'.$type);
+        return Storage::disk('public')->url('images/posters/'.$this->makePosterName($locale).'.'.$type);
+    }
+
+    public function getFilename(string $locale = 'de'): string
+    {
+        return $this->makePosterName($locale);
+    }
+
+    public function getPosterSize(string $locale, string $type = 'jpg'): int
+    {
+        if ($this->hasPoster($locale, $type)) {
+            return Storage::disk('public')->size('images/posters/'.$this->makePosterName($locale).'.'.$type) / 1024;
+        }
+
+        return 0;
+    }
+
+    protected function makePosterName(string $locale = 'de'): string
+    {
+        if (empty($this->title[$locale])) {
+            return 'poster';
+        }
+
+        return Str::slug($this->title[$locale]).'_poster';
     }
 }

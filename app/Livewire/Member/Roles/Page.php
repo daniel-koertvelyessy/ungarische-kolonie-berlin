@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Member\Roles;
 
 use App\Livewire\Forms\Member\MemberRoleForm;
@@ -9,6 +11,7 @@ use App\Models\Membership\Member;
 use App\Models\Membership\MemberRole;
 use App\Models\Membership\Role;
 use Flux\Flux;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -39,7 +42,7 @@ class Page extends Component
     #[Computed]
     public function roles(): \Illuminate\Pagination\LengthAwarePaginator
     {
-        return Role::query()->select('id', 'name', 'sort')->paginate(10);
+        return Role::query()->select('id', 'name', 'sort')->orderBy('sort')->paginate(10);
     }
 
     #[Computed]
@@ -54,9 +57,8 @@ class Page extends Component
         return Role::query()
             ->select('id', 'name')
             ->get()
-            ->filter(function ($role)
-            {
-                return !MemberRole::query()
+            ->filter(function ($role) {
+                return ! MemberRole::query()
                     ->where('role_id', $role->id)
                     ->exists();
             });
@@ -68,13 +70,57 @@ class Page extends Component
         return Member::query()
             ->select('id', 'first_name', 'name')
             ->get()
-            ->filter(function ($member)
-            {
-                return !$member->roles()
+            ->filter(function ($member) {
+                return ! $member->roles()
                     ->exists();
             });
     }
 
+    public function sortItem($item, $position): void
+    {
+
+        $role = Role::query()->findOrFail($item);
+
+        $this->moveItem($role, $position);
+
+    }
+
+    /**
+     * @throws \Throwable
+     */
+    protected function moveItem($role, $position): void
+    {
+
+        DB::transaction(function () use ($role, $position) {
+
+            $current = $role->sort;
+
+            if ($current === $position) {
+                return;
+            }
+
+            $role->update([
+                'sort' => 999999,
+            ]);
+
+            $block = Role::query()->whereBetween('sort', [
+                min($current, $position),
+                max($current, $position),
+            ]);
+
+            $shiftBlockDown = $current < $position;
+
+            $shiftBlockDown
+                ? $block->decrement('sort')
+                : $block->increment('sort');
+
+            $role->update([
+                'sort' => $position,
+            ]);
+
+        });
+
+    }
 
     public function mount(): void
     {
@@ -91,6 +137,8 @@ class Page extends Component
         $this->checkPrivilege(Role::class);
 
         $role = Role::query()->findOrFail($roleId);
+
+        $this->moveItem($role, 9999999999);
 
         $role->delete();
 
@@ -121,10 +169,10 @@ class Page extends Component
 
         if ($this->edit) {
             $this->memberRoleForm->update();
-            $msg=__('role.toast.msg.leaderrole.updated');
+            $msg = __('role.toast.msg.leaderrole.updated');
         } else {
             $this->memberRoleForm->create();
-            $msg=__('role.toast.msg.leaderrole.assigened');
+            $msg = __('role.toast.msg.leaderrole.assigened');
         }
 
         Flux::toast($msg, 'success');
@@ -132,7 +180,6 @@ class Page extends Component
         $this->dispatch('memberRolesUpdated');
 
     }
-
 
     public function addRole(): void
     {

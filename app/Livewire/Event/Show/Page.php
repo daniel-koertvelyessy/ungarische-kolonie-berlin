@@ -45,6 +45,8 @@ class Page extends Component
 
     public $event_id;
 
+    public bool $invitationsSent;
+
     public Event $event;
 
     public $defaultTab = 'event-show-dates';
@@ -94,7 +96,7 @@ class Page extends Component
     public function visitors(): LengthAwarePaginator
     {
         return EventVisitor::query()
-            ->with('member')
+            ->with('member:id,name,first_name')
             ->where('event_id', '=', $this->event_id)
             ->tap(fn ($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
             ->paginate(10);
@@ -104,15 +106,16 @@ class Page extends Component
     public function timelineItems(): LengthAwarePaginator
     {
         return EventTimeline::query()
-            ->with('member')
+            ->with('member:id,name,first_name')
             ->where('event_id', '=', $this->event_id)
+            ->orderByDesc('start')
             ->tap(fn ($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
             ->paginate(10);
     }
 
     public function mount(Event $event, ?User $user): void
     {
-
+        $this->invitationsSent = \App\Models\MailHistoryEntry::checkEntry([]);
         $this->event = $event;
         $this->event_id = $event->id;
         $this->form->setEvent($event);
@@ -287,7 +290,25 @@ class Page extends Component
 
     public function sendPublicationNotification(): void
     {
+        $this->checkPrivilege(Event::class);
 
+        if (is_null($this->event->notification_sent_at)) {
+            $this->sendNotificationEmail();
+        } else {
+            Flux::modal('confirm-resending-publication-notification')->show();
+        }
+
+    }
+
+    public function reSendPublicationNotification(): void
+    {
+        $this->sendNotificationEmail();
+        Flux::modal('confirm-resending-publication-notification')->close();
+    }
+
+    protected function sendNotificationEmail(): void
+    {
+        $this->checkPrivilege(Event::class);
         $mailingService = app(MailingService::class);
 
         $mailingService->sendNotificationsToSubscribers(
@@ -297,7 +318,19 @@ class Page extends Component
             'emails.new_event_notification',
             []
         );
+        $this->form->notification_sent_at = Carbon::now();
+        $this->form->update();
+
         Flux::toast(text: __('post.form.toasts.notification_sent_success'), heading: __('post.form.toasts.heading.success'), duration: 8000, variant: 'success');
+
+    }
+
+    public function makeWebText(): void
+    {
+
+        $this->checkPrivilege(Event::class);
+
+        $this->form->makeWebText();
 
     }
 

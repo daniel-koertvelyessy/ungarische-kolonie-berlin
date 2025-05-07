@@ -1,5 +1,5 @@
-<div class="grid lg:grid-cols-2 gap-3 lg:gap-6">
 
+<div class="grid lg:grid-cols-2 gap-3 lg:gap-6">
     <flux:card class="space-y-6">
         @if($this->leadershipRooster->count() > 0)
             @foreach($this->leadershipRooster as $leader)
@@ -28,6 +28,7 @@
     </flux:card>
 
     <flux:card>
+        <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/sort@3.x.x/dist/cdn.min.js"></script>
 
         <header class="flex justify-between items-center">
             <flux:heading>Rollen</flux:heading>
@@ -38,10 +39,12 @@
             </flux:modal.trigger>
                 @endcan
         </header>
+        <section x-sort="$wire.sortItem($item, $position)">
+            @foreach($this->roles as $role)
+                <x-role-card :$role x-sort:item="{{ $role->id }}" wire:key="{{ $role->id }}" />
+            @endforeach
+        </section>
 
-        @foreach($this->roles as $role)
-            <x-role-card :$role/>
-        @endforeach
 
     </flux:card>
 
@@ -167,11 +170,10 @@
         </flux:modal>
 
         <flux:modal name="make-new-role"
-                    class="w-1/2"
+                    class="w-1/2 space-y-6"
         >
 
-            <flux:heading size="lg">Rolle zuordnen</flux:heading>
-
+            <flux:heading size="lg">{{ __('role.create.modal.title') }}</flux:heading>
 
             <form wire:submit="addRole"
                   class="space-y-6"
@@ -179,22 +181,17 @@
 
                 @foreach(\App\Enums\Locale::cases() as $locale)
                     <flux:input wire:model="roleForm.name.{{ $locale->value }}"
-                                label="name"
+                                label="{{ __('role.create.modal.name') }}"
                                 badge="{{ $locale->value }}"
                     />
                 @endforeach
 
                 <flux:input wire:model="roleForm.description"
-                            label="description"
-                />
-                <flux:input type="number"
-                            min="0"
-                            wire:model="roleForm.sort"
-                            label="sort"
+                            label="{{ __('role.create.modal.description') }}"
                 />
                 <flux:button variant="primary"
                              type="submit"
-                >Assign Role
+                >{{ __('role.create.modal.button') }}
                 </flux:button>
 
             </form>
@@ -203,3 +200,4 @@
     @endcan
 
 </div>
+

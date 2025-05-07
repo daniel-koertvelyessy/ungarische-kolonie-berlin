@@ -7,6 +7,7 @@ use App\Enums\MemberType;
 use App\Models\Accounting\CancelTransaction;
 use App\Models\Membership\Member;
 use App\Models\Traits\HasHistory;
+use App\Notifications\CustomResetPassword;
 use Database\Factories\UserFactory;
 use Eloquent;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -165,5 +166,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function member(): hasOne
     {
         return $this->hasOne(Member::class);
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new CustomResetPassword($token));
     }
 }

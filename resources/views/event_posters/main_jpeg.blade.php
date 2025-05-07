@@ -9,8 +9,8 @@
     <!-- Styles -->
     @fluxAppearance
 </head>
-<body class="font-sans bg-zinc-50">
-<div class="w-[1280px] h-[960px] mx-auto bg-parchment flex flex-col items-center justify-between relative">
+<body class="font-sans bg-transparent">
+<div class="w-[1280px] h-[960px] mx-auto flex flex-col items-center justify-between relative">
 
     <svg viewBox="0 0 1280 960"
          version="1.1"
@@ -58,6 +58,10 @@
 
     <article class="absolute top-52 w-[1000px] pr-12">
         <p class="text-green-700 text-7xl mb-10">{{ $event->title[$locale??'de'] }}</p>
+
+        <section class="text-3xl">
+            {!! \Illuminate\Support\Str::limit($event->excerpt[$locale??'de'],300,' ...',true) !!}
+        </section>
     </article>
 
     <article class="absolute bottom-44 w-[990px] pr-12">

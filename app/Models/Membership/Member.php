@@ -1,19 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models\Membership;
 
 use App\Enums\MemberFeeType;
 use App\Enums\MemberType;
 use App\Enums\TransactionStatus;
 use App\Models\Accounting\Transaction;
+use App\Models\History;
 use App\Models\Traits\HasHistory;
 use App\Models\User;
 use Carbon\Carbon;
+use Database\Factories\Membership\MemberFactory;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Notifications\DatabaseNotification;
+use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
 
 /**
@@ -44,60 +53,61 @@ use Illuminate\Notifications\Notifiable;
  * @property string|null $citizenship
  * @property string|null $family_status
  * @property string $fee_type
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
+ * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Transaction> $transactions
+ * @property-read Collection<int, Transaction> $transactions
  * @property-read int|null $transactions_count
  * @property-read User|null $user
  *
- * @method static \Database\Factories\Membership\MemberFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Member newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Member newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Member query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereAddress($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereAppliedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereBirthDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereBirthPlace($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereCitizenship($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereCity($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereCountry($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereDeductionReason($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereEnteredAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereFamilyStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereFeeType($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereFirstName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereGender($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereIsDeducted($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereLeftAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereLocale($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereMobile($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Member wherePhone($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereVerifiedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereZip($value)
+ * @method static MemberFactory factory($count = null, $state = [])
+ * @method static Builder<static>|Member newModelQuery()
+ * @method static Builder<static>|Member newQuery()
+ * @method static Builder<static>|Member query()
+ * @method static Builder<static>|Member whereAddress($value)
+ * @method static Builder<static>|Member whereAppliedAt($value)
+ * @method static Builder<static>|Member whereBirthDate($value)
+ * @method static Builder<static>|Member whereBirthPlace($value)
+ * @method static Builder<static>|Member whereCitizenship($value)
+ * @method static Builder<static>|Member whereCity($value)
+ * @method static Builder<static>|Member whereCountry($value)
+ * @method static Builder<static>|Member whereCreatedAt($value)
+ * @method static Builder<static>|Member whereDeductionReason($value)
+ * @method static Builder<static>|Member whereEmail($value)
+ * @method static Builder<static>|Member whereEnteredAt($value)
+ * @method static Builder<static>|Member whereFamilyStatus($value)
+ * @method static Builder<static>|Member whereFeeType($value)
+ * @method static Builder<static>|Member whereFirstName($value)
+ * @method static Builder<static>|Member whereGender($value)
+ * @method static Builder<static>|Member whereId($value)
+ * @method static Builder<static>|Member whereIsDeducted($value)
+ * @method static Builder<static>|Member whereLeftAt($value)
+ * @method static Builder<static>|Member whereLocale($value)
+ * @method static Builder<static>|Member whereMobile($value)
+ * @method static Builder<static>|Member whereName($value)
+ * @method static Builder<static>|Member wherePhone($value)
+ * @method static Builder<static>|Member whereType($value)
+ * @method static Builder<static>|Member whereUpdatedAt($value)
+ * @method static Builder<static>|Member whereUserId($value)
+ * @method static Builder<static>|Member whereVerifiedAt($value)
+ * @method static Builder<static>|Member whereZip($value)
  *
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\History> $histories
+ * @property-read Collection<int, History> $histories
  * @property-read int|null $histories_count
- * @property-read \App\Models\Membership\MemberRole|null $pivot
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Membership\Role> $roles
+ * @property-read MemberRole|null $pivot
+ * @property-read Collection<int, Role> $roles
  * @property-read int|null $roles_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Membership\Role> $activeRoles
+ * @property-read Collection<int, Role> $activeRoles
  * @property-read int|null $active_roles_count
  *
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
 class Member extends Model
 {
-    /** @use HasFactory<\Database\Factories\Membership\MemberFactory> */
-    use HasFactory, Notifiable;
+    /** @use HasFactory<MemberFactory> */
+    use HasFactory;
 
     use HasHistory;
+    use Notifiable;
 
     public static int $age_discounted = 65;
 
@@ -136,7 +146,7 @@ class Member extends Model
             ->count();
     }
 
-    public static function Applicants(): \Illuminate\Database\Eloquent\Collection
+    public static function Applicants(): Collection
     {
         return Member::query()->whereIn('type', [MemberType::AP->value])
             ->get();
@@ -159,7 +169,7 @@ class Member extends Model
         return false;
     }
 
-    public function transactions(): \Illuminate\Database\Eloquent\Relations\HasManyThrough|\Illuminate\Database\Eloquent\Builder
+    public function transactions(): HasManyThrough|Builder
     {
         //        return $this->hasMany(Transaction::class);
         return $this->hasManyThrough(Transaction::class, MemberTransaction::class, 'member_id', 'id', 'id', 'transaction_id');
@@ -251,5 +261,40 @@ class Member extends Model
     public function activeRoles(): BelongsToMany
     {
         return $this->roles()->wherePivot('resigned_at', null);
+    }
+
+    public static function leaderBoardString(string $locale = 'de'): string
+    {
+        $string = '';
+
+        foreach (Role::all() as $role) {
+
+            if ($role->members->count() > 0) {
+                $string .= $role->name[$locale].': ';
+                $string .= $role->members->first()->fullName();
+
+            }
+            //
+        }
+
+        return $string;
+    }
+
+    public static function leaderBoardHtml(string $locale = 'hu'): string
+    {
+
+        $string = '<div style="font-size: 12px; line-height: 1.2; margin-bottom: 10px;">';
+
+        foreach (Role::all() as $roleItem) {
+
+            if ($roleItem->members->count() > 0) {
+                $string .= '<span style="font-weight: bold; margin-right: 1px;">'.$roleItem->name[$locale].': </span> ';
+                $string .= '<span style=" margin-right: 3px;">'.$roleItem->members->first()->fullName().'</span>';
+            }
+            //
+        }
+        $string .= '</div>';
+
+        return $string;
     }
 }

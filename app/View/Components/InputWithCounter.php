@@ -13,7 +13,7 @@ class InputWithCounter extends Component
      */
     public function __construct(
         public string $model,
-        public string $label,
+        public ?string $label,
         public int $maxLength = 100,
         public string $size = 'md'
     ) {}

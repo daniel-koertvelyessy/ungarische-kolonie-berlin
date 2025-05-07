@@ -6,6 +6,7 @@ namespace App\Livewire\Event\PosterGenerator;
 
 use App\Enums\Locale;
 use App\Models\Event\Event;
+use App\Services\QrCodeService;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Livewire\Component;
@@ -34,7 +35,9 @@ class Create extends Component
      */
     public function generateJpeg(): void
     {
+
         foreach (Locale::toArray() as $value) {
+
             $htmlContent = view('event_posters.main_jpeg', ['event' => $this->event, 'imagePath' => $this->imagePath, 'locale' => $value])->render();
 
             $this->setImagePath('jpg', $value);
@@ -51,12 +54,17 @@ class Create extends Component
     public function generatePdf(): void
     {
         foreach (Locale::toArray() as $value) {
-            $htmlContent = view('event_posters.main_pdf', ['event' => $this->event, 'imagePath' => $this->imagePath, 'locale' => $value])->render();
+
+            $qrService = new QrCodeService;
+
+            $qrcode = $qrService->generateSvg(config('app.url').'/'.$this->event->slug[$value], 120);
+
+            $htmlContent = view('event_posters.main_pdf', ['event' => $this->event, 'imagePath' => $this->imagePath, 'locale' => $value, 'qrcode' => $qrcode, 'dpi' => 96])->render();
 
             $this->setImagePath('pdf', $value);
 
             $this->makeImage($htmlContent)
-                ->windowSize(2480, 3508)
+                ->format('A4')
                 ->fullPage()
                 ->save($this->fullPath);
 
@@ -74,7 +82,8 @@ class Create extends Component
 
     protected function setImagePath(string $type = 'jpg', $locale = 'de'): void
     {
-        $this->posterPath = 'images/posters/'.$this->event->id.'_poster_'.$locale.'.'.$type;
+
+        $this->posterPath = 'images/posters/'.$this->event->getFilename($locale).'.'.$type;
 
         // Ensure the directory exists
         Storage::disk('public')

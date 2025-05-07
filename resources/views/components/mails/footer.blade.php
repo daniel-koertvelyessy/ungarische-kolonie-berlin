@@ -41,10 +41,12 @@
                                 <a href="mailto:szia@magyar-kolonia-berlin.org" style="color: #000; text-decoration: none; font-size: 10px;">szia@magyar-kolonia-berlin.org</a>
                             </li>
                             <li style="list-style: none; margin-bottom: 10px;">
-                                <a href="https://magyar-kolonia-berlin.org" style="color: #000; text-decoration: none; font-size: 10px;">Magyar Kolónia Berlin e.V.</a>
+                                <a href="https://magyar-kolonia-berlin.org" style="color: #000; text-decoration: none; font-size: 10px;">magyar-kolonia-berlin.org</a>
                             </li>
                             <li style="list-style: none; margin-bottom: 10px;">
                                 <a href="#" style="color: #000; text-decoration: none; font-size: 10px;">Facebook</a>
+                            </li><li style="list-style: none; margin-bottom: 10px;">
+                                <a href="https://magyar-kolonia-berlin.org/privacy" style="color: #000; text-decoration: none; font-size: 10px;">{{ __('privacy.title') }}</a>
                             </li>
                         </ul>
                     </td>
@@ -53,15 +55,12 @@
                     <td colspan="2" valign="top" width="100%" style="padding-top: 20px;">
                         <h3 class="heading" style="color: #000; font-size: 17px; margin-top: 0; font-family: Lato, sans-serif; font-weight: 400;">Magyar Kolónia Berlin e. V.</h3>
                         <p style="margin-top: 0;">
-                            <span class="text" style="font-size: 10px;">{{ __('mails.president') }} <strong>Robotka József</strong></span> |
-                            <span class="text" style="font-size: 10px;">{{ __('mails.president.deputy') }} <strong>Temesi Mátyás</strong></span> |
-                            <span class="text" style="font-size: 10px;">{{ __('mails.treasury') }} <strong>Körtvélyesy Dániel</strong></span> |
-                            <span class="text" style="font-size: 10px;">{{ __('mails.cultural.director') }} <strong>László Levente</strong></span> |
-                            <span class="text" style="font-size: 10px;">{{ __('mails.social.affairs') }} <strong>Heuer Judith</strong></span> |
-                            <span class="text" style="font-size: 10px;">{{ __('mails.social.affairs.deputy') }} <strong>Kovács Ágnes</strong></span> |
-                            <span class="text" style="font-size: 10px;">{{ __('mails.secretariat.hu') }} <strong>Simó Enikö</strong></span> |
-                            <span class="text" style="font-size: 10px;">{{ __('mails.secretariat.de') }} <strong>Hoffmann Andreas</strong></span> |
+                            {{ __('impressum.register_id') }}
+                            95 VR 1881 Nz
                         </p>
+                        <div style="margin-top: 0;">
+                            {!! \App\Models\Membership\Member::leaderBoardHtml(app()->getLocale()) !!}
+                        </div>
                     </td>
                 </tr>
             </table>

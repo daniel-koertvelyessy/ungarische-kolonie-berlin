@@ -1,8 +1,8 @@
-<div class="p-3 border border-zinc-300 my-3 rounded-xl flex justify-between items-center">
+<div class="p-3 border border-zinc-300 my-3 rounded-xl flex justify-between items-center " {{ $attributes }}>
+    <flux:icon.arrows-up-down x-sort:handle class="size-4 hover:cursor-move" />
     <div>
         <flux:heading>{{ $role->name[app()->getLocale()] }}</flux:heading>
         <flux:text>{{ $role->description }}</flux:text>
-
     </div>
 
     <aside class="flex flex-col gap-2">

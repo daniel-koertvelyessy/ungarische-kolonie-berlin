@@ -18,6 +18,7 @@ use App\Models\Accounting\Transaction;
 use App\Models\Event\Event;
 use App\Services\EventReportService;
 use App\Services\PdfGeneratorService;
+use App\Services\QrCodeService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -212,9 +213,26 @@ if (app()->isLocal()) {
         $imagePath = null; // Optional: Add a sample image path if needed
 
         // Render the same view as Browsershot
-        return view('event_template.main', [
+        return view('event_posters.main_jpeg', [
             'event' => $event,
             'imagePath' => $imagePath,
         ]);
-    })->name('poster.preview');
+    })->name('poster.preview.jpg');
+
+    Route::get('/poster/preview_pdf/{event}', function ($eventId) {
+        // Fetch the event (or use a dummy one for testing)
+        $event = Event::findOrFail($eventId); // Replace with your model logic
+        $imagePath = null; // Optional: Add a sample image path if needed
+        $qrService = new QrCodeService;
+
+        $qrCode = $qrService->generateSvg(config('app.url').'/'.$event->slug['de'], 80);
+
+        // Render the same view as Browsershot
+        return view('event_posters.main_pdf', [
+            'event' => $event,
+            'imagePath' => $imagePath,
+            'qrcode' => $qrCode,
+            'dpi' => 300,
+        ]);
+    })->name('poster.preview.pdf');
 }

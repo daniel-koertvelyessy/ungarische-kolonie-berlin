@@ -23,7 +23,7 @@ class EventController extends Controller
     public function index(int $numPages = 5): View
     {
         return view('events.index', [
-            'events' => Event::orderBy('event_date')
+            'events' => Event::orderBy('event_date', 'desc')
                 ->where('status', '=', EventStatus::PUBLISHED->value)
                 ->paginate($numPages),
             'locale' => App::getLocale(),

@@ -46,4 +46,9 @@ class MailHistoryEntry extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public static function checkEntry(array $valueArray): bool
+    {
+        return MailHistoryEntry::query()->whereJsonContains('subject', $valueArray)->exists();
+    }
 }

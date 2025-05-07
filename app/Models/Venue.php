@@ -57,8 +57,13 @@ class Venue extends Model
         return $this->hasMany(Event::class);
     }
 
-    public function address(): string
+    /**
+     * @param  bool  $withName  = false / returns with venue name
+     */
+    public function address(bool $withName = true): string
     {
-        return $this->name.' '.$this->address.' '.$this->postal_code.' '.$this->city;
+        return $withName
+        ? $this->name.' '.$this->address.' '.$this->postal_code.' '.$this->city
+        : $this->address.' '.$this->postal_code.' '.$this->city;
     }
 }

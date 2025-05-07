@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\Mail\CustomNotificationMail;
@@ -18,13 +20,13 @@ class MailingService
     /**
      * Send notifications to subscribers for a given notification type.
      *
-     * @param  string  $notificationType  'event' or 'post'
+     * @param  string  $notificationType  'events' or 'posts'
      * @param  mixed  $notifiable  The notifiable entity (e.g., Event or BlogPost model)
      * @param  string  $subject  The email subject
      * @param  string  $view  The Blade view for the email
-     * @param  array  $data  Data to pass to the email view
+     * @param  array  $notificationData  Data to pass to the email view
      */
-    public function sendNotificationsToSubscribers(string $notificationType, mixed $notifiable, string $subject, string $view, array $data = []): void
+    public function sendNotificationsToSubscribers(string $notificationType, mixed $notifiable, string $subject, string $view, array $notificationData = []): void
     {
         // Notify backend users via Laravel Notification system
         $this->notifyBackendUsers($notificationType, $notifiable);
@@ -34,8 +36,18 @@ class MailingService
 
         // Send emails to members and mailing list subscribers
         foreach ($emailRecipients as $recipient) {
+
+            // In case of an events type nofification
+            // check if a poster of the event is
+            // present and add it as attachmennt to the email
+            if ($notificationType === 'events') {
+                if ($notifiable->hasPoster($recipient['locale'], 'pdf')) {
+                    $notificationData['event_poster'] = $notifiable->getFilename($recipient['locale']).'.pdf';
+                }
+            }
+
             //            Log::info('Sending email to ', ['data' => $recipient]);
-            $recipientData = array_merge($data, [
+            $recipientData = array_merge($notificationData, [
                 'notificationType' => $notificationType,
                 'notifiable' => $notifiable,
                 'recipient' => $recipient, // Pass the entire recipient array

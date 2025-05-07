@@ -2,7 +2,7 @@
 
     <flux:input
         wire:model="{{ $model }}"
-        label="{{ $label }}"
+        label="{{ $label??'' }}"
         size="{{ $size }}"
         x-bind:maxlength="maxLength"
     />
