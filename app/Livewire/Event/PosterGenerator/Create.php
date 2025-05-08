@@ -87,10 +87,16 @@ class Create extends Component
             ? '/usr/bin' // Replace with the actual production bin directory
             : '/Users/daniel.kortvelyessy/Library/Application\ Support/Herd/config/nvm/versions/node/v22.14.0/bin';
 
-        return Browsershot::html($htmlContent)
+        $browserShot = Browsershot::html($htmlContent)
             ->setNodeBinary($nodeBinary)
             ->setNpmBinary($npmBinary)
             ->setIncludePath($includePath);
+
+        if (app()->isProduction()) {
+            return $browserShot->setChromePath('/home/daniel/.cache/puppeteer/chrome/linux-136.0.7103.92/chrome-linux64/chrome');
+        } else {
+            return $browserShot;
+        }
     }
 
     protected function setImagePath(string $type = 'jpg', $locale = 'de'): void
