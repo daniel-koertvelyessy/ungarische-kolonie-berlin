@@ -89,7 +89,12 @@
                         @php
                         $fullName = $member->fullName() ;
                         $leader = $role->pivot;
-                            $profile_link = $leader->profile_image ?  '/'.$leader->profile_image : 'https://ui-avatars.com/api/?name='.urlencode($leader->member->first_name.' '.$leader->member->name).'&color=7F9CF5&background=EBF4FF';
+                        if (is_null($leader->profile_image )){
+                             $profile_link = 'https://ui-avatars.com/api/?name='.urlencode($leader->member->first_name.' '.$leader->member->name).'&color=7F9CF5&background=EBF4FF';
+                        } else {
+                        $profile_link = \Illuminate\Support\Facades\Storage::disk('public')->url($leader->profile_image);
+                        }
+
                         @endphp
                 <li class="flex flex-col gap-10 py-12 first:pt-0 last:pb-0 sm:flex-row">
                     <img class="aspect-4/5 w-52 flex-none rounded-2xl object-cover"
