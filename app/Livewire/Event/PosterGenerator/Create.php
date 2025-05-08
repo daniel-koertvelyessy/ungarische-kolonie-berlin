@@ -76,27 +76,30 @@ class Create extends Component
     {
 
         $nodeBinary = app()->isProduction()
-            ? '/usr/bin/node' // Replace with the actual production Node.js path
+            ? '/usr/bin/node'
             : '/Users/daniel.kortvelyessy/Library/Application\ Support/Herd/config/nvm/versions/node/v22.14.0/bin/node';
 
         $npmBinary = app()->isProduction()
-            ? '/usr/bin/npm' // Replace with the actual production npm path
+            ? '/usr/bin/npm'
             : '/Users/daniel.kortvelyessy/Library/Application\ Support/Herd/config/nvm/versions/node/v22.14.0/bin/npm';
 
         $includePath = app()->isProduction()
-            ? '/usr/bin' // Replace with the actual production bin directory
+            ? '/usr/bin'
             : '/Users/daniel.kortvelyessy/Library/Application\ Support/Herd/config/nvm/versions/node/v22.14.0/bin';
 
         $browserShot = Browsershot::html($htmlContent)
             ->setNodeBinary($nodeBinary)
             ->setNpmBinary($npmBinary)
-            ->setIncludePath($includePath);
-
-        $browserShot = Browsershot::html($htmlContent)
-            ->setNodeBinary($nodeBinary)
-            ->setNpmBinary($npmBinary)
             ->setIncludePath($includePath)
-            ->noSandbox();
+            ->noSandbox()
+            ->setOption('args', [
+                '--no-sandbox',
+                '--disable-setuid-sandbox',
+                '--disable-dev-shm-usage', // Prevent shared memory issues
+                '--disable-gpu',           // Disable GPU for headless
+                '--no-zygote',             // Reduce process overhead
+                '--single-process'         // Minimize resource usage
+            ]);
 
         if (app()->isProduction()) {
             return $browserShot->setChromePath('/srv/kolonia/node_modules/puppeteer/.local-chromium/linux-136.0.7103.92/chrome-linux64/chrome');
