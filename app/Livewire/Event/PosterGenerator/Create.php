@@ -93,7 +93,7 @@ class Create extends Component
             ->setIncludePath($includePath);
 
         if (app()->isProduction()) {
-            return $browserShot->setChromePath('/home/daniel/.cache/puppeteer/chrome/linux-136.0.7103.92/chrome-linux64/chrome');
+            return $browserShot->setChromePath('/usr/local/bin/headless-chrome');
         } else {
             return $browserShot;
         }
