@@ -92,19 +92,14 @@ class Create extends Component
             ->setNpmBinary($npmBinary)
             ->setIncludePath($includePath);
 
+        $browserShot = Browsershot::html($htmlContent)
+            ->setNodeBinary($nodeBinary)
+            ->setNpmBinary($npmBinary)
+            ->setIncludePath($includePath)
+            ->noSandbox();
+
         if (app()->isProduction()) {
-            return $browserShot->setChromePath('/srv/kolonia/node_modules/puppeteer/.local-chromium/linux-136.0.7103.92/chrome-linux64/chrome')
-                ->setOption('executablePath', '/usr/bin/google-chrome')
-                ->setOption('env', ['HOME' => config('services.browsersot.home')])
-                ->addChromiumArguments([
-                    '--no-sandbox',
-                    '--disable-setuid-sandbox',
-                    '--disable-dev-shm-usage',
-                    '--disable-gpu',
-                    '--disable-software-rasterizer',
-                    '--disable-crash-reporter',
-                    '--disable-features=ChromeWhatsNewUI',
-                ]);
+            return $browserShot->setChromePath('/srv/kolonia/node_modules/puppeteer/.local-chromium/linux-136.0.7103.92/chrome-linux64/chrome');
         } else {
             return $browserShot;
         }
