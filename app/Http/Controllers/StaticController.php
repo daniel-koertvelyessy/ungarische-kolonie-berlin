@@ -23,7 +23,14 @@ class StaticController extends Controller
     {
         $team = Member::with(['activeRoles' => function ($query) {
             $query->wherePivot('resigned_at', null);
-        }])->get();
+        }])
+            ->join('member_role', 'members.id', '=', 'member_role.member_id')
+            ->join('roles', 'member_role.role_id', '=', 'roles.id')
+            ->where('member_role.resigned_at', null)
+            ->orderBy('roles.sort', 'asc')
+            ->select('members.*') // Ensure only Member columns are selected
+            ->distinct() // Avoid duplicate members if they have multiple roles
+            ->get();
 
         return view('about-us', ['team' => $team]);
     }
