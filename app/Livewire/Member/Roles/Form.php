@@ -8,10 +8,7 @@ use App\Livewire\Traits\HasPrivileges;
 use App\Models\Membership\Member;
 use App\Models\Membership\MemberRole;
 use App\Models\Membership\Role;
-use Carbon\Carbon;
 use Flux\Flux;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -22,6 +19,7 @@ class Form extends Component
     use WithFileUploads;
 
     public $form;
+
     public RoleForm $roleForm;
 
     public MemberRoleForm $memberRoleForm;
@@ -34,9 +32,8 @@ class Form extends Component
         return Role::query()
             ->select('id', 'name')
             ->get()
-            ->filter(function ($role)
-            {
-                return !MemberRole::query()
+            ->filter(function ($role) {
+                return ! MemberRole::query()
                     ->where('role_id', $role->id)
                     ->exists();
             });
@@ -48,23 +45,16 @@ class Form extends Component
         return Member::query()
             ->select('id', 'first_name', 'name')
             ->get()
-            ->filter(function ($member)
-            {
-                return !$member->roles()
+            ->filter(function ($member) {
+                return ! $member->roles()
                     ->exists();
             });
     }
 
-
     public function mount(?Role $role, ?MemberRole $memberRole): void
     {
-
-
-
         $this->roleForm = new RoleForm($this, $role);
         $this->memberRoleForm = new MemberRoleForm($this, $memberRole);
-
-
 
         if ($memberRole->id) {
             $this->memberRoleForm->set($memberRole->id);
@@ -78,10 +68,10 @@ class Form extends Component
 
         if ($this->edit) {
             $this->memberRoleForm->update();
-            $msg=__('role.toast.msg.leaderrole.updated');
+            $msg = __('role.toast.msg.leaderrole.updated');
         } else {
             $this->memberRoleForm->create();
-            $msg=__('role.toast.msg.leaderrole.assigened');
+            $msg = __('role.toast.msg.leaderrole.assigened');
         }
 
         Flux::toast($msg, 'success');
@@ -89,7 +79,6 @@ class Form extends Component
         $this->dispatch('memberRolesUpdated');
 
     }
-
 
     public function addRole(): void
     {

@@ -123,37 +123,34 @@
                     </section>
 
 
-                    @if($memberRoleForm->profile_image && !$memberRoleForm->profile_image instanceof \Livewire\TemporaryUploadedFile)
-                        <img src="{{ Storage::url($memberRoleForm->profile_image) }}"
-                             alt="Current Profile Image"
-                             class="w-32 h-32 object-cover mb-2"
-                        >
-                        <flux:button size="xs"
-                                     variant="danger"
-                                     wire:click="deleteProfileImage"
-                        >
-                            <flux:icon.trash variant="micro"/>
-                        </flux:button>
-                    @else
-                        <flux:field>
-                            <flux:label>{{ __('role.create.form.profile_image') }}</flux:label>
-                            <div class="hidden lg:flex">
-                                <flux:input type="file"
-                                            accept=".jpeg,.jpg,.webp,.png"
-                                            wire:model="memberRoleForm.profile_image"
-                                />
-                            </div>
-                            <div class="lg:hidden">
-                                <flux:input type="file"
-                                            capture="user"
-                                            accept=".jpeg,.jpg,.webp,.png"
-                                            wire:model="memberRoleForm.profile_image"
-                                />
-                            </div>
-
-                            <flux:error name="memberRoleForm.profile_image"/>
-                        </flux:field>
+                    @if($memberRoleForm->profile_image && is_string($memberRoleForm->profile_image))
+                        <div>
+                            <img src="{{ Storage::url($memberRoleForm->profile_image) }}"
+                                 alt="Current Profile Image"
+                                 class="w-32 h-32 object-cover mb-2">
+                            <flux:button size="xs"
+                                         variant="danger"
+                                         wire:click="deleteProfileImage">
+                                <flux:icon.trash variant="micro"/>
+                            </flux:button>
+                        </div>
                     @endif
+
+                    <flux:field>
+                        <flux:label>{{ __('role.create.form.profile_image') }}</flux:label>
+                        <div class="hidden lg:flex">
+                            <flux:input type="file"
+                                        accept=".jpeg,.jpg,.webp,.png"
+                                        wire:model.defer="memberRoleForm.profile_image"/>
+                        </div>
+{{--                        <div class="lg:hidden">--}}
+{{--                            <flux:input type="file"--}}
+{{--                                        capture="user"--}}
+{{--                                        accept=".jpeg,.jpg,.webp,.png"--}}
+{{--                                        wire:model.defer="memberRoleForm.profile_image"/>--}}
+{{--                        </div>--}}
+                        <flux:error name="memberRoleForm.profile_image"/>
+                    </flux:field>
                 </section>
 
 

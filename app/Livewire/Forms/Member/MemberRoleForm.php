@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Forms\Member;
 
 use App\Actions\Member\CreateMemberRole;
@@ -7,6 +9,7 @@ use App\Actions\Member\UpdateMemberRole;
 use App\Models\Membership\MemberRole;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Log;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\Form;
 
@@ -54,8 +57,19 @@ class MemberRoleForm extends Form
 
     protected function uploadFile(): void
     {
-        if (isset($this->profile_image) && $this->profile_image instanceof (TemporaryUploadedFile::class)) {
-            $this->profile_image = $this->profile_image->store('profile_images', 'public');
+        //        Log::debug('uploadFile called', [
+        //            'profile_image' => $this->profile_image,
+        //            'is_temporary' => $this->profile_image instanceof TemporaryUploadedFile,
+        //            'type' => gettype($this->profile_image),
+        //            'mime_type' => $this->profile_image instanceof TemporaryUploadedFile ? $this->profile_image->getMimeType() : null
+        //        ]);
+
+        if ($this->profile_image instanceof TemporaryUploadedFile) {
+            $path = $this->profile_image->store('profile_images', 'public');
+            Log::debug('File stored', ['path' => $path]);
+            $this->profile_image = $path;
+        } else {
+            Log::debug('No file to upload or file already stored', ['profile_image' => $this->profile_image]);
         }
     }
 
@@ -82,8 +96,27 @@ class MemberRoleForm extends Form
         $profile_image_rule = ['nullable'];
 
         if ($this->profile_image instanceof TemporaryUploadedFile) {
-            $profile_image_rule = array_merge($profile_image_rule, ['image', 'mimes:jpg, jpeg, gif, png', 'max:20000']);
+            $mimeType = $this->profile_image->getMimeType();
+            //            Log::debug('Applying validation rules', [
+            //                'profile_image' => $this->profile_image,
+            //                'is_temporary' => true,
+            //                'type' => gettype($this->profile_image),
+            //                'mime_type' => $mimeType
+            //            ]);
+
+            $profile_image_rule = array_merge($profile_image_rule, [
+                'image',
+                'mimes:jpeg,jpg,png,gif,webp', // Explicitly include jpg
+                'max:20000', // 20MB
+            ]);
         }
+        //        } else {
+        //            Log::debug('Applying validation rules (no file)', [
+        //                'profile_image' => $this->profile_image,
+        //                'is_temporary' => false,
+        //                'type' => gettype($this->profile_image)
+        //            ]);
+        //        }
 
         return [
             'member_id' => ['required', 'integer', 'exists:App\Models\Membership\Member,id'],
