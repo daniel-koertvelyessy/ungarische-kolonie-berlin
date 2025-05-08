@@ -95,7 +95,15 @@ class Create extends Component
         if (app()->isProduction()) {
             return $browserShot->setChromePath('/srv/kolonia/node_modules/puppeteer/.local-chromium/linux-136.0.7103.92/chrome-linux64/chrome')
                 ->setOption('executablePath', '/usr/bin/google-chrome')
-                ->noSandbox();
+                ->addChromiumArguments([
+                    '--no-sandbox',
+                    '--disable-setuid-sandbox',
+                    '--disable-dev-shm-usage',
+                    '--disable-gpu',
+                    '--disable-software-rasterizer',
+                    '--disable-crash-reporter',
+                    '--disable-features=ChromeWhatsNewUI',
+                ]);
         } else {
             return $browserShot;
         }
