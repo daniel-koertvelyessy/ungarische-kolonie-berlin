@@ -87,11 +87,10 @@ class Create extends Component
             ? '/usr/bin' // Replace with the actual production bin directory
             : '/Users/daniel.kortvelyessy/Library/Application\ Support/Herd/config/nvm/versions/node/v22.14.0/bin';
 
-
         return Browsershot::html($htmlContent)
-            ->setNodeBinary('/Users/daniel.kortvelyessy/Library/Application\ Support/Herd/config/nvm/versions/node/v22.14.0/bin/node')
-            ->setNpmBinary('/Users/daniel.kortvelyessy/Library/Application\ Support/Herd/config/nvm/versions/node/v22.14.0/bin/npm')
-            ->setIncludePath('');
+            ->setNodeBinary($nodeBinary)
+            ->setNpmBinary($npmBinary)
+            ->setIncludePath($includePath);
     }
 
     protected function setImagePath(string $type = 'jpg', $locale = 'de'): void
