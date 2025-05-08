@@ -95,7 +95,7 @@ class Create extends Component
         if (app()->isProduction()) {
             return $browserShot->setChromePath('/srv/kolonia/node_modules/puppeteer/.local-chromium/linux-136.0.7103.92/chrome-linux64/chrome')
                 ->setOption('executablePath', '/usr/bin/google-chrome')
-                ->setOption('env', ['HOME' => config('browsershot.home')])
+                ->setOption('env', ['HOME' => config('services.browsersot.home')])
                 ->addChromiumArguments([
                     '--no-sandbox',
                     '--disable-setuid-sandbox',
