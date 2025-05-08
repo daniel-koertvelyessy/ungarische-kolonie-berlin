@@ -90,10 +90,11 @@ class Create extends Component
         $browserShot = Browsershot::html($htmlContent)
             ->setNodeBinary($nodeBinary)
             ->setNpmBinary($npmBinary)
-            ->setIncludePath($includePath);
+            ->setIncludePath($includePath)
+            ->noSandbox();
 
         if (app()->isProduction()) {
-            return $browserShot->setChromePath(base_path('/srv/kolonia/node_modules/puppeteer/.local-chromium/linux-136.0.7103.92/chrome-linux64/chrome'));
+            return $browserShot->setChromePath('/srv/kolonia/node_modules/puppeteer/.local-chromium/linux-136.0.7103.92/chrome-linux64/chrome');
             //            return $browserShot->setChromePath('/usr/local/bin/headless-chrome');
         } else {
             return $browserShot;
