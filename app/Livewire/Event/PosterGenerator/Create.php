@@ -77,21 +77,21 @@ class Create extends Component
 
         $nodeBinary = app()->isProduction()
             ? '/usr/bin/node' // Replace with the actual production Node.js path
-            : '/Users/daniel.kortvelyessy/Library/Application Support/Herd/config/nvm/versions/node/v22.14.0/bin/node';
+            : '/Users/daniel.kortvelyessy/Library/Application\ Support/Herd/config/nvm/versions/node/v22.14.0/bin/node';
 
         $npmBinary = app()->isProduction()
             ? '/usr/bin/npm' // Replace with the actual production npm path
-            : '/Users/daniel.kortvelyessy/Library/Application Support/Herd/config/nvm/versions/node/v22.14.0/bin/npm';
+            : '/Users/daniel.kortvelyessy/Library/Application\ Support/Herd/config/nvm/versions/node/v22.14.0/bin/npm';
 
         $includePath = app()->isProduction()
             ? '/usr/bin' // Replace with the actual production bin directory
-            : '/Users/daniel.kortvelyessy/Library/Application Support/Herd/config/nvm/versions/node/v22.14.0/bin';
+            : '/Users/daniel.kortvelyessy/Library/Application\ Support/Herd/config/nvm/versions/node/v22.14.0/bin';
 
 
         return Browsershot::html($htmlContent)
-            ->setNodeBinary($nodeBinary)
-            ->setNpmBinary($npmBinary)
-            ->setIncludePath($includePath);
+            ->setNodeBinary('/Users/daniel.kortvelyessy/Library/Application\ Support/Herd/config/nvm/versions/node/v22.14.0/bin/node')
+            ->setNpmBinary('/Users/daniel.kortvelyessy/Library/Application\ Support/Herd/config/nvm/versions/node/v22.14.0/bin/npm')
+            ->setIncludePath('');
     }
 
     protected function setImagePath(string $type = 'jpg', $locale = 'de'): void
