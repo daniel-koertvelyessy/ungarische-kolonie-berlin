@@ -46,9 +46,9 @@ class Page extends Component
     }
 
     #[Computed]
-    public function members(): \Illuminate\Pagination\LengthAwarePaginator
+    public function members()
     {
-        return Member::query()->select('id', 'name', 'first_name')->paginate(10);
+        return Member::query()->select('id', 'name', 'first_name')->get();
     }
 
     #[Computed]
