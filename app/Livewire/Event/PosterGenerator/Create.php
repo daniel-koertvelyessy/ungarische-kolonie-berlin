@@ -91,7 +91,8 @@ class Create extends Component
             ->setNodeBinary($nodeBinary)
             ->setNpmBinary($npmBinary)
             ->setIncludePath($includePath)
-            ->noSandbox();
+            ->noSandbox() // ← wichtig!
+            ->setOption('args', ['--no-sandbox', '--disable-setuid-sandbox']);
 
         if (app()->isProduction()) {
             return $browserShot->setChromePath('/srv/kolonia/node_modules/puppeteer/.local-chromium/linux-136.0.7103.92/chrome-linux64/chrome');
