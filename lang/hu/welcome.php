@@ -7,13 +7,13 @@ return [
     'mission.title' => 'Magyaroktól Magyarokért',
     'mission.content' => 'Az egyesület a Berlinben élő vagy idelátogató magyarokat segíti. Faliújságunkat ajánlatokkal, kérésekkel megtekinthetik a tagok.',
     'events.title' => 'Események',
-    'events.listing' => 'Maygar Kolónia Berlin e. V. közelgő eseményei',
+    'events.listing' => 'Magyar Kolónia Berlin e. V. közelgő eseményei',
     'events.links.label' => 'Összes :num eseményneket megtekintése',
     'events.link.label' => 'Eseményt megtekintése',
     'events.empty.list' => 'Még nincs esemény közzétéve',
 
     'articles.title' => 'Cikkek',
-    'articles.listing' => 'Cikkek közzététele a Maygar Kolónia Berlin e. V. tagjaitól',
+    'articles.listing' => 'Cikkek közzététele a Magyar Kolónia Berlin e. V. tagjaitól',
     'articles.link.label' => 'Összes :num cikk megtekintése',
     'articles.empty.list' => 'Még nem jelent meg cikk',
 

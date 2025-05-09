@@ -13,10 +13,11 @@ export default defineConfig({
 
         }),
     ],
-    // build: {
-    //     outDir: 'public/build',
-    //     manifest: true,
-    // },
+    build: {
+        outDir: '/srv/kolonia/public/build',
+        cacheDir: '/srv/kolonia/vite-cache',
+        manifest: true,
+    },
     server: isDev ? {
         host: 'ungarische-kolonie-berlin.test',
         port: 5173,

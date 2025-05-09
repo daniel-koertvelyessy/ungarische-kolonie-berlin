@@ -49,7 +49,7 @@
             >
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 my-3">
                     <section class="space-y-6">
-                        <flux:subheading>Maygar szöveg</flux:subheading>
+                        <flux:subheading>Magyar szöveg</flux:subheading>
 
                         <flux:input label="Tárgy"
                                     wire:model="subject.hu"
@@ -90,7 +90,7 @@
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
                     <section class="space-y-6">
-                        <flux:input label="Maygar link szöveg"
+                        <flux:input label="Magyar link szöveg"
                                     wire:model="urlLabel.hu"
                         />
 

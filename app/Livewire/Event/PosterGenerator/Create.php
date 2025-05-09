@@ -77,15 +77,17 @@ class Create extends Component
 
         $nodeBinary = app()->isProduction()
             ? '/usr/bin/node'
-            : '/Users/daniel.kortvelyessy/Library/Application\ Support/Herd/config/nvm/versions/node/v22.14.0/bin/node';
+            : '/Users/daniel.kortvelyessy/Library/Application Support/Herd/config/nvm/versions/node/v22.14.0/bin/node';
 
         $npmBinary = app()->isProduction()
             ? '/usr/bin/npm'
-            : '/Users/daniel.kortvelyessy/Library/Application\ Support/Herd/config/nvm/versions/node/v22.14.0/bin/npm';
+            : '/Users/daniel.kortvelyessy/Library/Application Support/Herd/config/nvm/versions/node/v22.14.0/bin/npm';
 
         $includePath = app()->isProduction()
             ? '/usr/bin'
-            : '/Users/daniel.kortvelyessy/Library/Application\ Support/Herd/config/nvm/versions/node/v22.14.0/bin';
+            : '/Users/daniel.kortvelyessy/Library/Application Support/Herd/config/nvm/versions/node/v22.14.0/bin';
+
+        \Log::info('Configuring Browsershot with node: '.$nodeBinary.', npm: '.$npmBinary.', includePath: '.$includePath);
 
         $browserShot = Browsershot::html($htmlContent)
             ->setNodeBinary($nodeBinary)
@@ -110,11 +112,12 @@ class Create extends Component
             ]);
 
         if (app()->isProduction()) {
-            $chromePath = glob('/srv/kolonia/node_modules/puppeteer/.local-chromium/linux-*/chrome-linux64/chrome')[0] ?? '/usr/bin/google-chrome';
-            if (! file_exists($chromePath)) {
-                \Log::error('Chromium binary not found at: '.$chromePath);
+            $chromePath = glob('/srv/kolonia/node_modules/puppeteer/.local-chromium/*/chrome-linux64/chrome')[0] ?? null;
+            \Log::info('Attempting to use Chrome path: '.($chromePath ?? 'none'));
+            if (! $chromePath || ! file_exists($chromePath)) {
+                \Log::error('Puppeteer Chromium not found at: '.($chromePath ?? 'none').'. Cannot proceed without valid Chromium.');
+                \Log::error('Puppeteer Chromium not found. Ensure /srv/kolonia/node_modules/puppeteer/.local-chromium/*/chrome-linux64/chrome exists.');
             }
-            \Log::info('Using Chrome path: '.$chromePath);
 
             return $browserShot->setChromePath($chromePath);
         }

@@ -32,7 +32,7 @@
             <dt class="text-sm/6 font-medium ">  V.i.S.d § 18 Abs. 2 MStV</dt>
             <dd class="mt-1 text-sm/6 sm:col-span-2 sm:mt-0">
                 <ul>
-                    <li>Józef Robotka</li>
+                    <li>József Robotka</li>
                     <li>0163 377 20 91</li>
                     <li>jozef@ungarische-kolonie-berlin.org</li>
                 </ul>

@@ -76,6 +76,23 @@
 
         <flux:separator class="my-12"/>
 
+        <div class="max-lg:mt-16 lg:col-span-1">
+            <h2 class="text-2xl font-semibold tracking-tight text-pretty text-emerald-600 ">{{ __('aboutus.section.declaration.heading') }}</h2>
+            <hr class="mt-6 border-t border-gray-200">
+            <dl class="mt-6 grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2">
+                <div class="flex flex-col gap-y-2 border-b border-dotted border-gray-200 pb-4">
+                    <dt class="text-sm/6 ">{{ __('aboutus.section.declaration.date') }}</dt>
+                    <dd class="order-first text-3xl font-semibold tracking-tight">{{ __('aboutus.section.declaration.body') }}</dd>
+                </div>
+                <div class="flex flex-col gap-y-2 border-b border-dotted border-gray-200 pb-4">
+                    <dt class="text-sm/6 "></dt>
+                    <dd class="order-first text-6xl font-semibold tracking-tight">
+                        <flux:button>{{ __('aboutus.section.declaration.download') }}</flux:button>
+                    </dd>
+                </div>
+            </dl>
+        </div>
+
         <div class="mx-auto grid max-w-7xl grid-cols-1 gap-20 px-6 lg:px-8 xl:grid-cols-5">
             <div class="max-w-2xl xl:col-span-2">
                 <h2 class="text-4xl font-semibold tracking-tight text-pretty  sm:text-5xl">{{ __('aboutus.section.board.title') }}</h2>

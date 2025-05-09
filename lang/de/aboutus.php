@@ -18,6 +18,11 @@ return [
     'section.numbers.established' => 'Gründung',
     'section.numbers.members' => 'Aktive Mitglieder',
 
+    'section.declaration.heading' => 'Unsere Satzung',
+    'section.declaration.date' => 'Aktueller Stand vom',
+    'section.declaration.body' => 'Hier können Sie sich die aktuelle Satzung der Magyar Kolónia Berlin e. V. ansehen.',
+    'section.declaration.download' => 'Jetzt PDF Laden',
+
     'section.board.title' => 'Der Vorstand',
     'section.board.body' => 'Gewählt am 7. Februar 2025 besteht der Vorstand der Magyar Kolónia Berlin e. V. aus folgenden Mitgliedern.',
 
