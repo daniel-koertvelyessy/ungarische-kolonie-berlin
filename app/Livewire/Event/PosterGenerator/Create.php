@@ -95,15 +95,39 @@ class Create extends Component
             ->setOption('args', [
                 '--no-sandbox',
                 '--disable-setuid-sandbox',
-                '--disable-dev-shm-usage', // Prevent shared memory issues
-                '--disable-gpu',           // Disable GPU for headless
-                '--no-zygote',             // Reduce process overhead
-                '--single-process'         // Minimize resource usage
-            ]);
+                '--disable-dev-shm-usage',
+                '--disable-gpu',
+                '--no-zygote',
+                '--single-process',
+                '--disable-crash-reporter',
+                '--no-crash-upload',
+            ])
+            ->setOption('env', []);
 
         if (app()->isProduction()) {
-            return $browserShot->setChromePath('/srv/kolonia/node_modules/puppeteer/.local-chromium/linux-136.0.7103.92/chrome-linux64/chrome');
+            $chromePath = '/srv/kolonia/node_modules/puppeteer/.local-chromium/linux-136.0.7103.92/chrome-linux64/chrome';
+            \Log::info('Using Chrome path: '.$chromePath);
+            \Log::info('BrowserShot args: '.json_encode([
+                'nodeBinary' => $nodeBinary,
+                'npmBinary' => $npmBinary,
+                'includePath' => $includePath,
+                'chromePath' => $chromePath,
+                'args' => [
+                    '--no-sandbox',
+                    '--disable-setuid-sandbox',
+                    '--disable-dev-shm-usage',
+                    '--disable-gpu',
+                    '--no-zygote',
+                    '--single-process',
+                    '--disable-crash-reporter',
+                    '--no-crash-upload',
+                ],
+            ]));
+
+            return $browserShot->setChromePath($chromePath);
         } else {
+            \Log::info('Using default Chrome path (non-production)');
+
             return $browserShot;
         }
     }
