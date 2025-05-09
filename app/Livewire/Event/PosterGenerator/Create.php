@@ -135,8 +135,9 @@ class Create extends Component
         $this->fullPath = Storage::disk('public')
             ->path($this->posterPath);
 
-        $this->imagePath = Storage::disk('public')
-            ->get($this->fullPath);
+        $this->imagePath = Storage::disk('public')->exists($this->fullPath)
+        ? Storage::disk('public')->url($this->fullPath)
+        : null;
     }
 
     public function render(): View
