@@ -99,11 +99,21 @@ class Create extends Component
                 '--disable-gpu',
                 '--disable-crash-reporter',
                 '--no-crash-upload',
+                '--disable-extensions',
+                '--disable-sync',
+                '--disable-background-networking',
             ])
-            ->setOption('env', []);
+            ->setOption('env', [
+                'HOME' => '/tmp',
+                'TMPDIR' => '/tmp',
+                'LD_LIBRARY_PATH' => '',
+            ]);
 
         if (app()->isProduction()) {
-            $chromePath = '/usr/bin/google-chrome';
+            $chromePath = glob('/srv/kolonia/node_modules/puppeteer/.local-chromium/linux-*/chrome-linux64/chrome')[0] ?? '/usr/bin/google-chrome';
+            if (! file_exists($chromePath)) {
+                \Log::error('Chromium binary not found at: '.$chromePath);
+            }
             \Log::info('Using Chrome path: '.$chromePath);
 
             return $browserShot->setChromePath($chromePath);
