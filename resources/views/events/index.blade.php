@@ -1,69 +1,84 @@
 <x-guest-layout title="{{ __('event.page.title') }}">
     <h1 class="text-3xl">{{ __('event.page.title') }}</h1>
 
-    <div class="space-y-4 divide-y divide-emerald-600 mt-3 mb-10">
-        @foreach($events as $event)
-            <article class="flex justify-between items-center p-2 flex-col lg:flex-row gap-3 lg:gap-9">
-                <section class="flex-1 space-y-2 w-full">
-                    <flux:heading>{{ $event->title[$locale??'de'] }}</flux:heading>
-                    <section class="prose-emerald dark:prose-invert">{!! $event->excerpt[$locale??'de'] !!}</section>
 
-                    <nav class="flex gap-3">
-                        <flux:button variant="primary"
-                                     size="sm"
-                                     href="{{ route('events.show', $event->slug[app()->getLocale()]) }}"
-                        >{{ __('event.show.label') }}</flux:button>
-                        <flux:button variant="filled"
-                                     size="sm"
-                                     href="{{ route('events.ics',$event->slug[$locale??'de'] ) }}"
-                                     icon-trailing="calendar-days"
-                                     target="_blank"
+    @if($todayEvents->count() > 0)
+        <div class="bg-teal-50 border border-teal-200 rounded-lg p-3 lg:p-10 my-3 lg:my-10">
+            <flux:heading size="xl">{{ __('event.today.title') }}</flux:heading>
+            @foreach($todayEvents as $event)
+                <article class="flex justify-between items-center p-2 flex-col lg:flex-row gap-3 lg:gap-9">
+                    <section class="flex-1 space-y-2 w-full">
+                        <header class="flex relative gap-3 items-center">
+                              <span class="relative flex size-3">
+                              <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-lime-400 opacity-75"></span>
+                              <span class="relative inline-flex size-3 rounded-full bg-lime-500"></span>
+                            </span>
+                            <flux:heading>{{ $event->title[$locale??'de'] }}</flux:heading>
+                        </header>
+                        <section class="prose-emerald dark:prose-invert">{!! $event->excerpt[$locale??'de'] !!}</section>
 
-                        />
-                    </nav>
+                        <nav class="flex gap-3">
+                            <flux:button variant="primary"
+                                         size="sm"
+                                         href="{{ route('events.show', $event->slug[app()->getLocale()]) }}"
+                            >{{ __('event.show.label') }}</flux:button>
+                            <flux:button variant="filled"
+                                         size="sm"
+                                         href="{{ route('events.ics',$event->slug[$locale??'de'] ) }}"
+                                         icon-trailing="calendar-days"
+                                         target="_blank"
 
-                </section>
-
-                <aside class="space-y-1 flex-row flex justify-between border-t border-zinc-300 lg:border-t-0 pt-2 gap-3">
-                    @if(\Illuminate\Support\Facades\Storage::disk('public')->exists('images/posters/'.$event->id.'_poster_'.$locale.'.jpg'))
-                        <figure>
-                            <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url('images/posters/'.$event->id.'_poster_'.$locale.'.jpg') }}"
-                                 alt="{{ 'images/posters/'.$event->id.'_poster_'.$locale.'.jpg' }}"
-                                 class="w-32"
-                            >
-                        </figure>
-                    @endif
-
-                    <section class="space-y-1 grow w-52">
-                        <div class="flex justify-between items-center gap-3">
-                            <span>{{ __('event.date') }}:</span>
-                            <span>{{ $event->event_date->locale($locale)->isoFormat('LL') }}</span>
-                        </div>
-                        <div class="flex justify-between items-center gap-3 text-sm">
-                            <span>{{ __('event.begins') }}:</span>
-                            <span>{{ $event->start_time->locale($locale)->isoFormat('LT') }}</span>
-                        </div>
-                        <div class="flex justify-between items-center gap-3 text-sm">
-                            <span>{{ __('event.ends') }}:</span>
-                            <span>{{ $event->end_time->locale($locale)->isoFormat('LT') }}</span>
-                        </div>
-                        <div class="flex justify-between items-center gap-3 text-sm">
-                            <span>{{ __('event.venue') }}:</span>
-                            <div>{{ $event->venue->name }}</div>
-                        </div>
+                            />
+                        </nav>
 
                     </section>
+                    <aside class="space-y-1 flex-row flex justify-between border-t border-zinc-300 lg:border-t-0 pt-2 gap-3">
+                          <section class="space-y-1 grow w-52">
+                            <div class="flex justify-between items-center gap-3">
+                                <span>{{ __('event.date') }}:</span>
+                                <span>{{ $event->event_date->locale($locale)->isoFormat('LL') }}</span>
+                            </div>
+                            <div class="flex justify-between items-center gap-3 text-sm">
+                                <span>{{ __('event.begins') }}:</span>
+                                <span>{{ $event->start_time->locale($locale)->isoFormat('LT') }}</span>
+                            </div>
+                            <div class="flex justify-between items-center gap-3 text-sm">
+                                <span>{{ __('event.ends') }}:</span>
+                                <span>{{ $event->end_time->locale($locale)->isoFormat('LT') }}</span>
+                            </div>
+                            <div class="flex justify-between items-center gap-3 text-sm">
+                                <span>{{ __('event.venue') }}:</span>
+                                <div>{{ $event->venue->name }}</div>
+                            </div>
 
-                </aside>
+                        </section>
+
+                    </aside>
+                </article>
+            @endforeach
+        </div>
+
+    @endif
+
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-6">
+        <div class="space-y-4 divide-y divide-emerald-600 mt-3 mb-10">
+            <flux:heading size="xl" class="my-6">{{ __('event.upcoming.title') }}</flux:heading>
+            @foreach($upcomingEvents as $event)
+                <x-event-listitem :event="$event" :locale="$locale" />
+            @endforeach
 
 
-            </article>
-        @endforeach
+        </div>
 
-        <nav class="pt-3 ">
-            {{ $events->links() }}
-        </nav>
+        <div class="space-y-4 divide-y divide-emerald-600 mt-3 mb-10">
+            <flux:heading size="xl" class="my-6">{{ __('event.recent.title') }}</flux:heading>
+            @foreach($recentEvents as $event)
+                <x-event-listitem :event="$event" :locale="$locale" />
+            @endforeach
+
+        </div>
     </div>
+
 
     <livewire:app.global.mailinglist.form/>
 </x-guest-layout>

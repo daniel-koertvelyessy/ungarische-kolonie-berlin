@@ -7,6 +7,7 @@ use App\Enums\EventStatus;
 use App\Models\Event\Event;
 use App\Models\Event\EventSubscription;
 use App\Services\IcsGeneratorService;
+use Carbon\Carbon;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
@@ -20,12 +21,33 @@ class EventController extends Controller
         return $service->generate($slug);
     }
 
-    public function index(int $numPages = 5): View
+    public function index(): View
     {
+              $recentEvents = Event::query()
+            ->with('venue:id,name,address,city')
+            ->whereBeforeToday('event_date')
+            ->where('status', EventStatus::PUBLISHED->value)
+                  ->orderByDesc('event_date')
+                  ->take(5)->get();
+
+              $todayEvents = Event::query()
+            ->with('venue:id,name,address,city')
+            ->whereToday('event_date')
+            ->where('status', EventStatus::PUBLISHED->value)->take(5)->get();
+
+
+              $upcomingEvents = Event::query()
+            ->with('venue:id,name,address,city')
+            ->whereAfterToday('event_date')
+            ->where('status', EventStatus::PUBLISHED->value)
+                  ->orderBy('event_date')
+                  ->take(5)->get();
+
+
         return view('events.index', [
-            'events' => Event::orderBy('event_date', 'desc')
-                ->where('status', '=', EventStatus::PUBLISHED->value)
-                ->paginate($numPages),
+            'todayEvents' => $todayEvents,
+            'upcomingEvents' => $upcomingEvents,
+            'recentEvents' => $recentEvents,
             'locale' => App::getLocale(),
         ]);
     }

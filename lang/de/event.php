@@ -14,6 +14,10 @@ return [
     'buy_tickets' => 'Jetzt Karten kaufen',
     'show.title' => 'Veranstaltung',
 
+    'upcoming.title' => 'Kommende Veranstaltungen',
+    'recent.title' => 'Vergangene Veranstaltungen',
+    'today.title' => 'Heute',
+
     'validation_error.event_date.required' => 'Bitte ein Datum angeben',
     'validation_error.event_date.after' => 'Das Datum muss in der Zukunft liegen',
     'validation_error.start_time.required' => 'Bitte eine Startzeit angeben',
