@@ -80,4 +80,10 @@ return [
     'section.history.p19' => 'Az 1990-es német újraegyesítés után a kolónia munkáját János Szabó irányította, akit Ferenc Deák váltott az elnöki poszton. Őt 1998-ban a fiatal Levente Földesi követte, majd az ezredforduló után ismét Szabó úr vállalta a kolónia vezetésének nem könnyű feladatát. 2001 és 2004 között János Usztics ideiglenesen, majd Magyarország 2004-es uniós csatlakozásától kezdve állandó jelleggel fiatalította meg a közösséget. Több mint egy évtizedig folytatta áldásos munkáját, mígnem 2015-től János Molnár irányítása alatt folytatta tevékenységét a kolónia. A 21. században a taglétszám is örvendetes módon növekedni kezdett.',
     'section.history.p20' => 'János 2018-ban adta át a stafétabotot a következő elnöknek, József Robotkának, aki nagy lendülettel vetette bele magát a közös programok szervezésébe és a 175 éves jubileum méltó megünneplésének előkészítésébe.',
 
+    'section.statute.heading' => 'Alapszabályunk',
+    'section.statute.date' => 'Hatályos:',
+    'section.statute.body' => 'Itt megtekintheti a Magyar Kolónia Berlin e. V. aktuális alapszabályát.',
+    'section.statute.download' => 'PDF letöltése',
+    'section.statute.btn.label' => 'Alapszabály megtekintése',
+
 ];

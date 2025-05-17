@@ -34,7 +34,7 @@
                 <ul>
                     <li>József Robotka</li>
                     <li>0163 377 20 91</li>
-                    <li>jozef@ungarische-kolonie-berlin.org</li>
+                    <li>jozef@magyar-kolonia-berlin.org</li>
                 </ul>
             </dd>
         </div>

@@ -60,23 +60,25 @@
 
     @endif
 
-    <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-6">
-        <div class="space-y-4 divide-y divide-emerald-600 mt-3 mb-10">
-            <flux:heading size="xl" class="my-6">{{ __('event.upcoming.title') }}</flux:heading>
-            @foreach($upcomingEvents as $event)
-                <x-event-listitem :event="$event" :locale="$locale" />
-            @endforeach
-
-
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-12">
+        <div>
+            <flux:heading size="xl" class="my-3 lg:my-12">{{ __('event.upcoming.title') }}</flux:heading>
+            <section class="space-y-4 divide-y divide-emerald-600 mt-3 mb-10">
+                @foreach($upcomingEvents as $event)
+                    <x-event-listitem :event="$event" :locale="$locale" />
+                @endforeach
+            </section>
         </div>
 
-        <div class="space-y-4 divide-y divide-emerald-600 mt-3 mb-10">
-            <flux:heading size="xl" class="my-6">{{ __('event.recent.title') }}</flux:heading>
-            @foreach($recentEvents as $event)
-                <x-event-listitem :event="$event" :locale="$locale" />
-            @endforeach
-
+        <div>
+            <flux:heading size="xl" class="my-3 lg:my-12">{{ __('event.recent.title') }}</flux:heading>
+            <section class="space-y-4 divide-y divide-emerald-600 mt-3 mb-10">
+                @foreach($recentEvents as $event)
+                    <x-event-listitem :event="$event" :locale="$locale" />
+                @endforeach
+            </section>
         </div>
+
     </div>
 
 

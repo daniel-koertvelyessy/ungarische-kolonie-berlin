@@ -78,9 +78,23 @@
 
         <div class="max-lg:mt-16 px-6 lg:px-8 ">
             <div class="">
-                <h2 class="text-4xl font-semibold tracking-tight text-pretty  sm:text-5xl">{{ __('aboutus.section.declaration.heading') }}</h2>
-                <p class="mt-6 text-lg/8 ">{{  __('aboutus.section.declaration.body')  }}</p>
-                <flux:button>{{ __('aboutus.section.declaration.download') }}</flux:button>
+                <h2 class="text-4xl font-semibold tracking-tight text-pretty  sm:text-5xl">{{ __('aboutus.section.statute.heading') }}</h2>
+                <section class="flex flex-col lg:flex-row gap-3 justify-between items-center">
+                    <p class="mt-6 text-lg/8 ">{{  __('aboutus.section.statute.body')  }}</p>
+                    <flux:modal.trigger name="show-statute-text">
+                        <flux:button variant="primary" size="sm">{{ __('aboutus.section.statute.btn.label') }}</flux:button>
+                    </flux:modal.trigger>
+                </section>
+                <flux:modal variant="flyout"
+                            position="bottom"
+                            name="show-statute-text"
+                            class="prose prose-emerald dark:prose-invert w-full"
+                >
+                    <article>
+                        {!! $html??'noper' !!}
+                    </article>
+                </flux:modal>
+
             </div>
 
         </div>
@@ -98,34 +112,34 @@
             > @foreach ($team as $member)
                     @foreach ($member->activeRoles as $role)
                         @php
-                        $fullName = $member->fullName() ;
-                        $leader = $role->pivot;
-                        if (is_null($leader->profile_image )){
-                             $profile_link = 'https://ui-avatars.com/api/?name='.urlencode($leader->member->first_name.' '.$leader->member->name).'&color=7F9CF5&background=EBF4FF';
-                        } else {
-                        $profile_link = \Illuminate\Support\Facades\Storage::disk('public')->url($leader->profile_image);
-                        }
+                            $fullName = $member->fullName() ;
+                            $leader = $role->pivot;
+                            if (is_null($leader->profile_image )){
+                                 $profile_link = 'https://ui-avatars.com/api/?name='.urlencode($leader->member->first_name.' '.$leader->member->name).'&color=7F9CF5&background=EBF4FF';
+                            } else {
+                            $profile_link = \Illuminate\Support\Facades\Storage::disk('public')->url($leader->profile_image);
+                            }
 
                         @endphp
-                <li class="flex flex-col gap-10 py-12 first:pt-0 last:pb-0 sm:flex-row">
-                    <img class="aspect-4/5 w-52 flex-none rounded-2xl object-cover"
-                         src="{{ $profile_link }}"
-                         alt="{{ $fullName }} - {{ $role->name[app()->getLocale()] }}"
-                    >
-                    <div class="max-w-xl flex-auto">
-                        <h3 class="text-lg/8 font-semibold tracking-tight ">{{ $fullName }}</h3>
-                        <p class="text-base/7 ">{{ $role->name[app()->getLocale()] }}</p>
-                        <p class="mt-6 text-sm/6 ">{{ $leader->about_me[app()->getLocale()] }}</p>
+                        <li class="flex flex-col gap-10 py-12 first:pt-0 last:pb-0 sm:flex-row">
+                            <img class="aspect-4/5 w-52 flex-none rounded-2xl object-cover"
+                                 src="{{ $profile_link }}"
+                                 alt="{{ $fullName }} - {{ $role->name[app()->getLocale()] }}"
+                            >
+                            <div class="max-w-xl flex-auto">
+                                <h3 class="text-lg/8 font-semibold tracking-tight ">{{ $fullName }}</h3>
+                                <p class="text-base/7 ">{{ $role->name[app()->getLocale()] }}</p>
+                                <p class="mt-6 text-sm/6 ">{{ $leader->about_me[app()->getLocale()] }}</p>
 
-                        <a href="mailto:{{ \Illuminate\Support\Str::slug($member->first_name) }}@magyar-kolonia-berlin.org"
-                           class="text-gray-400 hover:text-gray-500 mt-6 flex gap-x-6"
-                        >
-                            <flux:icon.envelope-open/>
-                            {{ \Illuminate\Support\Str::slug($member->first_name) }}@magyar-kolonia-berlin.org
-                        </a>
+                                <a href="mailto:{{ \Illuminate\Support\Str::slug($member->first_name) }}@magyar-kolonia-berlin.org"
+                                   class="text-gray-400 hover:text-gray-500 mt-6 flex gap-x-6"
+                                >
+                                    <flux:icon.envelope-open/>
+                                    {{ \Illuminate\Support\Str::slug($member->first_name) }}@magyar-kolonia-berlin.org
+                                </a>
 
-                    </div>
-                </li>
+                            </div>
+                        </li>
                     @endforeach
                 @endforeach
             </ul>

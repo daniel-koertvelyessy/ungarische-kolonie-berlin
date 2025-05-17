@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Membership\Member;
 use App\Models\User;
+use App\Services\MarkdownService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,6 +22,11 @@ class StaticController extends Controller
 
     public function aboutUs(): \Illuminate\View\View
     {
+
+        $mdService = new MarkdownService;
+
+        $html = $mdService->getMarkdownAsHtml('statute_2014');
+
         $team = Member::with(['activeRoles' => function ($query) {
             $query->wherePivot('resigned_at', null);
         }])
@@ -32,7 +38,7 @@ class StaticController extends Controller
             ->distinct() // Avoid duplicate members if they have multiple roles
             ->get();
 
-        return view('about-us', ['team' => $team]);
+        return view('about-us', ['team' => $team], ['html' => $html]);
     }
 
     public function rollbackMail(Request $request): \Illuminate\Http\RedirectResponse
