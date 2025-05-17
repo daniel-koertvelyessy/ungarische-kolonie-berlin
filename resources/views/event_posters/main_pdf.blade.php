@@ -5,8 +5,21 @@
     <title>Poster: {{$event->title[$locale??'de']}}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @fluxAppearance
-</head>
-<body class="font-sans w-[794px] h-[1123px] mx-auto bg-white relative">
+    <style>
+        @page {
+            size: A4 portrait;
+            margin: 0;
+        }
+        body {
+            width: 210mm;
+            height: 297mm;
+            margin: 0;
+            padding: 0;
+        }
+
+        </style>
+        </head>
+<body class="font-sans  bg-white relative">
 
 <div class="absolute border-4 border-red-700 inset-2"></div>
 <div class="absolute border-4 border-green-700 inset-4"></div>
@@ -57,8 +70,8 @@
             <div class="flex flex-col mt-3 w-full pr-6">
                 <div class="text-5xl text-red-700 pb-4 border-b-2 border-green-700">{{ $event->start_time->format('H:s') }} - {{ $event->end_time->format('H:s') }}</div>
                 <div class=" mt-3 text-green-700">
-                    <p class="text-5xl">{{ $event->venue->name }}</p>
-                    <p class="text-2xl">{{ $event->venue->address(false) }}</p>
+                    <p class="text-4xl">{{ $event->venue->name }}</p>
+                    <p class="text-xl">{{ $event->venue->address(false) }}</p>
                 </div>
             </div>
         </aside>
