@@ -57,7 +57,7 @@ class Create extends Component
 
             $qrService = new QrCodeService;
 
-            $qrcode = $qrService->generateSvg(config('app.url').'/'.$this->event->slug[$value], 120);
+            $qrcode = $qrService->generateSvg(config('app.url').'/events/'.$this->event->slug[$value], 120);
 
             $htmlContent = view('event_posters.main_pdf', ['event' => $this->event, 'imagePath' => $this->imagePath, 'locale' => $value, 'qrcode' => $qrcode, 'dpi' => 96])->render();
 

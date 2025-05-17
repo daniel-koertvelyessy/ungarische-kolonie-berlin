@@ -39,9 +39,9 @@ class EventTimelineForm extends Form
 
     public function set(EventTimeline $eventTimeline): void
     {
-        $this->start = $eventTimeline->start;
+        $this->start = $eventTimeline->start->format('H:i');
         $this->duration = $eventTimeline->duration;
-        $this->end = $eventTimeline->end;
+        $this->end = $eventTimeline->end->format('H:i');
         $this->event_id = $eventTimeline->event_id;
         $this->title = $eventTimeline->title;
         $this->description = $eventTimeline->description;
@@ -70,7 +70,7 @@ class EventTimelineForm extends Form
     protected function rules(): array
     {
         return [
-            'start' => ['required', 'string'],
+            'start' => ['required', 'date_format:H:i'],
             'duration' => ['nullable'],
             'end' => 'required|after:start',
             'event_id' => 'required|exists:events,id',
