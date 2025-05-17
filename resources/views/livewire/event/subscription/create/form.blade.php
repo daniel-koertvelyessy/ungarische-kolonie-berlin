@@ -5,40 +5,53 @@
         <form wire:submit="subscribe">
             <section class="space-y-6">
                 <flux:input wire:model="name"
+                            required
+                            badge="{{ __('app.form.field.required') }}"
                             label="{{ __('event.subscription.name') }}"
                 />
                 <flux:input type="email"
+                            required
                             wire:model="email"
+                            badge="{{ __('app.form.field.required') }}"
                             label="{{ __('event.subscription.email') }}"
                 />
-                <flux:input type="tel"
-                            wire:model="phone"
-                            label="{{ __('event.subscription.phone') }}"
-                />
-                <flux:textarea wire:model="remarks"
-                               rows="auto"
-                               label="{{ __('event.subscription.remarks') }}"
-                />
+                <flux:accordion>
+                    <flux:accordion.item>
+                        <flux:accordion.heading>{{ __('event.subscription.optional_section') }}</flux:accordion.heading>
+                        <flux:accordion.content class="space-y-6 mt-3 lg:mt-6">
+                            <flux:input type="tel"
+                                        wire:model="phone"
+                                        label="{{ __('event.subscription.phone') }}"
+                            />
+                            <flux:textarea wire:model="remarks"
+                                           rows="auto"
+                                           label="{{ __('event.subscription.remarks') }}"
+                            />
 
-                <section class="flex items-center justify-start gap-3">
-                    <flux:switch wire:model="bringsGuests"
-                                 label="{{ __('event.subscription.bringFriends') }}"
-                                 class="grow"
-                    />
-                    <flux:input wire:model="amountGuests"
-                                min="0"
-                                max="10"
-                                class="flex-1"
-                                placeholder="{{ __('event.subscription.amountGuests') }}"
-                                x-show="$wire.bringsGuests"
-                    />
-                </section>
+                            <section class="flex items-center justify-start gap-3">
+                                <flux:switch wire:model="bringsGuests"
+                                             label="{{ __('event.subscription.bringFriends') }}"
+                                             class="grow"
+                                />
+                                <flux:input wire:model="amountGuests"
+                                            min="0"
+                                            max="10"
+                                            class="flex-1"
+                                            placeholder="{{ __('event.subscription.amountGuests') }}"
+                                            x-show="$wire.bringsGuests"
+                                />
+                            </section>
 
-                <flux:text>{{ __('event.subscription.consent') }}</flux:text>
-                <flux:switch wire:model="consentNotification"
-                             label="{{ __('event.subscription.consent.label') }}"
-                             class="grow"
-                />
+                            <flux:text>{{ __('event.subscription.consent') }}</flux:text>
+                            <flux:switch wire:model="consentNotification"
+                                         label="{{ __('event.subscription.consent.label') }}"
+                                         class="grow"
+                            />
+                        </flux:accordion.content>
+                    </flux:accordion.item>
+                </flux:accordion>
+
+
                 <flux:button type="submit"
                              icon-trailing="user-plus"
                              variant="primary"
@@ -60,6 +73,10 @@
                             wire:model="email"
                             label="{{ __('event.subscription.email') }}"
                 />
+                <flux:accordion>
+                    <flux:accordion.item>
+                        <flux:accordion.heading>Mehr</flux:accordion.heading>
+                        <flux:accordion.content class="space-y-6">
                 <flux:input type="tel"
                             wire:model="phone"
                             label="{{ __('event.subscription.phone') }}"
@@ -82,6 +99,9 @@
                              label="{{ __('event.backend.subscription.sendNotification.label') }}"
                              class="grow"
                 />
+                        </flux:accordion.content>
+                        </flux:accordion.item>
+                    </flux:accordion>
                 <flux:button type="submit"
                              icon-trailing="user-plus"
                              variant="primary"

@@ -59,12 +59,13 @@ return [
     'subscription.mail.ignore' => 'Falls du dich nicht angemeldet hast, ignoriere diese E-Mail.',
 
     'subscription.title' => 'An Veranstaltung teilnehmen',
-    'subscription.name' => 'Ihr vollständiger Name',
+    'subscription.name' => 'Vollständiger Name',
     'subscription.email' => 'E-Mail-Adresse',
     'subscription.phone' => 'Telefon- oder Mobilnummer',
     'subscription.remarks' => 'Weitere Anmerkungen',
     'subscription.amountGuests' => 'Anzahl zusätzlicher Gäste',
     'subscription.bringFriends' => 'Ich bringe Gäste mit',
+    'subscription.optional_section' => 'Weitere Angaben',
 
     'backend.subscription.title' => 'Besucherregistrierung',
     'backend.subscription.sendNotification.label' => 'Bestätigungs-E-Mail an Besucher senden',

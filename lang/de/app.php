@@ -27,6 +27,9 @@ return [
     'login.btn.login.label' => 'Anmelden',
     'login.btn.register.label' => 'Registrieren',
 
+    'form.field.required' => 'Pflichtfeld',
+    'form.field.optional' => 'Optional',
+
     'today' => 'Heute',
 
     'password.reset.title' => 'Passwort zurücksetzen',

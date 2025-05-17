@@ -57,6 +57,7 @@ return [
     'subscription.mail.bring_a_guest' => 'Örülünk, hogy :num vendéget hozol magaddal!',
     'subscription.mail.notification' => 'Jelzünk, ha bármilyen változás történik.',
     'subscription.mail.ignore' => 'Ha nem te jelentkeztél, kérlek, hagyd figyelmen kívül ezt az e-mailt.',
+    'subscription.optional_section' => 'További adatok',
 
     'subscription.title' => 'Részt veszek az eseményen',
     'subscription.name' => 'Teljes neved',

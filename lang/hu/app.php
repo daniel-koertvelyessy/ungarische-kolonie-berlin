@@ -29,6 +29,9 @@ return [
 
     'today' => 'Ma',
 
+    'form.field.required' => 'Kötelező',
+    'form.field.optional' => 'Optionalis',
+
     'password.reset.title' => 'Elfelejtett jelszó',
     'password.reset.text' => 'Elfelejtetted a jelszavad? Semmi gond, segítünk!',
     'password.reset.email.label' => 'E-mail cím',
