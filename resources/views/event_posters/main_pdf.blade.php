@@ -36,9 +36,9 @@
 
 
         <section>
-            @if($event->timelines)
+            @if($event->timelines()->count()>0)
 
-                <h2 class="text-xl mt-9 mb-4">{{ __('event.timeline.heading') }}</h2>
+                <h2 class="text-xl mt-9 mb-4">{{ __('event.timeline.heading',[],$locale??'de') }}</h2>
 
                 <table>
                 @foreach($event->timelines()->orderBy('start','desc')->get() as $item)
@@ -46,13 +46,13 @@
                        <td class="text-base font-medium text-gray-900 p-3">{{ $item->title_extern[$locale??'de'] }}</td>
                        <td class="text-sm text-gray-700 p-3">
                            @if($item->performer)
-                               <p><span>{{ __('event.timeline.performer') }}</span> <strong>{{ $item->performer }}</strong></p>
+                               <p><span>{{ __('event.timeline.performer',[],$locale??'de') }}</span> <strong>{{ $item->performer }}</strong></p>
                            @endif
-                               <p><span>{{ __('event.timeline.start') }}</span> <strong>{{ $item->start->format('H:i') }}</strong> <span>{{ __('event.timeline.end') }}</span> <strong>{{ $item->end->format('H:i') }}</strong></p>
+                               <p><span>{{ __('event.timeline.start',[],$locale??'de') }}</span> <strong>{{ $item->start->format('H:i') }}</strong> <span>{{ __('event.timeline.end',[],$locale??'de') }}</span> <strong>{{ $item->end->format('H:i') }}</strong></p>
                        </td>
                        <td class="text-sm">
                            @if($item->place)
-                               <p><span>{{ __('event.timeline.place') }}:</span> <strong>{{ $item->place }}</strong></p>
+                               <p><span>{{ __('event.timeline.place',[],$locale??'de') }}:</span> <strong>{{ $item->place }}</strong></p>
                            @endif
                        </td>
                    </tr>
