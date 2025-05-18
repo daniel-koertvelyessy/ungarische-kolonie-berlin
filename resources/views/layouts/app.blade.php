@@ -95,11 +95,22 @@
         >{{ __('nav.dashboard') }}</flux:navlist.item>
 
         @can('create', \App\Models\Membership\Member::class)
-            <flux:navlist.item wire:navigate
-                               icon="cog-6-tooth"
-                               href="{{ route('tools.index')  }}"
-                               :current="request()->is('*tools*')"
-            >{{ __('nav.tools') }}</flux:navlist.item>
+
+
+            <flux:navlist.group heading="{{ __('nav.tools') }}"
+                                expandable
+            >
+                <flux:navlist.item wire:navigate
+                                   href="{{ route('minutes.index')  }}"
+                >{{ __('nav.minutes') }}</flux:navlist.item>
+
+                <flux:navlist.item wire:navigate
+                                   href="{{ route('tools.index')  }}"
+                >{{ __('nav.mails') }}</flux:navlist.item>
+
+            </flux:navlist.group>
+
+
 
         @endcan
 

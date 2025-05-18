@@ -130,6 +130,11 @@ Route::middleware([
         Route::get('/transactions', \App\Livewire\Accounting\Transaction\Index\Page::class)->name('transaction.index');
 
         Route::get('/account-report', \App\Livewire\Accounting\Report\Index\Page::class)->name('accounts.report.index');
+
+        Route::get('/backend/minutes', \App\Livewire\App\Tool\Meetingminutes\Index::class)->name('minutes.index');
+
+        Route::get('/backend/minutes/create', \App\Livewire\App\Tool\Meetingminutes\Create::class)->name('minutes.create');
+
         //
         //        Route::get('/events/report/{event}', function (Event $event, EventReportService $reportService) {
         //            return $reportService->generate($event);

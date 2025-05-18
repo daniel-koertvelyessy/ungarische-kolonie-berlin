@@ -3,6 +3,8 @@
 return [
     'dashboard' => 'Dashboard',
     'tools' => 'Werkzeuge',
+    'minutes' => 'Protokolle',
+    'mails' => 'Rundmails',
     'members' => 'Mitglieder',
     'members.overview' => 'Übersicht',
     'members.roles' => 'Rollen',
