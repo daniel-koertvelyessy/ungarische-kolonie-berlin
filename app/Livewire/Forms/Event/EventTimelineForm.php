@@ -39,9 +39,9 @@ class EventTimelineForm extends Form
 
     public function set(EventTimeline $eventTimeline): void
     {
-        $this->start = $eventTimeline->start->format('H:i');
+        $this->start = $eventTimeline->start;
         $this->duration = $eventTimeline->duration;
-        $this->end = $eventTimeline->end->format('H:i');
+        $this->end = $eventTimeline->end;
         $this->event_id = $eventTimeline->event_id;
         $this->title = $eventTimeline->title;
         $this->description = $eventTimeline->description;
