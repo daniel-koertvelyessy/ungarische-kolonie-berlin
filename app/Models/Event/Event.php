@@ -76,6 +76,9 @@ use Illuminate\Support\Str;
  * @property-read int|null $histories_count
  * @property-read Collection<int, \App\Models\Blog\Post> $posts
  * @property-read int|null $posts_count
+ * @property Carbon|null $notification_sent_at
+ *
+ * @method static Builder<static>|Event whereNotificationSentAt($value)
  *
  * @mixin Eloquent
  */

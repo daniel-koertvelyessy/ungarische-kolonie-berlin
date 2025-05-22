@@ -1,17 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Policies;
 
-use App\Models\MeetingMinute;
+use App\Models\MeetingTopic;
 use App\Models\User;
-use App\Policies\Traits\HasAdminPrivileges;
 
-class MeetingMinutePolicy
+class MeetingTopicPolicy
 {
-    use HasAdminPrivileges;
-
     /**
      * Determine whether the user can view any models.
      */
@@ -23,9 +18,9 @@ class MeetingMinutePolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(): bool
+    public function view(User $user, MeetingTopic $meetingTopic): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -33,38 +28,38 @@ class MeetingMinutePolicy
      */
     public function create(User $user): bool
     {
-        return $this->getAdminPrivileges($user);
+        return false;
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, MeetingMinute $meetingMinute): bool
+    public function update(User $user, MeetingTopic $meetingTopic): bool
     {
-        return $this->getAdminPrivileges($user);
+        return false;
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, MeetingMinute $meetingMinute): bool
+    public function delete(User $user, MeetingTopic $meetingTopic): bool
     {
-        return $this->getAdminPrivileges($user);
+        return false;
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, MeetingMinute $meetingMinute): bool
+    public function restore(User $user, MeetingTopic $meetingTopic): bool
     {
-        return $this->getAdminPrivileges($user);
+        return false;
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, MeetingMinute $meetingMinute): bool
+    public function forceDelete(User $user, MeetingTopic $meetingTopic): bool
     {
-        return $this->getAdminPrivileges($user);
+        return false;
     }
 }

@@ -7,17 +7,17 @@ use App\Models\Accounting\Transaction;
 use App\Models\Event\Event;
 use App\Models\Event\EventTransaction;
 use App\Models\Event\EventVisitor;
+use App\Models\MeetingMinute;
 use App\Models\Membership\Member;
 use App\Pdfs\AccountReportPdf;
 use App\Pdfs\EventReportPdf;
+use App\Pdfs\MeetingMinutesPdf;
 use App\Pdfs\MemberApplicationPdf;
 use App\Pdfs\TransactionInvoicePdf;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use TCPDF;
 
 class PdfGeneratorService
 {
@@ -39,6 +39,7 @@ class PdfGeneratorService
             'event-report' => self::generateEventReportPdf($data, $filename, $locale),
             'account-report' => self::generateAccountReportPdf($data, $filename, $locale),
             'invoice' => self::generateInvoicePdf($data['transaction'], $data['member'], $filename, $locale),
+            'meeting-minute' => self::generateMeetingMinutePdf($data, $filename, $locale),
             default => throw new Exception("Unknown PDF type: $type"),
         };
     }
@@ -82,30 +83,23 @@ class PdfGeneratorService
     {
         $filename = $filename ?? "Rechnung-{$transaction->id}.pdf";
         $pdf = new TransactionInvoicePdf($transaction, $member, $locale);
-        //        Log::debug('Starting PDF generation for transaction ' . $transaction->id);
         $pdf->generateContent();
-        //        Log::debug('Content generated for transaction ' . $transaction->id);
         $pdfContent = $pdf->Output($filename, 'S');
 
-        //        Log::debug('PDF content length: ' . strlen($pdfContent));
         return $pdfContent;
+    }
+
+    private static function generateMeetingMinutePdf(MeetingMinute $meetingMinute, ?string $filename, string $locale): string
+    {
+        $filename = $filename ?? "meeting-minute-{$meetingMinute->id}-".now()->format('Ymd').'.pdf';
+        $pdf = new MeetingMinutesPdf($meetingMinute, $locale);
+        $pdf->generateContent();
+
+        return $pdf->Output($filename, 'S');
     }
 
     public static function generateMembershipApplication(Member $member): RedirectResponse
     {
-        //        $html = view('pdf.membership-application', ['member' => $member])->render();
-        //        $filename = __('members.apply.print.filename', ['tm' => date('YmdHis'), 'id' => $member->id]);
-        //
-        //        $pdf = new TCPDF;
-        //        $pdf->SetTitle(__('members.apply.print.title'));
-        //        $pdf->SetSubject(__('members.apply.print.title'));
-        //        $pdf->setMargins(24, 10, 10);
-        //        $pdf->setPrintHeader(false);
-        //        $pdf->setPrintFooter(false);
-        //        $pdf->AddPage();
-        //        $pdf->writeHTML($html, true, false, true, false, '');
-        //        $pdf->Output($filename, 'D');
-
-        return redirect()->route('home'); // Optional, depending on desired behavior
+        return redirect()->route('home');
     }
 }

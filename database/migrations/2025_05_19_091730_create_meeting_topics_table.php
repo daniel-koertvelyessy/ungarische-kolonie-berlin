@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('meeting_minutes', function (Blueprint $table) {
+        Schema::create('meeting_topics', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->date('meeting_date');
-            $table->string('location')->nullable();
+            $table->foreignId('meeting_id')->constrained('meeting_minutes')->onDelete('cascade');
+            $table->text('content')->nullable();
             $table->timestamps();
         });
     }

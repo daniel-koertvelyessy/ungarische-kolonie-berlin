@@ -102,6 +102,7 @@
             >
                 <flux:navlist.item wire:navigate
                                    href="{{ route('minutes.index')  }}"
+                                   :current="request()->is('*minutes*')"
                 >{{ __('nav.minutes') }}</flux:navlist.item>
 
                 <flux:navlist.item wire:navigate

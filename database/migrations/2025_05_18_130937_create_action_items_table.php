@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('action_items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('meeting_minute_id')->constrained('meeting_minutes')->onDelete('cascade');
+            $table->foreignId('meeting_topic_id')->constrained('meeting_topics')->onDelete('cascade');
             $table->text('description');
             $table->foreignId('assignee_id')->nullable()->constrained('members')->onDelete('set null');
             $table->date('due_date')->nullable();

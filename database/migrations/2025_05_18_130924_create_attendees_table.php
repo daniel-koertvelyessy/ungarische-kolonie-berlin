@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('attendees', function (Blueprint $table) {
             $table->id();
             $table->foreignId('meeting_minute_id')->constrained('meeting_minutes')->onDelete('cascade');
+            $table->string('name');
+            $table->string('email')->nullable();
             $table->foreignId('member_id')->nullable()->constrained()->onDelete('set null');
-            $table->string('name')->nullable(); // For non-registered attendees
             $table->timestamps();
         });
     }

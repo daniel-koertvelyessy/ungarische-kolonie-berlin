@@ -29,6 +29,9 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MemberRole whereRoleId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MemberRole whereUpdatedAt($value)
  *
+ * @property-read \App\Models\Membership\Member $member
+ * @property-read \App\Models\Membership\Role $role
+ *
  * @mixin \Eloquent
  */
 class MemberRole extends Pivot
