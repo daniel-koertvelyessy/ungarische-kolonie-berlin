@@ -148,7 +148,7 @@
                                href="{{ route('accounts.report.index') }}"
             >Berichte
             </flux:navlist.item>
-            @can('create', Account::class)
+           @can('create',\App\Models\Accounting\Account::class)
                 <flux:navlist.item wire:navigate
                                    href="{{ route('accounts.index') }}"
                                    :current="request()->is('accounts*')"
