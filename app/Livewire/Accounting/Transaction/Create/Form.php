@@ -130,7 +130,7 @@ class Form extends Component
         $this->transaction = $this->handleTransaction();
 
         $this->dispatch('updated-payments');
-        //   $this->redirect(\App\Livewire\Accounting\Transaction\Index\Page::class, true);
+        $this->redirect(\App\Livewire\Accounting\Transaction\Index\Page::class, true);
 
     }
 

@@ -49,7 +49,7 @@ class SendMemberMassMail extends Mailable implements ShouldQueue
         return new Content(
             view: 'emails.email-to-all-members',
             with: [ // Pass variables here
-                'url' => $this->url ?? null,
+                'url' => $this->url,
                 'url_label' => $this->url_label,
                 'mail_name' => $this->mail_name,
                 'mail_subject' => $this->mail_subject,

@@ -100,7 +100,7 @@ class Form extends Component
             ->first();
 
         if ($report) {
-            dump($report);
+            $this->form->starting_amount = $report->end_amount;
         } else {
             $this->form->starting_amount = $this->account->starting_amount;
             $this->form->end_amount = $this->account->starting_amount;

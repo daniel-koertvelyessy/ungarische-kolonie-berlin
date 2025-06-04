@@ -15,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton(MailingService::class, function ($app) {
 
-            return new MailingService();
+            return new MailingService;
         });
     }
 
@@ -27,5 +27,10 @@ class AppServiceProvider extends ServiceProvider
         LogViewer::auth(function ($request) {
             return true;
         });
+
+        putenv('MAGICK_GHOSTSCRIPT_PATH='.(PHP_OS_FAMILY === 'Darwin'
+                ? '/opt/homebrew/bin/gs'
+                : '/usr/bin/gs'
+        ));
     }
 }

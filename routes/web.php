@@ -5,6 +5,7 @@ use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\MembersController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\SecureImageController;
 use App\Http\Controllers\StaticController;
 use App\Http\Controllers\TestingController;
 use App\Http\Controllers\WhatsAppController;
@@ -189,14 +190,30 @@ Route::middleware([
             return $mailable->render();
         })->name('test-mail-preview');
 
-        Route::get('/secure-image/{filename}', function (Request $request, $filename) {
-            abort_unless(auth()->check(), 403);
-            $path = storage_path("app/private/accounting/receipts/previews/{$filename}.png");
-            abort_unless(Storage::disk('local')->exists($path), 404);
+        Route::get('/receipt-file/{filename}', function ($filename) {
+            $path = storage_path('app/private/accounting/receipts/'.$filename);
+            if (! file_exists($path)) {
+                abort(404);
+            }
 
-            return response()->file($path, ['Content-Type' => 'image/png']);
+            // Optional: hier Auth-Checks einbauen, damit die Datei nur berechtigte Nutzer sehen
 
-        });
+            return response()->file($path);
+        })->name('receipt.file');
+
+        Route::get('/secure-image/{filename}', [SecureImageController::class, 'show'])
+            ->where('filename', '.*')
+            ->name('secure-image.preview');
+
+        //        Route::get('/secure-image/{filename}', function (Request $request, $filename) {
+        //
+        // //            abort_unless(auth()->check(), 403);
+        // //            $path = storage_path("app/private/accounting/receipts/previews/{$filename}.png");
+        // //            abort_unless(Storage::disk('local')->exists($path), 404);
+        // //
+        // //            return response()->file($path, ['Content-Type' => 'image/png']);
+        //
+        //        });
 
     }); // End middleware auth, jetstream, verified, group
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Forms\Accounting;
 
 use App\Models\Accounting\Receipt;
@@ -32,6 +34,7 @@ class ReceiptForm extends Form
 
     public function generatePreview($filename): string
     {
+        Log::debug('start generatePreview for '.$filename);
         $pdfFullPath = storage_path('app/private/accounting/receipts/'.$filename);
         $outputPath = 'accounting/receipts/previews/'.pathinfo($filename, PATHINFO_FILENAME).'.png';
         $outputFullPath = storage_path('app/private/'.$outputPath);
@@ -59,7 +62,7 @@ class ReceiptForm extends Form
             $imagick->setImageFormat('png');
             $imagick->writeImage($outputFullPath);
             $imagick->clear();
-            $imagick->destroy();
+            //            $imagick->destroy();
 
             return Storage::url($outputPath);
         } catch (Exception $e) {
@@ -69,7 +72,7 @@ class ReceiptForm extends Form
         }
     }
 
-    public function updateFile(int $transaction_id)
+    public function updateFile(int $transaction_id): Receipt
     {
         $this->transaction_id = $transaction_id;
         $this->validate();

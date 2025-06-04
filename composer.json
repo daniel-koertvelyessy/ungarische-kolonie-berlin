@@ -24,6 +24,7 @@
         "opcodesio/log-viewer": "^3.15",
         "ryangjchandler/laravel-cloudflare-turnstile": "^v2.0.1",
         "spatie/browsershot": "^5.0",
+        "spatie/image": "^3.8",
         "tecnickcom/tcpdf": "^6.9.1"
     },
     "require-dev": {
