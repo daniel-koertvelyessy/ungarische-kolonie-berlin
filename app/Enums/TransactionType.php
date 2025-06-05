@@ -28,7 +28,8 @@ enum TransactionType: string
     {
         return match ($value) {
             'Einzahlung' => 'positive',
-            'Auszahlung', 'Storno' => 'negative',
+            'Auszahlung' => 'negative',
+            'Storno' => 'storno',
             default => throw new InvalidArgumentException("Unknown TransactionType: $value"),
 
         };
@@ -38,7 +39,8 @@ enum TransactionType: string
     {
         return match ($value) {
             'Einzahlung' => 'lime',
-            'Auszahlung', 'Storno' => 'orange',
+            'Auszahlung' => 'orange',
+            'Storno' => 'purple',
             default => throw new InvalidArgumentException("Unknown TransactionType: $value"),
 
         };

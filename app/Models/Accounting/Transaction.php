@@ -135,10 +135,6 @@ class Transaction extends Model
 
     public function grossColor(): string
     {
-        if ($this->type === TransactionType::Deposit->value) {
-            return 'positive';
-        } else {
-            return 'negative';
-        }
+        return TransactionType::color($this->type);
     }
 }

@@ -82,6 +82,9 @@
     .negative {
         @apply text-orange-600 dark:text-orange-400;
     }
+    .storno {
+        @apply text-purple-600 dark:text-purple-400;
+    }
 }
 
 [x-cloak] {
