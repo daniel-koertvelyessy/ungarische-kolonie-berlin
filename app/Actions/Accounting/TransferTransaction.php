@@ -27,19 +27,19 @@ final class TransferTransaction
              *   Add cancel transaction to nullify canceled one
              *   Invert VAT and amount net & gross
              */
-            $amount_gross = $transaction->amount_gross * -1;
-            $amount_net = $transaction->amount_net * -1;
-            $vat = $transaction->vat * -1;
+            $amountGross = $transaction->amount_gross * -1;
+            $amountNet = $transaction->amount_net * -1;
+            $vatValue = $transaction->vat * -1;
 
             Transaction::create([
                 'date' => Carbon::now('Europe/Berlin'),
                 'label' => $transaction->label,
                 'reference' => $transaction->reference,
                 'description' => $transaction->description.' Storno: '.$from->reason,
-                'amount_gross' => Account::makeCentInteger($amount_gross),
-                'vat' => $vat,
+                'amount_gross' => Account::makeCentInteger($amountGross),
+                'vat' => $vatValue,
                 'tax' => Account::makeCentInteger($transaction->tax),
-                'amount_net' => Account::makeCentInteger($amount_net),
+                'amount_net' => Account::makeCentInteger($amountNet),
                 'account_id' => $transaction->account_id,
                 'booking_account_id' => $transaction->booking_account_id,
                 'type' => TransactionType::Reversal->value,
