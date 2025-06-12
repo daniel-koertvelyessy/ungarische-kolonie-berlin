@@ -412,26 +412,26 @@
                 </flux:table.columns>
                 <flux:table.rows>
                     @foreach ($this->payments as $payment)
+                        @if($payment->transaction)
+                            <flux:table.row :key="$payment->transaction->id">
 
-                        <flux:table.row :key="$payment->transaction->id">
+                                <flux:table.cell variant="strong">
+                                    {{ $payment->transaction->label }}
+                                </flux:table.cell>
 
-                            <flux:table.cell variant="strong">
-                                {{ $payment->transaction->label }}
-                            </flux:table.cell>
+                                <flux:table.cell>{{ $payment->transaction->date->diffForHumans() }}</flux:table.cell>
+                                <flux:table.cell>{{ $payment->visitor_name }}</flux:table.cell>
 
-                            <flux:table.cell>{{ $payment->transaction->date->diffForHumans() }}</flux:table.cell>
-                            <flux:table.cell>{{ $payment->visitor_name }}</flux:table.cell>
-
-                            <flux:table.cell variant="strong"
-                                             align="end"
-                            >
+                                <flux:table.cell variant="strong"
+                                                 align="end"
+                                >
                                 <span class="text-{{ \App\Enums\TransactionType::color($payment->transaction->type) }}-600">
                                     {{ $payment->transaction->grossForHumans() }}
                                 </span>
-                            </flux:table.cell>
+                                </flux:table.cell>
 
-                        </flux:table.row>
-
+                            </flux:table.row>
+                        @endif
                     @endforeach
                 </flux:table.rows>
             </flux:table>
