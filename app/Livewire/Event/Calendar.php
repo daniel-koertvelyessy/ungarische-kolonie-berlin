@@ -10,18 +10,22 @@ use Livewire\Component;
 class Calendar extends Component
 {
     public $selectedMonth;
+
     public $selectedYear;
+
     public $events = [];
+
     public $currentDate;
+
     public $locale = 'de'; // Default locale
 
     public function mount()
     {
+        $this->locale = app()->getLocale();
         $this->currentDate = Carbon::now();
         $this->selectedMonth = $this->currentDate->month;
         $this->selectedYear = $this->currentDate->year;
         $this->loadEvents();
-        $this->locale = app()->getLocale();
     }
 
     public function updatedSelectedMonth()
@@ -36,7 +40,7 @@ class Calendar extends Component
 
     public function loadEvents()
     {
-        $this->events = Event::select(['id', 'event_date', 'start_time', 'title', 'excerpt','slug'])
+        $this->events = Event::select(['id', 'event_date', 'start_time', 'title', 'excerpt', 'slug'])
             ->whereMonth('event_date', $this->selectedMonth)
             ->whereYear('event_date', $this->selectedYear)
             ->where('status', EventStatus::PUBLISHED->value)
@@ -48,7 +52,7 @@ class Calendar extends Component
                     'start_time' => $event->start_time ? Carbon::parse($event->start_time)->format('H:i') : null,
                     'title' => $event->title[$this->locale] ?? array_values($event->title)[0] ?? 'No title',
                     'slug' => $event->slug[$this->locale] ?? array_values($event->slug)[0] ?? '#',
-                    'excerpt' => $event->excerpt[$this->locale] ?? null,
+                    'excerpt' => $event->excerpt[$this->locale] ?? is_array($event->excerpt) ? array_values($event->excerpt)[0] : null,
                 ];
             });
     }
@@ -78,10 +82,11 @@ class Calendar extends Component
 
     public function render()
     {
-        $startOfMonth = Carbon::create($this->selectedYear, $this->selectedMonth, 1);
+        $startOfMonth = Carbon::create($this->selectedYear, $this->selectedMonth, 1, 0, 0, 0, 'Europe/Berlin');
         $endOfMonth = $startOfMonth->copy()->endOfMonth();
         $daysInMonth = $startOfMonth->daysInMonth;
-        $firstDayOfWeek = $startOfMonth->dayOfWeek;
+        // Adjust for Monday-first week: Mon=0, Tue=1, ..., Sun=6
+        $firstDayOfWeek = ($startOfMonth->dayOfWeek + 6) % 7;
         $days = [];
 
         // Add days from previous month

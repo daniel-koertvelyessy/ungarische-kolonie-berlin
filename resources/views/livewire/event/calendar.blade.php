@@ -1,4 +1,4 @@
-<!-- resources/views/livewire/event-calendar.blade.php -->
+<!-- resources/views/livewire/event/calendar.blade.php -->
 <div class="lg:flex lg:h-full lg:flex-col">
     <!-- Header -->
     <header class="flex items-center justify-between border-b border-gray-200 px-6 py-4 lg:flex-none">
@@ -41,7 +41,7 @@
                 @foreach ($days as $day)
                     <div class="relative px-3 py-2 min-h-28 {{ $day['isCurrentMonth'] ? 'bg-white' : 'bg-gray-50 text-gray-500' }}">
                         <time datetime="{{ $day['date']->format('Y-m-d') }}"
-                              @if ($day['date']->isToday()) class="flex size-6 items-center justify-center rounded-full bg-emerald-600 font-semibold text-white" @endif>
+                              @if ($day['date']->isToday()) class="flex size-6 items-center justify-center rounded-full bg-emerald-600 font-semibold text-white" aria-current="date" @endif>
                             {{ $day['date']->day }}
                         </time>
                         @php
@@ -57,6 +57,10 @@
                                             <p class="flex-auto truncate font-medium text-gray-900 group-hover:text-emerald-600">{{ $event['title'] }}</p>
                                             @if ($event['start_time'])
                                                 <time datetime="{{ $event['event_date'] }}T{{ $event['start_time'] }}" class="ml-3 hidden flex-none text-gray-500 group-hover:text-emerald-600 xl:block">
+                                                    {{ Carbon\Carbon::parse($event['start_time'])->format('H:i') }}
+                                                </time>
+                                            @else
+                                                <time datetime="{{ $event['event_date'] }}T16:00:00" class="ml-3 hidden flex-none text-gray-500 group-hover:text-emerald-600 xl:block" aria-label="set default time">
                                                     {{ Carbon\Carbon::parse($event['start_time'])->format('H:i') }}
                                                 </time>
                                             @endif
