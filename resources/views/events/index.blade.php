@@ -1,7 +1,7 @@
 <x-guest-layout title="{{ __('event.page.title') }}">
     <h1 class="text-3xl">{{ __('event.page.title') }}</h1>
 
-    <livewire:event.calendar />
+{{--    <livewire:event.calendar />--}}
 
 
     @if($todayEvents->count() > 0)
