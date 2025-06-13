@@ -10,6 +10,8 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/feed/events', [EventController::class, 'rssFeed'])->name('events.feed');
+
 Route::prefix('v1')->group(function () {
     Route::get('/events', [EventController::class, 'apiIndex'])->name('api.events.index');
     Route::get('/events-all', [EventController::class, 'apiAll'])->name('api.events.all');

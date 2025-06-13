@@ -200,6 +200,25 @@ class EventController extends Controller
         ], 200, [], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
     }
 
+    public function rssFeed(): Response
+    {
+        $events = Event::query()
+            ->with('venue')
+            ->where('status', EventStatus::PUBLISHED->value)
+            ->orderBy('event_date', 'desc')
+            ->get();
+
+        $locale = app()->getLocale();
+
+        return response()
+            ->view('feed.events', [
+                'events' => $events,
+                'locale' => $locale,
+                'lastBuildDate' => $events->isNotEmpty() ? $events->first()->event_date->toRssString() : now()->toRssString(),
+            ])
+            ->header('Content-Type', 'application/rss+xml; charset=UTF-8');
+    }
+
     private function findEventBySlug(string $slug, bool $withRelations = true): ?Event
     {
         $query = Event::query()

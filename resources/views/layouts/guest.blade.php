@@ -47,6 +47,8 @@
           rel="stylesheet"
     />
 
+    <link rel="alternate" type="application/rss+xml" title="Events Feed" href="{{ route('events.feed') }}">
+
     @isset($head)
         {{ $head }}
     @endisset
