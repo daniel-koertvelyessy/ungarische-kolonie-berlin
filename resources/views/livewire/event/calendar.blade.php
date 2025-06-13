@@ -105,7 +105,7 @@
             @forelse ($events as $event)
                 <li class="group flex items-center gap-3 p-4 pr-6 focus-within:bg-gray-50 hover:bg-gray-50">
                     <div class="flex-auto">
-                        <p class="font-semibold text-gray-900">{{ $event['title'] }}</p>
+                        <p class="font-semibold prose prose-invert">{{ $event['title'] }}</p>
                         <time datetime="{{ $event['event_date'] }}T{{ $event['start_time'] }}"
                               class="mt-2 flex items-center text-gray-700"
                         >
@@ -115,7 +115,7 @@
                             {{ Carbon\Carbon::parse($event['event_date'])->isoFormat('Do MMMM') }} @if ($event['start_time']) {{ Carbon\Carbon::parse($event['start_time'])->format('H:i') }} @endif
                         </time>
                         @if ($event['excerpt'])
-                            <p class="mt-1 text-gray-600">{{ $event['excerpt'] }}</p>
+                            <p class="mt-1 prose prose-invert">{{ $event['excerpt'] }}</p>
                         @endif
                     </div>
                     <flux:button size="sm" variant="primary" href="{{ route('events.show',$event['slug']) }}" >Details<span class="sr-only">, {{ $event['title'] }}</span></flux:button>
