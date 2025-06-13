@@ -165,7 +165,7 @@ class EventController extends Controller
         abort(403);
     }
 
-    public function apiIndex(): JsonResponse
+    public function apiAll(): JsonResponse
     {
         $events = Event::query()
             ->with('venue')
@@ -180,6 +180,24 @@ class EventController extends Controller
                 'timestamp' => now()->toIso8601String(),
             ],
         ]);
+    }
+
+    public function apiIndex(): JsonResponse
+    {
+        $events = Event::query()
+            ->with('venue')
+            ->where('status', EventStatus::PUBLISHED->value)
+            ->where('event_date', '>', now()->toIso8601String())
+            ->get();
+
+        return response()->json([
+            'data' => EventResource::collection($events),
+            'meta' => [
+                'count' => $events->count(),
+                'locale' => App::getLocale(),
+                'timestamp' => now()->toIso8601String(),
+            ],
+        ], 200, [], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
     }
 
     private function findEventBySlug(string $slug, bool $withRelations = true): ?Event

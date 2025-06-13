@@ -11,7 +11,8 @@ Route::get('/', function () {
 });
 
 Route::prefix('v1')->group(function () {
-    Route::get('/events', [EventController::class, 'apiIndex'])
-        ->name('api.events.index');
+    Route::get('/events', [EventController::class, 'apiIndex'])->name('api.events.index');
+    Route::get('/events-all', [EventController::class, 'apiAll'])->name('api.events.all');
+
     Route::get('/event/{slug}', [EventController::class, 'apiShow'])->name('api.v1.event.show');
 });
