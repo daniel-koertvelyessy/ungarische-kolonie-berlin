@@ -10,18 +10,18 @@
 
         @foreach ($events as $event)
             <item>
-                <title>{{ htmlspecialchars($event->title[$locale] ?? 'Untitled Event', ENT_QUOTES, 'UTF-8') }}</title>
+                <title>{!! $event->title[$locale] ?? 'Untitled Event' !!}</title>
                 <link>{{ route('events.show', ['slug' => $event->slug[$locale] ?? '#']) }}</link>
                 <guid isPermaLink="true">{{ route('events.show', ['slug' => $event->slug[$locale] ?? '#']) }}</guid>
                 <pubDate>{{ $event->event_date?->toRssString() ?? now()->toRssString() }}</pubDate>
                 <description>
                     <![CDATA[
-                    <p>{{ htmlspecialchars($event->excerpt[$locale] ?? 'No excerpt available', ENT_QUOTES, 'UTF-8') }}</p>
-                    <p>{{ htmlspecialchars($event->description[$locale] ?? 'No description available', ENT_QUOTES, 'UTF-8') }}</p>
+                    <p>{!! $event->excerpt[$locale] ?? 'No excerpt available' !!}</p>
+                    <p>{!! $event->description[$locale] ?? 'No description available' !!}</p>
                     @if ($event->venue)
                         <p>
-                            <strong>Venue:</strong> {{ htmlspecialchars($event->venue->name, ENT_QUOTES, 'UTF-8') }}<br>
-                            <strong>Address:</strong> {{ htmlspecialchars($event->venue->address . ', ' . $event->venue->city, ENT_QUOTES, 'UTF-8') }}
+                            <strong>Venue:</strong> {{ $event->venue->name }}<br>
+                            <strong>Address:</strong> {{ $event->venue->address . ', ' . $event->venue->city }}
                         </p>
                     @endif
                     <p><strong>Date:</strong> {{ $event->event_date?->toDateString() }}</p>
