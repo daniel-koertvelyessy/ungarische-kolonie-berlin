@@ -45,6 +45,32 @@ return [
     'password.set.text' => 'Kérlek, adj meg egy biztonságos jelszót!',
 
     'change_fy' => 'Év váltása erre',
+
+
+    'cal' => [
+        'day_short' => [
+            'Mo' => 'H', // Hétfő
+            'Tu' => 'K', // Kedd
+            'We' => 'Sze', // Szerda
+            'Th' => 'C', // Csütörtök
+            'Fr' => 'P', // Péntek
+            'Sa' => 'Szo', // Szombat
+            'Su' => 'V', // Vasárnap
+        ],
+        'day_medium' => [
+            'Mo' => 'Hét',    // Hétfő
+            'Tu' => 'Kedd',
+            'We' => 'Szer',
+            'Th' => 'Csüt',
+            'Fr' => 'Pént',
+            'Sa' => 'Szom',
+            'Su' => 'Vas',
+        ],
+        'empty' => 'Nincs találat',
+    ],
+
+
+
     '' => '',
 
 ];
