@@ -205,6 +205,7 @@ class EventController extends Controller
         $events = Event::query()
             ->with('venue')
             ->where('status', EventStatus::PUBLISHED->value)
+            ->where('event_date', '>', now()->toIso8601String())
             ->orderBy('event_date', 'desc')
             ->get();
 
