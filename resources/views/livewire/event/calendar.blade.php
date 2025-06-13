@@ -115,7 +115,7 @@
                             {{ Carbon\Carbon::parse($event['event_date'])->isoFormat('Do MMMM') }} @if ($event['start_time']) {{ Carbon\Carbon::parse($event['start_time'])->format('H:i') }} @endif
                         </time>
                         @if ($event['excerpt'])
-                            <flux:text class="mt-1 prose prose-emerald dark:prose-invert">{{ $event['excerpt'] }}</flux:text>
+                            <flux:text class="mt-1 prose prose-emerald dark:prose-invert">{!! $event['excerpt'] !!}</flux:text>
                         @endif
                     </div>
                     <flux:button size="sm" variant="primary" href="{{ route('events.show',$event['slug']) }}" >Details<span class="sr-only">, {{ $event['title'] }}</span></flux:button>
