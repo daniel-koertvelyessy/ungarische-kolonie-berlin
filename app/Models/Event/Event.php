@@ -174,7 +174,7 @@ class Event extends Model
         return $this->makePosterName($locale);
     }
 
-    public function getPosterSize(string $locale, string $type = 'jpg'): int
+    public function getPosterSize(string $locale, string $type = 'jpg'): int|float
     {
         if ($this->hasPoster($locale, $type)) {
             return Storage::disk('public')->size('images/posters/'.$this->makePosterName($locale).'.'.$type) / 1024;
