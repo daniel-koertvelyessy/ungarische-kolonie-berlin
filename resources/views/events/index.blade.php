@@ -4,7 +4,7 @@
   <header class="flex justify-between">
       <h1 class="text-3xl">{{ __('event.page.title') }}</h1>
 
-      <flux:button href="{{ route('events.feed') }}" icon-trailing="rss" size="sm" variant="ghost" target="_blank">RSS</flux:button>
+      <flux:button href="{{ route('api.events.feed') }}" icon-trailing="rss" size="sm" variant="ghost" target="_blank">RSS</flux:button>
   </header>
 
 {{--    <livewire:event.calendar />--}}

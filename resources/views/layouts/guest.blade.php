@@ -10,6 +10,9 @@
 
     <title>{{$title??'Magyar Kolónia Berlin e.V.'}}</title>
 
+
+    <link rel="alternate" type="application/rss+xml" title="Events Feed" href="{{ route('api.events.feed') }}">
+
     <!-- Styles / Scripts -->
     {{--    @turnstileScripts()--}}
     @fluxAppearance
@@ -46,8 +49,6 @@
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600&display=swap"
           rel="stylesheet"
     />
-
-    <link rel="alternate" type="application/rss+xml" title="Events Feed" href="{{ route('events.feed') }}">
 
     @isset($head)
         {{ $head }}

@@ -6,7 +6,7 @@
         <description>Upcoming events from {{ config('app.name') }}</description>
         <language>{{ $locale }}</language>
         <lastBuildDate>{{ $lastBuildDate }}</lastBuildDate>
-        <atom:link href="{{ route('events.feed') }}" rel="self" type="application/rss+xml" />
+        <atom:link href="{{ route('api.events.feed') }}" rel="self" type="application/rss+xml" />
 
         @foreach ($events as $event)
             <item>
