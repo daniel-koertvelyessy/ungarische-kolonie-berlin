@@ -48,9 +48,9 @@ class Page extends Component
 
     public int $totalSubscriptionsThisYear;
 
-    public array $urlLabel;
+    public array|null $urlLabel;
 
-    public string $url;
+    public string $url='';
 
     #[Computed]
     public function mailingList(): LengthAwarePaginator
@@ -122,6 +122,8 @@ class Page extends Component
             $counter = 0;
             foreach (Member::all() as $member) {
                 if ($member->email) {
+                    $url = $this->url??'';
+                    $label =  $this->urlLabel[$member->locale] ?? null;
                     Mail::to($member->email)
                         ->locale($member->locale)
                         ->queue(new SendMemberMassMail(
@@ -129,8 +131,8 @@ class Page extends Component
                             $this->subject[$member->locale],
                             $this->message[$member->locale],
                             $member->locale,
-                            $this->url,
-                            $this->urlLabel[$member->locale],
+                            $url,
+                            $label,
                             [$savedFiles[$member->locale]]
                         ));
                     $counter++;
@@ -141,6 +143,8 @@ class Page extends Component
             $counter = 0;
             foreach (Member::all() as $member) {
                 if ($member->email) {
+                    $url = $this->url??'';
+                    $label =  $this->urlLabel[$member->locale] ?? null;
                     Mail::to($member->email)
                         ->locale($member->locale)
                         ->queue(new SendMemberMassMail(
@@ -148,8 +152,8 @@ class Page extends Component
                             $this->subject[$member->locale],
                             $this->message[$member->locale],
                             $member->locale,
-                            $this->url,
-                            $this->urlLabel[$member->locale]
+                            $url,
+                            $label,
                         ));
                     $counter++;
                 }
