@@ -116,7 +116,7 @@
                                         </div>
                                         @can('update',\App\Models\Event\Event::class)
                                             <div class="mt-4">
-                                                <div class="-mx-2 -my-1.5 flex gap-3 items-center">
+                                                <div class="-mx-2 -my-1.5 flex-col lg:flex-row gap-3 items-center">
                                                     <flux:button size="sm"
                                                                  icon-trailing="arrow-uturn-left"
                                                                  variant="ghost"
@@ -988,4 +988,6 @@
         </form>
 
     </flux:modal>
+
+  <x-history-entries :histories="$this->histories" />
 </div>

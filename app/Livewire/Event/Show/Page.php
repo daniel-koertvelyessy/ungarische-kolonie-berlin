@@ -16,6 +16,7 @@ use App\Models\Event\EventTransaction;
 use App\Models\Event\EventVisitor;
 use App\Models\EventAssignment;
 use App\Models\EventTimeline;
+use App\Models\History;
 use App\Models\User;
 use App\Models\Venue;
 use App\Services\MailingService;
@@ -67,6 +68,16 @@ class Page extends Component
         return EventSubscription::where('event_id', $this->event_id)
             ->paginate(10);
     }
+
+    #[Computed]
+    public function histories(): \Illuminate\Pagination\LengthAwarePaginator
+    {
+        return History::query()->with('user')
+            ->where('historable_id', $this->event_id)
+            ->where('historable_type', Event::class)
+            ->orderByDesc('changed_at')->paginate(10);
+
+}
 
     #[Computed]
     public function assignments(): \Illuminate\Pagination\LengthAwarePaginator
