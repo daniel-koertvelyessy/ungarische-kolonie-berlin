@@ -30,51 +30,53 @@ return json_last_error() === JSON_ERROR_NONE ? $decoded : $value;
 }
     @endphp
 
-    <flux:accordion>
-        <flux:accordion.item>
-            <flux:accordion.heading>Historie</flux:accordion.heading>
-            <flux:accordion.content class="divide-y space-y-1">
-                @foreach($histories as $entry)
-                   <section>
-                       <flux:text size="sm" variant="strong">{{ $entry->action }} / {{ $entry->changed_at->diffForHumans() }} / {{ optional($entry->user)->email }}</flux:text>
-                       @if($entry->changes)
-                           <ul class="space-y-1">
-                               @foreach ($entry->changes['old'] ?? [] as $key => $old)
+  <aside class="mt-8">
+      <flux:accordion>
+          <flux:accordion.item>
+              <flux:accordion.heading>Historie</flux:accordion.heading>
+              <flux:accordion.content class="divide-y space-y-1">
+                  @foreach($histories as $entry)
+                      <section>
+                          <flux:text size="sm" variant="strong">{{ $entry->action }} / {{ $entry->changed_at->diffForHumans() }} / {{ optional($entry->user)->email }}</flux:text>
+                          @if($entry->changes)
+                              <ul class="space-y-1">
+                                  @foreach ($entry->changes['old'] ?? [] as $key => $old)
 
-                                   @php
-                                       $new = $entry->changes['new'][$key] ?? null;
-                                       $label = $labels[$key] ?? $key;
+                                      @php
+                                          $new = $entry->changes['new'][$key] ?? null;
+                                          $label = $labels[$key] ?? $key;
 
-                                       $oldParsed = tryParseJson($old);
-                                       $newParsed = tryParseJson($new);
-                                   @endphp
+                                          $oldParsed = tryParseJson($old);
+                                          $newParsed = tryParseJson($new);
+                                      @endphp
 
-                                   @if (is_array($oldParsed) && is_array($newParsed))
-                                       @foreach ($oldParsed as $locale => $oldVal)
-                                           @php
-                                               $newVal = $newParsed[$locale] ?? null;
-                                           @endphp
-                                           <li class="flex items-center gap-1">
-                                               <span class="text-xs ">{{ $label }} ({{ strtoupper($locale) }}):</span>
-                                               <span class="text-red-600 text-xs">{{ formatValue($key, $oldVal) }}</span>
-                                               →
-                                               <span class="text-green-600 text-xs">{{ formatValue($key, $newVal) }}</span>
-                                           </li>
-                                       @endforeach
-                                   @else
-                                       <li class="flex items-center gap-1">
-                                           <span class="text-xs">{{ $label }}:</span>
-                                           <span class="text-red-600 text-xs">{{ formatValue($key, $oldParsed) }}</span>
-                                           →
-                                           <span class="text-green-600 text-xs">{{ formatValue($key, $newParsed) }}</span>
-                                       </li>
-                                   @endif
-                               @endforeach
-                           </ul>
-                       @endif
-                   </section>
-                @endforeach
-            </flux:accordion.content>
-        </flux:accordion.item>
-    </flux:accordion>
+                                      @if (is_array($oldParsed) && is_array($newParsed))
+                                          @foreach ($oldParsed as $locale => $oldVal)
+                                              @php
+                                                  $newVal = $newParsed[$locale] ?? null;
+                                              @endphp
+                                              <li class="flex items-center gap-1">
+                                                  <span class="text-xs ">{{ $label }} ({{ strtoupper($locale) }}):</span>
+                                                  <span class="text-red-600 text-xs">{{ formatValue($key, $oldVal) }}</span>
+                                                  →
+                                                  <span class="text-green-600 text-xs">{{ formatValue($key, $newVal) }}</span>
+                                              </li>
+                                          @endforeach
+                                      @else
+                                          <li class="flex items-center gap-1">
+                                              <span class="text-xs">{{ $label }}:</span>
+                                              <span class="text-red-600 text-xs">{{ formatValue($key, $oldParsed) }}</span>
+                                              →
+                                              <span class="text-green-600 text-xs">{{ formatValue($key, $newParsed) }}</span>
+                                          </li>
+                                      @endif
+                                  @endforeach
+                              </ul>
+                          @endif
+                      </section>
+                  @endforeach
+              </flux:accordion.content>
+          </flux:accordion.item>
+      </flux:accordion>
+  </aside>
 @endif
