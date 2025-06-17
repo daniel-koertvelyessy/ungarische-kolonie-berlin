@@ -9,7 +9,6 @@ use App\Http\Controllers\SecureImageController;
 use App\Http\Controllers\StaticController;
 use App\Http\Controllers\TestingController;
 use App\Http\Controllers\WhatsAppController;
-use App\Livewire\Accounting\Receipt\Index\Page;
 use App\Livewire\App\Global\Mailinglist\Show;
 use App\Livewire\App\Global\Mailinglist\Unsubscribe;
 use App\Mail\SendMemberMassMail;
@@ -222,7 +221,7 @@ Route::middleware([
         Route::get('/accounts', \App\Livewire\Accounting\Account\Index\Page::class)
             ->name('accounts.index');
 
-        Route::get('/receipts', Page::class)
+        Route::get('/receipts', App\Livewire\Accounting\Receipt\Index\Page::class)
             ->name('receipts.index');
 
         Route::get('/dashboard', function () {
@@ -252,6 +251,10 @@ Route::middleware([
         Route::get('/secure-image/{filename}', [SecureImageController::class, 'show'])
             ->where('filename', '.*')
             ->name('secure-image.preview');
+
+        Route::get('/secure-download/{filename}', [SecureDownloadController::class, 'download'])
+            ->where('filename', '.*')
+            ->name('secure-download');
 
         //        Route::get('/secure-image/{filename}', function (Request $request, $filename) {
         //

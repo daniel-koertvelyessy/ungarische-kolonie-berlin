@@ -49,4 +49,15 @@ class SecureImageController extends Controller
 
         return response('Nicht unterstütztes Format.', 415);
     }
+
+    public function download(string $filename)
+    {
+        $path = storage_path('app/private/accounting/receipts/' . $filename);
+
+        if (!file_exists($path)) {
+            abort(404, 'Datei nicht gefunden.');
+        }
+
+        return FacadeResponse::download($path);
+    }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Accounting\Transaction\Create;
 
 use App\Actions\Accounting\CreateEventTransaction;
@@ -29,7 +31,8 @@ use Throwable;
 
 class Form extends Component
 {
-    use HasPrivileges, WithFileUploads;
+    use HasPrivileges;
+    use WithFileUploads;
 
     public Event $event;
 

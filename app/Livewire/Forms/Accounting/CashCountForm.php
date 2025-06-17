@@ -72,6 +72,25 @@ class CashCountForm extends Form
         $this->cent_one = $this->cashCount->cent_one;
     }
 
+    public function init(): void
+    {
+        $this->notes = '';
+        $this->euro_two_hundred = 0;
+        $this->euro_one_hundred = 0;
+        $this->euro_fifty = 0;
+        $this->euro_twenty = 0;
+        $this->euro_ten = 0;
+        $this->euro_five = 0;
+        $this->euro_two = 0;
+        $this->euro_one = 0;
+        $this->cent_fifty = 0;
+        $this->cent_twenty = 0;
+        $this->cent_ten = 0;
+        $this->cent_five = 0;
+        $this->cent_two = 0;
+        $this->cent_one = 0;
+    }
+
     public function create(): CashCount
     {
         $this->validate();

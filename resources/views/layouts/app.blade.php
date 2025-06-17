@@ -134,25 +134,25 @@
         >
             <flux:navlist.item wire:navigate
                                href="{{ route('accounting.index') }}"
-            >Übersicht
+            >{{ __('nav.account.index') }}
             </flux:navlist.item>
             <flux:navlist.item wire:navigate
                                href="{{ route('transaction.index') }}"
-            >Buchungen
+            >{{ __('nav.account.transactions') }}
             </flux:navlist.item>
             <flux:navlist.item wire:navigate
                                href="{{ route('receipts.index') }}"
-            >Belege
+            >{{ __('nav.account.receipts') }}
             </flux:navlist.item>
             <flux:navlist.item wire:navigate
                                href="{{ route('accounts.report.index') }}"
-            >Berichte
+            >{{ __('nav.account.reports') }}
             </flux:navlist.item>
            @can('create',\App\Models\Accounting\Account::class)
                 <flux:navlist.item wire:navigate
                                    href="{{ route('accounts.index') }}"
-                                   :current="request()->is('accounts*')"
-                >Konten
+                                   :current="request()->is('*accounts*')"
+                >{{ __('nav.account.details') }}
                 </flux:navlist.item>
             @endcan
         </flux:navlist.group>

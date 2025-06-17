@@ -34,7 +34,6 @@ class ReceiptForm extends Form
 
     public function generatePreview($filename): string
     {
-        Log::debug('start generatePreview for '.$filename);
         $pdfFullPath = storage_path('app/private/accounting/receipts/'.$filename);
         $outputPath = 'accounting/receipts/previews/'.pathinfo($filename, PATHINFO_FILENAME).'.png';
         $outputFullPath = storage_path('app/private/'.$outputPath);
@@ -62,8 +61,8 @@ class ReceiptForm extends Form
             $imagick->setImageFormat('png');
             $imagick->writeImage($outputFullPath);
             $imagick->clear();
-            //            $imagick->destroy();
 
+            //            $imagick->destroy();
             return Storage::url($outputPath);
         } catch (Exception $e) {
             Log::error('PDF Preview Error: '.$e->getMessage());
