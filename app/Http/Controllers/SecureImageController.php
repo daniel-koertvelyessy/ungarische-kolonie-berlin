@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response as FacadeResponse;
 use Imagick;
 
@@ -26,6 +27,7 @@ class SecureImageController extends Controller
         }
 
         if ($extension === 'pdf') {
+            Log::debug('Versuche Datei zu laden',['filename' => $filename, 'path'=>$path]);
             try {
                 $imagick = new Imagick;
                 Imagick::setResourceLimit(Imagick::RESOURCETYPE_MEMORY, 512); // 512 MB
@@ -36,13 +38,16 @@ class SecureImageController extends Controller
                 $imagick->readImage($path.'[0]');
                 $imagick->setImageFormat('png'); // Changed to PNG
                 $imagick->stripImage();
-
                 return response($imagick->getImageBlob(), 200, [
                     'Content-Type' => 'image/png',
                 ]);
             } catch (\Exception $e) {
-                report($e);
-
+//                report($e);
+                Log::error('Fehler beim Generieren der Vorschau für ', [
+                    'filename' => $filename,
+                    'path' => $path,
+                    'Fehler' =>  $e->getMessage(),
+                ]);
                 return response('Fehler beim Generieren der Vorschau.', 500);
             }
         }
