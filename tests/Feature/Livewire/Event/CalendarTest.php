@@ -203,8 +203,6 @@ it('displays events in correct locale based on app locale', function () {
         'status' => EventStatus::PUBLISHED->value,
     ]);
 
-    dump(app()->getLocale());
-
     Livewire::test(EventCalendar::class)
         ->assertSee('Csapatértekezlet')
         ->assertDontSee('Teamtreffen')

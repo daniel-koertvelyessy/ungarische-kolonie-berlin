@@ -123,27 +123,23 @@ return [
 
     'show.page.title' => 'Veranstaltung',
 
-    'form' => [
-        'name' => 'Name (intern)',
-        'event_date' => 'Datum',
-        'start_time' => 'Startet um',
-        'end_time' => 'Endet um',
-        'title.de' => 'Title',
-        'slug.de' => 'slug',
-        'description.de' => 'Inhalt',
-        'excerpt.de' => 'Auszug',
-        'image.title' => 'Titelbild',
-        'image.upload' => 'Titelbild für die Veranstaltung',
+    'form.name' => 'Name (intern)',
+    'form.event_date' => 'Datum',
+    'form.start_time' => 'Startet um',
+    'form.end_time' => 'Endet um',
+    'form.title.de' => 'Title',
+    'form.slug.de' => 'slug',
+    'form.description.de' => 'Inhalt',
+    'form.excerpt.de' => 'Auszug',
+    'form.image.title' => 'Titelbild',
+    'form.image.upload' => 'Titelbild für die Veranstaltung',
 
-        'entry_fee' => 'Eintritt',
-        'entry_fee_discounted' => 'Reduzierter Eintritt',
-        'venue_id' => 'Veranstaltungsort',
-        'venue.select' => 'Ort wählen',
-        'status' => 'Status',
-        'payment_link' => 'Link für Bezahlung',
-    ],
-
-
+    'form.entry_fee' => 'Eintritt',
+    'form.entry_fee_discounted' => 'Reduzierter Eintritt',
+    'form.venue_id' => 'Veranstaltungsort',
+    'form.venue.select' => 'Ort wählen',
+    'form.status' => 'Status',
+    'form.payment_link' => 'Link für Bezahlung',
 
     'update.success.title' => 'Erfolg',
     'update.success.content' => 'Die Veranstalung wurde erfolgreich aktualisiert.',
