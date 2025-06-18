@@ -252,7 +252,7 @@ Route::middleware([
             ->where('filename', '.*')
             ->name('secure-image.preview');
 
-        Route::get('/secure-download/{filename}', [SecureDownloadController::class, 'download'])
+        Route::get('/secure-download/{filename}', [SecureImageController::class, 'download'])
             ->where('filename', '.*')
             ->name('secure-download');
 
