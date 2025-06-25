@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'dashboard' => 'Irányítópult',
     'tools' => 'Adatok',
@@ -10,5 +12,12 @@ return [
     'profile.api' => 'API kulcs',
     'profile.show' => 'Fiókom',
     'logout' => 'Kijelentkezés',
+    'account' => [
+        'index' => 'Áttekintés',
+        'transactions' => 'Könyvelések',
+        'receipts' => 'Bizonylatok',
+        'reports' => 'Jelentések',
+        'details' => 'Számlák',
+    ],
 
 ];

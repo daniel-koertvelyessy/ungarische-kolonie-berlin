@@ -196,7 +196,7 @@
                     </section>
                 </form>
 
-                <x-debug />
+                <x-debug/>
             </flux:card>
 
 
@@ -208,9 +208,13 @@
                         <flux:field wire:key="{{ $key }}"
                                     class="rounded-md border bg-zinc-50"
                         >
-                            <img src="/secure-image/{{ $receipt->file_name }}"
-                                 class="size-64"
-                                 alt="vorschau datei"
+{{--                            <img src="/backend/secure-image/{{ $receipt->getPreviewUrl($receipt->file_name) }}"--}}
+{{--                                 class="size-64"--}}
+{{--                                 alt="vorschau datei"--}}
+{{--                            />--}}
+                            <img src="{{ $receipt->getPreviewUrl() }}"
+                                 class="size-64 object-contain"
+                                 alt="Vorschau Datei"
                             />
                             <flux:button variant="danger"
                                          size="sm"
@@ -271,78 +275,55 @@
 
             Alpine.data('checkVat', () => {
                 return {
-                    // setVisitor(event){
-                    //     let select = event.target;
-                    //
-                    //     console.log(select)
-                    //     // let selectedName = select.options[select.selectedIndex].text;
-                    //     //
-                    //     // this.$wire.visitor_name.set(selectedName)
-                    //     // this.$wire.visitor_has_member_id = $wire.selectedMember
-                    // },
-                    addVisitor() {
-                        let newVisitor = this.$wire.visitor_name;
-
-                        if (newVisitor && !this.$wire.visitors.includes(newVisitor)) {
-                            let updatedVisitors = [...this.$wire.visitors, newVisitor];
-                            this.$wire.set('visitors', updatedVisitors);
-                            this.$wire.visitor_name = ''
-                            this.calcFees()
-                        }
-                    },
-                    calcFees() {
-
-                        let n = this.$wire.visitors.length
-                        let entry_fee = this.$wire.entry_fee
-                        let entry_fee_discounted = this.$wire.entry_fee_discounted
-                        let total = 0
-
-                        this.$wire.form.amount_gross = this.maskInput(n * entry_fee)
-                    },
-
                     updateValuesFromGross() {
-                        let gross = this.updateCents($wire.form.amount_gross) / 100; // Convert cents to euros
-                        let vat = this.$wire.form.vat;
+                        // Parse gross amount (in formatted string, e.g., "11,96") to cents
+                        let grossCents = this.updateCents(this.$wire.form.amount_gross);
+                        let vat = parseFloat(this.$wire.form.vat) || 0; // VAT percentage, e.g., 19
 
-                        let tax = (gross * vat / 100).toFixed(4); // Correct rounding to 2 decimal places
+                        // Calculate tax (VAT amount) in cents: tax = gross * vat / (100 + vat)
+                        let taxCents = Math.round((grossCents * vat) / (100 + vat));
+                        // Calculate net amount in cents: net = gross - tax
+                        let netCents = grossCents - taxCents;
 
-                        console.log(gross)
-
-                        this.$wire.form.tax = this.maskInput(tax);
-                        this.$wire.form.amount_net = (gross - tax).toFixed(4); // Ensure correct rounding
-
-                        this.$wire.form.amount_net = this.maskInput(this.$wire.form.amount_net);
-                        this.$wire.form.amount_gross = this.maskInput(gross);
+                        // Format back to decimal strings for display
+                        this.$wire.form.tax = this.maskInput(taxCents / 100);
+                        this.$wire.form.amount_net = this.maskInput(netCents / 100);
+                        this.$wire.form.amount_gross = this.maskInput(grossCents / 100);
                     },
 
                     updateValuesFromNet() {
+                        // Parse net amount (in formatted string, e.g., "9,69") to cents
+                        let netCents = this.updateCents(this.$wire.form.amount_net);
+                        let vat = parseFloat(this.$wire.form.vat) || 0; // VAT percentage, e.g., 19
 
-                        let net = this.updateCents(this.$wire.form.amount_net) / 100; // Convert cents to euros
-                        let vat = this.$wire.form.vat;
-                        let tax = (net * vat / 100).toFixed(4); // Correct rounding to 2 decimal places
-                        console.log(tax)
-                        this.$wire.form.tax = this.maskInput(tax)
-                        this.$wire.form.amount_gross = this.maskInput(net + tax * 1)
+                        // Calculate gross amount in cents: gross = net * (1 + vat/100)
+                        let grossCents = Math.round(netCents * (100 + vat) / 100);
+                        // Calculate tax in cents: tax = gross - net
+                        let taxCents = grossCents - netCents;
 
+                        // Format back to decimal strings for display
+                        this.$wire.form.tax = this.maskInput(taxCents / 100);
+                        this.$wire.form.amount_gross = this.maskInput(grossCents / 100);
+                        this.$wire.form.amount_net = this.maskInput(netCents / 100);
                     },
 
                     updateCents(formattedValue) {
-                        let value = formattedValue
-                            .replace(/[^\d,]/g, '')  // Remove non-numeric characters
-                            .replace(',', '.');      // Convert decimal separator
-
-                        let floatValue = parseFloat(value);
-                        return isNaN(floatValue) ? 0 : Math.round(floatValue * 100);
+                        // Convert formatted string (e.g., "11,96") to cents
+                        let value = (formattedValue || '0')
+                            .replace(/[^\d,]/g, '')  // Remove non-numeric characters except comma
+                            .replace(',', '.');      // Convert comma to dot for decimal
+                        let floatValue = parseFloat(value) || 0;
+                        return Math.round(floatValue * 100); // Convert to cents and round
                     },
 
                     maskInput(value) {
+                        // Format number to German decimal format (e.g., 11.96 -> "11,96")
                         return new Intl.NumberFormat('de-DE', {
                             style: 'decimal',
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2
                         }).format(value);
                     }
-
                 }
             })
         </script>

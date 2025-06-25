@@ -37,6 +37,10 @@ return [
     'index.menu-item.send_invoice' => 'E-Mail senden',
     'index.menu-item.print_invoice' => 'Ausdrucken',
 
+    'create' => [
+        'page.title' => 'Buchung erstelllen',
+    ],
+
     'account-transfer-modal.btn.submit' => 'durchführen',
     'account-transfer-modal' => '',
     'account-transfer-modal.heading' => 'Umbuchung (Finanzkonto ändern)',

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5bae20f9c7e43ee647211c39ae6f6195",
+    "content-hash": "f0d878cc5f6ff8896bcbf12c616d0bd3",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -2825,7 +2825,7 @@
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/CarbonPHP/carbon/zipball/1fd1935b2d90aef2f093c5e35f7ae1257c448d00",
-                "reference": "1fd1935b2d90aef2f093c5e35f7ae1257c448d00",
+                "reference": "1fd1935b2d90aef2f093c5e35f7ae1257c448d00"
                 "shasum": ""
             },
             "require": {
@@ -2917,7 +2917,9 @@
                     "type": "tidelift"
                 }
             ],
+
             "time": "2025-06-21T15:19:35+00:00"
+
         },
         {
             "name": "nette/schema",
@@ -3299,6 +3301,7 @@
                 }
             ],
             "time": "2025-06-24T03:35:57+00:00"
+
         },
         {
             "name": "opcodesio/mail-parser",
@@ -4427,6 +4430,7 @@
                 }
             ],
             "time": "2025-05-15T07:10:57+00:00"
+
         },
         {
             "name": "spatie/laravel-package-tools",

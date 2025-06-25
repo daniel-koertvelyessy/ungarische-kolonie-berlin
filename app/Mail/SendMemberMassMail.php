@@ -25,8 +25,8 @@ class SendMemberMassMail extends Mailable implements ShouldQueue
         public string $mail_subject,
         public string $mail_message,
         public string $mail_locale,
-        public string $url,
-        public string $url_label,
+        public string|null $url,
+        public string|null $url_label,
         public ?array $mail_attachments = null,
     ) {}
 

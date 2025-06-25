@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models\Accounting;
 
 use App\Enums\TransactionType;
@@ -72,13 +74,9 @@ use Illuminate\Support\Carbon;
 class Transaction extends Model
 {
     /** @use HasFactory<TransactionFactory> */
-    use HasFactory, HasHistory;
+    use HasFactory;
 
-    protected int $decimals = 2;
-
-    protected string $komma = ',';
-
-    protected string $tausender = '.';
+    use HasHistory;
 
     protected $guarded = [];
 
@@ -87,6 +85,14 @@ class Transaction extends Model
         'amount_gross' => 'integer',
         'amount_net' => 'integer',
     ];
+
+    private TransactionHelper $transactionHelper;
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->transactionHelper = new TransactionHelper($this);
+    }
 
     public function account(): BelongsTo
     {
@@ -120,25 +126,21 @@ class Transaction extends Model
 
     public function grossForHumans(): string
     {
-        return number_format(($this->amount_gross / 100), $this->decimals, $this->komma, $this->tausender);
+        return $this->transactionHelper->grossForHumans();
     }
 
     public function taxForHumans(): string
     {
-        return number_format(($this->tax / 100), $this->decimals, $this->komma, $this->tausender);
+        return $this->transactionHelper->taxForHumans();
     }
 
     public function netForHumans(): string
     {
-        return number_format(($this->amount_net / 100), $this->decimals, $this->komma, $this->tausender);
+        return $this->transactionHelper->netForHumans();
     }
 
     public function grossColor(): string
     {
-        if ($this->type === TransactionType::Deposit->value) {
-            return 'positive';
-        } else {
-            return 'negative';
-        }
+        return TransactionType::color($this->type);
     }
 }

@@ -51,10 +51,11 @@ class AccountReportForm extends Form
         $this->notes = $accountReport->notes;
     }
 
-    public function create(): void
+    public function create(): AccountReport
     {
         $this->validate();
-        CreateAccountReport::handle($this);
+
+        return CreateAccountReport::handle($this);
     }
 
     protected function rules(): array

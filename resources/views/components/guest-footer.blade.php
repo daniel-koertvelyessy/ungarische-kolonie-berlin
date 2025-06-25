@@ -135,7 +135,6 @@
         <x-footer-link link="{{ route('imprint') }}">{{__('app.imprint')}}</x-footer-link>
         <x-footer-link link="{{ route('privacy') }}">{{__('app.privacy')}}</x-footer-link>
 
-
         @if (Route::has('login'))
 
             @auth

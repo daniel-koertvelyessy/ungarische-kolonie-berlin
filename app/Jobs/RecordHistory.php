@@ -44,7 +44,7 @@ class RecordHistory implements ShouldQueue
             'changed_at' => now(),
         ];
 
-        Log::debug('job started', ['data' => $data]);
+        //        Log::debug('job started', ['data' => $data]);
 
         try {
             History::create($data);

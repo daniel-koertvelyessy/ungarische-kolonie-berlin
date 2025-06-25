@@ -1,0 +1,36 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Models\Accounting;
+
+class TransactionHelper
+{
+    protected string $komma = ',';
+
+    protected string $tausender = '.';
+
+    protected int $decimals = 2;
+
+    private Transaction $transaction;
+
+    public function __construct(Transaction $transaction)
+    {
+        $this->transaction = $transaction;
+    }
+
+    public function netForHumans(): string
+    {
+        return number_format(($this->transaction->amount_net / 100), $this->decimals, $this->komma, $this->tausender);
+    }
+
+    public function taxForHumans(): string
+    {
+        return number_format(($this->transaction->tax / 100), $this->decimals, $this->komma, $this->tausender);
+    }
+
+    public function grossForHumans(): string
+    {
+        return number_format(($this->transaction->amount_gross / 100), $this->decimals, $this->komma, $this->tausender);
+    }
+}

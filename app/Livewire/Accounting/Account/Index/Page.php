@@ -26,7 +26,10 @@ class Page extends Component
 
     public bool $account_is_set = false;
 
-    protected $listeners = ['account-updated' => '$refresh'];
+    protected $listeners = [
+        'account-updated' => '$refresh',
+        'account-report-generated' => 'accountReportCreated',
+    ];
 
     #[Computed]
     public function accounts(): LengthAwarePaginator
@@ -71,8 +74,13 @@ class Page extends Component
         Flux::modal('create-monthly-report')->show();
     }
 
+    public function accountReportCreated(): void
+    {
+        Flux::modal('create-monthly-report')->close();
+    }
+
     public function render(): \Illuminate\View\View
     {
-        return view('livewire.accounting.account.index.page');
+        return view('livewire.accounting.account.index.page')->title(__('account.index.title'));
     }
 }

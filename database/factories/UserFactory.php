@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\Locale;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -26,9 +27,15 @@ class UserFactory extends Factory
             'name' => $this->faker->name(),
             'first_name' => $this->faker->firstName(),
             'email' => $this->faker->unique()->safeEmail(),
-            'password' => Hash::make('password'),
             'is_admin' => false,
             'email_verified_at' => now(),
+            'password' => static::$password ??= Hash::make('password'),
+            'two_factor_secret' => null,
+            'two_factor_recovery_codes' => null,
+            'remember_token' => Str::random(10),
+            'profile_photo_path' => null,
+            'current_team_id' => null,
+            'locale' => fake()->randomElement(Locale::toArray()),
         ];
     }
 

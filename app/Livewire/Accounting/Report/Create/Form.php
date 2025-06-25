@@ -39,7 +39,8 @@ class Form extends Component
 
     public function mount($accountId): void
     {
-        $this->account = Account::query()->findOrFail($accountId);
+        $this->account = Account::query()
+            ->findOrFail($accountId);
         $this->setRange = Carbon::today('Europe/Berlin')->month;
         $this->formInit();
     }
@@ -50,7 +51,9 @@ class Form extends Component
         $this->form->created_by = Auth::user()->id;
         $this->form->status = ReportStatus::draft->value;
 
-        $this->form->create();
+        $report = $this->form->create();
+
+        $this->dispatch('account-report-generated', $report->id);
     }
 
     public function getTransactions(): void
@@ -86,7 +89,6 @@ class Form extends Component
             }
 
             $this->msg = $this->transactions->count().' Buchungen gefunden';
-
         }
         $this->form->starting_amount = $this->numfor($this->form->starting_amount);
         $this->form->end_amount = $this->numfor($this->form->end_amount);
@@ -96,11 +98,12 @@ class Form extends Component
 
     protected function setLastReportItems(): void
     {
-        $report = AccountReport::latest()
+        $report = AccountReport::where('account_id', '=', $this->account->id)
+            ->latest()
             ->first();
 
         if ($report) {
-            dump($report);
+            $this->form->starting_amount = $report->end_amount;
         } else {
             $this->form->starting_amount = $this->account->starting_amount;
             $this->form->end_amount = $this->account->starting_amount;
@@ -109,7 +112,6 @@ class Form extends Component
 
     protected function numfor($value): string
     {
-
         if (is_null($value)) {
             return '0';
         }

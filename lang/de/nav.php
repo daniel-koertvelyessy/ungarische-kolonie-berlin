@@ -15,6 +15,13 @@ return [
     'event.planing' => 'Planung',
     'blogs' => 'Blog',
     'kasse' => 'Kasse',
+    'account' => [
+        'index' => 'Übersicht',
+        'transactions' => 'Buchungen',
+        'receipts' => 'Belege',
+        'reports' => 'Berichte',
+        'details' => 'Konten',
+    ],
     'profile.api' => 'API Schlüssel',
     'profile.show' => 'Mein Konto',
     'logout' => 'Abmelden',

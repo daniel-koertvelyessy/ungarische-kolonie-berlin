@@ -20,6 +20,7 @@ class Form extends Component
 
     public function mount(int $accountId): void
     {
+        $this->form->init();
         $this->form->account_id = $accountId;
         $this->form->user_id = auth()->id();
         $this->form->counted_at = Carbon::today('Europe/Berlin')->format('Y-m-d');

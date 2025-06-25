@@ -116,7 +116,7 @@
                                         </div>
                                         @can('update',\App\Models\Event\Event::class)
                                             <div class="mt-4">
-                                                <div class="-mx-2 -my-1.5 flex gap-3 items-center">
+                                                <div class="-mx-2 -my-1.5 flex-col lg:flex-row gap-3 items-center">
                                                     <flux:button size="sm"
                                                                  icon-trailing="arrow-uturn-left"
                                                                  variant="ghost"
@@ -412,26 +412,26 @@
                 </flux:table.columns>
                 <flux:table.rows>
                     @foreach ($this->payments as $payment)
+                        @if($payment->transaction)
+                            <flux:table.row :key="$payment->transaction->id">
 
-                        <flux:table.row :key="$payment->transaction->id">
+                                <flux:table.cell variant="strong">
+                                    {{ $payment->transaction->label }}
+                                </flux:table.cell>
 
-                            <flux:table.cell variant="strong">
-                                {{ $payment->transaction->label }}
-                            </flux:table.cell>
+                                <flux:table.cell>{{ $payment->transaction->date->diffForHumans() }}</flux:table.cell>
+                                <flux:table.cell>{{ $payment->visitor_name }}</flux:table.cell>
 
-                            <flux:table.cell>{{ $payment->transaction->date->diffForHumans() }}</flux:table.cell>
-                            <flux:table.cell>{{ $payment->visitor_name }}</flux:table.cell>
-
-                            <flux:table.cell variant="strong"
-                                             align="end"
-                            >
+                                <flux:table.cell variant="strong"
+                                                 align="end"
+                                >
                                 <span class="text-{{ \App\Enums\TransactionType::color($payment->transaction->type) }}-600">
                                     {{ $payment->transaction->grossForHumans() }}
                                 </span>
-                            </flux:table.cell>
+                                </flux:table.cell>
 
-                        </flux:table.row>
-
+                            </flux:table.row>
+                        @endif
                     @endforeach
                 </flux:table.rows>
             </flux:table>
@@ -988,4 +988,6 @@
         </form>
 
     </flux:modal>
+
+  <x-history-entries :histories="$this->histories" />
 </div>

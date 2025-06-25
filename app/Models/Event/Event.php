@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models\Event;
 
 use App\Enums\EventStatus;
@@ -178,7 +180,7 @@ class Event extends Model
     public function getPosterSize(string $locale, string $type = 'jpg'): int
     {
         if ($this->hasPoster($locale, $type)) {
-            return Storage::disk('public')->size('images/posters/'.$this->makePosterName($locale).'.'.$type) / 1024;
+            return (int) round(Storage::disk('public')->size('images/posters/'.$this->makePosterName($locale).'.'.$type) / 1024, 0);
         }
 
         return 0;

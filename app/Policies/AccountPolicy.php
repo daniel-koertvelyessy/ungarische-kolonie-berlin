@@ -23,28 +23,24 @@ class AccountPolicy
      */
     public function view(User $user): bool
     {
-        // Check if user has verified email and has a member relationship with matching email
-        return $user->hasVerifiedEmail() &&
-            $user->member !== null &&
-            property_exists($user->member, 'email') &&
-            $user->member->email === $user->email;
+       return $this->getAdminPrivileges($user);
     }
 
     /**
      * Determine whether the user can create models.
      */
-    public function create(): bool
+    public function create(User $user): bool
     {
 
-        return $this->getAdminPrivileges(Auth::user());
+        return $this->getAdminPrivileges($user);
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(): bool
+    public function update(User $user): bool
     {
-        return $this->getAdminPrivileges(Auth::user());
+        return $this->getAdminPrivileges($user);
     }
 
     /**

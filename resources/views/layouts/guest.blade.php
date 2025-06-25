@@ -10,6 +10,9 @@
 
     <title>{{$title??'Magyar Kolónia Berlin e.V.'}}</title>
 
+
+    <link rel="alternate" type="application/rss+xml" title="Events Feed" href="{{ route('api.events.feed') }}">
+
     <!-- Styles / Scripts -->
     {{--    @turnstileScripts()--}}
     @fluxAppearance

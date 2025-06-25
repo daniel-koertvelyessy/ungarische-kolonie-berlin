@@ -44,6 +44,10 @@ return [
 
     'create.title' => 'Uj Tranzakció',
 
+    'create' => [
+        'page.title' => 'Uj tranzakciók rögziteni',
+    ],
+
     'account-transfer-modal.btn.submit' => 'Végrehajtás',
     'account-transfer-modal.heading' => 'Átfoglalás (pénzügyi számla módosítása)',
     'account-transfer-modal.content' => 'Az átfoglalás törli a kiválasztott foglalást, és létrehoz egy újat az új pénzügyi számlával',
