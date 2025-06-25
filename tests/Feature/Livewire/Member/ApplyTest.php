@@ -5,9 +5,9 @@ use App\Enums\MemberType;
 
 test('any visitor can apply as member', function () {
 
-    $component = Livewire::test(\App\Livewire\Member\Apply\Page::class)->assertOk();
+    Livewire::test(\App\Livewire\Member\Apply\Page::class)->assertOk();
 
-    $component = Livewire::test(\App\Livewire\Member\Create\Form::class, [
+    Livewire::test(\App\Livewire\Member\Create\Form::class, [
         'locale' => 'de',
         'gender' => \App\Enums\Gender::ma->value,
         'applied_at' => \Carbon\Carbon::now()->format('Y-m-d'),

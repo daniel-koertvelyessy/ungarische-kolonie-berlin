@@ -49,7 +49,7 @@ class SendMemberMassMail extends Mailable implements ShouldQueue
         return new Content(
             view: 'emails.email-to-all-members',
             with: [ // Pass variables here
-                'url' => $this->url ?? null,
+                'url' => $this->url,
                 'url_label' => $this->url_label,
                 'mail_name' => $this->mail_name,
                 'mail_subject' => $this->mail_subject,
@@ -66,7 +66,7 @@ class SendMemberMassMail extends Mailable implements ShouldQueue
         $emailAttachments = [];
 
         if ($this->mail_attachments) {
-            foreach ($this->mail_attachments as $key => $filePath) {
+            foreach ($this->mail_attachments as $filePath) {
                 // Extract the relative path from the absolute file path
                 $relativeFilePath = str_replace(storage_path('app/private').'/', '', $filePath['local']);
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Livewire\Event\Index\Page;
 use App\Models\Event\Event;
 use App\Models\Membership\Member;
+use App\Models\User;
 use Tests\Traits\TranslationTestTrait;
 
 uses(TranslationTestTrait::class);
@@ -12,7 +13,7 @@ uses(TranslationTestTrait::class);
 test('if backend event index page component renders correctly', function () {
 
     // Nutzer erstellen aus Mitglied authentifizieren
-    $this->actingAs(Member::factory()->create()->user);
+    $this->actingAs(Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id])->user);
 
     // 30 Veranstaltungen erstellen
 
@@ -26,7 +27,7 @@ test('if backend event index page component renders correctly', function () {
 });
 
 test('if backend event pagination works correctly', function () {
-    $this->actingAs(Member::factory()->create()->user);
+    $this->actingAs(Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id])->user);
     Event::factory(30)->create();
 
     Livewire::test(Page::class)
@@ -36,7 +37,7 @@ test('if backend event pagination works correctly', function () {
 });
 
 test('if backend event index page events can be searched', function () {
-    $this->actingAs(Member::factory()->create()->user);
+    $this->actingAs(Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id])->user);
     Event::factory()->create(['name' => 'Laravel Conference']);
     Event::factory()->create(['name' => 'VueJS Meetup']);
 
@@ -47,7 +48,7 @@ test('if backend event index page events can be searched', function () {
 });
 
 test('if all translations are rendered on backend event index page', function () {
-    $this->actingAs(Member::factory()->create()->user);
+    $this->actingAs(Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id])->user);
 
     $event = \App\Models\Event\Event::factory()->create();
 

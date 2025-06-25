@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Models\Traits\HasHistory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -35,6 +37,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class MeetingMinute extends Model
 {
+    use HasFactory;
+    use HasHistory;
+
     protected $table = 'meeting_minutes';
 
     protected $guarded = [];

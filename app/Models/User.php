@@ -160,7 +160,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function isBoardMember(): bool
     {
-        return $this->member->type === MemberType::MD->value;
+        return $this->member && $this->member->type === MemberType::MD->value;
     }
 
     public function member(): hasOne

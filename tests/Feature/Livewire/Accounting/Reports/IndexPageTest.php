@@ -1,8 +1,11 @@
 <?php
 
+use App\Models\Membership\Member;
+use App\Models\User;
+
 it('can view the index page', function () {
 
-    $this->actingAs(\App\Models\Membership\Member::factory()->create()->user);
+    $this->actingAs(Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id])->user);
 
     $response = $this->get(route('accounts.report.index'));
 

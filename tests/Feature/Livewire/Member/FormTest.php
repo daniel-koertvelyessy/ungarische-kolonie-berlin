@@ -12,8 +12,7 @@ uses(TranslationTestTrait::class);
 // uses(RefreshDatabase::class);
 
 test('defaults are set on mount', function () {
-    $user = User::factory()
-        ->create(['is_admin' => true]);
+    $user = Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id])->user;
     $this->actingAs($user);
 
     $component = Livewire::test(Form::class);

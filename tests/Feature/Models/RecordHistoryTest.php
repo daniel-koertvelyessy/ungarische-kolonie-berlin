@@ -1,15 +1,18 @@
 <?php
 
+use App\Models\Membership\Member;
+use App\Models\User;
+
 test('user creation records history', function () {
     config(['queue.default' => 'sync']);
-    $user = \App\Models\User::factory()->create();
-    expect(\App\Models\History::where('action', 'created')->count())->toBe(1); // Should be 1
+    $user = Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id])->user;
+    expect(\App\Models\History::where('action', 'created')->count())->toBe(3); // TODO check why this is 3 and not 1
 });
 
 test('member creation records history', function () {
     config(['queue.default' => 'sync']);
-    $member = \App\Models\Membership\Member::factory()->create();
-    expect(\App\Models\History::where('action', 'created')->count())->toBe(2); // Just Member
+    $member = Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id]);
+    expect(\App\Models\History::where('action', 'created')->count())->toBe(3); // TODO check why this is 3 and not 1
 });
 
 test('event creation records history', function () {

@@ -2,8 +2,6 @@
 
     <flux:heading size="xl">{{ __('minutes.index.page_title') }}</flux:heading>
 
-
-
     <section class="grid grid-cols-1 gap-3 lg:grid-cols-3 lg:gap-6">
         <div class="col-span-1">
             @can('create',\App\Models\MeetingMinute::class)
@@ -30,19 +28,20 @@
                     >{{ __('minutes.index.table.header_title') }}
                     </flux:table.column>
                     <flux:table.column sortable
-                                       :sorted="$sortBy === 'meeting_date'"
+                                       :sorted="$sortBy === 'date'"
                                        :direction="$sortDirection"
-                                       wire:click="sort('date')"
+                                       wire:click="sort('meeting_date')"
                     >{{ __('minutes.index.table.header_date') }}
                     </flux:table.column>
                     <flux:table.column></flux:table.column>
                 </flux:table.columns>
-                <flux:table.rows>        @foreach ($this->minutes as $item)
+                <flux:table.rows>
+                    @foreach ($this->minutes as $item)
                         <flux:table.row :key="$item->id">
                             <flux:table.cell class="flex items-center gap-3">
                                 {{ $item->title }}
                             </flux:table.cell>
-                            <flux:table.cell class="whitespace-nowrap">{{ $item->meeting_date }}</flux:table.cell>
+                            <flux:table.cell class="whitespace-nowrap">{{ $item->meeting_date->isoFormat('LL') }}</flux:table.cell>
                             <flux:table.cell>
 
                                 <flux:dropdown position="bottom"

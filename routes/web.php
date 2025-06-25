@@ -131,9 +131,11 @@ Route::middleware([
 
         Route::get('/account-report', \App\Livewire\Accounting\Report\Index\Page::class)->name('accounts.report.index');
 
-        Route::get('/backend/minutes', \App\Livewire\App\Tool\Meetingminutes\Index::class)->name('minutes.index');
+        Route::get('/minutes', \App\Livewire\App\Tool\MeetingMinutes\Index::class)->name('minutes.index');
 
-        Route::get('/backend/minutes/create', \App\Livewire\App\Tool\Meetingminutes\Create::class)->name('minutes.create');
+        Route::get('/minutes/create', \App\Livewire\App\Tool\MeetingMinutes\Create::class)->name('minutes.create');
+
+        Route::get('/minutes/{meetingMinute}/edit', \App\Livewire\App\Tool\MeetingMinutes\Edit::class)->name('minutes.edit');
 
         //
         //        Route::get('/events/report/{event}', function (Event $event, EventReportService $reportService) {

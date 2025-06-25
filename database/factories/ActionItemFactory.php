@@ -2,6 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Models\ActionItem;
+use App\Models\MeetingMinute;
+use App\Models\MeetingTopic;
+use App\Models\Membership\Member;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -9,15 +13,17 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class ActionItemFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
+    protected $model = ActionItem::class;
+
+    public function definition()
     {
         return [
-            //
+            'meeting_minute_id' => MeetingMinute::factory(),
+            'meeting_topic_id' => MeetingTopic::factory(),
+            'description' => $this->faker->sentence(),
+            'assignee_id' => Member::factory(),
+            'due_date' => $this->faker->dateTimeThisMonth(),
+            'completed' => false,
         ];
     }
 }

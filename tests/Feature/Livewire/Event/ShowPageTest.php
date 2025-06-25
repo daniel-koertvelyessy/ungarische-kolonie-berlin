@@ -13,10 +13,7 @@ uses(TranslationTestTrait::class);
 test('backend event show page component renders correctly', function () {
 
     // Nutzer mit Member erstellen
-    $user = User::factory()->create();
-    $member = Member::factory()->create([
-        'user_id' => $user->id, // Member mit User verknüpfen
-    ]);
+    $user = Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id])->user;
 
     // Nutzer authentifizieren
     $this->actingAs($user);

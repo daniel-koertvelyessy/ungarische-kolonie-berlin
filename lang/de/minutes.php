@@ -22,6 +22,10 @@ return [
             'heading' => 'Details',
         ],
     ],
+    'pdf' => [
+        'title' => 'Protokoll',
+        'error' => 'Fehler beim Erstellen des Protokolls.',
+    ],
     'details' => [
         'date' => 'Datum',
         'location' => 'Ort',
@@ -109,5 +113,8 @@ return [
                 ],
             ],
         ],
+    ],
+    'edit' => [
+        'page_title' => 'Protokoll bearbeiten',
     ],
 ];

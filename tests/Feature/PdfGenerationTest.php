@@ -3,6 +3,7 @@
 use App\Models\Accounting\AccountReport;
 use App\Models\Accounting\Transaction;
 use App\Models\Membership\Member;
+use App\Models\User;
 use App\Services\PdfGeneratorService;
 
 test('member application pdf can be generated', function () {
@@ -25,15 +26,15 @@ test('member application pdf can be generated', function () {
 test('invoice pdf generation requires authentication', function () {
     $transaction = Transaction::factory()
         ->create(['amount_gross' => 10000]);
-    $member = Member::factory()
-        ->create();
+    $user = User::factory()->create(['email_verified_at' => now()]);
+    $member = Member::factory()->withUser()->create(['user_id' => $user->id]);
 
     // Without auth
     expect(fn () => PdfGeneratorService::generatePdf('invoice', ['transaction' => $transaction, 'member' => $member], null, true))
         ->toThrow(\Exception::class, 'Authentication required to generate this PDF.');
 
-    // With auth
-    $this->actingAs($member->user);
+    $this->actingAs($user);
+
     ob_start();
     $pdfContent = PdfGeneratorService::generatePdf('invoice', ['transaction' => $transaction, 'member' => $member], null, true);
     ob_end_clean();
@@ -47,8 +48,9 @@ test('invoice pdf generation requires authentication', function () {
 test('event report pdf can be generated', function () {
     $event = \App\Models\Event\Event::factory()
         ->create();
-    $this->actingAs(Member::factory()
-        ->create()->user); // Auth for restricted
+    $user = User::factory()->create(['email_verified_at' => now()]);
+    $member = Member::factory()->withUser()->create(['user_id' => $user->id]);
+    $this->actingAs($user);
     ob_start();
     $pdfContent = PdfGeneratorService::generatePdf('event-report', $event, null, true);
     ob_end_clean();
@@ -60,11 +62,14 @@ test('event report pdf can be generated', function () {
 });
 
 test('account report pdf can be generated', function () {
-    $member = Member::factory()
-        ->create();
+    $user = User::factory()->create(['email_verified_at' => now()]);
+    $member = Member::factory()->withUser()->create(['user_id' => $user->id]);
+    $this->actingAs($user);
+
     $report = AccountReport::factory()
         ->create(['period_start' => now(), 'created_by' => $member->user->id]);
-    $this->actingAs($member->user); // Auth for restricted
+
+    // Auth for restricted
     ob_start();
     $pdfContent = PdfGeneratorService::generatePdf('account-report', $report, null, true);
     ob_end_clean();

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\MeetingMinute;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -9,15 +10,14 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class MeetingMinuteFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
+    protected $model = MeetingMinute::class;
+
+    public function definition()
     {
         return [
-            //
+            'title' => $this->faker->sentence(3),
+            'meeting_date' => $this->faker->dateTimeBetween('-1 year', 'now'),
+            'location' => $this->faker->optional()->city(),
         ];
     }
 }

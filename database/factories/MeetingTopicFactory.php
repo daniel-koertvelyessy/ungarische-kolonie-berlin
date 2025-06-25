@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\MeetingMinute;
+use App\Models\MeetingTopic;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -9,15 +11,13 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class MeetingTopicFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
+    protected $model = MeetingTopic::class;
+
+    public function definition()
     {
         return [
-            //
+            'content' => $this->faker->paragraph(),
+            'meeting_id' => MeetingMinute::factory(),
         ];
     }
 }

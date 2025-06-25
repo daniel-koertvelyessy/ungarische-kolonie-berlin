@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Attendee;
+use App\Models\MeetingMinute;
+use App\Models\Membership\Member;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -9,15 +12,15 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class AttendeeFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
+    protected $model = Attendee::class;
+
+    public function definition()
     {
         return [
-            //
+            'meeting_minute_id' => MeetingMinute::factory(),
+            'name' => $this->faker->name(),
+            'email' => $this->faker->email(),
+            'member_id' => Member::factory(),
         ];
     }
 }

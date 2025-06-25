@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Livewire\App\Tool\Meetingminutes;
+namespace App\Livewire\App\Tool\MeetingMinutes;
 
 use App\Livewire\Traits\Sortable;
 use App\Models\MeetingMinute;
@@ -33,8 +33,7 @@ class Index extends Component
     #[Computed]
     public function minutes(): LengthAwarePaginator
     {
-        $query = MeetingMinute::query()->with(['attendees', 'topics:id,content', 'actionItems'])
-            ->join('meeting_topics', 'meeting_topics.meeting_id', '=', 'meeting_minutes.id');
+        $query = MeetingMinute::query()->with(['attendees', 'topics:id,content', 'actionItems']);
 
         if ($this->sortBy) {
             $query->orderBy($this->sortBy, $this->sortDirection);
@@ -42,7 +41,9 @@ class Index extends Component
 
         if ($this->search) {
             $query->where('title', 'LIKE', '%'.$this->search.'%')
-                ->orWhere('meeting_topics.content', 'LIKE', '%'.$this->search.'%');
+                ->orWhereHas('topics', function ($q) {
+                    $q->where('content', 'LIKE', '%' . $this->search . '%');
+                });
         }
 
         return $query->paginate(10);
@@ -58,7 +59,7 @@ class Index extends Component
     public function fetchMeetingMinutes(int $meetingId): void
     {
         $this->authorize('view', MeetingMinute::class);
-        $this->selectedMeeting = MeetingMinute::with(['attendees', 'topics.topicActionItems.assignee'])
+        $this->selectedMeeting = MeetingMinute::with(['attendees', 'topics.actionItems.assignee'])
             ->findOrFail($meetingId);
     }
 
@@ -86,12 +87,17 @@ class Index extends Component
 
             $filename = "meeting-minute-{$meetingId}-".now()->format('Ymd').'.pdf';
 
-            return response($pdfContent)
-                ->header('Content-Type', 'application/pdf')
-                ->header('Content-Disposition', "inline; filename=\"{$filename}\"");
+            return response()->streamDownload(
+                fn () => print($pdfContent),
+                $filename,
+                [
+                    'Content-Type' => 'application/pdf',
+                    'Content-Disposition' => "inline; filename=\"{$filename}\"",
+                ]
+            );
         } catch (\Exception $e) {
-            \Log::error('Failed to generate meeting minute PDF', ['error' => $e->getMessage(), 'meeting_id' => $meetingId, 'meeting' => $meeting, 'user_id' => auth()->id(), 'user_name' => auth()->user()->name ?? 'unknown user']);
-            session()->flash('error', __('minutes.index.pdf_error'));
+            \Log::error('Failed to generate meeting minute PDF');
+            session()->flash('error', __('minutes.pdf.error'));
             $this->redirect(route('minutes.index'), navigate: true);
         }
     }

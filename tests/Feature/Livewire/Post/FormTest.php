@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 
 it('can access the create post page', function () {
-    $this->user = User::factory()->create();
-    $this->member = Member::factory()->create(['user_id' => $this->user->id]);
+    $this->member = Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id]);
+    $this->user = $this->member->user;
     $this->actingAs($this->user); // Authenticate the user
     $response = $this->get(route('backend.posts.create'));
     $response->assertStatus(200);
@@ -154,8 +154,7 @@ describe('Blog Post Form - Publishing', function () {
         $this->user = User::factory()
             ->create();
         $this->actingAs($this->user);
-        $this->member = Member::factory()
-            ->create(['user_id' => $this->user->id]);
+        $this->member = Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id]);
     });
 
     it('can publish a draft post', function () {
@@ -273,8 +272,7 @@ describe('Blog Post Form - Notifications', function () {
         $this->user = User::factory()
             ->create();
         $this->actingAs($this->user);
-        $this->member = Member::factory()
-            ->create(['user_id' => $this->user->id]);
+        $this->member = Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id]);
     });
 
     it('can send publication notification', function () {

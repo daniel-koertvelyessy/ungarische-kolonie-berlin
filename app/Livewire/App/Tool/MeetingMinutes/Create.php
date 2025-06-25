@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Livewire\App\Tool\Meetingminutes;
+namespace App\Livewire\App\Tool\MeetingMinutes;
 
 use App\Livewire\Forms\Minutes\MeetingMinuteForm;
 use App\Models\MeetingMinute;

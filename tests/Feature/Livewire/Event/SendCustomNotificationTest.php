@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Mail\CustomNotificationMail;
 use App\Models\Event\Event;
 use App\Models\Membership\Member;
+use App\Models\User;
 use App\Services\MailingService;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -17,7 +18,7 @@ it('queues CustomNotificationMail for event notification with correct details an
     Storage::fake('public');
 
     // Arrange: Create test data
-    $member = Member::factory()->create();
+    $member = Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id]);
 
     // Create an event with a mock poster
     $event = Event::factory()->create(); // Adjust based on your Event model
