@@ -39,7 +39,7 @@ class UserFactory extends Factory
         ]);
     }
 
-    public function accountant()
+    public function accountant(): Factory|UserFactory
     {
         return $this->state([
             'email' => config('app.accountant_email', 'accountant@example.com'),
