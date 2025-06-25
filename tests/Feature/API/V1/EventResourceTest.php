@@ -17,6 +17,8 @@ it('returns a list of published events', function () {
         'city' => 'Test City',
         'website' => 'https://testvenue.com',
     ]);
+    $date = \Carbon\Carbon::now()->addWeeks(2)->format('Y-m-d');
+    $date2 = \Carbon\Carbon::now()->addWeeks(2)->addDays(3)->format('Y-m-d');
     $event1 = Event::factory()->create([
         'status' => EventStatus::PUBLISHED->value,
         'venue_id' => $venue->id,
@@ -36,7 +38,7 @@ it('returns a list of published events', function () {
             Locale::HU->value => 'Description HU 1',
             Locale::DE->value => 'Description DE 1',
         ],
-        'event_date' => '2025-06-20',
+        'event_date' => $date,
     ]);
     $event2 = Event::factory()->create([
         'status' => EventStatus::PUBLISHED->value,
@@ -57,7 +59,7 @@ it('returns a list of published events', function () {
             Locale::HU->value => 'Description HU 2',
             Locale::DE->value => 'Description DE 2',
         ],
-        'event_date' => '2025-06-21',
+        'event_date' => $date2,
     ]);
     Event::factory()->create([
         'status' => EventStatus::DRAFT->value,
@@ -101,7 +103,7 @@ it('returns a list of published events', function () {
                 ->where('excerpt.de', 'Excerpt DE 1')
                 ->where('description.hu', 'Description HU 1')
                 ->where('description.de', 'Description DE 1')
-                ->where('event_date', '2025-06-20')
+                ->where('event_date', $date)
                 ->where('links.hu', route('events.show', ['slug' => 'event-one-hu']))
                 ->where('links.de', route('events.show', ['slug' => 'event-one-de']))
                 ->etc()
@@ -114,7 +116,7 @@ it('returns a list of published events', function () {
                 ->where('excerpt.de', 'Excerpt DE 2')
                 ->where('description.hu', 'Description HU 2')
                 ->where('description.de', 'Description DE 2')
-                ->where('event_date', '2025-06-21')
+                ->where('event_date', $date2)
                 ->etc()
             )
             ->where('meta.count', 2)
