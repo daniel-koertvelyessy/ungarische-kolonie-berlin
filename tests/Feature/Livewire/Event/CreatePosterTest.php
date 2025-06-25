@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Livewire\Event\PosterGenerator\Create;
 use App\Models\Membership\Member;
+use App\Models\User;
 use Tests\Traits\TranslationTestTrait;
 
 uses(TranslationTestTrait::class);
@@ -25,7 +26,7 @@ test('can create pdf poste from template', function () {
 });
 
 test('if all translations are rendered on backend event index page', function () {
-    $this->actingAs(Member::factory()->create()->user);
+    $this->actingAs(Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id])->user);
 
     $event = \App\Models\Event\Event::factory()->create();
 

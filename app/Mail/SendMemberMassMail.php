@@ -66,7 +66,7 @@ class SendMemberMassMail extends Mailable implements ShouldQueue
         $emailAttachments = [];
 
         if ($this->mail_attachments) {
-            foreach ($this->mail_attachments as $key => $filePath) {
+            foreach ($this->mail_attachments as $filePath) {
                 // Extract the relative path from the absolute file path
                 $relativeFilePath = str_replace(storage_path('app/private').'/', '', $filePath['local']);
 

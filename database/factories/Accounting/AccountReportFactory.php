@@ -2,11 +2,9 @@
 
 namespace Database\Factories\Accounting;
 
-use App\Enums\ReportStatus;
 use App\Models\Accounting\Account;
 use App\Models\Accounting\AccountReport;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -14,28 +12,25 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class AccountReportFactory extends Factory
 {
+    protected $model = AccountReport::class;
+
     /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
      */
-    public function definition(): array
+    public function definition()
     {
-        $date = $this->faker->date();
-
-        $start = Carbon::createFromDate($date);
-        $end = Carbon::createFromDate($date)->addMonths($this->faker->numberBetween(1, 3));
-
         return [
-            'starting_amount' => fake()->randomNumber(),
-            'end_amount' => fake()->randomNumber(),
-            'total_income' => fake()->randomNumber(),
-            'total_expenditure' => fake()->randomNumber(),
-            'period_start' => $start,
-            'period_end' => $end,
-            'account_id' => Account::factory()->create()->id,
-            'created_by' => fake()->randomElement(User::all()->pluck('id')->toArray()),
-            'status' => fake()->randomElement(ReportStatus::toArray()),
+            'starting_amount' => $this->faker->numberBetween(1000, 1000000),
+            'end_amount' => $this->faker->numberBetween(1000, 1000000),
+            'total_income' => $this->faker->numberBetween(100, 100000),
+            'total_expenditure' => $this->faker->numberBetween(100, 100000),
+            'period_start' => $this->faker->dateTimeBetween('-2 years', '-1 year'),
+            'period_end' => $this->faker->dateTimeBetween('-1 year', 'now'),
+            'account_id' => Account::factory(), // Adjust based on your setup
+            'created_by' => User::factory(),
+            'status' => $this->faker->randomElement(['entwurf', 'geprueft']),
         ];
     }
 }

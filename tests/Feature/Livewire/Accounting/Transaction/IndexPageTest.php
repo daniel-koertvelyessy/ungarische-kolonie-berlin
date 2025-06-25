@@ -3,6 +3,7 @@
 use App\Livewire\Accounting\Transaction\Index\Page;
 use App\Models\Accounting\Transaction;
 use App\Models\Membership\Member;
+use App\Models\User;
 use Tests\Traits\TranslationTestTrait;
 
 uses(TranslationTestTrait::class);
@@ -10,7 +11,7 @@ uses(TranslationTestTrait::class);
 test('if backend transactions index page component renders correctly', function () {
 
     // Nutzer erstellen aus Mitglied authentifizieren
-    $this->actingAs(Member::factory()->create()->user);
+    $this->actingAs(Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id])->user);
 
     // Set session value for financial year
     session(['financialYear' => 2025]);
@@ -27,9 +28,9 @@ test('if backend transactions index page component renders correctly', function 
 });
 
 test('if backend transaction pagination works correctly', function () {
-    $this->actingAs(Member::factory()->create()->user);
+    $this->actingAs(Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id])->user);
     // Nutzer erstellen aus Mitglied authentifizieren
-    $this->actingAs(Member::factory()->create()->user);
+    $this->actingAs(Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id])->user);
 
     // Set session value for financial year
     session(['financialYear' => 2025]);
@@ -46,7 +47,7 @@ test('if backend transaction pagination works correctly', function () {
 
 test('if backend transaction index page transactions can be searched', function () {
 
-    $this->actingAs(Member::factory()->create()->user);
+    $this->actingAs(Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id])->user);
 
     // Set session value for financial year
     session(['financialYear' => 2025]);
@@ -71,10 +72,10 @@ test('if backend transaction index page transactions can be searched', function 
 });
 
 test('if all translations are rendered on backend transaction index page', function () {
-    $this->actingAs(Member::factory()->create()->user);
+    $this->actingAs(Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id])->user);
 
     // Nutzer erstellen aus Mitglied authentifizieren
-    $this->actingAs(Member::factory()->create()->user);
+    $this->actingAs(Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id])->user);
 
     // Set session value for financial year
     session(['financialYear' => 2025]);

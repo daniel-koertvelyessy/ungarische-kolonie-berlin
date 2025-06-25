@@ -1,18 +1,24 @@
 <?php
 
+use App\Models\Membership\Member;
+use App\Models\User;
+
 it('standard user cannot see the audit page', function () {
 
-    $user_issuer = \App\Models\Membership\Member::factory()->create()->user;
+    $member = Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id]);
+
+    $user_issuer = $member->user;
+
     $report = \App\Models\Accounting\AccountReport::factory()->create();
 
     $audit = \App\Models\Accounting\AccountReportAudit::create([
         'account_report_id' => $report->id,
-        $user_issuer = \App\Models\Membership\Member::factory()->create()->user,
+        $user_issuer,
         'user_id' => $user_issuer->id,
 
     ]);
 
-    $not_designated_user = \App\Models\Membership\Member::factory()->create()->user;
+    $not_designated_user = Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id])->user;
 
     // https://ungarische-kolonie-berlin.test/backend/account-report/audit/1
 
@@ -26,16 +32,16 @@ it('standard user cannot see the audit page', function () {
 
 it('only designated user can see the audit page', function () {
 
-    $user_issuer = \App\Models\Membership\Member::factory()->create()->user;
+    $user_issuer = Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id])->user;
     $report = \App\Models\Accounting\AccountReport::factory()->create();
 
     $audit = \App\Models\Accounting\AccountReportAudit::create([
         'account_report_id' => $report->id,
-        $user_issuer = \App\Models\Membership\Member::factory()->create()->user,
+        $user_issuer,
         'user_id' => $user_issuer->id,
     ]);
 
-    $not_designated_user = \App\Models\Membership\Member::factory()->create()->user;
+    $not_designated_user = Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id])->user;
 
     // https://ungarische-kolonie-berlin.test/backend/account-report/audit/1
 

@@ -7,7 +7,6 @@ use App\Models\Team;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use Laravel\Jetstream\Features;
 
 /**
@@ -20,16 +19,15 @@ class UserFactory extends Factory
      */
     protected static ?string $password;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
+    protected $model = User::class;
+
+    public function definition()
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
+            'name' => $this->faker->name(),
+            'first_name' => $this->faker->firstName(),
+            'email' => $this->faker->unique()->safeEmail(),
+            'is_admin' => false,
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'two_factor_secret' => null,
@@ -39,6 +37,20 @@ class UserFactory extends Factory
             'current_team_id' => null,
             'locale' => fake()->randomElement(Locale::toArray()),
         ];
+    }
+
+    public function admin()
+    {
+        return $this->state([
+            'is_admin' => true,
+        ]);
+    }
+
+    public function accountant(): Factory|UserFactory
+    {
+        return $this->state([
+            'email' => config('app.accountant_email', 'accountant@example.com'),
+        ]);
     }
 
     /**

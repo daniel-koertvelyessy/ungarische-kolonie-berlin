@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\Models\Accounting\Transaction;
 use App\Models\Membership\Member;
 use App\Pdfs\TransactionInvoicePdf;
-use Log;
 
 class MemberInvoiceService
 {
@@ -14,12 +15,9 @@ class MemberInvoiceService
         $filename = 'Rechnung-'.$transaction->id.'.pdf';
 
         $pdf = new TransactionInvoicePdf($transaction, $member, $locale);
-//        Log::debug('Starting PDF generation for transaction '.$transaction->id);
         $pdf->generateContent();
-//        Log::debug('Content generated for transaction '.$transaction->id);
 
         $pdfContent = $pdf->Output($filename, 'S'); // 'S' to get as string
-//        Log::debug('PDF content length: '.strlen($pdfContent));
 
         return $pdfContent;
     }

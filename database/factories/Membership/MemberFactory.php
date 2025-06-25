@@ -12,34 +12,46 @@ class MemberFactory extends Factory
 {
     protected $model = Member::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
+    public function definition()
     {
-
         $gen = Gender::ma->value;
 
         return [
-            'applied_at' => fake()->dateTimeBetween('-55 years', 'now')->format('Y-m-d'),
-            'entered_at' => fake()->dateTimeBetween('-55 years', 'now')->format('Y-m-d'),
+            'applied_at' => $this->faker->dateTimeBetween('-55 years', 'now')->format('Y-m-d'),
+            'entered_at' => $this->faker->dateTimeBetween('-55 years', 'now')->format('Y-m-d'),
             'left_at' => null,
             'is_deducted' => false,
-            'birth_date' => fake()->dateTimeBetween('-50 years', '-18 years')->format('Y-m-d'),
-            'name' => fake()->name($gen),
-            'first_name' => fake()->firstName($gen),
-            'email' => fake()->safeEmail,
+            'birth_date' => $this->faker->dateTimeBetween('-50 years', '-18 years')->format('Y-m-d'),
+            'name' => $this->faker->name($gen),
+            'first_name' => $this->faker->firstName($gen),
+            'email' => $this->faker->safeEmail(),
             'phone' => null,
-            'mobile' => fake()->phoneNumber,
-            'address' => fake()->streetAddress,
-            'city' => fake()->city,
-            'country' => fake()->country,
+            'mobile' => $this->faker->phoneNumber(),
+            'address' => $this->faker->streetAddress(),
+            'city' => $this->faker->city(),
+            'country' => $this->faker->country(),
             'gender' => $gen,
-            'type' => MemberType::ST->value,
-            'user_id' => User::factory()->create()->id,
-
+            'type' => $this->faker->randomElement([MemberType::ST, MemberType::MD->value]),
+            'user_id' => null, // Nullable by default
         ];
+    }
+
+    public function boardMember()
+    {
+        return $this->state([
+            'type' => MemberType::MD->value,
+        ]);
+    }
+
+    public function withUser()
+    {
+        return $this->state(function (array $attributes) {
+            $user = User::factory()->create();
+
+            return [
+                'user_id' => $user->id,
+                'email' => $user->email, // Sync email with user
+            ];
+        });
     }
 }
