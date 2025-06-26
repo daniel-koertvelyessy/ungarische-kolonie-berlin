@@ -202,7 +202,7 @@
                             <flux:badge color="lime"
                                         size="sm"
                             >{{ count($monthlySubscriptions) }}</flux:badge>
-                            neue Anmeldungen in {{ \Carbon\Carbon\Carbon::today()->locale('de')->isoFormat('MMMM') }}</flux:heading>
+                            neue Anmeldungen in {{ \Carbon\Carbon::today()->locale('de')->isoFormat('MMMM') }}</flux:heading>
 
                         <flux:chart wire:model="monthlySubscriptions"
                                     class="aspect-3/1"

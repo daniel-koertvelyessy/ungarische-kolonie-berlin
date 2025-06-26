@@ -109,6 +109,10 @@
                                    href="{{ route('tools.index')  }}"
                 >{{ __('nav.mails') }}</flux:navlist.item>
 
+                <flux:navlist.item wire:navigate
+                                   href="{{ route('shared-image.index')  }}"
+                >{{ __('nav.sharedImages') }}</flux:navlist.item>
+
             </flux:navlist.group>
 
 

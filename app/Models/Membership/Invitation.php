@@ -36,7 +36,8 @@ use Illuminate\Support\Carbon;
  */
 class Invitation extends Model
 {
-    use HasFactory, Notifiable;
+    use HasFactory;
+    use Notifiable;
 
     protected $fillable = [
         'email',

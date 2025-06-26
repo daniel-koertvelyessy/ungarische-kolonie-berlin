@@ -5,6 +5,7 @@ return [
     'tools' => 'Werkzeuge',
     'minutes' => 'Protokolle',
     'mails' => 'Rundmails',
+    'sharedImages' => 'Bilder',
     'members' => 'Mitglieder',
     'members.overview' => 'Übersicht',
     'members.roles' => 'Rollen',

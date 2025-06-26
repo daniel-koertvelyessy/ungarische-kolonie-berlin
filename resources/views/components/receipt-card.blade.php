@@ -27,7 +27,7 @@
 
             <!-- Bild -->
             <img
-                src="{{ route('secure-image.preview', $receipt->file_name) }}"
+                src="{{ route('secure-image.category',['category' => 'accounting/receipts', 'filename' =>  $receipt->file_name]) }}"
                 alt="{{ $receipt->file_name_original }}"
                 class="w-full h-full object-cover transition-opacity duration-300 ease-in-out"
                 loading="lazy"

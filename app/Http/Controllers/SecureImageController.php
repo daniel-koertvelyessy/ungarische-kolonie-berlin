@@ -10,23 +10,42 @@ use Imagick;
 
 class SecureImageController extends Controller
 {
-    public function show(string $filename)
+    public function show(string $category, string $filename)
     {
-        putenv('PATH='.getenv('PATH').':/opt/homebrew/bin');
 
-        $path = storage_path('app/private/accounting/receipts/'.$filename);
+        \Log::info("Eingehende Parameter - Category: {$category}, Filename: {$filename}");
 
-        if (! file_exists($path)) {
+        $allowedCategories = [
+            'accounting/receipts',
+            'shared-images/thumbs',
+            'shared-images/originals',
+        ];
+
+        if (!in_array($category, $allowedCategories)) {
+            \Log::error("Zugriff verweigert: Kategorie {$category} nicht erlaubt.");
+            abort(403, 'Zugriff verweigert.');
+        }
+
+        $path = storage_path('app/private/' . $category . '/' . $filename);
+        \Log::info("Prüfe Dateipfad: {$path}, Exists: " . (file_exists($path) ? 'Ja' : 'Nein'));
+
+        if (!file_exists($path)) {
+            \Log::error("Datei nicht gefunden: {$path}");
             abort(404, 'Datei nicht gefunden.');
         }
 
         $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+        $mimeType = mime_content_type($path);
+        \Log::info("Datei: {$path}, Extension: {$extension}, MIME-Typ: {$mimeType}");
 
         if (in_array($extension, ['jpg', 'jpeg', 'png', 'webp'])) {
-            return FacadeResponse::file($path);
+            return response()->file($path, [
+                'Content-Type' => $mimeType,
+            ]);
         }
 
         if ($extension === 'pdf') {
+            putenv('PATH='.getenv('PATH').':/opt/homebrew/bin');
             Log::debug('Versuche Datei zu laden',['filename' => $filename, 'path'=>$path]);
             try {
                 $imagick = new Imagick;

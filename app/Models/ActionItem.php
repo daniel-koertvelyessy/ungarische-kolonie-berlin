@@ -37,6 +37,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ActionItem whereMeetingTopicId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ActionItem whereUpdatedAt($value)
  *
+ * @property-read \App\Models\MeetingTopic $meetingTopic
+ *
  * @mixin \Eloquent
  */
 class ActionItem extends Model
