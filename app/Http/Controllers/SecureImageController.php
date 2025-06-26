@@ -12,7 +12,9 @@ class SecureImageController extends Controller
 {
     public function show(string $filename)
     {
-        putenv('PATH='.getenv('PATH').':/opt/homebrew/bin');
+       if(app()->environment('local')) {
+           putenv('PATH='.getenv('PATH').':/opt/homebrew/bin');
+       }
 
         $path = storage_path('app/private/accounting/receipts/'.$filename);
 
