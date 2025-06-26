@@ -277,7 +277,14 @@ class Form extends Component
 
         $this->receiptForm->updateFile($this->transaction->id);
 
-        $this->previewImagePath = storage_path('app/private/accounting/receipts/previews/'.pathinfo($this->receiptForm->file_name, PATHINFO_FILENAME).'.png');
+        $fileName = $this->receiptForm->file_name instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile
+            ? $this->receiptForm->file_name->getClientOriginalName()
+            : $this->receiptForm->file_name;
+
+        $this->previewImagePath = storage_path('app/private/accounting/receipts/previews/'.pathinfo($fileName, PATHINFO_FILENAME).'.png');
+
+
+//        $this->previewImagePath = storage_path('app/private/accounting/receipts/previews/'.pathinfo($this->receiptForm->file_name, PATHINFO_FILENAME).'.png');
 
         //    $this->dispatch('edit-transaction');
 
