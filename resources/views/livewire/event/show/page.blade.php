@@ -684,17 +684,8 @@
                                                wire:click="sort('place')"
                                                class="hidden 2xl:table-cell"
                             >{{ __('timeline.table.header.place') }}</flux:table.column>
-                            <flux:table.column sortable
-                                               :sorted="$sortBy === 'start'"
-                                               :direction="$sortDirection"
-                                               wire:click="sort('start')"
-                                               class="hidden sm:table-cell"
-                            >{{ __('timeline.table.header.start') }}</flux:table.column>
-                            <flux:table.column sortable
-                                               :sorted="$sortBy === 'end'"
-                                               :direction="$sortDirection"
-                                               wire:click="sort('end')"
-                            >{{ __('timeline.table.header.end') }}</flux:table.column>
+                            <flux:table.column>{{ __('timeline.table.header.start') }}</flux:table.column>
+                            <flux:table.column>{{ __('timeline.table.header.end') }}</flux:table.column>
                             <flux:table.column sortable
                                                :sorted="$sortBy === 'member_id'"
                                                :direction="$sortDirection"
@@ -739,10 +730,10 @@
                                         {{ $timeItem->place }}
                                     </flux:table.cell>
                                     <flux:table.cell class="hidden sm:table-cell">
-                                        {{ $timeItem->start->format('H:s') }}
+                                        {{ $timeItem->start->format('H:i') }}
                                     </flux:table.cell>
                                     <flux:table.cell class="hidden sm:table-cell">
-                                        {{ $timeItem->end->format('H:s') }}
+                                        {{ $timeItem->end->format('H:i') }}
                                     </flux:table.cell>
                                     <flux:table.cell class="hidden 2xl:table-cell">
                                         {{ optional($timeItem->member)->fullName() }}

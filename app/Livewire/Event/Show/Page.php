@@ -121,7 +121,7 @@ class Page extends Component
         return EventTimeline::query()
             ->with('member:id,name,first_name')
             ->where('event_id', '=', $this->event_id)
-            ->orderByDesc('start')
+            ->orderBy('start', 'asc')
             ->tap(fn ($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
             ->paginate(10);
     }
