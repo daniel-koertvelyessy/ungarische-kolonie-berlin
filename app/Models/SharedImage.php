@@ -107,8 +107,8 @@ class SharedImage extends Model
             : null;
     }
 
-    public function invited(): BelongsTo {
+    public function invited(): BelongsTo
+    {
         return $this->belongsTo(Invitation::class, 'invitation_id');
     }
-
 }

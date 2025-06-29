@@ -17,8 +17,11 @@ class Form extends Component
 
     public function mount(): void
     {
-        $this->current_fiscal_year = session('financialYear') ?? Carbon::now()->format('Y');
 
+        //        $fy = (string) session('financialYear');
+        //
+        //        $this->current_fiscal_year = $fy ?? Carbon::now()->format('Y');
+        $this->current_fiscal_year = session('current_fiscal_year') ?? Carbon::now()->format('Y');
         $this->fiscalYears = DB::table('transactions')
             ->selectRaw('DISTINCT strftime("%Y", date) as year')
             ->orderBy('year', 'asc')
@@ -26,7 +29,7 @@ class Form extends Component
             ->all();
     }
 
-    public function setFY($fy): void
+    public function setFY(string $fy): void
     {
         Session::put('financialYear', $fy);
         $this->redirect(request()->header('Referer') ?? '/dashboard');

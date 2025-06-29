@@ -6,42 +6,47 @@
         </flux:callout>
     @endif
 
-    <flux:card class="max-w-xl mx-auto p-4">
-        <form wire:submit.prevent="save" class="space-y-4">
-            <flux:input.file
-                label="Bild hochladen"
-                wire:model="form.image"
-                hint="Maximal 10 MB, nur Bilder"
-                accept="image/*"
-                drag
-            />
+        <flux:card class="max-w-xl mx-auto p-4">
+            <form wire:submit.prevent="save" class="space-y-4">
+                <flux:input.file
+                    label="Bilder hochladen"
+                    wire:model="form.images"
+                    hint="Maximal 10 MB pro Bild, nur Bilder"
+                    accept="image/*"
+                    drag
+                    multiple
+                />
 
-            @error('form.image')
-            <flux:callout variant="warning" icon="exclamation-circle">{{ $message }}</flux:callout>
-            @enderror
+                @error('form.images.*')
+                <flux:callout variant="warning" icon="exclamation-circle">{{ $message }}</flux:callout>
+                @enderror
 
-            @if ($form->image)
-                <div class="mt-2">
-                    Vorschau:
-                    <img src="{{ $form->image->temporaryUrl() }}" class="w-48 rounded-xl shadow" />
-                </div>
-            @endif
+                @if (!empty($form->images))
+                    <div class="mt-2">
+                        <p>Vorschau:</p>
+                        <div class="grid grid-cols-3 gap-4">
+                            @foreach($form->images as $image)
+                                <img src="{{ $image->temporaryUrl() }}" class="w-48 rounded-xl shadow" alt="Preview" />
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
 
+                <flux:textarea
+                    rows="auto"
+                    label="Bildbeschreibung"
+                    wire:model.defer="form.label"
+                    placeholder="Kurze Beschreibung für alle Bilder"
+                    required
+                />
 
+                @error('form.label')
+                <flux:callout variant="warning" icon="exclamation-circle">{{ $message }}</flux:callout>
+                @enderror
 
-            <flux:textarea rows="auto"
-                           label="Bildbeschreibung"
-                           wire:model.defer="form.label"
-                           placeholder="Kurze Beschreibung des Bildes"
-                           required/>
-
-            @error('form.label')
-            <flux:callout variant="warning" icon="exclamation-circle">{{ $message }}</flux:callout>
-            @enderror
-
-            <flux:button type="submit" variant="primary">
-                Speichern
-            </flux:button>
-        </form>
-    </flux:card>
+                <flux:button type="submit" variant="primary">
+                    Speichern
+                </flux:button>
+            </form>
+        </flux:card>
 </div>

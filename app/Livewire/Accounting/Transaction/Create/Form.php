@@ -283,8 +283,7 @@ class Form extends Component
 
         $this->previewImagePath = storage_path('app/private/accounting/receipts/previews/'.pathinfo($fileName, PATHINFO_FILENAME).'.png');
 
-
-//        $this->previewImagePath = storage_path('app/private/accounting/receipts/previews/'.pathinfo($this->receiptForm->file_name, PATHINFO_FILENAME).'.png');
+        //        $this->previewImagePath = storage_path('app/private/accounting/receipts/previews/'.pathinfo($this->receiptForm->file_name, PATHINFO_FILENAME).'.png');
 
         //    $this->dispatch('edit-transaction');
 

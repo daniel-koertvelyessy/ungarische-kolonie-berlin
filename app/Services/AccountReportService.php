@@ -13,7 +13,7 @@ class AccountReportService
     public function generate(AccountReport $accountReport): string
     {
 
-        $dateString = Carbon::createFromTimeString($accountReport->period_start)->format('Y-m');
+        $dateString = Carbon::createFromTimeString($accountReport->period_start->format('Y-m-d'))->format('Y-m');
 
         $filename = 'Kassenbericht-'.$dateString.'.pdf';
 

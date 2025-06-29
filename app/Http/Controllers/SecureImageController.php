@@ -12,12 +12,9 @@ class SecureImageController extends Controller
 {
     public function show(string $category, string $filename)
     {
-
-//      if(app()->environment('local')) {
-//           putenv('PATH='.getenv('PATH').':/opt/homebrew/bin');
-//       }
-
-//        \Log::info("Eingehende Parameter - Category: {$category}, Filename: {$filename}");
+        if (! app()->isProduction()) {
+            putenv('PATH='.getenv('PATH').':/opt/homebrew/bin');
+        }
 
         $allowedCategories = [
             'accounting/receipts',
@@ -31,7 +28,6 @@ class SecureImageController extends Controller
         }
 
         $path = storage_path('app/private/'.$category.'/'.$filename);
-//        \Log::info("Prüfe Dateipfad: {$path}, Exists: ".(file_exists($path) ? 'Ja' : 'Nein'));
 
         if (! file_exists($path)) {
             \Log::error("Datei nicht gefunden: {$path}");
@@ -40,7 +36,7 @@ class SecureImageController extends Controller
 
         $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
         $mimeType = mime_content_type($path);
-//        \Log::info("Datei: {$path}, Extension: {$extension}, MIME-Typ: {$mimeType}");
+        //        \Log::info("Datei: {$path}, Extension: {$extension}, MIME-Typ: {$mimeType}");
 
         if (in_array($extension, ['jpg', 'jpeg', 'png', 'webp'], true)) {
             return response()->file($path, [
@@ -49,8 +45,6 @@ class SecureImageController extends Controller
         }
 
         if ($extension === 'pdf') {
-//            putenv('PATH='.getenv('PATH').':/opt/homebrew/bin');
-//            Log::debug('Versuche Datei zu laden', ['filename' => $filename, 'path' => $path]);
             try {
                 $imagick = new Imagick;
                 Imagick::setResourceLimit(Imagick::RESOURCETYPE_MEMORY, 512); // 512 MB

@@ -15,13 +15,13 @@ class Form extends Component
 
     public SharedImageForm $form;
 
-    public function save()
+    public function save(): void
     {
         $image = $this->form->save();
 
-        // Reset oder Weiterleitung nach Upload
-        $this->form->reset(); // oder: redirect()->route('...')
-        session()->flash('success', 'Bild erfolgreich hochgeladen.');
+        $this->form->reset();
+
+        session()->flash('success', count($image).' - Bilder erfolgreich hochgeladen.');
     }
 
     public function render(): View

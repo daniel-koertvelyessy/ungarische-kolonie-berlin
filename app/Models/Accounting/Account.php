@@ -55,7 +55,9 @@ use Illuminate\Support\Carbon;
 class Account extends Model
 {
     /** @use HasFactory<AccountFactory> */
-    use HasFactory, HasHistory;
+    use HasFactory;
+
+    use HasHistory;
 
     protected $fillable = [
         'name',
@@ -84,15 +86,12 @@ class Account extends Model
         return $current;
     }
 
-    public static function makeCentInteger($formattedValue): int
+    public static function makeCentInteger(?int $formattedValue): int
     {
         // Remove all non-numeric characters except commas
-        $value = preg_replace('/[^\d,]/', '', $formattedValue);
+        $value = preg_replace('/[^\d,]/', '', (string) $formattedValue);
 
-        // Replace comma with a dot for decimal conversion
-        $n = str_replace(',', '', $value, $count);
-
-        return (int) $n;
+        return (int) str_replace(',', '', $value, $count);
     }
 
     public static function formatedAmount(int $value): string

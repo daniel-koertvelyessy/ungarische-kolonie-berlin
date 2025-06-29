@@ -7,6 +7,7 @@ namespace App\Livewire\App\Tool\SharedImage;
 use App\Models\Membership\Member;
 use App\Models\SharedImage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Validate;
@@ -19,6 +20,8 @@ class SharedImageForm extends Form
 
     #[Validate('required|image|max:10240')] // 10 MB
     public $image;
+
+    public $images = []; // Changed from single $image to array
 
     #[Validate('required|string|max:255')]
     public string $label = '';
@@ -39,47 +42,56 @@ class SharedImageForm extends Form
 
     public ?int $invitationId = null;
 
-    public function save(): SharedImage
+    public function save(): array
     {
-        $this->validate();
-
-        // Dateiname mit UUID
-        $uuid = (string) Str::uuid();
-        $path = $this->image->storeAs('shared-images/originals', "{$uuid}.jpg", 'local');
-
-        // Thumbnail erstellen (optional)
-        $thumbPath = null;
-        if (function_exists('imagecreatefromstring')) {
-            $thumbnail = $this->generateThumbnail($this->image->getRealPath(), 400);
-            if ($thumbnail) {
-                $thumbPath = "shared-images/thumbs/{$uuid}.jpg";
-                Storage::disk('local')
-                    ->put($thumbPath, $thumbnail);
-            }
-        }
-
-        $image = SharedImage::create([
-            'label' => $this->label,
-            'user_id' => Auth::check() ? Auth::id() : null,
-            'invitation_id' => $this->invitationId,
-            'path' => $path,
-            'thumbnail_path' => $thumbPath,
-            'file_size' => $this->image->getSize(),
-            'dimensions' => $this->getImageDimensions($this->image->getRealPath()),
-            'is_approved' => Auth::check() && Auth::user()
-                ->isBoardMember(),
-            'approved_by' => Auth::check() && Auth::user()
-                ->isBoardMember() ? Auth::id() : null,
-            'approved_at' => Auth::check() && Auth::user()
-                ->isBoardMember() ? now() : null,
+        $this->validate([
+            'images' => ['required', 'array'],
         ]);
 
-        // Notification an Board-Mitglieder (wenn noch nicht freigegeben)
-        if (! $image->is_approved) {
-            $this->notifyBoard($image);
+        $savedImages = [];
+
+        foreach ($this->images as $image) {
+            $uuid = (string) Str::uuid();
+            $path = $image->storeAs('shared-images/originals', "{$uuid}.jpg", 'local');
+
+            // Thumbnail erstellen
+            $thumbPath = null;
+            if (function_exists('imagecreatefromstring')) {
+                $thumbnail = $this->generateThumbnail($image->getRealPath(), 400);
+                if ($thumbnail) {
+                    $thumbPath = "shared-images/thumbs/{$uuid}.jpg";
+                    Storage::disk('local')
+                        ->put($thumbPath, $thumbnail);
+                }
+            }
+
+            // Save to database
+            $sharedImage = SharedImage::create([
+                'label' => $this->label,
+                'user_id' => Auth::check() ? Auth::id() : null,
+                'invitation_id' => $this->invitationId,
+                'path' => $path,
+                'thumbnail_path' => $thumbPath,
+                'file_size' => $image->getSize(),
+                'dimensions' => $this->getImageDimensions($image->getRealPath()),
+                'is_approved' => Auth::check() && Auth::user()
+                    ->isBoardMember(),
+                'approved_by' => Auth::check() && Auth::user()
+                    ->isBoardMember() ? Auth::id() : null,
+                'approved_at' => Auth::check() && Auth::user()
+                    ->isBoardMember() ? now() : null,
+            ]);
+
+            // Notification an Board-Mitglieder (wenn noch nicht freigegeben)
+            if (! $sharedImage->is_approved) {
+                $this->notifyBoard($sharedImage);
+            }
+
+            $savedImages[] = $sharedImage;
+            Log::debug('Saved shared image id: '.$sharedImage->id);
         }
 
-        return $image;
+        return $savedImages;
     }
 
     protected function getImageDimensions(string $path): array

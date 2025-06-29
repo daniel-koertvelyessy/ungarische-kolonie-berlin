@@ -16,7 +16,6 @@ use App\Pdfs\EventReportPdf;
 use App\Pdfs\MeetingMinutesPdf;
 use App\Pdfs\MemberApplicationPdf;
 use App\Pdfs\TransactionInvoicePdf;
-use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -73,7 +72,7 @@ class PdfGeneratorService
 
     private static function generateAccountReportPdf(AccountReport $accountReport, ?string $filename, string $locale): string
     {
-        $dateString = Carbon::createFromTimeString($accountReport->period_start)->format('Y-m');
+        $dateString = $accountReport->period_start->format('Ymd');
         $filename = $filename ?? "Kassenbericht-{$dateString}.pdf";
         $pdf = new AccountReportPdf($accountReport, $locale, $filename);
         $pdf->generateContent();

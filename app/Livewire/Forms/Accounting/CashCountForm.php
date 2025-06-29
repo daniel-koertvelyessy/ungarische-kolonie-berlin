@@ -53,7 +53,7 @@ class CashCountForm extends Form
     public function set(int $id): void
     {
         $this->cashCount = CashCount::query()->findOrFail($id);
-        $this->counted_at = $this->cashCount->counted_at;
+        $this->counted_at = $this->cashCount->counted_at->format('Y-m-d');
         $this->account_id = $this->cashCount->account_id;
         $this->label = $this->cashCount->label;
         $this->notes = $this->cashCount->notes;

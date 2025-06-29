@@ -59,7 +59,6 @@ class Content extends Component
     }
 
     /**
-     * @param  int  $id
      * @return StreamedResponse|void
      */
     public function downloadImage(int $id)
@@ -71,12 +70,12 @@ class Content extends Component
         $filename = $image->path;
 
         if ($image->is_approved && Storage::disk('local')->exists($filename)) {
-            if($image->user) {
+            if ($image->user) {
                 $dowloadLabel = $image->label.'_'.$image->user->name;
-            } elseif ($image->invited && $image->invited->email) {
-                    $email = $image->invited->email;
-                    $name = explode('@', $email)[0];
-                    $dowloadLabel = $image->label . '_'. $name;
+            } elseif ($image->invitation && $image->invitation->email) {
+                $email = $image->invitation->email;
+                $name = explode('@', $email)[0];
+                $dowloadLabel = $image->label.'_'.$name;
             } else {
                 $dowloadLabel = $image->label;
             }
@@ -88,6 +87,8 @@ class Content extends Component
 
     public function deleteImage(int $id): void
     {
+        $originalDeleted = false;
+        $thumpDeleted = false;
         $this->checkPrivilege(SharedImage::class);
         $image = \App\Models\SharedImage::findOrFail($id);
 
