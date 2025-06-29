@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\App\Global;
 
 use Illuminate\Support\Facades\App;
@@ -17,7 +19,7 @@ class LanguageSwitcher extends Component
 
     public function switchLanguage(string $locale): \Illuminate\Foundation\Application|\Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
     {
-        if (! in_array($locale, ['en', 'de', 'hu'])) {
+        if (! in_array($locale, ['en', 'de', 'hu'], true)) {
             abort(404);
         }
 

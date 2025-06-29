@@ -33,6 +33,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingMinute whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MeetingMinute whereUpdatedAt($value)
  *
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\History> $histories
+ * @property-read int|null $histories_count
+ *
+ * @method static \Database\Factories\MeetingMinuteFactory factory($count = null, $state = [])
+ *
  * @mixin \Eloquent
  */
 class MeetingMinute extends Model

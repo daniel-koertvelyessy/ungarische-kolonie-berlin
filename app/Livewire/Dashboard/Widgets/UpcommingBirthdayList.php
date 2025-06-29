@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Dashboard\Widgets;
 
 use App\Models\Membership\Member;
@@ -71,7 +73,7 @@ class UpcommingBirthdayList extends Component
 
             $monthName = $date->locale(app()->getLocale())->monthName;
             // Richtige Endung setzen
-            $suffix = in_array($monthName, $banMonths) ? 'ban' : 'ben';
+            $suffix = in_array($monthName, $banMonths, true) ? 'ban' : 'ben';
 
             $this->monthName = $monthName.$suffix;
 

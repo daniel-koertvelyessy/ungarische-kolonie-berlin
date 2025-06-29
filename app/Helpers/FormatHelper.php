@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Helpers;
 
 class FormatHelper
 {
     public static function formatValueHistory($key, $value)
     {
-        if (in_array($key, ['amount_gross', 'vat', 'tax']) && is_numeric($value)) {
+        if (in_array($key, ['amount_gross', 'vat', 'tax'], true) && is_numeric($value)) {
             return number_format($value, 2, ',', '.').' €';
         }
 

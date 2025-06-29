@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Blog\Post\Index;
 
 use App\Enums\EventStatus;
@@ -9,7 +11,6 @@ use App\Models\Blog\PostType;
 use Flux\Flux;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -53,12 +54,11 @@ class Page extends Component
         try {
             $post = Post::query()
                 ->findOrFail($id);
-//            ->delete();
+            //            ->delete();
 
             $post->delete();
 
             Flux::toast(__('Der Artikel wurde gelöscht!'));
-
 
         } catch (ModelNotFoundException $e) {
             Flux::toast($e->getMessage(), 'error');

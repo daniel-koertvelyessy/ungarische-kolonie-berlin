@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Event\Index;
 
 use App\Enums\EventStatus;
@@ -11,9 +13,6 @@ use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-/**
- *
- */
 class Page extends Component
 {
     use Sortable;
@@ -28,17 +27,11 @@ class Page extends Component
         EventStatus::PUBLISHED->value,
     ];
 
-    /**
-     * @return void
-     */
     public function updatedSearch(): void
     {
         $this->resetPage();
     }
 
-    /**
-     * @return void
-     */
     public function mount(): void
     {
         $this->locale = session('locale') ?? app()->getLocale();
@@ -46,9 +39,6 @@ class Page extends Component
         $this->sortDirection = 'desc';
     }
 
-    /**
-     * @return LengthAwarePaginator
-     */
     #[Computed]
     public function events(): LengthAwarePaginator
     {
@@ -63,9 +53,6 @@ class Page extends Component
             ->paginate(10);
     }
 
-    /**
-     * @return View
-     */
     public function render(): View
     {
         return view('livewire.event.index.page');

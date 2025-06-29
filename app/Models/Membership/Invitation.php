@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models\Membership;
 
 use Eloquent;
@@ -36,7 +38,8 @@ use Illuminate\Support\Carbon;
  */
 class Invitation extends Model
 {
-    use HasFactory, Notifiable;
+    use HasFactory;
+    use Notifiable;
 
     protected $fillable = [
         'email',

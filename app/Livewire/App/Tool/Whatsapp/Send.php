@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\App\Tool\Whatsapp;
 
 use Livewire\Component;

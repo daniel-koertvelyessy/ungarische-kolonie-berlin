@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Enums\MemberType;
@@ -10,7 +12,6 @@ use Illuminate\Support\Facades\Auth;
 
 class MemberPolicy
 {
-
     use HasAdminPrivileges;
 
     /**
@@ -92,5 +93,4 @@ class MemberPolicy
     {
         return false;
     }
-
 }

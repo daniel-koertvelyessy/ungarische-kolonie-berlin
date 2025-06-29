@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'index.page.title' => 'Megjelent cikkek áttekintése',
 
@@ -47,7 +49,6 @@ return [
     'form.toasts.edit_success' => 'A cikk :num képpel sikeresen frissítve!',
     'form.toasts.notifications_sent_success' => 'A közzétételről szóló értesítések elküldve',
     'form.toasts.notification_sent_success' => 'A közzétételről szóló értesítés elküldve',
-
 
     'show.title' => 'Cikk szerkesztése',
     'show.tabs.header.main' => 'Alapadatok',

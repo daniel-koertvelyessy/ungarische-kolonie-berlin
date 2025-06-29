@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Livewire\Blog\Post\Form;
 use App\Models\Blog\Post;
 use App\Models\Membership\Member;

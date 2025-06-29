@@ -25,7 +25,8 @@
         "ryangjchandler/laravel-cloudflare-turnstile": "^v2.0.1",
         "spatie/browsershot": "^5.0",
         "spatie/image": "^3.8",
-        "tecnickcom/tcpdf": "^6.9.1"
+        "tecnickcom/tcpdf": "^6.9.1",
+        "ext-gd": "*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.5",
@@ -77,11 +78,12 @@
             "Composer\\Config::disableProcessTimeout",
             "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite"
         ],
-        "pint": "@php ./vendor/bin/pint --dirty",
+        "pint": "@php ./vendor/bin/pint",
+        "pintd": "@php ./vendor/bin/pint --dirty",
         "larastan": "@php ./vendor/bin/phpstan analyse",
         "pest": "@php ./vendor/bin/pest --parallel",
         "test": [
-            "@pint",
+            "@pintd",
             "@larastan",
             "@pest"
         ]

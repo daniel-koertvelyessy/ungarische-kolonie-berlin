@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Accounting\Report\CashCount\Index;
 
 use App\Livewire\Accounting\Report\CashCount\Create\Form;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\MembersController;
@@ -165,7 +167,6 @@ Route::middleware([
         Route::get('/transactions', \App\Livewire\Accounting\Transaction\Index\Page::class)
             ->name('transaction.index');
 
-
         Route::get('/account-report', \App\Livewire\Accounting\Report\Index\Page::class)->name('accounts.report.index');
 
         Route::get('/minutes', \App\Livewire\App\Tool\MeetingMinutes\Index::class)->name('minutes.index');
@@ -173,7 +174,6 @@ Route::middleware([
         Route::get('/minutes/create', \App\Livewire\App\Tool\MeetingMinutes\Create::class)->name('minutes.create');
 
         Route::get('/minutes/{meetingMinute}/edit', \App\Livewire\App\Tool\MeetingMinutes\Edit::class)->name('minutes.edit');
-
 
         //
         //        Route::get('/events/report/{event}', function (Event $event, EventReportService $reportService) {
@@ -256,9 +256,14 @@ Route::middleware([
         })
             ->name('receipt.file');
 
-        Route::get('/secure-image/{filename}', [SecureImageController::class, 'show'])
-            ->where('filename', '.*')
-            ->name('secure-image.preview');
+        //        Route::get('/secure-image/{filename}', [SecureImageController::class, 'show'])
+        //            ->where('filename', '.*')
+        //            ->name('secure-image.preview');
+
+        Route::get('/secure-image/{category}/{filename}', [SecureImageController::class, 'show'])
+            ->where('category', '[a-zA-Z0-9\-_/]+')
+            ->where('filename', '[^/]+')
+            ->name('secure-image.category');
 
         Route::get('/secure-download/{filename}', [SecureImageController::class, 'download'])
             ->where('filename', '.*')
@@ -273,6 +278,15 @@ Route::middleware([
         // //            return response()->file($path, ['Content-Type' => 'image/png']);
         //
         //        });
+
+        Route::get('/shared-images/index', \App\Livewire\App\Tool\SharedImage\Index\Page::class)
+            ->name('shared-image.index');
+        Route::get('/shared-images/create', \App\Livewire\App\Tool\SharedImage\Create\Page::class)
+            ->name('shared-image.create');
+
+        //        Route::get('/secure-image/shared-images/thumbs/{filename}', [SecureImageController::class, 'show'])
+        //            ->where('filename', '.*')
+        //            ->name('secure-image.shared-thumb');
 
     }); // End middleware auth, jetstream, verified, group
 

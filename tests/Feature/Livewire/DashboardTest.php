@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 it('can see applicant widget', function () {
 
     $user = \App\Models\User::factory()->create(['is_admin' => true]);

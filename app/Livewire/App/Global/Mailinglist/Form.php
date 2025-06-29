@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\App\Global\Mailinglist;
 
 use App\Livewire\Forms\Global\MailingListForm;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Event\Show;
 
 use App\Enums\AssignmentStatus;
@@ -77,7 +79,7 @@ class Page extends Component
             ->where('historable_type', Event::class)
             ->orderByDesc('changed_at')->paginate(10);
 
-}
+    }
 
     #[Computed]
     public function assignments(): \Illuminate\Pagination\LengthAwarePaginator

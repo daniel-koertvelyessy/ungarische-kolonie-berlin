@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'dashboard' => 'Dashboard',
     'tools' => 'Werkzeuge',
     'minutes' => 'Protokolle',
     'mails' => 'Rundmails',
+    'sharedImages' => 'Bilder',
     'members' => 'Mitglieder',
     'members.overview' => 'Übersicht',
     'members.roles' => 'Rollen',

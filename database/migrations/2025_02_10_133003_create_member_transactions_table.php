@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Models\Accounting\Transaction;
 use App\Models\Membership\Member;
 use Illuminate\Database\Migrations\Migration;

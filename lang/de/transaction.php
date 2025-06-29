@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'edit-text-modal.heading' => 'Buchungstexte ändern',
     'edit-text-modal.label' => 'Label',

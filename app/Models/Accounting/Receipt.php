@@ -62,7 +62,7 @@ class Receipt extends Model
 
     public function getPreviewUrl(): string
     {
-        return route('secure-image.preview', ['filename' => $this->file_name]);
+        return route('secure-image.category', ['category' => 'accounting/receipts', 'filename' => $this->file_name]);
     }
 
     public function _getPreviewUrl($file_name)

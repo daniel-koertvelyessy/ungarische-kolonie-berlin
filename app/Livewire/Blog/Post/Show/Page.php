@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Blog\Post\Show;
 
 use App\Livewire\Forms\Blog\PostForm;

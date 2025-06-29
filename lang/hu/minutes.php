@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'create' => [
         'page_title' => 'Jegyzőkönyv készítése',

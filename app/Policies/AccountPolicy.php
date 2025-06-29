@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\User;
@@ -23,7 +25,7 @@ class AccountPolicy
      */
     public function view(User $user): bool
     {
-       return $this->getAdminPrivileges($user);
+        return $this->getAdminPrivileges($user);
     }
 
     /**

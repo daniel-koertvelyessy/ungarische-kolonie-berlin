@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Enums\MemberType;
 
 test('A list of applicant can be seen', function () {

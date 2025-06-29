@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Dashboard\Widgets;
 
 use App\Enums\EventStatus;
@@ -28,7 +30,7 @@ class Events extends Component
         return Event::where('status', EventStatus::PENDING)->count();
     }
 
-    public function render() : view
+    public function render(): view
     {
         return view('livewire.dashboard.widgets.events');
     }

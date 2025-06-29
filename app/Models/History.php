@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -29,6 +31,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|History whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|History whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|History whereUserId($value)
+ *
+ * @property-read \App\Models\User|null $user
  *
  * @mixin \Eloquent
  */

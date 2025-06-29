@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Member;
 
 use App\Livewire\Forms\Member\RoleForm;

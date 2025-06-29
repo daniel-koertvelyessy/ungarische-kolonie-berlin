@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Mail;
 
 use App\Models\Membership\Invitation;
@@ -14,18 +16,17 @@ class InvitationMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-
     public function __construct(public Invitation $invitation, public Member $member) {}
 
-/*    public function build(): InvitationMail
-    {
-        return $this->subject(__('mails.invitation.subject'))
-            ->from('szia@magyar-kolonia-berlin.org', 'Körtvélyessy Daniel')
-            ->view('emails.invitation', ['member' => $this->member])
-            ->with([
-                'url' => route('register', ['token' => $this->invitation->token]),
-            ]);
-    }*/
+    /*    public function build(): InvitationMail
+        {
+            return $this->subject(__('mails.invitation.subject'))
+                ->from('szia@magyar-kolonia-berlin.org', 'Körtvélyessy Daniel')
+                ->view('emails.invitation', ['member' => $this->member])
+                ->with([
+                    'url' => route('register', ['token' => $this->invitation->token]),
+                ]);
+        }*/
 
     /**
      * Get the message envelope.

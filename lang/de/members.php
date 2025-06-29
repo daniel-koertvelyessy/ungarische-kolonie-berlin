@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'title' => 'Mitgliederübersicht',
     'header' => 'Hier finden Sie eine sortierbare Übersicht aller Mitglieder. Im Untermenü können Mitglieder bearbeitet, Zahlungen erfasst oder Mitglieder als inaktiv markiert werden. Letzteres ersetzt das Löschen des Eintrags.',

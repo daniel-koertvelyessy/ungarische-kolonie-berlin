@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Accounting;
 
 use App\Livewire\Forms\Accounting\TransactionForm;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'title' => 'A tagok áttekintése',
     'header' => 'Itt van egy áttekintés az összes tagról, ami válogatható. Az almenüben a tag szerkeszthető, befizetés rögzíthető vagy törölhető. Ez utóbbi esetben nem a bejegyzés törlődik, hanem a tag inaktívként van beállítva.',

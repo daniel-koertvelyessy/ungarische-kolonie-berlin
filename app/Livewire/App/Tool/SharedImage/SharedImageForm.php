@@ -1,0 +1,121 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Livewire\App\Tool\SharedImage;
+
+use App\Models\Membership\Member;
+use App\Models\SharedImage;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Livewire\Attributes\Validate;
+use Livewire\Form;
+use Livewire\WithFileUploads;
+
+class SharedImageForm extends Form
+{
+    use WithFileUploads;
+
+    #[Validate('required|image|max:10240')] // 10 MB
+    public $image;
+
+    #[Validate('required|string|max:255')]
+    public string $label = '';
+
+    public ?int $userId;
+
+    public ?string $path;
+
+    public ?string $thumbnailPath;
+
+    public ?bool $isApproved;
+
+    public ?bool $approvedBy;
+
+    public ?string $approvedAt;
+
+    public $fileSize;
+
+    public ?int $invitationId = null;
+
+    public function save(): SharedImage
+    {
+        $this->validate();
+
+        // Dateiname mit UUID
+        $uuid = (string) Str::uuid();
+        $path = $this->image->storeAs('shared-images/originals', "{$uuid}.jpg", 'local');
+
+        // Thumbnail erstellen (optional)
+        $thumbPath = null;
+        if (function_exists('imagecreatefromstring')) {
+            $thumbnail = $this->generateThumbnail($this->image->getRealPath(), 400);
+            if ($thumbnail) {
+                $thumbPath = "shared-images/thumbs/{$uuid}.jpg";
+                Storage::disk('local')
+                    ->put($thumbPath, $thumbnail);
+            }
+        }
+
+        $image = SharedImage::create([
+            'label' => $this->label,
+            'user_id' => Auth::check() ? Auth::id() : null,
+            'invitation_id' => $this->invitationId,
+            'path' => $path,
+            'thumbnail_path' => $thumbPath,
+            'file_size' => $this->image->getSize(),
+            'dimensions' => $this->getImageDimensions($this->image->getRealPath()),
+            'is_approved' => Auth::check() && Auth::user()
+                ->isBoardMember(),
+            'approved_by' => Auth::check() && Auth::user()
+                ->isBoardMember() ? Auth::id() : null,
+            'approved_at' => Auth::check() && Auth::user()
+                ->isBoardMember() ? now() : null,
+        ]);
+
+        // Notification an Board-Mitglieder (wenn noch nicht freigegeben)
+        if (! $image->is_approved) {
+            $this->notifyBoard($image);
+        }
+
+        return $image;
+    }
+
+    protected function getImageDimensions(string $path): array
+    {
+        [$width, $height] = getimagesize($path) ?: [null, null];
+
+        return compact('width', 'height');
+    }
+
+    protected function generateThumbnail(string $path, int $targetWidth): ?string
+    {
+        try {
+            [$width, $height] = getimagesize($path);
+            $ratio = $targetWidth / $width;
+            $targetHeight = intval($height * $ratio);
+
+            $source = imagecreatefromstring(file_get_contents($path));
+            $thumb = imagecreatetruecolor($targetWidth, $targetHeight);
+            imagecopyresampled($thumb, $source, 0, 0, 0, 0, $targetWidth, $targetHeight, $width, $height);
+
+            ob_start();
+            imagejpeg($thumb, null, 80);
+
+            return ob_get_clean();
+        } catch (\Throwable $e) {
+            return null;
+        }
+    }
+
+    protected function notifyBoard(SharedImage $image): void
+    {
+        // Beispielhafte Notification (du kannst die Notification-Klasse selbst definieren)
+
+        Member::getBoardMembers()
+            ->each(function ($member) use ($image) {
+                $member->notify(new \App\Notifications\SharedImageUploaded($image));
+            });
+    }
+}
