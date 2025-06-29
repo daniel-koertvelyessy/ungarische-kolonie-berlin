@@ -13,6 +13,10 @@ class SecureImageController extends Controller
     public function show(string $category, string $filename)
     {
 
+      if(app()->environment('local')) {
+           putenv('PATH='.getenv('PATH').':/opt/homebrew/bin');
+       }
+
         \Log::info("Eingehende Parameter - Category: {$category}, Filename: {$filename}");
 
         $allowedCategories = [
