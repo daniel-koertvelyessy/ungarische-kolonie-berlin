@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 test('an event can be created with all fillable fields', function () {
     $attributes = [
         'name' => 'Summer Festival',

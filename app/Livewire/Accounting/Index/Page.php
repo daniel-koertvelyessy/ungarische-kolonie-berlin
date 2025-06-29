@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Accounting\Index;
 
 use App\Enums\TransactionStatus;

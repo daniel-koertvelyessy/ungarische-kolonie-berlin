@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\MailingList;
-use Carbon\Carbon;
+declare(strict_types=1);
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -32,7 +32,7 @@ return new class extends Migration
             $table->boolean('update_on_notifications')->nullable()->default(false);
             $table->timestamp('verified_at')->nullable();
             $table->string('verification_token')->nullable();
-            $table->enum('locale',\App\Enums\Locale::toArray())->nullable();
+            $table->enum('locale', \App\Enums\Locale::toArray())->nullable();
         });
 
         if ($lists->count() > 0) {
@@ -48,5 +48,4 @@ return new class extends Migration
         }
 
     }
-
 };

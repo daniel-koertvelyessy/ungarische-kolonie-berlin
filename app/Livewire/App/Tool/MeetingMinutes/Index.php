@@ -42,7 +42,7 @@ class Index extends Component
         if ($this->search) {
             $query->where('title', 'LIKE', '%'.$this->search.'%')
                 ->orWhereHas('topics', function ($q) {
-                    $q->where('content', 'LIKE', '%' . $this->search . '%');
+                    $q->where('content', 'LIKE', '%'.$this->search.'%');
                 });
         }
 
@@ -88,7 +88,7 @@ class Index extends Component
             $filename = "meeting-minute-{$meetingId}-".now()->format('Ymd').'.pdf';
 
             return response()->streamDownload(
-                fn () => print($pdfContent),
+                fn () => print ($pdfContent),
                 $filename,
                 [
                     'Content-Type' => 'application/pdf',

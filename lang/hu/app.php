@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'welcome' => 'Üdvözlünk!',
     'male' => 'Férfi',
@@ -46,7 +48,6 @@ return [
 
     'change_fy' => 'Év váltása erre',
 
-
     'cal' => [
         'day_short' => [
             'Mo' => 'H', // Hétfő
@@ -68,8 +69,6 @@ return [
         ],
         'empty' => 'Nincs találat',
     ],
-
-
 
     '' => '',
 

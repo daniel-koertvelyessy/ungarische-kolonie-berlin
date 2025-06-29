@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Member\Show;
 
 use App\Enums\MemberType;
@@ -82,16 +84,16 @@ class Page extends Component
 
     public function mount(Member $member): void
     {
-        try{
+        try {
             $this->authorize('view', $member);
         } catch (AuthorizationException $e) {
             Flux::toast($e->getMessage(), 'error');
-            Log::alert('Unberechtigter Zugriffsversuch ',[
+            Log::alert('Unberechtigter Zugriffsversuch ', [
                 'Mitglied' => $member,
-                'User' => Auth::user()??'extern',
+                'User' => Auth::user() ?? 'extern',
                 'msg' => $e->getMessage(),
             ]);
-            $this->redirect(route('backend.members.index'),true);
+            $this->redirect(route('backend.members.index'), true);
         }
         $this->selectedTab = $this->getSelectedTab();
         $this->memberForm->set($member);

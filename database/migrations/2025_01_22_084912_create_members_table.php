@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Enums\Gender;
 use App\Enums\MemberType;
 use App\Models\User;

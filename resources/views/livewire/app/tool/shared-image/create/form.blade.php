@@ -27,12 +27,13 @@
                 </div>
             @endif
 
-            <flux:input
-                label="Bildbeschreibung"
-                wire:model.defer="form.label"
-                placeholder="Kurze Beschreibung des Bildes"
-                required
-            />
+
+
+            <flux:textarea rows="auto"
+                           label="Bildbeschreibung"
+                           wire:model.defer="form.label"
+                           placeholder="Kurze Beschreibung des Bildes"
+                           required/>
 
             @error('form.label')
             <flux:callout variant="warning" icon="exclamation-circle">{{ $message }}</flux:callout>

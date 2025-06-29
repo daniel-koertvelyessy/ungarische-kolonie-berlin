@@ -1,18 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\SharedImage;
 use App\Models\User;
+use App\Policies\Traits\HasAdminPrivileges;
 
 class SharedImagePolicy
 {
+    use HasAdminPrivileges;
+
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -20,7 +25,7 @@ class SharedImagePolicy
      */
     public function view(User $user, SharedImage $sharedImage): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -28,7 +33,7 @@ class SharedImagePolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $this->getAdminPrivileges($user);
     }
 
     /**
@@ -36,7 +41,11 @@ class SharedImagePolicy
      */
     public function update(User $user, SharedImage $sharedImage): bool
     {
-        return false;
+        if ($sharedImage->user_id == $user->id) {
+            return true;
+        }
+
+        return $this->getAdminPrivileges($user);
     }
 
     /**
@@ -44,22 +53,26 @@ class SharedImagePolicy
      */
     public function delete(User $user, SharedImage $sharedImage): bool
     {
-        return false;
+        if ($sharedImage->user_id == $user->id) {
+            return true;
+        }
+
+        return $this->getAdminPrivileges($user);
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, SharedImage $sharedImage): bool
+    public function restore(User $user): bool
     {
-        return false;
+        return $this->getAdminPrivileges($user);
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, SharedImage $sharedImage): bool
+    public function forceDelete(User $user): bool
     {
-        return false;
+        return $this->getAdminPrivileges($user);
     }
 }

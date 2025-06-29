@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Models\Membership\Member;
 use App\Models\User;
 use Carbon\Carbon;

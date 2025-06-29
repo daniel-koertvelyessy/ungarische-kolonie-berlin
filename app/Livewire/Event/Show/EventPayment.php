@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Event\Show;
 
 use App\Enums\TransactionType;

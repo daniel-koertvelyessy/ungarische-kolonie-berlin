@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\MembersController;
@@ -254,9 +256,9 @@ Route::middleware([
         })
             ->name('receipt.file');
 
-//        Route::get('/secure-image/{filename}', [SecureImageController::class, 'show'])
-//            ->where('filename', '.*')
-//            ->name('secure-image.preview');
+        //        Route::get('/secure-image/{filename}', [SecureImageController::class, 'show'])
+        //            ->where('filename', '.*')
+        //            ->name('secure-image.preview');
 
         Route::get('/secure-image/{category}/{filename}', [SecureImageController::class, 'show'])
             ->where('category', '[a-zA-Z0-9\-_/]+')
@@ -282,10 +284,9 @@ Route::middleware([
         Route::get('/shared-images/create', \App\Livewire\App\Tool\SharedImage\Create\Page::class)
             ->name('shared-image.create');
 
-//        Route::get('/secure-image/shared-images/thumbs/{filename}', [SecureImageController::class, 'show'])
-//            ->where('filename', '.*')
-//            ->name('secure-image.shared-thumb');
-
+        //        Route::get('/secure-image/shared-images/thumbs/{filename}', [SecureImageController::class, 'show'])
+        //            ->where('filename', '.*')
+        //            ->name('secure-image.shared-thumb');
 
     }); // End middleware auth, jetstream, verified, group
 

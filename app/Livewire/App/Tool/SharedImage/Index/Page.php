@@ -9,7 +9,7 @@ use Livewire\Component;
 
 class Page extends Component
 {
-    public string $viewMode = 'table'; // default: grid
+    public string $viewMode = 'grid';
 
     public function toggleViewMode(): void
     {

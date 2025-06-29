@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -28,12 +30,12 @@ class WhatsAppController extends Controller
     public function verify(Request $request)
     {
 
-        Log::info('incomming request',['request' => $request]);
+        Log::info('incomming request', ['request' => $request]);
         if ($request->get('hub_mode') === 'subscribe' && $request->get('hub_verify_token') === config('services.whatsapp.hook_token')) {
 
-            Log::info('request verified',[
+            Log::info('request verified', [
                 'hub_verify_token' => $request->get('hub_verify_token'),
-                'vs_token' =>config('services.whatsapp.hook_token'),
+                'vs_token' => config('services.whatsapp.hook_token'),
                 'hub_challenge' => $request->get('hub_challenge'),
             ]);
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'title' => 'Impressum',
     'register_name' => 'Registierter Name',

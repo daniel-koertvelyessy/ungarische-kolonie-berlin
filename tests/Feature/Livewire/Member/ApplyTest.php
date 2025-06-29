@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Enums\MemberFamilyStatus;
 use App\Enums\MemberType;
 

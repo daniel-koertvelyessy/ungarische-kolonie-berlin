@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\App\Tool\Mailing;
 
 use Illuminate\View\View;
@@ -7,7 +9,7 @@ use Livewire\Component;
 
 class Form extends Component
 {
-    public function render():view
+    public function render(): view
     {
         return view('livewire.app.tool.mailing.form');
     }

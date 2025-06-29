@@ -48,9 +48,9 @@ class Page extends Component
 
     public int $totalSubscriptionsThisYear;
 
-    public array|null $urlLabel;
+    public ?array $urlLabel;
 
-    public string $url='';
+    public string $url = '';
 
     #[Computed]
     public function mailingList(): LengthAwarePaginator
@@ -122,8 +122,8 @@ class Page extends Component
             $counter = 0;
             foreach (Member::all() as $member) {
                 if ($member->email) {
-                    $url = $this->url??'';
-                    $label =  $this->urlLabel[$member->locale] ?? null;
+                    $url = $this->url ?? '';
+                    $label = $this->urlLabel[$member->locale] ?? null;
                     Mail::to($member->email)
                         ->locale($member->locale)
                         ->queue(new SendMemberMassMail(
@@ -143,8 +143,8 @@ class Page extends Component
             $counter = 0;
             foreach (Member::all() as $member) {
                 if ($member->email) {
-                    $url = $this->url??'';
-                    $label =  $this->urlLabel[$member->locale] ?? null;
+                    $url = $this->url ?? '';
+                    $label = $this->urlLabel[$member->locale] ?? null;
                     Mail::to($member->email)
                         ->locale($member->locale)
                         ->queue(new SendMemberMassMail(

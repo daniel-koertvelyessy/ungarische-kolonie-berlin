@@ -94,7 +94,6 @@
                            :current="request()->is('dashboard')"
         >{{ __('nav.dashboard') }}</flux:navlist.item>
 
-        @can('create', \App\Models\Membership\Member::class)
 
 
             <flux:navlist.group heading="{{ __('nav.tools') }}"
@@ -104,10 +103,12 @@
                                    href="{{ route('minutes.index')  }}"
                                    :current="request()->is('*minutes*')"
                 >{{ __('nav.minutes') }}</flux:navlist.item>
+                @can('create', \App\Models\Membership\Member::class)
 
                 <flux:navlist.item wire:navigate
                                    href="{{ route('tools.index')  }}"
                 >{{ __('nav.mails') }}</flux:navlist.item>
+                @endcan
 
                 <flux:navlist.item wire:navigate
                                    href="{{ route('shared-image.index')  }}"
@@ -117,7 +118,6 @@
 
 
 
-        @endcan
 
         <flux:navlist.group heading="{{ __('nav.members') }}"
                             expandable

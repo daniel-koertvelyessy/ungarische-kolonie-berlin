@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models\Accounting;
 
 use App\Models\Traits\HasHistory;
@@ -109,21 +111,7 @@ class CashCount extends Model
         $cc = CashCount::query()
             ->findOrFail($cash_count_id);
 
-        return
-            $cc->euro_two_hundred * 20000 +
-            $cc->euro_one_hundred * 10000 +
-            $cc->euro_fifty * 5000 +
-            $cc->euro_twenty * 2000 +
-            $cc->euro_ten * 1000 +
-            $cc->euro_five * 500 +
-            $cc->euro_two * 200 +
-            $cc->euro_one * 100 +
-            $cc->cent_fifty * 50 +
-            $cc->cent_twenty * 20 +
-            $cc->cent_ten * 10 +
-            $cc->cent_five * 5 +
-            $cc->cent_two * 2 +
-            $cc->cent_one * 1;
+        return $cc->euro_two_hundred * 20000 + $cc->euro_one_hundred * 10000 + $cc->euro_fifty * 5000 + $cc->euro_twenty * 2000 + $cc->euro_ten * 1000 + $cc->euro_five * 500 + $cc->euro_two * 200 + $cc->euro_one * 100 + $cc->cent_fifty * 50 + $cc->cent_twenty * 20 + $cc->cent_ten * 10 + $cc->cent_five * 5 + $cc->cent_two * 2 + $cc->cent_one * 1;
     }
 
     public function sumString(): string

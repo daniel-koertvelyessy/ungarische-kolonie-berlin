@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Accounting\Report\Audit;
 
 use App\Enums\TransactionStatus;

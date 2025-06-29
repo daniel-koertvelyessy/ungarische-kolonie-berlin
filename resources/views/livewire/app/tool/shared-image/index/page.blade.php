@@ -1,7 +1,8 @@
 <div>
-    <flux:header title="Bildübersicht">
+    <flux:heading size="lg">Bildergallerie</flux:heading>
+    <nav class="flex gap-3 my-3">
 
-        <flux:button tone="primary" href="{{ route('shared-image.create') }}">
+        <flux:button variant="primary" size="sm" href="{{ route('shared-image.create') }}">
             Neues Bild hochladen
         </flux:button>
 
@@ -12,7 +13,9 @@
             title="Ansicht wechseln"
             size="sm"
         />
-    </flux:header>
+
+    </nav>
 
     <livewire:app.tool.shared-image.index.content :viewMode="$viewMode" :key="'viewmode-'.$viewMode" />
+
 </div>

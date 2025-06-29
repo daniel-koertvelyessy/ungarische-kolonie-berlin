@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Livewire\Member\Create\Form;
 use App\Models\Membership\Member;
 use App\Models\User;
@@ -137,9 +139,7 @@ test('store creates member with application and sends notifications', function (
     Notification::assertSentTo($member, \App\Notifications\ApplianceReceivedNotification::class);
 
     $component->assertDispatched('toast-show', function ($event, $payload) {
-        return $payload['dataset']['variant'] === 'success' &&
-            $payload['slots']['text'] === __('members.apply.submission.success.msg') &&
-            $payload['slots']['heading'] === __('members.apply.submission.success.head');
+        return $payload['dataset']['variant'] === 'success' && $payload['slots']['text'] === __('members.apply.submission.success.msg') && $payload['slots']['heading'] === __('members.apply.submission.success.head');
     });
 });
 
@@ -168,9 +168,7 @@ test('store creates member without application with authorization', function () 
     expect($member->name)->toBe('Jane Doe');
 
     $component->assertDispatched('toast-show', function ($event, $payload) {
-        return $payload['dataset']['variant'] === 'success' &&
-            $payload['slots']['text'] === __('members.apply.submission.success.msg') &&
-            $payload['slots']['heading'] === __('members.apply.submission.success.head');
+        return $payload['dataset']['variant'] === 'success' && $payload['slots']['text'] === __('members.apply.submission.success.msg') && $payload['slots']['heading'] === __('members.apply.submission.success.head');
     });
     $component->assertRedirect(route('backend.members.show', ['member' => $member]));
 });

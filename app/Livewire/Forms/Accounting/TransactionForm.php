@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Forms\Accounting;
 
 use App\Actions\Accounting\CreateBooking;

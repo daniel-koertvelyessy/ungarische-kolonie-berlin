@@ -1,17 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\App\Tool\SharedImage\Index;
 
+use App\Livewire\Traits\HasPrivileges;
 use App\Models\SharedImage;
+use Flux\Flux;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class Content extends Component
 {
+    use HasPrivileges;
+
     public string $viewMode = 'table';
 
     public $images;
-
 
     public function mount(string $viewMode = 'table'): void
     {
@@ -34,11 +41,10 @@ class Content extends Component
 
     public function approveImage(int $id): void
     {
-        $image = \App\Models\SharedImage::findOrFail($id);
 
-        if (! auth()->user()->isBoardMember()) {
-            abort(403);
-        }
+        $this->checkPrivilege(SharedImage::class);
+
+        $image = \App\Models\SharedImage::findOrFail($id);
 
         if (! $image->is_approved) {
             $image->update([
@@ -47,11 +53,67 @@ class Content extends Component
                 'approved_at' => now(),
             ]);
 
-            // Replace updated item in images list
-            $this->images = $this->images->map(fn ($img) => $img->id === $image->id ? $image : $img);
+            $this->dispatch('image-updated');
 
-            $this->dispatch('notify', ['message' => 'Bild wurde freigegeben.']);
         }
+    }
+
+    /**
+     * @param  int  $id
+     * @return StreamedResponse|void
+     */
+    public function downloadImage(int $id)
+    {
+        $this->checkPrivilege(SharedImage::class);
+
+        $image = \App\Models\SharedImage::findOrFail($id);
+
+        $filename = $image->path;
+
+        if ($image->is_approved && Storage::disk('local')->exists($filename)) {
+            if($image->user) {
+                $dowloadLabel = $image->label.'_'.$image->user->name;
+            } elseif ($image->invited && $image->invited->email) {
+                    $email = $image->invited->email;
+                    $name = explode('@', $email)[0];
+                    $dowloadLabel = $image->label . '_'. $name;
+            } else {
+                $dowloadLabel = $image->label;
+            }
+
+            return Storage::download($filename, $dowloadLabel);
+        }
+
+    }
+
+    public function deleteImage(int $id): void
+    {
+        $this->checkPrivilege(SharedImage::class);
+        $image = \App\Models\SharedImage::findOrFail($id);
+
+        $originalPath = $image->path;
+        $thumbPath = $image->thumbnail_path;
+
+        if (Storage::disk('local')->exists($originalPath)) {
+            $originalDeleted = Storage::disk('local')->delete($originalPath);
+        }
+
+        if (Storage::disk('local')->exists($thumbPath)) {
+            $thumpDeleted = Storage::disk('local')->delete($thumbPath);
+        }
+
+        if ($originalDeleted && $thumpDeleted) {
+            $image->delete();
+
+            Flux::toast(
+                text: 'Das Bild wurde erfolgreich gelöscht',
+                heading: 'Erfolg',
+                variant: 'success',
+            );
+
+            $this->dispatch('image-updated');
+        }
+
     }
 
     public function render()
