@@ -173,6 +173,8 @@ test('edit meeting minutes redirects for admin, accountant, or board member user
     $admin = User::factory()->admin()->create(['email_verified_at' => now()]);
     $this->actingAs($admin);
 
+    MeetingMinute::factory()->count(15)->create();
+
     Livewire::test('app.tool.meeting-minutes.edit')
         ->assertStatus(200)
         ->assertSee(__('minutes.edit.page_title'))

@@ -4,11 +4,17 @@ declare(strict_types=1);
 
 namespace App\Livewire\Forms\Minutes;
 
+use App\Models\MeetingMinute;
+use Illuminate\Support\Collection;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
 class MeetingMinuteForm extends Form
 {
+    public MeetingMinute $meetingMinute;
+
+    public Collection $attendes;
+
     #[Validate('required|string|max:255')]
     public string $title = '';
 
@@ -26,7 +32,16 @@ class MeetingMinuteForm extends Form
         $this->title = __('minutes.create.default_title');
         $this->meeting_date = now()->format('Y-m-d');
         $this->location = null;
-        $this->stored_at = null;
+    }
+
+    public function load(MeetingMinute $meetingMinute): void
+    {
+        $this->title = $meetingMinute->title;
+        $this->meeting_date = $meetingMinute->meeting_date->format('Y-m-d');
+        $this->location = $meetingMinute->location;
+
+        $this->attendes = $meetingMinute->attendees;
+
     }
 
     protected function messages(): array

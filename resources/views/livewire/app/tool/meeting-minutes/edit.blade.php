@@ -1,4 +1,6 @@
 <div>
     <flux:heading>{{__('minutes.edit.page_title')}}</flux:heading>
-    {{-- The whole world belongs to you. --}}
+
+    <livewire:app.tool.meeting-minutes.form :meetingMinute="$meetingMinute"/>
+
 </div>

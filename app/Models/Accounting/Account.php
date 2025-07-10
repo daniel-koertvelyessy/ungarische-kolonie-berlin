@@ -86,12 +86,16 @@ class Account extends Model
         return $current;
     }
 
-    public static function makeCentInteger(string $formattedValue): int
+    public static function makeCentInteger($formattedValue): int
     {
-        // Remove all non-numeric characters except commas
-        $value = preg_replace('/[^\d,]/', '', $formattedValue);
+        if (is_string($formattedValue)) {
+            // Remove all non-numeric characters except commas
+            $value = preg_replace('/[^\d,]/', '', $formattedValue);
 
-        return (int) str_replace(',', '', $value, $count);
+            return (int) str_replace(',', '', $value, $count);
+        }
+
+        return (int) $formattedValue;
     }
 
     public static function formatedAmount(int $value): string
