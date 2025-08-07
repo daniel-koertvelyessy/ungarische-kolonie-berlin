@@ -14,7 +14,7 @@ Route::get('/', function () {
 
 Route::get('/feed/events', [EventController::class, 'rssFeed'])->name('api.events.feed');
 
-Route::prefix('v1')->group(function () {
+Route::prefix('v1')->group(function (): void {
     Route::get('/events', [EventController::class, 'apiIndex'])->name('api.events.index');
     Route::get('/events-all', [EventController::class, 'apiAll'])->name('api.events.all');
 

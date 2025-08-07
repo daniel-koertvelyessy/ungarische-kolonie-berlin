@@ -12,7 +12,7 @@ use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class Applicants extends Component
+final class Applicants extends Component
 {
     use WithPagination;
 

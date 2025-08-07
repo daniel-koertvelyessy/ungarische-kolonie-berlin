@@ -14,7 +14,7 @@ use App\Models\User;
 use Illuminate\Validation\Rule;
 use Livewire\Form;
 
-class MemberForm extends Form
+final class MemberForm extends Form
 {
     public Member $member;
 

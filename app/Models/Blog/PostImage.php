@@ -35,7 +35,7 @@ use Illuminate\Support\Carbon;
  *
  * @mixin Eloquent
  */
-class PostImage extends Model
+final class PostImage extends Model
 {
     protected $fillable = ['post_id', 'filename', 'original_filename', 'caption', 'author'];
 

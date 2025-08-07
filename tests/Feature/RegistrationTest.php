@@ -7,13 +7,13 @@ use App\Models\Membership\Member;
 use App\Models\User;
 use Laravel\Fortify\Features;
 
-test('registration screen cannot be rendered without token', function () {
+test('registration screen cannot be rendered without token', function (): void {
     $response = $this->get('/members/register');
     $response->assertStatus(302)
         ->assertSessionHas('error', 'Invalid or expired invitation link. Requested token: ');
 });
 
-test('registration screen can be rendered with a valid token', function () {
+test('registration screen can be rendered with a valid token', function (): void {
     // Arrange: Create a member and invitation
     $member = Member::factory()->create([
         'email' => 'test@example.com',
@@ -36,7 +36,7 @@ test('registration screen can be rendered with a valid token', function () {
         ->assertViewHas('member', $member);
 });
 
-test('registration screen cannot be rendered if support is disabled', function () {
+test('registration screen cannot be rendered if support is disabled', function (): void {
     $response = $this->get('/register');
 
     $response->assertStatus(404);
@@ -44,7 +44,7 @@ test('registration screen cannot be rendered if support is disabled', function (
     return Features::enabled(Features::registration());
 }, 'Registration support is enabled.');
 
-test('user can register and login with a valid invitation token', function () {
+test('user can register and login with a valid invitation token', function (): void {
     // Arrange: Create a member and invitation
     $member = Member::factory()->create([
         'email' => 'test@example.com',
@@ -98,7 +98,7 @@ test('user can register and login with a valid invitation token', function () {
     ]);
 });
 
-test('fortify registration route is disabled', function () {
+test('fortify registration route is disabled', function (): void {
     $response = $this->get('/register');
     $response->assertStatus(404);
 });

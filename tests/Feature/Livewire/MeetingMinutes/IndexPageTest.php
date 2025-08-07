@@ -10,7 +10,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Config;
 use Livewire\Livewire;
 
-test('index page renders for admin users', function () {
+test('index page renders for admin users', function (): void {
     $admin = User::factory()->admin()->create(['email_verified_at' => now()]);
     $this->actingAs($admin);
 
@@ -20,7 +20,7 @@ test('index page renders for admin users', function () {
         ->assertSeeInOrder(['flux-heading', 'Protokolle']);
 });
 
-test('index page renders for accountant users', function () {
+test('index page renders for accountant users', function (): void {
     Config::set('app.accountant_email', 'accountant@example.com');
     $accountant = User::factory()->accountant()->create(['email_verified_at' => now()]);
     $this->actingAs($accountant);
@@ -30,7 +30,7 @@ test('index page renders for accountant users', function () {
         ->assertSee(__('minutes.index.page_title'));
 });
 
-test('index page renders for board member users', function () {
+test('index page renders for board member users', function (): void {
     $user = User::factory()->create(['email_verified_at' => now()]);
     $member = Member::factory()->boardMember()->withUser()->create(['user_id' => $user->id]);
     $this->actingAs($user);
@@ -40,7 +40,7 @@ test('index page renders for board member users', function () {
         ->assertSee(__('minutes.index.page_title'));
 });
 
-test('regular users can view index if permitted to view specific minutes', function () {
+test('regular users can view index if permitted to view specific minutes', function (): void {
     $user = User::factory()->create(['email_verified_at' => now()]);
     $this->actingAs($user);
 
@@ -49,12 +49,12 @@ test('regular users can view index if permitted to view specific minutes', funct
         ->assertSee(__('minutes.index.page_title'));
 });
 
-test('unauthenticated users are redirected from index page', function () {
+test('unauthenticated users are redirected from index page', function (): void {
     $this->get('/backend/minutes')
         ->assertRedirect('/login');
 });
 
-test('index page displays meeting minutes with attendees', function () {
+test('index page displays meeting minutes with attendees', function (): void {
     $admin = User::factory()->admin()->create(['email_verified_at' => now()]);
     $member = Member::factory()->create();
     $minute = MeetingMinute::factory()
@@ -69,7 +69,7 @@ test('index page displays meeting minutes with attendees', function () {
         ->assertSee($minute->meeting_date->isoformat('LL'));
 });
 
-test('search filters meeting minutes by title and topic content', function () {
+test('search filters meeting minutes by title and topic content', function (): void {
     $admin = User::factory()->admin()->create(['email_verified_at' => now()]);
     $member = Member::factory()->create();
     $minute1 = MeetingMinute::factory()
@@ -88,7 +88,7 @@ test('search filters meeting minutes by title and topic content', function () {
         ->assertDontSee($minute2->title);
 });
 
-test('sorting works for title and meeting_date', function () {
+test('sorting works for title and meeting_date', function (): void {
     $admin = User::factory()->admin()->create(['email_verified_at' => now()]);
     $member = Member::factory()->create();
     $minute1 = MeetingMinute::factory()
@@ -108,7 +108,7 @@ test('sorting works for title and meeting_date', function () {
         ->assertSeeInOrder([$minute2->title, $minute1->title]);
 });
 
-test('pagination works for meeting minutes', function () {
+test('pagination works for meeting minutes', function (): void {
     $admin = User::factory()->admin()->create(['email_verified_at' => now()]);
     $member = Member::factory()->create();
     MeetingMinute::factory()->count(15)
@@ -124,7 +124,7 @@ test('pagination works for meeting minutes', function () {
         ->assertDontSee(MeetingMinute::first()->title);
 });
 
-test('create button is visible only to admin, accountant, or board member users', function () {
+test('create button is visible only to admin, accountant, or board member users', function (): void {
     $admin = User::factory()->admin()->create(['email_verified_at' => now()]);
     $this->actingAs($admin);
 
@@ -152,7 +152,7 @@ test('create button is visible only to admin, accountant, or board member users'
         ->assertDontSee(__('minutes.index.btn.create'));
 });
 
-test('fetching meeting minutes details works for any authenticated user', function () {
+test('fetching meeting minutes details works for any authenticated user', function (): void {
     $member = Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id]);
     $minute = MeetingMinute::factory()
         ->has(Attendee::factory()->state(['member_id' => $member->id]))
@@ -169,7 +169,7 @@ test('fetching meeting minutes details works for any authenticated user', functi
         ->assertSee($minute->topics->first()->content);
 });
 
-test('edit meeting minutes redirects for admin, accountant, or board member users', function () {
+test('edit meeting minutes redirects for admin, accountant, or board member users', function (): void {
     $admin = User::factory()->admin()->create(['email_verified_at' => now()]);
     $this->actingAs($admin);
 
@@ -235,7 +235,7 @@ test('edit meeting minutes redirects for admin, accountant, or board member user
 //    $this->assertEquals($pdfContent, $actualContent, 'Download content does not match');
 // });
 
-test('print meeting minutes handles PDF generation failure', function () {
+test('print meeting minutes handles PDF generation failure', function (): void {
     $user = User::factory()->create(['email_verified_at' => now()]);
     $member = Member::factory()->create();
     $minute = MeetingMinute::factory()
@@ -259,7 +259,7 @@ test('print meeting minutes handles PDF generation failure', function () {
         ->assertSessionHas('error', 'Fehler beim Erstellen des Protokolls.');
 });
 
-test('debug meeting minutes query', function () {
+test('debug meeting minutes query', function (): void {
     $admin = User::factory()->admin()->create(['email_verified_at' => now()]);
     $member = Member::factory()->create();
     MeetingMinute::factory()->count(5)

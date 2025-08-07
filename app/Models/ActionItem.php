@@ -41,7 +41,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @mixin \Eloquent
  */
-class ActionItem extends Model
+final class ActionItem extends Model
 {
     /** @use HasFactory<\Database\Factories\ActionItemFactory> */
     use HasFactory;

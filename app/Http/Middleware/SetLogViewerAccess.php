@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
-class SetLogViewerAccess
+final class SetLogViewerAccess
 {
     /**
      * Handle an incoming request.

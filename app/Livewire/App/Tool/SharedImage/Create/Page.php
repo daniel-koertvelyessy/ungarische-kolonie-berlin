@@ -6,7 +6,7 @@ namespace App\Livewire\App\Tool\SharedImage\Create;
 
 use Livewire\Component;
 
-class Page extends Component
+final class Page extends Component
 {
     public function render()
     {

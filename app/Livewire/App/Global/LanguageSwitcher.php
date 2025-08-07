@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 
-class LanguageSwitcher extends Component
+final class LanguageSwitcher extends Component
 {
     public string $currentLocale;
 
@@ -17,7 +17,7 @@ class LanguageSwitcher extends Component
         $this->currentLocale = App::getLocale();
     }
 
-    public function switchLanguage(string $locale): \Illuminate\Foundation\Application|\Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+    public function switchLanguage(string $locale): \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
     {
         if (! in_array($locale, ['en', 'de', 'hu'], true)) {
             abort(404);

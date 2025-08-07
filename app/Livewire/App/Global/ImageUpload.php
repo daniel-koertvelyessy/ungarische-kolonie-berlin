@@ -13,7 +13,7 @@ use Intervention\Image\ImageManager;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
-class ImageUpload extends Component
+final class ImageUpload extends Component
 {
     use WithFileUploads;
 

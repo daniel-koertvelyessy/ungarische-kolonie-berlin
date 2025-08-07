@@ -10,7 +10,7 @@ use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
-class Events extends Component
+final class Events extends Component
 {
     #[Computed]
     public function draftedEvents(): int

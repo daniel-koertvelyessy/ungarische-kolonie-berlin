@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response as FacadeResponse;
 use Imagick;
 
-class SecureImageController extends Controller
+final class SecureImageController extends Controller
 {
     public function show(string $category, string $filename)
     {

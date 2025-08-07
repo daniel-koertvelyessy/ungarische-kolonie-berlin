@@ -54,7 +54,7 @@ Route::get('/mitglied-werden', function () {
 
 Route::prefix('members')
     ->name('members.')
-    ->group(function () {
+    ->group(function (): void {
         Route::get('/application', \App\Livewire\Member\Apply\Page::class)
             ->name('application');
 
@@ -69,7 +69,7 @@ Route::prefix('members')
 
 Route::prefix('events')
     ->name('events.')
-    ->group(function () {
+    ->group(function (): void {
         Route::get('/subscription/confirm/{eventSubscription}/{token}', [EventController::class, 'confirmSubscription'])
             ->name('subscription.confirm');
 
@@ -85,7 +85,7 @@ Route::prefix('events')
 
 Route::prefix('posts')
     ->name('posts.')
-    ->group(function () {
+    ->group(function (): void {
         Route::get('/', [PostController::class, 'index'])
             ->name('index');
 
@@ -95,7 +95,7 @@ Route::prefix('posts')
 
 Route::prefix('chatter')
     ->name('chat.')
-    ->group(function () {
+    ->group(function (): void {
         Route::get('/', [WhatsAppController::class, 'verify']);
         Route::post('/', [WhatsAppController::class, 'getMessage'])
             ->name('get-message');
@@ -121,7 +121,7 @@ Route::middleware([
     'verified',
 ])
     ->prefix('backend')
-    ->group(function () {
+    ->group(function (): void {
         Route::get('/tools', \App\Livewire\App\Tool\Index\Page::class)
             ->name('tools.index');
 
@@ -329,4 +329,27 @@ if (app()->isLocal()) {
         ]);
     })
         ->name('poster.preview.pdf');
+
+    Route::get('/pdf-preview/event-invitation/{event}', function (\App\Models\Event\Event $event) {
+        abort_unless(auth()->check(), 403);
+
+        $pdf = \App\Services\PdfGeneratorService::generatePdf('event-invitation-letter', $event);
+        $filename = 'preview-event-invitation.pdf';
+
+        return response($pdf, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="'.$filename.'"',
+        ]);
+    })->name('pdf.preview.event-invitation');
+
+    Route::get('/pdf-preview/event-program', function () {
+        abort_unless(auth()->check(), 403);
+        $filename = 'preview-event-program.pdf';
+        $pdf = \App\Services\PdfGeneratorService::generatePdf('event-programm-letter', [], $filename);
+
+        return response($pdf, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="'.$filename.'"',
+        ]);
+    })->name('pdf.preview.event-program');
 }

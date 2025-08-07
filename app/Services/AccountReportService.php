@@ -8,7 +8,7 @@ use App\Models\Accounting\AccountReport;
 use App\Pdfs\AccountReportPdf;
 use Carbon\Carbon;
 
-class AccountReportService
+final class AccountReportService
 {
     public function generate(AccountReport $accountReport): string
     {

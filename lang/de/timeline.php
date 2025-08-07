@@ -36,5 +36,4 @@ return [
     'title_extern_de' => 'Externer Titel de',
     'title_extern_hu' => 'Externer Titel hu',
     '' => '',
-    '' => '',
 ];

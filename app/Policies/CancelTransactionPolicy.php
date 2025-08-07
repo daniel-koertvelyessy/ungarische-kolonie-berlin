@@ -8,7 +8,7 @@ use App\Models\Accounting\Transaction;
 use App\Models\User;
 use App\Policies\Traits\HasAdminPrivileges;
 
-class CancelTransactionPolicy
+final class CancelTransactionPolicy
 {
     use HasAdminPrivileges;
 

@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
-class WhatsAppController extends Controller
+final class WhatsAppController extends Controller
 {
     public function sendMessage(Request $request)
     {

@@ -6,7 +6,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class EventVisitorSeeder extends Seeder
+final class EventVisitorSeeder extends Seeder
 {
     /**
      * Run the database seeds.

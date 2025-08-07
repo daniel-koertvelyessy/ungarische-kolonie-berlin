@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Accounting;
 
-class TransactionHelper
+final class TransactionHelper
 {
     protected string $komma = ',';
 

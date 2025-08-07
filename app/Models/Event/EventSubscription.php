@@ -45,7 +45,7 @@ use Illuminate\Support\Carbon;
  *
  * @mixin Eloquent
  */
-class EventSubscription extends Model
+final class EventSubscription extends Model
 {
     use HasFactory;
 

@@ -101,7 +101,7 @@ use Illuminate\Notifications\Notifiable;
  *
  * @mixin Eloquent
  */
-class Member extends Model
+final class Member extends Model
 {
     /** @use HasFactory<MemberFactory> */
     use HasFactory;
@@ -169,7 +169,7 @@ class Member extends Model
         return false;
     }
 
-    public function transactions(): HasManyThrough|Builder
+    public function transactions(): HasManyThrough
     {
         //        return $this->hasMany(Transaction::class);
         return $this->hasManyThrough(Transaction::class, MemberTransaction::class, 'member_id', 'id', 'id', 'transaction_id');
@@ -190,7 +190,7 @@ class Member extends Model
         $currentYear = Carbon::now('Europe/Berlin')->year;
         $payments = MemberTransaction::query()
             ->where('member_id', $this->id)
-            ->with(['transaction' => function ($query) {
+            ->with(['transaction' => function ($query): void {
                 $query->select('id', 'amount_gross', 'label', 'status')
                     ->whereBetween('date', [Carbon::now('Europe/Berlin')->startOfYear(), Carbon::now('Europe/Berlin')->endOfYear()])
                     ->where('booking_account_id', '=', 13)

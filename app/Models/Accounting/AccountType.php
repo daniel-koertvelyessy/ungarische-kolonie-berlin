@@ -28,7 +28,7 @@ use Illuminate\Support\Carbon;
  *
  * @mixin Eloquent
  */
-class AccountType extends Model
+final class AccountType extends Model
 {
     /** @use HasFactory<AccountTypeFactory> */
     use HasFactory;

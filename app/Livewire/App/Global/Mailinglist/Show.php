@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-class Show extends Component
+final class Show extends Component
 {
     public $token;
 

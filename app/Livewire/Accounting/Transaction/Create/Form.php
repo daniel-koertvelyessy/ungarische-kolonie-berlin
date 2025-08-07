@@ -29,7 +29,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Throwable;
 
-class Form extends Component
+final class Form extends Component
 {
     use HasPrivileges;
     use WithFileUploads;
@@ -298,7 +298,7 @@ class Form extends Component
 
     public function fileDropped($file): void
     {
-        $this->receiptForm['file_name'] = $file;
+        $this->receiptForm->file_name = $file;
     }
 
     public function deleteFile(int $receipt_id): void

@@ -10,7 +10,7 @@ use Tests\Traits\TranslationTestTrait;
 
 uses(TranslationTestTrait::class);
 
-test('if backend event index page component renders correctly', function () {
+test('if backend event index page component renders correctly', function (): void {
 
     // Nutzer erstellen aus Mitglied authentifizieren
     $this->actingAs(Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id])->user);
@@ -26,7 +26,7 @@ test('if backend event index page component renders correctly', function () {
         ->assertSee(Event::first()->name); // Check if first event is listed
 });
 
-test('if backend event pagination works correctly', function () {
+test('if backend event pagination works correctly', function (): void {
     $this->actingAs(Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id])->user);
     Event::factory(30)->create();
 
@@ -36,7 +36,7 @@ test('if backend event pagination works correctly', function () {
         ->assertDontSee(Event::first()->name); // First page event should not be here
 });
 
-test('if backend event index page events can be searched', function () {
+test('if backend event index page events can be searched', function (): void {
     $this->actingAs(Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id])->user);
     Event::factory()->create(['name' => 'Laravel Conference']);
     Event::factory()->create(['name' => 'VueJS Meetup']);
@@ -47,7 +47,7 @@ test('if backend event index page events can be searched', function () {
         ->assertDontSee('VueJS Meetup');
 });
 
-test('if all translations are rendered on backend event index page', function () {
+test('if all translations are rendered on backend event index page', function (): void {
     $this->actingAs(Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id])->user);
 
     $event = \App\Models\Event\Event::factory()->create();

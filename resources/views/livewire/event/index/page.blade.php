@@ -1,4 +1,3 @@
-
 <div class="space-y-6">
 
 
@@ -9,12 +8,17 @@
         @can('create',\App\Models\Event\Event::class)
             <flux:button href="{{ route('backend.events.create') }}"
                          variant="primary"
-                         icon-trailing="plus"
+                         icon="plus"
                          size="sm"
             ><span class="hidden lg:inline">{{ __('event.index.btn.start_new') }}</span>
             </flux:button>
             <flux:separator vertical/>
         @endcan
+        <flux:modal.trigger name="generate-program-list">
+            <flux:button size="sm"
+                         icon="printer"
+            ><span class="hidden lg:inline">{{ __('event.program_letter.modal.btn') }}</span></flux:button>
+        </flux:modal.trigger>
 
 
         <flux:input size="sm"
@@ -45,7 +49,7 @@
                                :direction="$sortDirection"
                                wire:click="sort('name')"
             >{{ __('event.index.table.header.name') }}</flux:table.column>
-            <flux:table.column  class="hidden sm:table-cell"
+            <flux:table.column class="hidden sm:table-cell"
             >{{ __('event.index.table.header.image') }}</flux:table.column>
             <flux:table.column class="hidden sm:table-cell"
             >{{ __('event.index.table.header.subscriptions') }}</flux:table.column>
@@ -53,7 +57,6 @@
                                :sorted="$sortBy === 'date'"
                                :direction="$sortDirection"
                                wire:click="sort('event_date')"
-                               class="hidden sm:table-cell"
             >{{ __('event.date')}}</flux:table.column>
             <flux:table.column sortable
                                :sorted="$sortBy === 'starts_at'"
@@ -100,10 +103,13 @@
                         @endif
                     </flux:table.cell>
                     <flux:table.cell class="hidden sm:table-cell">
-                       <flux:badge color="{{ $event->subscriptions->count() > 0 ? 'lime' : 'grey' }}" size="sm"> {{ $event->subscriptions->count() }}</flux:badge>
+                        <flux:badge color="{{ $event->subscriptions->count() > 0 ? 'lime' : 'grey' }}"
+                                    size="sm"
+                        > {{ $event->subscriptions->count() }}</flux:badge>
                     </flux:table.cell>
-                    <flux:table.cell class="hidden sm:table-cell">
-                        {{ optional($event->event_date)->format('Y-m-d') }}
+                    <flux:table.cell>
+                        <span class="hidden sm:table-cell"> {{ optional($event->event_date)->isoFormat('LL') }}</span>
+                        <span class="table-cell sm:hidden"> {{ optional($event->event_date)->isoFormat('DD MMM') }}</span>
                     </flux:table.cell>
 
                     <flux:table.cell class="hidden 2xl:table-cell">
@@ -128,5 +134,44 @@
             @endforeach
         </flux:table.rows>
     </flux:table>
+
+
+    <flux:modal name="generate-program-list"
+                class="md:w-96"
+    >
+        <div class="space-y-6">
+            <div>
+                <flux:heading size="lg">{{ __('event.program_letter.modal.heading') }}</flux:heading>
+                <flux:text class="mt-2">{{ __('event.program_letter.modal.text') }}</flux:text>
+            </div>
+            <flux:radio.group label="Filter" wire:model="programmFilter">
+                <flux:radio
+                    name="program-filter"
+                    value="year"
+                    label="{{ __('event.program_letter.modal.radio.year.label') }}"
+                    description="{{ __('event.program_letter.modal.radio.year.desc') }}"
+                    checked
+                />
+                <flux:radio
+                    name="program-filter"
+                    value="upcoming"
+                    label="{{ __('event.program_letter.modal.radio.upcoming.label') }}"
+                    description="{{ __('event.program_letter.modal.radio.upcoming.desc') }}"
+                />
+                <flux:radio
+                    name="program-filter"
+                    value="all"
+                    label="{{ __('event.program_letter.modal.radio.all.label') }}"
+                    description="{{ __('event.program_letter.modal.radio.all.desc') }}"
+                />
+            </flux:radio.group>
+            <div class="flex">
+                <flux:spacer/>
+                <flux:button variant="primary" wire:click="generateEventList"
+                >{{ __('event.program_letter.modal.btn') }}
+                </flux:button>
+            </div>
+        </div>
+    </flux:modal>
 </div>
 

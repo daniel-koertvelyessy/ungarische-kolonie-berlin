@@ -7,7 +7,7 @@ namespace App\Livewire\App\Tool\Mailing;
 use Illuminate\View\View;
 use Livewire\Component;
 
-class Form extends Component
+final class Form extends Component
 {
     public function render(): view
     {

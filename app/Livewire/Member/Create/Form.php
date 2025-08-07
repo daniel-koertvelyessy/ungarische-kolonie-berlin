@@ -17,7 +17,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Notification;
 use Livewire\Component;
 
-class Form extends Component
+final class Form extends Component
 {
     public MemberForm $form;
 

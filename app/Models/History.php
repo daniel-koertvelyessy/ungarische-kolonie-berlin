@@ -36,7 +36,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @mixin \Eloquent
  */
-class History extends Model
+final class History extends Model
 {
     use HasFactory;
 

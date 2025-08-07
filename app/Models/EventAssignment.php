@@ -56,7 +56,7 @@ use Illuminate\Support\Carbon;
  *
  * @mixin Eloquent
  */
-class EventAssignment extends Model
+final class EventAssignment extends Model
 {
     /** @use HasFactory<EventAssignmentFactory> */
     use HasFactory, Notifiable;

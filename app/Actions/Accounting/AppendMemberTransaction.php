@@ -9,7 +9,7 @@ use App\Models\Membership\Member;
 use App\Models\Membership\MemberTransaction;
 use Illuminate\Support\Facades\DB;
 
-class AppendMemberTransaction
+final class AppendMemberTransaction
 {
     public static function handle(Transaction $transaction, Member $member): bool
     {

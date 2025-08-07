@@ -7,7 +7,7 @@ namespace App\Policies;
 use App\Models\EventTimeline;
 use App\Models\User;
 
-class EventTimelinePolicy
+final class EventTimelinePolicy
 {
     /**
      * Determine whether the user can view any models.

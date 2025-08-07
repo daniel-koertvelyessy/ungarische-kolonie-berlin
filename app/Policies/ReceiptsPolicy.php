@@ -7,7 +7,7 @@ namespace App\Policies;
 use App\Models\Accounting\Receipt;
 use App\Models\User;
 
-class ReceiptsPolicy
+final class ReceiptsPolicy
 {
     /**
      * Determine whether the user can view any models.

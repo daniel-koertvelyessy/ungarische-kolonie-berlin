@@ -14,7 +14,7 @@ use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Livewire\Component;
 
-class Form extends Component
+final class Form extends Component
 {
     public MeetingMinuteForm $minuteForm;
 
@@ -47,17 +47,17 @@ class Form extends Component
     public function mount(?MeetingMinute $meetingMinute): void
     {
         if ($meetingMinute->title) {
-            $this->meetingMinute = $meetingMinute;
-            dd($meetingMinute);
+            $this->minuteForm->loadMeeting($meetingMinute);
+
+        } else {
+            $this->attendeesList = [];
+            $this->topicsList = [];
+            $this->actionItemsList = [];
+            $this->minuteForm->init();
+            $this->minuteForm->meeting_date = Carbon::today('Europe/Berlin')->format('Y-m-d');
         }
 
-        $this->attendeesList = [];
-        $this->topicsList = [];
-        $this->actionItemsList = [];
         $this->members = Member::query()->select(['id', 'name', 'first_name', 'email'])->whereNotNull('entered_at')->get();
-
-        $this->minuteForm->init();
-        $this->minuteForm->meeting_date = Carbon::today('Europe/Berlin')->format('Y-m-d');
     }
 
     public function updatedNewAttendeeMemberId(int $value): void

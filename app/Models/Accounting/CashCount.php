@@ -69,7 +69,7 @@ use Illuminate\Support\Carbon;
  *
  * @mixin Eloquent
  */
-class CashCount extends Model
+final class CashCount extends Model
 {
     use HasHistory;
 

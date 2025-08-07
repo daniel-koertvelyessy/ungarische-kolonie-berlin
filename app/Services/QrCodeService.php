@@ -12,7 +12,7 @@ use BaconQrCode\Writer;
 /**
  * Generate a QR-Code
  */
-class QrCodeService
+final class QrCodeService
 {
     public function generateSvg(string $data, int $size): string
     {

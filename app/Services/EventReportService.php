@@ -10,7 +10,7 @@ use App\Models\Event\EventTransaction;
 use App\Models\Event\EventVisitor;
 use App\Pdfs\EventReportPdf;
 
-class EventReportService
+final class EventReportService
 {
     public function generate(Event $event): string
     {

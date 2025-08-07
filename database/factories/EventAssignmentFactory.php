@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends Factory<EventAssignment>
  */
-class EventAssignmentFactory extends Factory
+final class EventAssignmentFactory extends Factory
 {
     /**
      * Define the model's default state.

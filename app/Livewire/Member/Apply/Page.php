@@ -7,7 +7,7 @@ namespace App\Livewire\Member\Apply;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-class Page extends Component
+final class Page extends Component
 {
     #[Layout('layouts.guest')]
     public function render(): \Illuminate\View\View

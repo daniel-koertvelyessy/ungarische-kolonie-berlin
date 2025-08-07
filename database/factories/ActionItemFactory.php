@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ActionItem>
  */
-class ActionItemFactory extends Factory
+final class ActionItemFactory extends Factory
 {
     protected $model = ActionItem::class;
 

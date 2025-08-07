@@ -10,7 +10,7 @@ use App\Services\MarkdownService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class StaticController extends Controller
+final class StaticController extends Controller
 {
     public function privacy(): \Illuminate\View\View
     {
@@ -29,7 +29,7 @@ class StaticController extends Controller
 
         $html = $mdService->getMarkdownAsHtml('statute_2014');
 
-        $team = Member::with(['activeRoles' => function ($query) {
+        $team = Member::with(['activeRoles' => function ($query): void {
             $query->wherePivot('resigned_at', null);
         }])
             ->join('member_role', 'members.id', '=', 'member_role.member_id')

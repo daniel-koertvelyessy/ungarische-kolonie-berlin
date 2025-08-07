@@ -16,7 +16,7 @@ use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class Page extends Component
+final class Page extends Component
 {
     use HasPrivileges,Sortable, WithPagination;
 

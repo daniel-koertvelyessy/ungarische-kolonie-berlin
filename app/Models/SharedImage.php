@@ -52,7 +52,7 @@ use Illuminate\Support\Facades\Storage;
  *
  * @mixin Eloquent
  */
-class SharedImage extends Model
+final class SharedImage extends Model
 {
     use HasFactory;
 

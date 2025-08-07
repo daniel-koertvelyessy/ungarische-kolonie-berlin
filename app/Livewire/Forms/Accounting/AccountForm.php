@@ -11,7 +11,7 @@ use Flux\Flux;
 use Illuminate\Validation\Rule;
 use Livewire\Form;
 
-class AccountForm extends Form
+final class AccountForm extends Form
 {
     public Account $account;
 

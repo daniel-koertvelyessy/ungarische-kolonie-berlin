@@ -10,7 +10,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Str;
 
-class PostPublishedNotification extends Notification
+final class PostPublishedNotification extends Notification
 {
     use Queueable;
 

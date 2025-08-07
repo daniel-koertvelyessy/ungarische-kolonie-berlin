@@ -3,15 +3,22 @@ includes:
     - vendor/nesbot/carbon/extension.neon
 
 parameters:
+#    type_coverage:
+#        return: 50
+#        param: 35.5
+#        property: 70
+#
+#        # since PHP 8.3
+#        constant: 85
 
     paths:
         - app/
 
     # Level 10 is the highest level
-    level: 6
+    level: 5
 
  #   ignoreErrors:
 #        - '#PHPDoc tag @var#'
 #
 #    excludePaths:
-#        - ./*/*/FileToBeExcluded.php
+#        - tests

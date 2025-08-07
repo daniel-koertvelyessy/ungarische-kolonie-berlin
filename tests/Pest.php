@@ -45,12 +45,12 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-beforeEach(function () {
+beforeEach(function (): void {
     //  Queue::fake(); // Optional: fake queue to inspect jobs
     //  config(['queue.default' => 'sync']); // Run jobs immediately
 });
 
-function something()
+function something(): void
 {
     // ..
 }

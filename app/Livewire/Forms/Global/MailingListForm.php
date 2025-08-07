@@ -9,7 +9,7 @@ use App\Actions\Global\UpdateMailingListEntry;
 use App\Models\MailingList;
 use Livewire\Form;
 
-class MailingListForm extends Form
+final class MailingListForm extends Form
 {
     protected MailingList $mailingListEntry;
 

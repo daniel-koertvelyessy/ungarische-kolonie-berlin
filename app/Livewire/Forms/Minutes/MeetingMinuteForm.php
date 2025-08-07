@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
-class MeetingMinuteForm extends Form
+final class MeetingMinuteForm extends Form
 {
     public MeetingMinute $meetingMinute;
 
@@ -34,7 +34,7 @@ class MeetingMinuteForm extends Form
         $this->location = null;
     }
 
-    public function load(MeetingMinute $meetingMinute): void
+    public function loadMeeting(MeetingMinute $meetingMinute): void
     {
         $this->title = $meetingMinute->title;
         $this->meeting_date = $meetingMinute->meeting_date->format('Y-m-d');

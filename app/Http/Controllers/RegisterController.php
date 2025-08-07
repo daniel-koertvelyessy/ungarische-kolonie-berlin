@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
-class RegisterController extends Controller
+final class RegisterController extends Controller
 {
     public function create(Request $request): \Illuminate\Http\RedirectResponse
     {
@@ -48,7 +48,7 @@ class RegisterController extends Controller
         return redirect()->intended(route('dashboard'));
     }
 
-    public function showRegistrationForm(Request $request): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Routing\Redirector|\Illuminate\View\View|\Illuminate\Http\RedirectResponse
+    public function showRegistrationForm(Request $request)
     {
         $token = $request->query('token');
         $invitation = Invitation::query()

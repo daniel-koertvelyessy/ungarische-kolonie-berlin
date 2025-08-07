@@ -8,7 +8,7 @@ use App\Models\MeetingMinute;
 use App\Models\User;
 use App\Policies\Traits\HasAdminPrivileges;
 
-class MeetingMinutePolicy
+final class MeetingMinutePolicy
 {
     use HasAdminPrivileges;
 

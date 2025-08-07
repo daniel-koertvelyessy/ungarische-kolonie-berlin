@@ -11,7 +11,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
 
-class RecordHistory implements ShouldQueue
+final class RecordHistory implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable;
 

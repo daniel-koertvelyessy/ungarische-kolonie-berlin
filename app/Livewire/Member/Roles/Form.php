@@ -15,7 +15,7 @@ use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
-class Form extends Component
+final class Form extends Component
 {
     use HasPrivileges;
     use WithFileUploads;

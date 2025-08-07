@@ -10,7 +10,8 @@
             "default": "single_space"
         },
         "ordered_imports": true,
-        "single_quote": true
+        "single_quote": true,
+        "final_class": true
     },
     "exclude": [
         "vendor",

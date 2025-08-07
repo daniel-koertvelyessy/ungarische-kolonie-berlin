@@ -11,7 +11,7 @@ use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class UpcommingBirthdayList extends Component
+final class UpcommingBirthdayList extends Component
 {
     use WithPagination;
 

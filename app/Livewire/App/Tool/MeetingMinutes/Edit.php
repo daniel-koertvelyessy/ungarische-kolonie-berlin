@@ -8,7 +8,7 @@ use App\Livewire\Forms\Minutes\MeetingMinuteForm;
 use App\Models\MeetingMinute;
 use Livewire\Component;
 
-class Edit extends Component
+final class Edit extends Component
 {
     public MeetingMinute $meetingMinute;
 

@@ -5,12 +5,12 @@ declare(strict_types=1);
 use App\Models\Event\EventSubscription;
 use App\Models\Membership\Member;
 
-beforeEach(function () {
+beforeEach(function (): void {
     // Seed or setup any necessary data before each test
     $this->member = Member::factory()->create(); // Assumes you have a Member factory
 });
 
-it('renders the mailer-test route successfully', function () {
+it('renders the mailer-test route successfully', function (): void {
 
     Route::get('/mailer-test', [\App\Http\Controllers\TestingController::class, 'mailTest'])
         ->name('mail-tester');
@@ -24,7 +24,7 @@ it('renders the mailer-test route successfully', function () {
 
 });
 
-it('switches locale and redirects back', function () {
+it('switches locale and redirects back', function (): void {
     // Simulate a previous page
     $this->get('/'); // Sets HTTP_REFERER
 
@@ -36,7 +36,7 @@ it('switches locale and redirects back', function () {
     expect(session('locale'))->toBe('hu');
 });
 
-it('confirms event subscription with valid token', function () {
+it('confirms event subscription with valid token', function (): void {
     // Create a subscription
     $subscription = EventSubscription::factory()->create(['confirmed_at' => null]);
     $token = 'valid-token';
@@ -64,7 +64,7 @@ it('confirms event subscription with valid token', function () {
     expect($subscription->fresh()->confirmed_at)->not->toBeNull();
 });
 
-it('aborts with 403 for invalid event subscription token', function () {
+it('aborts with 403 for invalid event subscription token', function (): void {
     $subscription = EventSubscription::factory()->create([
         'confirmed_at' => null,
     ]);

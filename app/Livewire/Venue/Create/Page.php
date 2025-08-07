@@ -8,7 +8,7 @@ use App\Livewire\Forms\Event\VenueForm;
 use Flux\Flux;
 use Livewire\Component;
 
-class Page extends Component
+final class Page extends Component
 {
     public VenueForm $form;
 

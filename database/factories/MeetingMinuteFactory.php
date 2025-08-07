@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\MeetingMinute>
  */
-class MeetingMinuteFactory extends Factory
+final class MeetingMinuteFactory extends Factory
 {
     protected $model = MeetingMinute::class;
 

@@ -13,7 +13,7 @@ use Livewire\Component;
 /**
  *  List images as Table with META data
  */
-class Table extends Component
+final class Table extends Component
 {
     use \Livewire\WithPagination;
 

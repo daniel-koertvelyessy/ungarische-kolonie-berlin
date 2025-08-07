@@ -90,5 +90,4 @@ return [
 
     'notification_mail.content.excerpt.header' => 'Vorschau',
     '' => '',
-    '' => '',
 ];

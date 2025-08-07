@@ -7,7 +7,7 @@ namespace App\Pdfs;
 use App\Models\MeetingMinute;
 use Illuminate\Support\Facades\View;
 
-class MeetingMinutesPdf extends BasePdfTemplate
+final class MeetingMinutesPdf extends BasePdfTemplate
 {
     protected MeetingMinute $meetingMinute;
 

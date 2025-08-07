@@ -10,7 +10,7 @@ use App\Models\Membership\Member;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class MemberFactory extends Factory
+final class MemberFactory extends Factory
 {
     protected $model = Member::class;
 

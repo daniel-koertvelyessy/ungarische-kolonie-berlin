@@ -17,7 +17,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 
-class Page extends Component
+final class Page extends Component
 {
     use HasPrivileges;
     use WithFileUploads;
@@ -91,7 +91,7 @@ class Page extends Component
     protected function moveItem($role, $position): void
     {
 
-        DB::transaction(function () use ($role, $position) {
+        DB::transaction(function () use ($role, $position): void {
 
             $current = $role->sort;
 

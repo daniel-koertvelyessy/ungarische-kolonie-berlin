@@ -6,7 +6,7 @@ namespace App\Livewire\App\Tool\Whatsapp;
 
 use Livewire\Component;
 
-class Send extends Component
+final class Send extends Component
 {
     public function render()
     {

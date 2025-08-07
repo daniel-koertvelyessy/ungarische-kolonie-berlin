@@ -39,7 +39,7 @@ use Illuminate\Support\Carbon;
  *
  * @mixin Eloquent
  */
-class MemberTransaction extends Model
+final class MemberTransaction extends Model
 {
     use HasFactory;
 

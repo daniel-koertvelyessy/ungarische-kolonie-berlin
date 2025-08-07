@@ -16,9 +16,9 @@ use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
- * @property string $start
+ * @property Carbon $start
  * @property int|null $duration
- * @property string $end
+ * @property Carbon $end
  * @property int $event_id
  * @property string $title
  * @property string|null $description
@@ -58,7 +58,7 @@ use Illuminate\Support\Carbon;
  *
  * @mixin Eloquent
  */
-class EventTimeline extends Model
+final class EventTimeline extends Model
 {
     /** @use HasFactory<EventTimelineFactory> */
     use HasFactory;

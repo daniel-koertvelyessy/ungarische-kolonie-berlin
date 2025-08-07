@@ -9,7 +9,7 @@ use App\Actions\Event\UpdateTimeline;
 use App\Models\EventTimeline;
 use Livewire\Form;
 
-class EventTimelineForm extends Form
+final class EventTimelineForm extends Form
 {
     public EventTimeline $eventTimeline;
 

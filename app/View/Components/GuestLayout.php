@@ -9,7 +9,7 @@ use App\Models\Event\Event;
 use Illuminate\View\Component;
 use Illuminate\View\View;
 
-class GuestLayout extends Component
+final class GuestLayout extends Component
 {
     public string $title = 'Magyar Kolónia Berlin e.V.';
 

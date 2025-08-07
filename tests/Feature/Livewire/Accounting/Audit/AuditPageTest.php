@@ -5,7 +5,7 @@ declare(strict_types=1);
 use App\Models\Membership\Member;
 use App\Models\User;
 
-it('standard user cannot see the audit page', function () {
+it('standard user cannot see the audit page', function (): void {
 
     $member = Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id]);
 
@@ -32,7 +32,7 @@ it('standard user cannot see the audit page', function () {
 
 });
 
-it('only designated user can see the audit page', function () {
+it('only designated user can see the audit page', function (): void {
 
     $user_issuer = Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id])->user;
     $report = \App\Models\Accounting\AccountReport::factory()->create();

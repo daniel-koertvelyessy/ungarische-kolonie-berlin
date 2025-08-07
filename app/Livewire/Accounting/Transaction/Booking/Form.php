@@ -9,7 +9,7 @@ use App\Models\Accounting\Transaction;
 use Flux\Flux;
 use Livewire\Component;
 
-class Form extends Component
+final class Form extends Component
 {
     public ?Transaction $transaction = null;
 

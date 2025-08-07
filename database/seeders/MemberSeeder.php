@@ -8,7 +8,7 @@ use App\Models\Membership\Member;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
-class MemberSeeder extends Seeder
+final class MemberSeeder extends Seeder
 {
     /**
      * Run the database seeds.

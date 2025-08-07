@@ -13,7 +13,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
-class CustomNotificationMail extends Mailable
+final class CustomNotificationMail extends Mailable
 {
     use Queueable;
     use SerializesModels;

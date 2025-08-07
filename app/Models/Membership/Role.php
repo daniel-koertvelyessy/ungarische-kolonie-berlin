@@ -35,7 +35,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  *
  * @mixin \Eloquent
  */
-class Role extends Model
+final class Role extends Model
 {
     use HasFactory;
 

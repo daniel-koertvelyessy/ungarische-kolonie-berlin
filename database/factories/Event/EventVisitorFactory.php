@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends Factory<EventVisitor>
  */
-class EventVisitorFactory extends Factory
+final class EventVisitorFactory extends Factory
 {
     /**
      * Define the model's default state.

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
-class NotificationsMenu extends Component
+final class NotificationsMenu extends Component
 {
     public Collection $notifications;
 

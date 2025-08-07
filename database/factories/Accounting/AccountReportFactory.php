@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends Factory<AccountReport>
  */
-class AccountReportFactory extends Factory
+final class AccountReportFactory extends Factory
 {
     protected $model = AccountReport::class;
 

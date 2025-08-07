@@ -12,6 +12,8 @@ use App\Models\Event\EventVisitor;
 use App\Models\MeetingMinute;
 use App\Models\Membership\Member;
 use App\Pdfs\AccountReportPdf;
+use App\Pdfs\EventInvitationLetter;
+use App\Pdfs\EventProgramLetter;
 use App\Pdfs\EventReportPdf;
 use App\Pdfs\MeetingMinutesPdf;
 use App\Pdfs\MemberApplicationPdf;
@@ -20,7 +22,7 @@ use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 
-class PdfGeneratorService
+final class PdfGeneratorService
 {
     /**
      * Generate a PDF based on type and data.
@@ -41,8 +43,28 @@ class PdfGeneratorService
             'account-report' => self::generateAccountReportPdf($data, $filename, $locale),
             'invoice' => self::generateInvoicePdf($data['transaction'], $data['member'], $filename, $locale),
             'meeting-minute' => self::generateMeetingMinutePdf($data, $filename, $locale),
+            'event-invitation-letter' => self::generateEventInvitationLetter($data, $filename, $locale),
+            'event-programm-letter' => self::generateEventProgrammLetter($filename, $data, $locale),
             default => throw new Exception("Unknown PDF type: $type"),
         };
+    }
+
+    private static function generateEventProgrammLetter($filename, $data, $locale): string
+    {
+
+        $pdf = new EventProgramLetter($data, $filename, $locale);
+        $pdf->generateContent();
+
+        return $pdf->Output($filename, 'S');
+    }
+
+    private static function generateEventInvitationLetter(Event $event, ?string $filename, string $locale): string
+    {
+        $filename = $filename ?? "mitgliedsantrag-{$event->id}-".now()->format('Ymd').'.pdf';
+        $pdf = new EventInvitationLetter($event, Member::whereNull('email')->get(), 'Mitgliedsantrag', $locale);
+        $pdf->generateContent();
+
+        return $pdf->Output($filename, 'S');
     }
 
     private static function generateMemberApplicationPdf(Member $member, ?string $filename, string $locale): string

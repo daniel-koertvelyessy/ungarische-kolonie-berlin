@@ -9,7 +9,7 @@ use Exception;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
-class Page extends Component
+final class Page extends Component
 {
     use WithFileUploads;
 

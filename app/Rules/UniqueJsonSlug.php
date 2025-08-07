@@ -9,7 +9,7 @@ use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Facades\DB;
 
-class UniqueJsonSlug implements ValidationRule
+final class UniqueJsonSlug implements ValidationRule
 {
     protected string $table;
 

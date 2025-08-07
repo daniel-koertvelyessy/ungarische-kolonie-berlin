@@ -19,9 +19,11 @@ use App\Models\Event\EventVisitor;
 use App\Models\EventAssignment;
 use App\Models\EventTimeline;
 use App\Models\History;
+use App\Models\Membership\Member;
 use App\Models\User;
 use App\Models\Venue;
 use App\Services\MailingService;
+use App\Services\PdfGeneratorService;
 use Carbon\Carbon;
 use Flux\Flux;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -33,7 +35,7 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class Page extends Component
+final class Page extends Component
 {
     use HasPrivileges;
     use PersistsTabs;
@@ -309,6 +311,30 @@ class Page extends Component
             $this->sendNotificationEmail();
         } else {
             Flux::modal('confirm-resending-publication-notification')->show();
+        }
+
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function sendPublicationLetter()
+    {
+        $emailLessMembers = Member::whereNull('email');
+        if ($emailLessMembers->count() > 0) {
+            $this->checkPrivilege(Event::class);
+
+            $pdfString = PdfGeneratorService::generatePdf('event-invitation-letter', $this->event);
+            $filename = 'einladungsschreiben-'.$this->event->name.'-'.now()->format('Ymd').'.pdf';
+
+            return response()->streamDownload(function () use ($pdfString) {
+                echo $pdfString;
+            }, $filename, [
+                'Content-Type' => 'application/pdf',
+            ]);
+
+        } else {
+            Flux::toast(text: 'Keine Mitglieder ohne E-Mail adresse gefunden', heading: 'Abbruch', variant: 'warning');
         }
 
     }

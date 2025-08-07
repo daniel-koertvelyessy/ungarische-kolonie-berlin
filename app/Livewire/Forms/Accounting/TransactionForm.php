@@ -13,7 +13,7 @@ use App\Models\Accounting\Transaction;
 use Illuminate\Validation\Rule;
 use Livewire\Form;
 
-class TransactionForm extends Form
+final class TransactionForm extends Form
 {
     public $id;
 

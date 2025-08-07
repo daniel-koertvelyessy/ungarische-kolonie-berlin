@@ -6,7 +6,7 @@ namespace App\Pdfs;
 
 use App\Models\Membership\Member;
 
-class MemberApplicationPdf extends BasePdfTemplate
+final class MemberApplicationPdf extends BasePdfTemplate
 {
     public function __construct(public Member $member, public string $filename, $locale)
     {

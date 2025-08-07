@@ -31,7 +31,7 @@ use Illuminate\Support\Carbon;
  *
  * @mixin Eloquent
  */
-class BookingAccount extends Model
+final class BookingAccount extends Model
 {
     /**
      *   Standardkontenrahmen 49

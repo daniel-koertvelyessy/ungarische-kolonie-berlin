@@ -9,7 +9,7 @@ use App\Models\EventTimeline;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
-class CreateTimeline
+final class CreateTimeline
 {
     /**
      * @throws Throwable

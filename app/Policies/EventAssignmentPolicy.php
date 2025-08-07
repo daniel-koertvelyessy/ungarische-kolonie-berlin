@@ -7,7 +7,7 @@ namespace App\Policies;
 use App\Models\EventAssignment;
 use App\Models\User;
 
-class EventAssignmentPolicy
+final class EventAssignmentPolicy
 {
     /**
      * Determine whether the user can view any models.

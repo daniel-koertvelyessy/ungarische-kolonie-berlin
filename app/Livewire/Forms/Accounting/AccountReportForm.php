@@ -10,7 +10,7 @@ use App\Models\Accounting\AccountReport;
 use Illuminate\Validation\Rule;
 use Livewire\Form;
 
-class AccountReportForm extends Form
+final class AccountReportForm extends Form
 {
     public $id;
 

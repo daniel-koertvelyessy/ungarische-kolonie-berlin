@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\MeetingTopic>
  */
-class MeetingTopicFactory extends Factory
+final class MeetingTopicFactory extends Factory
 {
     protected $model = MeetingTopic::class;
 

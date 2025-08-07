@@ -16,15 +16,15 @@ trait HasHistory
     public static function bootHasHistory(): void
     {
 
-        static::created(function ($model) {
+        static::created(function ($model): void {
             $model->recordHistory('created');
         });
 
-        static::updating(function ($model) {
+        static::updating(function ($model): void {
             $model->recordHistory('updated');
         });
 
-        static::deleting(function ($model) {
+        static::deleting(function ($model): void {
             $model->recordHistory('deleted');
         });
 

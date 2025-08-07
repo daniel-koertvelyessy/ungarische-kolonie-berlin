@@ -76,10 +76,5 @@ return [
     'notification_mail.btn_unsubscribe_link_label' => 'Ezt az e-mailt azért kapta, mert feliratkozott frissítéseinkre. Ha módosítani szeretné beállításait vagy leiratkozni, kattintson az „Beállítások módosítása / leiratkozás” gombra.',
 
     'notification_mail.content.excerpt.header' => 'Előnézet',
-
-    '' => '',
-    '' => '',
-    '' => '',
-    '' => '',
     '' => '',
 ];

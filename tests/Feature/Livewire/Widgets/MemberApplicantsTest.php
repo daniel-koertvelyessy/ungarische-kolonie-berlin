@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use App\Enums\MemberType;
 
-test('A list of applicant can be seen', function () {
+test('A list of applicant can be seen', function (): void {
     $applicants = \App\Models\Membership\Member::factory()->count(10)->create([
         'type' => MemberType::AP->value,
     ]);
@@ -14,7 +14,7 @@ test('A list of applicant can be seen', function () {
 
 });
 
-test('all translations are rendered', function () {
+test('all translations are rendered', function (): void {
 
     $user = \App\Models\User::factory()
         ->create(['is_admin' => true]);

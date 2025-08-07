@@ -11,7 +11,7 @@ use App\Models\Accounting\AccountReport;
 use App\Models\Accounting\Transaction;
 use Illuminate\Support\Str;
 
-class AccountReportPdf extends BasePdfTemplate
+final class AccountReportPdf extends BasePdfTemplate
 {
     protected $report;
 

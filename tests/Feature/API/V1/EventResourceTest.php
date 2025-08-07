@@ -9,7 +9,7 @@ use App\Models\Venue;
 use Illuminate\Support\Facades\App;
 use Illuminate\Testing\Fluent\AssertableJson;
 
-it('returns a list of published events', function () {
+it('returns a list of published events', function (): void {
     // Arrange: Create test data
     $venue = Venue::factory()->create([
         'name' => 'Test Venue',
@@ -124,7 +124,7 @@ it('returns a list of published events', function () {
         );
 });
 
-it('returns a single published event by slug', function () {
+it('returns a single published event by slug', function (): void {
     // Arrange: Create test data
     $venue = Venue::factory()->create([
         'name' => 'Test Venue',
@@ -223,7 +223,7 @@ it('returns a single published event by slug', function () {
         );
 });
 
-it('returns 404 for unpublished event slug', function () {
+it('returns 404 for unpublished event slug', function (): void {
     // Arrange: Create an unpublished event
     $event = Event::factory()->create([
         'status' => EventStatus::DRAFT->value,
@@ -238,12 +238,12 @@ it('returns 404 for unpublished event slug', function () {
     $this->getJson('/api/v1/event/draft-event-de')->assertStatus(404);
 });
 
-it('returns 404 for non-existent slug', function () {
+it('returns 404 for non-existent slug', function (): void {
     // Act & Assert: Test a non-existent slug
     $this->getJson('/api/v1/event/non-existent-slug')->assertStatus(404);
 });
 
-it('returns empty list when no published events exist', function () {
+it('returns empty list when no published events exist', function (): void {
     // Arrange: Ensure no published events
     Event::factory()->create([
         'status' => EventStatus::DRAFT->value,

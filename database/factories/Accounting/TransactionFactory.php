@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends Factory<Transaction>
  */
-class TransactionFactory extends Factory
+final class TransactionFactory extends Factory
 {
     /**
      * Define the model's default state.

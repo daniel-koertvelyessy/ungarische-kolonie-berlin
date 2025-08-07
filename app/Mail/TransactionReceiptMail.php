@@ -13,7 +13,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class TransactionReceiptMail extends Mailable
+final class TransactionReceiptMail extends Mailable
 {
     use Queueable, SerializesModels;
 

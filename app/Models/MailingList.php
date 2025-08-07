@@ -50,7 +50,7 @@ use Illuminate\Support\Str;
  *
  * @mixin Eloquent
  */
-class MailingList extends Model
+final class MailingList extends Model
 {
     /** @use HasFactory<MailingListFactory> */
     use HasFactory;
@@ -80,7 +80,7 @@ class MailingList extends Model
     public static function boot(): void
     {
         parent::boot();
-        static::creating(function ($model) {
+        self::creating(function ($model): void {
             $model->verification_token = Str::random(40); // Generate token on signup
         });
     }

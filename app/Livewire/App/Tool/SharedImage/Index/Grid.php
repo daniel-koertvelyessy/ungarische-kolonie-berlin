@@ -14,7 +14,7 @@ use Livewire\WithPagination;
 /**
  *  Display images in a grid layout
  */
-class Grid extends Component
+final class Grid extends Component
 {
     use WithPagination;
 

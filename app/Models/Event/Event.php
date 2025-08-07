@@ -10,6 +10,7 @@ use App\Models\EventAssignment;
 use App\Models\EventTimeline;
 use App\Models\Traits\HasHistory;
 use App\Models\Venue;
+use Carbon\Carbon;
 use Database\Factories\Event\EventFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
@@ -18,7 +19,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -84,7 +84,7 @@ use Illuminate\Support\Str;
  *
  * @mixin Eloquent
  */
-class Event extends Model
+final class Event extends Model
 {
     use HasFactory;
     use HasHistory;
@@ -184,6 +184,11 @@ class Event extends Model
         }
 
         return 0;
+    }
+
+    public function location(): string
+    {
+        return $this->venue->name.', '.$this->venue->address.', '.$this->venue->city;
     }
 
     protected function makePosterName(string $locale = 'de'): string

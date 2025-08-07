@@ -9,6 +9,7 @@ use App\Enums\EventStatus;
 use App\Enums\Locale;
 use App\Models\Event\Event;
 use App\Rules\UniqueJsonSlug;
+use Carbon\Carbon;
 use Flux\Flux;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\Log;
@@ -18,7 +19,7 @@ use Illuminate\Validation\Rule;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
-class EventForm extends Form
+final class EventForm extends Form
 {
     public Event $event;
 
@@ -85,16 +86,17 @@ class EventForm extends Form
     public function create(): Event
     {
         $this->validate();
+        $this->setEventTimes();
 
         return CreateEvent::handle($this);
     }
 
     protected function rules(): array
     {
-        return [
+        $rules = [
             'name' => 'required',
             'venue_id' => 'nullable|exists:venues,id',
-            'event_date' => 'required|date|after:today',
+            'event_date' => ['required', 'date'], // 'required|date|after:today'
             'start_time' => 'required_with:event_date',
             'end_time' => 'required_with:event_date',
             'title.*' => [  // Using wildcard for each locale key
@@ -110,6 +112,12 @@ class EventForm extends Form
             'entry_fee' => 'nullable|numeric',
             'entry_fee_discounted' => 'nullable|numeric',
         ];
+
+        if ($this->id === null) {
+            Rule::date()->afterOrEqual(today());
+        }
+
+        return $rules;
     }
 
     protected function messages(): array
@@ -124,9 +132,8 @@ class EventForm extends Form
     public function update(): void
     {
         $this->validate();
+        $this->setEventTimes();
         $this->event->event_date = $this->event_date;
-        $this->event->start_time = $this->start_time;
-        $this->event->end_time = $this->end_time;
         $this->event->title = $this->title;
         $this->event->excerpt = $this->excerpt;
         $this->event->slug = $this->slug;
@@ -187,10 +194,9 @@ class EventForm extends Form
                 $this->excerpt[$locale->value] = Str::of($this->description[$locale->value])
                     ->stripTags(['<p>', '<strong>', '<br>']);
                 $this->excerpt[$locale->value] = str_replace('.', '. ', $this->excerpt[$locale->value]);
-                $this->excerpt[$locale->value] = Str::of($this->excerpt[$locale->value])->limit(200, ' ..', true);
-
+                $this->excerpt[$locale->value] = Str::of($this->excerpt[$locale->value])
+                    ->limit(200, ' ..', true);
             }
-
         }
     }
 
@@ -203,5 +209,14 @@ class EventForm extends Form
 
         $this->title['hu'] = fake()->realText(50);
         $this->description['hu'] = fake()->randomHtml(12, 8);
+    }
+
+    private function setEventTimes(): void
+    {
+        $date = $this->event_date;
+        $start = $this->start_time; // e.g. 14:00
+        $end = $this->end_time;     // e.g. 16:00
+        $this->event->start_time = Carbon::createFromTimeString("{$date} {$start}:00"); // => 2025-08-10 14:00:00
+        $this->event->end_time = Carbon::createFromTimeString("{$date} {$end}:00");
     }
 }

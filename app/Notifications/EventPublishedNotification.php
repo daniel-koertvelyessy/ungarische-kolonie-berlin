@@ -9,7 +9,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class EventPublishedNotification extends Notification
+final class EventPublishedNotification extends Notification
 {
     use Queueable;
 

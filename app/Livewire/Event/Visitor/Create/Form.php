@@ -12,7 +12,7 @@ use Flux\Flux;
 use Illuminate\Auth\Access\AuthorizationException;
 use Livewire\Component;
 
-class Form extends Component
+final class Form extends Component
 {
     public EventVisitorForm $form;
 

@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Log;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\Form;
 
-class MemberRoleForm extends Form
+final class MemberRoleForm extends Form
 {
     protected MemberRole $memberRole;
 

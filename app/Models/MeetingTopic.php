@@ -31,7 +31,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @mixin \Eloquent
  */
-class MeetingTopic extends Model
+final class MeetingTopic extends Model
 {
     /** @use HasFactory<\Database\Factories\MeetingTopicFactory> */
     use HasFactory;

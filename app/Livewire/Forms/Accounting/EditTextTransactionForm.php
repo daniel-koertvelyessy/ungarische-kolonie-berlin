@@ -7,7 +7,7 @@ namespace App\Livewire\Forms\Accounting;
 use App\Models\Accounting\Transaction;
 use Livewire\Form;
 
-class EditTextTransactionForm extends Form
+final class EditTextTransactionForm extends Form
 {
     public ?Transaction $transaction = null;
 

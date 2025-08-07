@@ -10,7 +10,7 @@ use Flux\Flux;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 
-class Form extends Component
+final class Form extends Component
 {
     public MailingListForm $form;
 

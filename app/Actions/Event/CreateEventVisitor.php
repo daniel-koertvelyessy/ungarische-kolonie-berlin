@@ -8,7 +8,7 @@ use App\Livewire\Forms\Event\EventVisitorForm;
 use App\Models\Event\EventVisitor;
 use Illuminate\Support\Facades\DB;
 
-class CreateEventVisitor
+final class CreateEventVisitor
 {
     public static function handle(EventVisitorForm $visitor): EventVisitor
     {

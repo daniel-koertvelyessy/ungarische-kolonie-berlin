@@ -21,6 +21,4 @@ return [
     'initiate-report-audit-modal.btn.submit' => 'Einladungen verschicken',
     'initiate-report-audit-modal.select_member_id' => 'Mitglied',
     '' => '',
-    '' => '',
-    '' => '',
 ];

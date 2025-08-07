@@ -8,7 +8,7 @@ use App\Models\User;
 use App\Policies\Traits\HasAdminPrivileges;
 use Illuminate\Support\Facades\Auth;
 
-class AccountPolicy
+final class AccountPolicy
 {
     use HasAdminPrivileges;
 

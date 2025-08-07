@@ -10,7 +10,7 @@ use Flux\Flux;
 use Illuminate\Validation\Rule;
 use Livewire\Form;
 
-class BookingAccountForm extends Form
+final class BookingAccountForm extends Form
 {
     public $id;
 

@@ -10,7 +10,7 @@ use App\Models\EventAssignment;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
-class UpdateAssignment
+final class UpdateAssignment
 {
     /**
      * @throws Throwable

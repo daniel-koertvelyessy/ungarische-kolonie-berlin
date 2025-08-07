@@ -13,7 +13,7 @@ final class UpdateAccount extends Action
 {
     public static function handle(AccountForm $account): Account
     {
-        DB::transaction(function () use ($account) {
+        DB::transaction(function () use ($account): void {
             Account::where('id', $account->id)
                 ->update([
                     'name' => $account->name,

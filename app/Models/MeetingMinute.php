@@ -40,7 +40,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @mixin \Eloquent
  */
-class MeetingMinute extends Model
+final class MeetingMinute extends Model
 {
     use HasFactory;
     use HasHistory;

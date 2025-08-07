@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class Content extends Component
+final class Content extends Component
 {
     use HasPrivileges;
 

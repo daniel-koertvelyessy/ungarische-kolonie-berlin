@@ -10,7 +10,7 @@ use App\Models\Membership\Member;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 
-class TransactionInvoicePdf extends BasePdfTemplate
+final class TransactionInvoicePdf extends BasePdfTemplate
 {
     protected Transaction $transaction;
 

@@ -9,7 +9,7 @@ use App\Livewire\Forms\Member\MemberForm;
 use App\Models\Membership\Member;
 use Illuminate\Support\Facades\DB;
 
-class CreateMember
+final class CreateMember
 {
     public static function handle(MemberForm $form): Member
     {

@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 
-class Form extends Component
+final class Form extends Component
 {
     public $eventId;
 

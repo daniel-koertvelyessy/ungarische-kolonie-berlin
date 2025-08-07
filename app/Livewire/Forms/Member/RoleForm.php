@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
-class RoleForm extends Form
+final class RoleForm extends Form
 {
     protected Role $role;
 

@@ -35,7 +35,7 @@ use Illuminate\Support\Carbon;
  *
  * @mixin Eloquent
  */
-class MailHistoryEntry extends Model
+final class MailHistoryEntry extends Model
 {
     protected $guarded = [];
 

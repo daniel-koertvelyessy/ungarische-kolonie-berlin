@@ -13,7 +13,7 @@ use Livewire\Component;
 use Spatie\Browsershot\Browsershot;
 use Spatie\Browsershot\Exceptions\CouldNotTakeBrowsershot;
 
-class Create extends Component
+final class Create extends Component
 {
     public $event;
 

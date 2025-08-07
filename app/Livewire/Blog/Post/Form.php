@@ -19,7 +19,7 @@ use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
-class Form extends Component
+final class Form extends Component
 {
     use HasPrivileges, PersistsTabs, WithFileUploads;
 

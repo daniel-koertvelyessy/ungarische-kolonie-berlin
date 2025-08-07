@@ -4,7 +4,6 @@
     >{{ __('event.show.page.title') }}</flux:heading>
     <flux:heading class="lg:mb-9 lg:flex hidden">{{ __('event.show.page.title') }}</flux:heading>
     <flux:subheading size="xl">{{ $form->name ?? $form->title[app()->getLocale()] }}</flux:subheading>
-
     <flux:tab.group class="mt-3">
         <flux:tabs wire:model="selectedTab">
             <flux:tab name="event-show-dates"
@@ -135,7 +134,11 @@
                                                                    class="text-lime-700"
                                                         >verschickt {{ $form->notification_sent_at->diffForHumans() }}</flux:text>
                                                     @endif
-
+                                                    <flux:button size="sm"
+                                                                 icon-trailing="document-text"
+                                                                 variant="filled"
+                                                                 wire:click="sendPublicationLetter"
+                                                    >{{ __('event.show.tab.main.published.btn_makeLetters') }}</flux:button>
                                                 </div>
                                             </div>
                                         @endcan

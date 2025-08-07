@@ -14,7 +14,7 @@ use Livewire\Attributes\Validate;
 use Livewire\Form;
 use Livewire\WithFileUploads;
 
-class SharedImageForm extends Form
+final class SharedImageForm extends Form
 {
     use WithFileUploads;
 
@@ -126,7 +126,7 @@ class SharedImageForm extends Form
         // Beispielhafte Notification (du kannst die Notification-Klasse selbst definieren)
 
         Member::getBoardMembers()
-            ->each(function ($member) use ($image) {
+            ->each(function ($member) use ($image): void {
                 $member->notify(new \App\Notifications\SharedImageUploaded($image));
             });
     }

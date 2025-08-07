@@ -12,7 +12,7 @@ use Carbon\Carbon;
 use Flux\Flux;
 use Livewire\Component;
 
-class Form extends Component
+final class Form extends Component
 {
     use HasPrivileges;
 

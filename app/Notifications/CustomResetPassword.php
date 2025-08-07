@@ -8,7 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class CustomResetPassword extends Notification
+final class CustomResetPassword extends Notification
 {
     use Queueable;
 

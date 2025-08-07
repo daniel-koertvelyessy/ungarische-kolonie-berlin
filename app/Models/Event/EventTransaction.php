@@ -37,7 +37,7 @@ use Illuminate\Support\Carbon;
  *
  * @mixin Eloquent
  */
-class EventTransaction extends Model
+final class EventTransaction extends Model
 {
     protected $guarded = [];
 

@@ -25,7 +25,7 @@ use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 
-class Page extends Component
+final class Page extends Component
 {
     use HasPrivileges;
     use Sortable;

@@ -7,7 +7,7 @@ namespace App\Policies;
 use App\Models\User;
 use App\Policies\Traits\HasAdminPrivileges;
 
-class MailinglistPolicy
+final class MailinglistPolicy
 {
     use HasAdminPrivileges;
 

@@ -58,7 +58,7 @@ use Illuminate\Support\Str;
  *
  * @mixin Eloquent
  */
-class Post extends Model
+final class Post extends Model
 {
     /** @use HasFactory<PostFactory> */
     use HasFactory;

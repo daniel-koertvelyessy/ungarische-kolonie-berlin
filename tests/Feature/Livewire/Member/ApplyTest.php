@@ -5,7 +5,7 @@ declare(strict_types=1);
 use App\Enums\MemberFamilyStatus;
 use App\Enums\MemberType;
 
-test('any visitor can apply as member', function () {
+test('any visitor can apply as member', function (): void {
 
     Livewire::test(\App\Livewire\Member\Apply\Page::class)->assertOk();
 

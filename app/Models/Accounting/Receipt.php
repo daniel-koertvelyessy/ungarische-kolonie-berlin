@@ -41,7 +41,7 @@ use Imagick;
  *
  * @mixin Eloquent
  */
-class Receipt extends Model
+final class Receipt extends Model
 {
     /** @use HasFactory<ReceiptFactory> */
     use HasFactory;

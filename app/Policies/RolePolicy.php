@@ -8,7 +8,7 @@ use App\Models\Membership\Role;
 use App\Models\User;
 use App\Policies\Traits\HasAdminPrivileges;
 
-class RolePolicy
+final class RolePolicy
 {
     use HasAdminPrivileges;
 

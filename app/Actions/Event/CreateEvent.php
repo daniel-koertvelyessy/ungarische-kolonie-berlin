@@ -10,7 +10,7 @@ use App\Models\Event\Event;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
-class CreateEvent
+final class CreateEvent
 {
     /**
      * @throws Throwable

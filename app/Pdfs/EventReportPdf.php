@@ -9,7 +9,7 @@ use App\Models\Event\Event;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
-class EventReportPdf extends BasePdfTemplate
+final class EventReportPdf extends BasePdfTemplate
 {
     public function __construct(
         public Event $event,

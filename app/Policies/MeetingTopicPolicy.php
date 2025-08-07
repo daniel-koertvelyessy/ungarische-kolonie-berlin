@@ -7,7 +7,7 @@ namespace App\Policies;
 use App\Models\MeetingTopic;
 use App\Models\User;
 
-class MeetingTopicPolicy
+final class MeetingTopicPolicy
 {
     /**
      * Determine whether the user can view any models.

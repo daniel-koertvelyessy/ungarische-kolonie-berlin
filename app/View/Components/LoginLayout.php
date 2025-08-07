@@ -7,7 +7,7 @@ namespace App\View\Components;
 use Illuminate\View\Component;
 use Illuminate\View\View;
 
-class LoginLayout extends Component
+final class LoginLayout extends Component
 {
     public string $title = 'Magyar Kolónia Berlin e.V.';
 

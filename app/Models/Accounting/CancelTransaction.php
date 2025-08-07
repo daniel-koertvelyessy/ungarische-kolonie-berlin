@@ -35,7 +35,7 @@ use Illuminate\Support\Carbon;
  *
  * @mixin Eloquent
  */
-class CancelTransaction extends Model
+final class CancelTransaction extends Model
 {
     protected $guarded = [];
 

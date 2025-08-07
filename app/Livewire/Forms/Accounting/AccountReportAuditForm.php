@@ -10,7 +10,7 @@ use App\Models\Accounting\AccountReportAudit;
 use Flux\Flux;
 use Livewire\Form;
 
-class AccountReportAuditForm extends Form
+final class AccountReportAuditForm extends Form
 {
     use HasPrivileges;
 

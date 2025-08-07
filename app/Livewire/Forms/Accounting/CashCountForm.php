@@ -8,7 +8,7 @@ use App\Actions\Report\CreateCashCountReport;
 use App\Models\Accounting\CashCount;
 use Livewire\Form;
 
-class CashCountForm extends Form
+final class CashCountForm extends Form
 {
     public CashCount $cashCount;
 

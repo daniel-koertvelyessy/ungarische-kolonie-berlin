@@ -7,7 +7,7 @@ use App\Notifications\EmailChangeNotification;
 use Laravel\Jetstream\Http\Livewire\UpdateProfileInformationForm;
 use Livewire\Livewire;
 
-test('current profile information is available', function () {
+test('current profile information is available', function (): void {
     $this->actingAs($user = User::factory()->create());
 
     $component = Livewire::test(UpdateProfileInformationForm::class);
@@ -16,7 +16,7 @@ test('current profile information is available', function () {
     expect($component->state['email'])->toEqual($user->email);
 });
 
-test('profile information can be updated', function () {
+test('profile information can be updated', function (): void {
     $this->actingAs($user = User::factory()->create());
 
     Livewire::test(UpdateProfileInformationForm::class)
@@ -28,7 +28,7 @@ test('profile information can be updated', function () {
         ->email->toEqual('test@example.com');
 });
 
-test('profile information can be updated with email change and rollback option', function () {
+test('profile information can be updated with email change and rollback option', function (): void {
     Notification::fake();
     $user = User::factory()->create([
         'name' => 'Original Name',
@@ -58,7 +58,7 @@ test('profile information can be updated with email change and rollback option',
     });
 });
 
-test('email can be rolled back after typo', function () {
+test('email can be rolled back after typo', function (): void {
     $user = User::factory()->create(['email' => 'original@example.com']);
     $this->actingAs($user);
 

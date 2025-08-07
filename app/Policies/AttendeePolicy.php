@@ -7,7 +7,7 @@ namespace App\Policies;
 use App\Models\Attendee;
 use App\Models\User;
 
-class AttendeePolicy
+final class AttendeePolicy
 {
     /**
      * Determine whether the user can view any models.

@@ -33,7 +33,5 @@ return [
     'deletion_success.msg' => 'A programpont sikeresen törölve lett',
     'storing_success.header' => 'Siker!',
     'storing_success.msg' => 'A programpont sikeresen mentve lett',
-
-    '' => '',
     '' => '',
 ];

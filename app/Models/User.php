@@ -91,7 +91,7 @@ use Laravel\Sanctum\PersonalAccessToken;
  *
  * @mixin Eloquent
  */
-class User extends Authenticatable implements MustVerifyEmail
+final class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens;
 

@@ -8,7 +8,7 @@ use App\Livewire\Forms\Blog\PostForm;
 use App\Models\Blog\Post;
 use Livewire\Component;
 
-class Page extends Component
+final class Page extends Component
 {
     public Post $post;
 

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
 
-class MarkdownService
+final class MarkdownService
 {
     /**
      * Load and convert a Markdown file to HTML based on the current locale.

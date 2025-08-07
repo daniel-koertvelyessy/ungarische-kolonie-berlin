@@ -16,7 +16,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
-class Form extends Component
+final class Form extends Component
 {
     use HasPrivileges;
 

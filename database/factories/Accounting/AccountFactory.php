@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends Factory<Account>
  */
-class AccountFactory extends Factory
+final class AccountFactory extends Factory
 {
     /**
      * Define the model's default state.

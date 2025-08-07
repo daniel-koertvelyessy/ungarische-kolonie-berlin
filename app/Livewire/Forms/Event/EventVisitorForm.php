@@ -10,7 +10,7 @@ use App\Models\Event\EventVisitor;
 use Illuminate\Validation\Rule;
 use Livewire\Form;
 
-class EventVisitorForm extends Form
+final class EventVisitorForm extends Form
 {
     public EventVisitor $event_visitor;
 

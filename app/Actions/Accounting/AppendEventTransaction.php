@@ -9,7 +9,7 @@ use App\Models\Event\Event;
 use App\Models\Event\EventTransaction;
 use Illuminate\Support\Facades\DB;
 
-class AppendEventTransaction
+final class AppendEventTransaction
 {
     public static function handle(Transaction $transaction, Event $event, ?string $name, ?string $gender): Transaction
     {

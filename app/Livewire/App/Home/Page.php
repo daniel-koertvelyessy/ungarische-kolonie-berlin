@@ -12,7 +12,7 @@ use Illuminate\View\View;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-class Page extends Component
+final class Page extends Component
 {
     public $events;
 

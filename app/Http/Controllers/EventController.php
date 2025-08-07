@@ -17,7 +17,7 @@ use Illuminate\View\View;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
-class EventController extends Controller
+final class EventController extends Controller
 {
     public function generateIcs(string $slug, IcsGeneratorService $service): Response
     {
@@ -142,7 +142,7 @@ class EventController extends Controller
     }
 
     /**
-     * @return View|void
+     * @return View
      *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
@@ -226,7 +226,7 @@ class EventController extends Controller
     {
         $query = Event::query()
             ->where('status', EventStatus::PUBLISHED->value)
-            ->where(function ($query) use ($slug) {
+            ->where(function ($query) use ($slug): void {
                 $query->whereJsonContains('slug->hu', $slug)
                     ->orWhereJsonContains('slug->de', $slug);
             });

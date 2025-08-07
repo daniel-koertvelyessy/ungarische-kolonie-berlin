@@ -8,7 +8,7 @@ use App\Models\Accounting\Transaction;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Form;
 
-class TransferTransactionForm extends Form
+final class TransferTransactionForm extends Form
 {
     public ?Transaction $transaction = null;
 

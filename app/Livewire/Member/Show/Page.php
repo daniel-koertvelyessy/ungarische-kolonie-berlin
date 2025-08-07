@@ -32,7 +32,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class Page extends Component
+final class Page extends Component
 {
     use HasPrivileges, PersistsTabs, Sortable, WithPagination;
 
@@ -74,7 +74,7 @@ class Page extends Component
         return MemberTransaction::query()
             ->where('member_id', '=', $this->member->id)
             ->tap(fn ($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
-            ->tap(fn ($query) => $this->searchPayment ? $query->whereHas('transaction', function ($query) {
+            ->tap(fn ($query) => $this->searchPayment ? $query->whereHas('transaction', function ($query): void {
                 $query->where('label', 'LIKE', '%'.$this->searchPayment.'%')
                     ->orWhere('reference', 'LIKE', '%'.$this->searchPayment.'%')
                     ->orWhere('description', 'LIKE', '%'.$this->searchPayment.'%');

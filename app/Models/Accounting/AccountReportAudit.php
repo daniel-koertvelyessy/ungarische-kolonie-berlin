@@ -41,7 +41,7 @@ use Illuminate\Support\Carbon;
  *
  * @mixin Eloquent
  */
-class AccountReportAudit extends Model
+final class AccountReportAudit extends Model
 {
     use HasHistory;
 

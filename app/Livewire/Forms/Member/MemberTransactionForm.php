@@ -12,7 +12,7 @@ use App\Models\Membership\Member;
 use App\Models\Membership\MemberTransaction;
 use Livewire\Component;
 
-class MemberTransactionForm extends Component
+final class MemberTransactionForm extends Component
 {
     public TransactionForm $form;
 

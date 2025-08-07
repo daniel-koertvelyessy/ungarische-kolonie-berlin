@@ -10,7 +10,7 @@ use App\Models\Blog\Post;
 use Flux\Flux;
 use Illuminate\View\View;
 
-class PostController extends Controller
+final class PostController extends Controller
 {
     public function index(): View
     {

@@ -7,7 +7,7 @@ namespace Database\Factories\Membership;
 use App\Models\Membership\Invitation;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class InvitationFactory extends Factory
+final class InvitationFactory extends Factory
 {
     protected $model = Invitation::class;
 

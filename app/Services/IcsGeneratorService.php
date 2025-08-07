@@ -7,13 +7,12 @@ namespace App\Services;
 use App\Models\Event\Event;
 use Carbon\Carbon;
 use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Foundation\Application;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 
-class IcsGeneratorService
+final class IcsGeneratorService
 {
-    public function generate(string $slug): Application|Response|ResponseFactory
+    public function generate(string $slug): Response|ResponseFactory
     {
         $locale = app()->getLocale();
         $event = Event::whereJsonContains('slug', $slug)->firstOrFail();
@@ -27,7 +26,7 @@ class IcsGeneratorService
         $endFormatted = $endDateTime->format('Ymd\THis\Z');
         $title = $event->title[$locale] ?? 'Untitled Event';
         $description = Str::limit($event->description[$locale], 50, ' ..', true);
-        $location = $event->location ?? 'Event Location';
+        $location = $event->location();
         $uid = uniqid('event_', true).'@magyar-kolonia-berlin.org';
         $dtStamp = Carbon::now('UTC')->format('Ymd\THis\Z');
 

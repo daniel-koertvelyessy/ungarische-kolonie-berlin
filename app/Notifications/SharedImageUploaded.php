@@ -8,7 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class SharedImageUploaded extends Notification
+final class SharedImageUploaded extends Notification
 {
     use Queueable;
 

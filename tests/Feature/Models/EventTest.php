@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-test('an event can be created with all fillable fields', function () {
+test('an event can be created with all fillable fields', function (): void {
     $attributes = [
         'name' => 'Summer Festival',
         'event_date' => \Carbon\Carbon::today()->format('Y-m-d'),
@@ -48,7 +48,7 @@ test('an event can be created with all fillable fields', function () {
     expect($event->end_time->format('H:i'))->toBe('18:00');
 });
 
-test('an event can be updated', function () {
+test('an event can be updated', function (): void {
     $event = \App\Models\Event\Event::factory()->create([
         'name' => 'Old Name',
         'event_date' => '2025-01-01',
@@ -63,7 +63,7 @@ test('an event can be updated', function () {
     expect($event->fresh()->event_date->toDateString())->toBe('2025-02-01');
 });
 
-test('an event can save with a venue relationship', function () {
+test('an event can save with a venue relationship', function (): void {
     $venue = \App\Models\Venue::factory()->create();
     $event = \App\Models\Event\Event::factory()->create(['venue_id' => $venue->id]);
 
@@ -71,7 +71,7 @@ test('an event can save with a venue relationship', function () {
     expect($event->venue->id)->toBe($venue->id);
 });
 
-test('an event can save with subscriptions', function () {
+test('an event can save with subscriptions', function (): void {
     $event = \App\Models\Event\Event::factory()->create();
     $subscriptions = \App\Models\Event\EventSubscription::factory()->count(3)->create(['event_id' => $event->id]);
 

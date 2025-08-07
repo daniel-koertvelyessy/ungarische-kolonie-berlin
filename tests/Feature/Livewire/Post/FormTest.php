@@ -11,7 +11,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 
-it('can access the create post page', function () {
+it('can access the create post page', function (): void {
     $this->member = Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id]);
     $this->user = $this->member->user;
     $this->actingAs($this->user); // Authenticate the user
@@ -20,8 +20,8 @@ it('can access the create post page', function () {
 });
 
 // Authentication and Authorization Tests
-describe('Blog Post Form - Authorization', function () {
-    it('prevents unauthorized users from accessing the form', function () {
+describe('Blog Post Form - Authorization', function (): void {
+    it('prevents unauthorized users from accessing the form', function (): void {
         $post = Post::factory()->create();
 
         // Attempt to access form without authentication
@@ -29,7 +29,7 @@ describe('Blog Post Form - Authorization', function () {
             ->assertRedirect('/login');
     });
 
-    it('allows authorized users to access the form', function () {
+    it('allows authorized users to access the form', function (): void {
         $user = User::factory()
             ->create();
         $post = Post::factory()
@@ -43,8 +43,8 @@ describe('Blog Post Form - Authorization', function () {
 });
 
 // Post Creation Tests
-describe('Blog Post Form - Creation', function () {
-    beforeEach(function () {
+describe('Blog Post Form - Creation', function (): void {
+    beforeEach(function (): void {
         $this->user = User::factory()
             ->create();
         $this->actingAs($this->user);
@@ -57,7 +57,7 @@ describe('Blog Post Form - Creation', function () {
         $this->member = Member::factory()->create(['user_id' => $this->user->id]);
     });
 
-    it('can create a new blog post with valid data', function () {
+    it('can create a new blog post with valid data', function (): void {
 
         $component = Livewire::test(Form::class, ['post' => $this->post, 'user' => $this->user, 'member' => $this->member])
             ->call('save');
@@ -72,7 +72,7 @@ describe('Blog Post Form - Creation', function () {
         ]);
     });
 
-    it('validates required fields when creating a post', function () {
+    it('validates required fields when creating a post', function (): void {
         $component = Livewire::test(Form::class)
             ->call('save');
 
@@ -89,8 +89,8 @@ describe('Blog Post Form - Creation', function () {
 });
 
 // Image Upload Tests
-describe('Blog Post Form - Image Uploads', function () {
-    beforeEach(function () {
+describe('Blog Post Form - Image Uploads', function (): void {
+    beforeEach(function (): void {
         $this->user = User::factory()->create();
         $this->member = Member::factory()->create(['user_id' => $this->user->id]);
         $this->actingAs($this->user);
@@ -99,7 +99,7 @@ describe('Blog Post Form - Image Uploads', function () {
         //        \App\Models\Blog\PostType::factory()->create(['id' => 2]);
     });
 
-    it('can upload multiple images with captions', function () {
+    it('can upload multiple images with captions', function (): void {
         $images = [
             UploadedFile::fake()->image('post-image-1.jpg', 800, 600),
             UploadedFile::fake()->image('post-image-2.jpg', 1024, 768),
@@ -127,7 +127,7 @@ describe('Blog Post Form - Image Uploads', function () {
         $this->assertEquals('Első kép felirata', $post->images[0]->caption['hu']);
     });
 
-    it('can remove images before saving', function () {
+    it('can remove images before saving', function (): void {
         $images = [
             UploadedFile::fake()->image('post-image-1.jpg'),
             UploadedFile::fake()->image('post-image-2.jpg'),
@@ -151,15 +151,15 @@ describe('Blog Post Form - Image Uploads', function () {
 });
 
 // Post Publishing Tests
-describe('Blog Post Form - Publishing', function () {
-    beforeEach(function () {
+describe('Blog Post Form - Publishing', function (): void {
+    beforeEach(function (): void {
         $this->user = User::factory()
             ->create();
         $this->actingAs($this->user);
         $this->member = Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id]);
     });
 
-    it('can publish a draft post', function () {
+    it('can publish a draft post', function (): void {
         $post = Post::factory()
             ->create([
                 'user_id' => $this->user->id,
@@ -213,7 +213,7 @@ describe('Blog Post Form - Publishing', function () {
             ->toBeNull();
     });
 
-    it('can retract a published post', function () {
+    it('can retract a published post', function (): void {
         $post = Post::factory()
             ->create([
                 'user_id' => $this->user->id,
@@ -269,16 +269,16 @@ describe('Blog Post Form - Publishing', function () {
 });
 
 // Notification Tests
-describe('Blog Post Form - Notifications', function () {
-    beforeEach(function () {
+describe('Blog Post Form - Notifications', function (): void {
+    beforeEach(function (): void {
         $this->user = User::factory()
             ->create();
         $this->actingAs($this->user);
         $this->member = Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id]);
     });
 
-    it('can send publication notification', function () {
-        $mailingService = Mockery::mock(MailingService::class);
+    it('can send publication notification', function (): void {
+        $mailingService = \Mockery::mock(MailingService::class, [])->makePartial();
         $mailingService->shouldReceive('sendNotificationsToSubscribers')
             ->once()
             ->with('posts', Mockery::type(Post::class), Mockery::type('string'), 'emails.new_post_notification', []);

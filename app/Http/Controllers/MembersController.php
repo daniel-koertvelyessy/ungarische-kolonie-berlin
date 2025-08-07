@@ -8,7 +8,7 @@ use App\Models\Membership\Member;
 use App\Services\PdfGeneratorService;
 use Exception;
 
-class MembersController extends Controller
+final class MembersController extends Controller
 {
     /**
      * @throws Exception

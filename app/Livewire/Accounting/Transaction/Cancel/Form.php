@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 
-class Form extends Component
+final class Form extends Component
 {
     use HasPrivileges;
 

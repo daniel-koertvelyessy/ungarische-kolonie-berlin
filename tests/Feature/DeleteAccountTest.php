@@ -7,7 +7,7 @@ use Laravel\Jetstream\Features;
 use Laravel\Jetstream\Http\Livewire\DeleteUserForm;
 use Livewire\Livewire;
 
-test('user accounts can be deleted', function () {
+test('user accounts can be deleted', function (): void {
     Queue::fake();
     $admin = User::factory()->create([
         'is_admin' => true,
@@ -27,7 +27,7 @@ test('user accounts can be deleted', function () {
     return ! Features::hasAccountDeletionFeatures();
 }, 'Account deletion is not enabled.');
 
-test('correct password must be provided before account can be deleted', function () {
+test('correct password must be provided before account can be deleted', function (): void {
     $this->actingAs($user = User::factory()->create());
 
     Livewire::test(DeleteUserForm::class)
@@ -40,7 +40,7 @@ test('correct password must be provided before account can be deleted', function
     return ! Features::hasAccountDeletionFeatures();
 }, 'Account deletion is not enabled.');
 
-test('user deletion triggers history', function () {
+test('user deletion triggers history', function (): void {
     config(['queue.default' => 'sync']);
     $this->actingAs($user = User::factory()->create());
     $user->delete();

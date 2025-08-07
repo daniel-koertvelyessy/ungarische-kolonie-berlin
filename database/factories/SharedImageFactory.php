@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\SharedImage>
  */
-class SharedImageFactory extends Factory
+final class SharedImageFactory extends Factory
 {
     /**
      * Define the model's default state.

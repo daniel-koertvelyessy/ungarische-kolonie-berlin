@@ -7,7 +7,7 @@ namespace App\Policies;
 use App\Models\ActionItem;
 use App\Models\User;
 
-class ActionItemPolicy
+final class ActionItemPolicy
 {
     /**
      * Determine whether the user can view any models.

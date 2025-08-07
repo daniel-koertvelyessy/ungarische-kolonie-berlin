@@ -10,7 +10,7 @@ use Tests\Traits\TranslationTestTrait;
 
 uses(TranslationTestTrait::class);
 
-test('if backend transactions index page component renders correctly', function () {
+test('if backend transactions index page component renders correctly', function (): void {
 
     // Nutzer erstellen aus Mitglied authentifizieren
     $this->actingAs(Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id])->user);
@@ -29,7 +29,7 @@ test('if backend transactions index page component renders correctly', function 
         ->assertSee(Transaction::first()->label); // Check if first transaction is listed
 });
 
-test('if backend transaction pagination works correctly', function () {
+test('if backend transaction pagination works correctly', function (): void {
     $this->actingAs(Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id])->user);
     // Nutzer erstellen aus Mitglied authentifizieren
     $this->actingAs(Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id])->user);
@@ -47,7 +47,7 @@ test('if backend transaction pagination works correctly', function () {
         ->assertDontSee(Transaction::first()->label); // First page transaction should not be here
 });
 
-test('if backend transaction index page transactions can be searched', function () {
+test('if backend transaction index page transactions can be searched', function (): void {
 
     $this->actingAs(Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id])->user);
 
@@ -73,7 +73,7 @@ test('if backend transaction index page transactions can be searched', function 
         ->assertDontSee('VueJS Meetup');
 });
 
-test('if all translations are rendered on backend transaction index page', function () {
+test('if all translations are rendered on backend transaction index page', function (): void {
     $this->actingAs(Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id])->user);
 
     // Nutzer erstellen aus Mitglied authentifizieren

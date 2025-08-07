@@ -8,7 +8,7 @@ use App\Models\Blog\Post;
 use App\Models\User;
 use App\Policies\Traits\HasAdminPrivileges;
 
-class PostPolicy
+final class PostPolicy
 {
     use HasAdminPrivileges;
 

@@ -7,7 +7,7 @@ namespace App\Policies;
 use App\Models\Accounting\BookingAccount;
 use App\Models\User;
 
-class BookingAccountPolicy
+final class BookingAccountPolicy
 {
     /**
      * Determine whether the user can view any models.

@@ -6,7 +6,7 @@ namespace App\Livewire\Forms\Accounting;
 
 use Livewire\Form;
 
-class CancelTransactionForm extends Form
+final class CancelTransactionForm extends Form
 {
     public $reason;
 

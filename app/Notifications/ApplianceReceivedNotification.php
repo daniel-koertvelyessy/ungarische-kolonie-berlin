@@ -9,7 +9,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ApplianceReceivedNotification extends Notification
+final class ApplianceReceivedNotification extends Notification
 {
     use Queueable;
 

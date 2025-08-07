@@ -9,7 +9,7 @@ use App\Models\Event\Event;
 use Carbon\Carbon;
 use Livewire\Component;
 
-class Calendar extends Component
+final class Calendar extends Component
 {
     public $selectedMonth;
 

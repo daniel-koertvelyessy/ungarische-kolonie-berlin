@@ -14,7 +14,7 @@ use Imagick;
 use Livewire\Form;
 use Livewire\WithFileUploads;
 
-class ReceiptForm extends Form
+final class ReceiptForm extends Form
 {
     use WithFileUploads;
 

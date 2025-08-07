@@ -47,7 +47,7 @@ use Illuminate\Support\Carbon;
  *
  * @mixin Eloquent
  */
-class Venue extends Model
+final class Venue extends Model
 {
     /** @use HasFactory<VenueFactory> */
     use HasFactory;

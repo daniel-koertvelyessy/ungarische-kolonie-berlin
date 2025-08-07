@@ -8,7 +8,7 @@ use App\Models\Membership\Member;
 use App\Models\User;
 use App\Services\PdfGeneratorService;
 
-test('member application pdf can be generated', function () {
+test('member application pdf can be generated', function (): void {
     $member = Member::factory()
         ->create([
             'first_name' => 'Janos',
@@ -25,7 +25,7 @@ test('member application pdf can be generated', function () {
         ->toBeGreaterThan(1000); // Reasonable size
 });
 
-test('invoice pdf generation requires authentication', function () {
+test('invoice pdf generation requires authentication', function (): void {
     $transaction = Transaction::factory()
         ->create(['amount_gross' => 10000]);
     $user = User::factory()->create(['email_verified_at' => now()]);
@@ -47,7 +47,7 @@ test('invoice pdf generation requires authentication', function () {
         ->toBeGreaterThan(1000);
 });
 
-test('event report pdf can be generated', function () {
+test('event report pdf can be generated', function (): void {
     $event = \App\Models\Event\Event::factory()
         ->create();
     $user = User::factory()->create(['email_verified_at' => now()]);
@@ -63,7 +63,7 @@ test('event report pdf can be generated', function () {
         ->toBeGreaterThan(1000);
 });
 
-test('account report pdf can be generated', function () {
+test('account report pdf can be generated', function (): void {
     $user = User::factory()->create(['email_verified_at' => now()]);
     $member = Member::factory()->withUser()->create(['user_id' => $user->id]);
     $this->actingAs($user);

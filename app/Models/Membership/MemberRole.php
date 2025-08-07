@@ -36,7 +36,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  *
  * @mixin \Eloquent
  */
-class MemberRole extends Pivot
+final class MemberRole extends Pivot
 {
     protected $fillable = [
         'member_id',

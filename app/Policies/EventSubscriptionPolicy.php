@@ -7,7 +7,7 @@ namespace App\Policies;
 use App\Models\Event\EventSubscription;
 use App\Models\User;
 
-class EventSubscriptionPolicy
+final class EventSubscriptionPolicy
 {
     /**
      * Determine whether the user can view any models.

@@ -16,7 +16,7 @@ use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class Index extends Component
+final class Index extends Component
 {
     use Sortable;
     use WithPagination;
@@ -41,7 +41,7 @@ class Index extends Component
 
         if ($this->search) {
             $query->where('title', 'LIKE', '%'.$this->search.'%')
-                ->orWhereHas('topics', function ($q) {
+                ->orWhereHas('topics', function ($q): void {
                     $q->where('content', 'LIKE', '%'.$this->search.'%');
                 });
         }

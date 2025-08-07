@@ -9,7 +9,7 @@ use App\Models\Membership\MemberTransaction;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-class MemberTransactionPolicy
+final class MemberTransactionPolicy
 {
     /**
      * Determine whether the user can view any models.

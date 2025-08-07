@@ -10,7 +10,7 @@ use App\Services\MailingService;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
-it('queues CustomNotificationMail for event notification with correct details and attachment', function () {
+it('queues CustomNotificationMail for event notification with correct details and attachment', function (): void {
     // Fake the mail system to prevent real emails
     Mail::fake();
 

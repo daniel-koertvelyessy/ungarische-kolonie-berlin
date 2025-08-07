@@ -12,7 +12,7 @@ use Tests\Traits\TranslationTestTrait;
 
 uses(TranslationTestTrait::class);
 
-test('backend event show page component renders correctly', function () {
+test('backend event show page component renders correctly', function (): void {
 
     // Nutzer mit Member erstellen
     $user = Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id])->user;
@@ -26,7 +26,7 @@ test('backend event show page component renders correctly', function () {
         ->assertStatus(200);
 });
 
-test('backend event show page loads the correct event data', function () {
+test('backend event show page loads the correct event data', function (): void {
     $user = User::factory()->create();
     $member = Member::factory()->create([
         'user_id' => $user->id, // Member mit User verknüpfen
@@ -41,7 +41,7 @@ test('backend event show page loads the correct event data', function () {
         ->assertSee($event->name); // Adjust according to your event fields
 });
 
-test('backend event show page loads subscriptions', function () {
+test('backend event show page loads subscriptions', function (): void {
     $user = User::factory()->create();
     $member = Member::factory()->create([
         'user_id' => $user->id, // Member mit User verknüpfen
@@ -56,7 +56,7 @@ test('backend event show page loads subscriptions', function () {
         ->assertCount('subscriptions', 3);
 });
 
-test('assign venue listener works', function () {
+test('assign venue listener works', function (): void {
     // Setup: Authenticated user with member
     $user = User::factory()->create();
     $member = Member::factory()->create(['user_id' => $user->id]);
@@ -87,7 +87,7 @@ test('assign venue listener works', function () {
 
 });
 
-test('backend event page stores image and dispatches success toast', function () {
+test('backend event page stores image and dispatches success toast', function (): void {
     $user = User::factory()->create(['is_admin' => true]);
     $member = Member::factory()->create(['user_id' => $user->id]);
     $this->actingAs($user);
@@ -109,7 +109,7 @@ test('backend event page stores image and dispatches success toast', function ()
         ->count())->toBe(1);
 });
 
-test('image upload component processes file and dispatches event', function () {
+test('image upload component processes file and dispatches event', function (): void {
     // Setup: Authenticated user with member
     $user = User::factory()->create();
     $member = Member::factory()->create(['user_id' => $user->id]);
@@ -141,7 +141,7 @@ test('image upload component processes file and dispatches event', function () {
     Storage::disk('public')->assertExists("thumbnails/{$storedFile}");
 });
 
-test('clicking add visitor opens modal', function () {
+test('clicking add visitor opens modal', function (): void {
     $user = User::factory()->create(['is_admin' => true]);
     $member = Member::factory()->create(['user_id' => $user->id]);
     $this->actingAs($user);
@@ -152,7 +152,7 @@ test('clicking add visitor opens modal', function () {
         ->assertDispatched('modal-show');
 });
 
-test('deleting assignment removes it and shows toast', function () {
+test('deleting assignment removes it and shows toast', function (): void {
     $user = User::factory()->create(['is_admin' => true]);
     $member = Member::factory()->create([
         'user_id' => $user->id, // Member mit User verknüpfen
@@ -170,7 +170,7 @@ test('deleting assignment removes it and shows toast', function () {
 
 });
 
-test('venue creation updates event show page venues', function () {
+test('venue creation updates event show page venues', function (): void {
     $user = User::factory()->create();
     $member = Member::factory()->create(['user_id' => $user->id]);
     $this->actingAs($user);
@@ -183,7 +183,7 @@ test('venue creation updates event show page venues', function () {
     $showComponent->assertSet('venues', Venue::select('id', 'name')->get());
 });
 
-test('all translations are rendered', function () {
+test('all translations are rendered', function (): void {
     $user = \App\Models\User::factory()
         ->create(['is_admin' => true]);
     $this->actingAs($user);
@@ -199,7 +199,7 @@ test('all translations are rendered', function () {
     );
 });
 
-test('event page route translations are rendered', function () {
+test('event page route translations are rendered', function (): void {
     $event = \App\Models\Event\Event::factory()->create();
 
     $this->assertTranslationsRendered(

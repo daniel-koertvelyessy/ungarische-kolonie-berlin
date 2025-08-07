@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 /**
  * @extends Factory<MailingList>
  */
-class MailingListFactory extends Factory
+final class MailingListFactory extends Factory
 {
     /**
      * Define the model's default state.

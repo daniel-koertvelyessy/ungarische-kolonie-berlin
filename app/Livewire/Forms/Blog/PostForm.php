@@ -9,7 +9,7 @@ use App\Actions\Post\UpdatePost;
 use App\Models\Blog\Post;
 use Livewire\Form;
 
-class PostForm extends Form
+final class PostForm extends Form
 {
     protected Post $post;
 

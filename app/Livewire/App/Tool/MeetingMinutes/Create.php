@@ -7,7 +7,7 @@ namespace App\Livewire\App\Tool\MeetingMinutes;
 use Illuminate\View\View;
 use Livewire\Component;
 
-class Create extends Component
+final class Create extends Component
 {
     public function render(): View
     {

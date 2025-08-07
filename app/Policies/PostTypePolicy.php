@@ -7,7 +7,7 @@ namespace App\Policies;
 use App\Models\Blog\PostType;
 use App\Models\User;
 
-class PostTypePolicy
+final class PostTypePolicy
 {
     /**
      * Determine whether the user can view any models.

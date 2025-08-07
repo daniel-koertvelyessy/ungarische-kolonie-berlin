@@ -10,14 +10,17 @@ abstract class BasePdfTemplate extends TCPDF
 {
     protected string $locale;
 
+    protected bool $showPageNumbers;
+
     protected string $pdfTitle;
 
-    public function __construct($locale = 'en', $title = '')
+    public function __construct($locale = 'en', $title = '', $showPageNumbers = true)
     {
         parent::__construct();
 
         $this->locale = $locale;
         $this->pdfTitle = $title;
+        $this->showPageNumbers = $showPageNumbers;
 
         // Set document properties
         $this->SetMargins(23, 30, 15);
@@ -44,7 +47,7 @@ abstract class BasePdfTemplate extends TCPDF
     {
         $this->SetY(-20);
 
-        if ($this->getPage() > 1) {
+        if ($this->getPage() > 1 && $this->showPageNumbers) {
             $this->SetFont('helvetica', 'I', 8);
             $this->Cell(0, 5, 'Seite '.$this->getAliasNumPage().' - '.$this->getAliasNbPages(), 0, 1, 'C');
         }

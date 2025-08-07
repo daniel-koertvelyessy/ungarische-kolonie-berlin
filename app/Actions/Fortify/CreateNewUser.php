@@ -12,7 +12,7 @@ use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Jetstream\Jetstream;
 
-class CreateNewUser implements CreatesNewUsers
+final class CreateNewUser implements CreatesNewUsers
 {
     use PasswordValidationRules;
 

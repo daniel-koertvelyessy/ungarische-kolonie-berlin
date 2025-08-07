@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends Factory<PostType>
  */
-class PostTypeFactory extends Factory
+final class PostTypeFactory extends Factory
 {
     /**
      * Define the model's default state.

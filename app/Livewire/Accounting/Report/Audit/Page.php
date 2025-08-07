@@ -14,7 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 
-class Page extends Component
+final class Page extends Component
 {
     use HasPrivileges;
 

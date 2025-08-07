@@ -8,7 +8,7 @@ use App\Models\SharedImage;
 use App\Models\User;
 use App\Policies\Traits\HasAdminPrivileges;
 
-class SharedImagePolicy
+final class SharedImagePolicy
 {
     use HasAdminPrivileges;
 

@@ -15,7 +15,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
-class SendMemberMassMail extends Mailable implements ShouldQueue
+final class SendMemberMassMail extends Mailable implements ShouldQueue
 {
     use Queueable;
     use SerializesModels;

@@ -6,7 +6,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class MailinglistSeeder extends Seeder
+final class MailinglistSeeder extends Seeder
 {
     /**
      * Run the database seeds.

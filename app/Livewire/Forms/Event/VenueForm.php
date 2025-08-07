@@ -9,7 +9,7 @@ use Illuminate\Validation\Rule;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
-class VenueForm extends Form
+final class VenueForm extends Form
 {
     public Venue $venue;
 

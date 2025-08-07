@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
-class Page extends Component
+final class Page extends Component
 {
     /*  public function updateReceipt($file)
       {

@@ -8,7 +8,7 @@ use App\Models\Membership\Member;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewMemberApplied extends Notification // implements ShouldQueue
+final class NewMemberApplied extends Notification // implements ShouldQueue
 {
     // use Queueable;
 

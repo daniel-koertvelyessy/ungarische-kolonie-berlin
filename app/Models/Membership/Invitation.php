@@ -36,7 +36,7 @@ use Illuminate\Support\Carbon;
  *
  * @mixin Eloquent
  */
-class Invitation extends Model
+final class Invitation extends Model
 {
     use HasFactory;
     use Notifiable;

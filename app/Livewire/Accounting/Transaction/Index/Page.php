@@ -40,7 +40,7 @@ use Livewire\WithPagination;
 use Log;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class Page extends Component
+final class Page extends Component
 {
     use HasPrivileges, Sortable, WithPagination;
 

@@ -14,7 +14,7 @@ use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
-class Page extends Component
+final class Page extends Component
 {
     public EventForm $form;
 

@@ -9,7 +9,7 @@ use App\Actions\Post\UpdatePostType;
 use App\Models\Blog\PostType;
 use Livewire\Form;
 
-class PostTypeForm extends Form
+final class PostTypeForm extends Form
 {
     protected Posttype $postType;
 

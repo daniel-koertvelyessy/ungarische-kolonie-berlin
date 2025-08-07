@@ -14,7 +14,7 @@ use App\Models\Membership\Member;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
-class EventPayment extends Component
+final class EventPayment extends Component
 {
     public EventForm $eventForm;
 

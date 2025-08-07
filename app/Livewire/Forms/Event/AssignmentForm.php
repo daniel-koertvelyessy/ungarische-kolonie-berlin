@@ -13,7 +13,7 @@ use Illuminate\Validation\Rule;
 use Livewire\Form;
 use Throwable;
 
-class AssignmentForm extends Form
+final class AssignmentForm extends Form
 {
     public EventAssignment $assignment;
 

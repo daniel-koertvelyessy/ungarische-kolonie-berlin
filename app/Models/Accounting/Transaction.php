@@ -71,7 +71,7 @@ use Illuminate\Support\Carbon;
  *
  * @mixin Eloquent
  */
-class Transaction extends Model
+final class Transaction extends Model
 {
     /** @use HasFactory<TransactionFactory> */
     use HasFactory;

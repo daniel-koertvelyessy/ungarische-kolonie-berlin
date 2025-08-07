@@ -6,7 +6,7 @@ namespace App\Livewire\App\Global;
 
 use Livewire\Component;
 
-class DarkModeToggle extends Component
+final class DarkModeToggle extends Component
 {
     public string $theme = 'system'; // Standardwert: 'system'
 

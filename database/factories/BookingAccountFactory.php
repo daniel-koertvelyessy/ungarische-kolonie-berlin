@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends Factory<BookingAccount>
  */
-class BookingAccountFactory extends Factory
+final class BookingAccountFactory extends Factory
 {
     /**
      * Define the model's default state.

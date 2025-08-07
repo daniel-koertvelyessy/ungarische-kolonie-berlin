@@ -8,7 +8,7 @@ use App\Models\Accounting\AccountReportAudit;
 use App\Models\User;
 use App\Policies\Traits\HasAdminPrivileges;
 
-class AccountReportAuditPolicy
+final class AccountReportAuditPolicy
 {
     use HasAdminPrivileges;
 

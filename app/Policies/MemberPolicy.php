@@ -10,7 +10,7 @@ use App\Models\User;
 use App\Policies\Traits\HasAdminPrivileges;
 use Illuminate\Support\Facades\Auth;
 
-class MemberPolicy
+final class MemberPolicy
 {
     use HasAdminPrivileges;
 

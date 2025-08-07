@@ -34,7 +34,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @mixin \Eloquent
  */
-class Attendee extends Model
+final class Attendee extends Model
 {
     /** @use HasFactory<\Database\Factories\AttendeeFactory> */
     use HasFactory;

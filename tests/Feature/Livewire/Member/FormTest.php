@@ -13,7 +13,7 @@ uses(TranslationTestTrait::class);
 
 // uses(RefreshDatabase::class);
 
-test('defaults are set on mount', function () {
+test('defaults are set on mount', function (): void {
     $user = Member::factory()->withUser()->create(['user_id' => User::factory()->create(['email_verified_at' => now()])->id])->user;
     $this->actingAs($user);
 
@@ -27,7 +27,7 @@ test('defaults are set on mount', function () {
     expect($component->form->applied_at)->toBeInstanceOf(\Carbon\Carbon::class);
 });
 
-test('checkEmail sets nomail correctly', function () {
+test('checkEmail sets nomail correctly', function (): void {
     $user = User::factory()
         ->create(['is_admin' => true]);
     $this->actingAs($user);
@@ -44,7 +44,7 @@ test('checkEmail sets nomail correctly', function () {
     expect($component->nomail)->toBeFalse();
 });
 
-test('checkBirthDate sets deduction based on age', function () {
+test('checkBirthDate sets deduction based on age', function (): void {
     $user = User::factory()
         ->create(['is_admin' => true]);
     $this->actingAs($user);
@@ -73,7 +73,7 @@ test('checkBirthDate sets deduction based on age', function () {
     expect($component->form->deduction_reason)->toBe('');
 });
 
-test('checkBirthDate applies deduction for older members', function () {
+test('checkBirthDate applies deduction for older members', function (): void {
     $user = User::factory()
         ->create(['is_admin' => true]);
     $this->actingAs($user);
@@ -98,7 +98,7 @@ test('checkBirthDate applies deduction for older members', function () {
     expect($component->form->deduction_reason)->toBe('');
 });
 
-test('store creates member with application and sends notifications', function () {
+test('store creates member with application and sends notifications', function (): void {
     $user = User::factory()
         ->create(['is_admin' => true]);
     $this->actingAs($user);
@@ -143,7 +143,7 @@ test('store creates member with application and sends notifications', function (
     });
 });
 
-test('store creates member without application with authorization', function () {
+test('store creates member without application with authorization', function (): void {
     $user = User::factory()
         ->create(['is_admin' => true]);
     $this->actingAs($user);
@@ -173,7 +173,7 @@ test('store creates member without application with authorization', function () 
     $component->assertRedirect(route('backend.members.show', ['member' => $member]));
 });
 
-test('all translations are rendered', function () {
+test('all translations are rendered', function (): void {
     $user = \App\Models\User::factory()
         ->create(['is_admin' => true]);
     $this->actingAs($user);

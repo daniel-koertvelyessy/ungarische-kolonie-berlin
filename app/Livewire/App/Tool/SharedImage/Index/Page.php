@@ -7,7 +7,7 @@ namespace App\Livewire\App\Tool\SharedImage\Index;
 use Illuminate\View\View;
 use Livewire\Component;
 
-class Page extends Component
+final class Page extends Component
 {
     public string $viewMode = 'grid';
 
