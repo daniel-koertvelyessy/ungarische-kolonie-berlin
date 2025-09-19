@@ -52,7 +52,7 @@
                             <tr>
                                 <td class="logo" style="text-align: center;">
                                     <h1 style="margin: 0; font-family: Lato, sans-serif; font-weight: 400; color: #000;">
-                                        <a href="{{ $url ?? config('app.url') }}" style="color: #096; font-size: 20pt; font-weight: 700; text-decoration: none;">{{ $header }}</a>
+                                        <a href="{{ $url ?? config('app.url') }}" style="color: #096; font-size: 16pt; font-weight: 700; text-decoration: none;">{{ $header }}</a>
                                     </h1>
                                 </td>
                             </tr>

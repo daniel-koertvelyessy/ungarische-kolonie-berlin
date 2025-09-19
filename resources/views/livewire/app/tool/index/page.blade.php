@@ -44,6 +44,7 @@
                             class="my-6"
             />
 
+
             <form wire:submit="sendMembersMail"
                   class="space-y-6"
             >
@@ -77,8 +78,6 @@
                 />
 
                 <flux:field>
-                    <flux:label>Link</flux:label>
-
                     <flux:input.group>
                         <flux:input wire:model="url"
                                     placeholder="https://magyar-kolonia-berlin.org"
@@ -129,6 +128,22 @@
                     </flux:field>
                 </div>
 
+                <flux:separator text="{{ __('mails.member.separator.options') }}" class="my-6" />
+
+                <flux:checkbox.group label="Optionen zum E-Mail Versand">
+                    <flux:checkbox wire:model="setLink"
+                                   label="Link erstellen"
+                                   description="Wenn aktiviert wird ein Link am Ende der E-Mail eingefügt der zu der jeweiligen Seite führt."
+                    />
+                    <flux:checkbox wire:model="setPersonalGreeting"
+                        label="Persönliche Anrede"
+                        description="Wenn aktiviert, wird der Empfänger der E-Mail mit seinem Namen angesprochen. Deaktiviert, wird keine Begrüßung ersellt!"
+                    />
+                    <flux:checkbox wire:model="setAttachment"
+                        label="E-Mail Anhänge"
+                        description="Sollen Dateien der E-Mail angehängt werden?"
+                    />
+                </flux:checkbox.group>
 
                 @if(!app()->isProduction())
                     <flux:button wire:click="addDummyData">dummy</flux:button>

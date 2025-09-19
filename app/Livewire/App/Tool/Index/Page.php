@@ -52,6 +52,12 @@ final class Page extends Component
 
     public string $url = '';
 
+    public bool $setLink = true;
+
+    public bool $setAttachment = true;
+
+    public bool $setPersonalGreeting = true;
+
     #[Computed]
     public function mailingList(): LengthAwarePaginator
     {
@@ -102,6 +108,7 @@ final class Page extends Component
             'message' => $this->message,
         ]);
         $savedFiles = [];
+
         if (count($this->attachments) > 0) {
 
             foreach ($this->attachments as $locale => $file) {
@@ -133,7 +140,10 @@ final class Page extends Component
                             $member->locale,
                             $url,
                             $label,
-                            [$savedFiles[$member->locale]]
+                            [$savedFiles[$member->locale]],
+                            $this->setPersonalGreeting,
+                            $this->setAttachment,
+                            $this->setLink
                         ));
                     $counter++;
                 }
@@ -142,6 +152,7 @@ final class Page extends Component
             // no attachments existing
             $counter = 0;
             foreach (Member::all() as $member) {
+
                 if ($member->email) {
                     $url = $this->url ?? '';
                     $label = $this->urlLabel[$member->locale] ?? null;
@@ -154,6 +165,10 @@ final class Page extends Component
                             $member->locale,
                             $url,
                             $label,
+                            null,
+                            $this->setPersonalGreeting,
+                            $this->setAttachment,
+                            $this->setLink
                         ));
                     $counter++;
                 }

@@ -28,6 +28,9 @@ final class SendMemberMassMail extends Mailable implements ShouldQueue
         public ?string $url,
         public ?string $url_label,
         public ?array $mail_attachments = null,
+        public ?bool $setPersonalGreeting = true,
+        public ?bool $setAttachment = true,
+        public ?bool $setLink = true,
     ) {}
 
     /**
@@ -46,6 +49,7 @@ final class SendMemberMassMail extends Mailable implements ShouldQueue
      */
     public function content(): Content
     {
+
         return new Content(
             view: 'emails.email-to-all-members',
             with: [ // Pass variables here
@@ -54,6 +58,9 @@ final class SendMemberMassMail extends Mailable implements ShouldQueue
                 'mail_name' => $this->mail_name,
                 'mail_subject' => $this->mail_subject,
                 'mail_message' => $this->mail_message,
+                'setPersonalGreeting' => $this->setPersonalGreeting,
+                'setAttachment' => $this->setAttachment,
+                'setLink' => $this->setLink,
             ]
         );
     }
@@ -64,8 +71,8 @@ final class SendMemberMassMail extends Mailable implements ShouldQueue
     public function attachments(): array
     {
         $emailAttachments = [];
-
-        if ($this->mail_attachments) {
+        Log::debug('send mail to '.$this->mail_name);
+        if ($this->mail_attachments && $this->setAttachment) {
             foreach ($this->mail_attachments as $filePath) {
                 // Extract the relative path from the absolute file path
                 $relativeFilePath = str_replace(storage_path('app/private').'/', '', $filePath['local']);
@@ -85,7 +92,6 @@ final class SendMemberMassMail extends Mailable implements ShouldQueue
                     ->withMime($mimeType);              // Set MIME type for the file
 
             }
-
         }
 
         return $emailAttachments;

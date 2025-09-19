@@ -8,11 +8,11 @@
     <meta name="csrf-token"
           content="{{ csrf_token() }}"
     >
-@if(isset($title))
-    <title>{{$title . ' @ Magyar Kolónia Berlin e.V.'}}</title>
+    @if(isset($title))
+        <title>{{$title . ' @ Magyar Kolónia Berlin e.V.'}}</title>
     @else
-    <title>Portal @ Magyar Kolónia Berlin e.V.</title>
-@endif
+        <title>Portal @ Magyar Kolónia Berlin e.V.</title>
+    @endif
     <!-- Fonts -->
     <link rel="preconnect"
           href="https://fonts.bunny.net"
@@ -61,133 +61,140 @@
 </head>
 <body class="font-sans antialiased min-h-screen bg-white dark:bg-zinc-800">
 <flux:sidebar sticky
-              stashable
-              class="bg-zinc-50 dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-700 w-60"
+              collapsible
+              class="bg-zinc-50 dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-700"
 >
-    <div class="flex justify-between">
-        <flux:brand href="/"
+    <flux:sidebar.header>
+        <flux:sidebar.brand
+            href="/"
                     logo="{{ Vite::asset('resources/images/magyar-kolonia-logo.svg') }}"
                     name="Kolónia Portal"
                     class="px-2"
         />
+        <flux:sidebar.collapse class="in-data-flux-sidebar-on-desktop:not-in-data-flux-sidebar-collapsed-desktop:-mr-2"/>
+    </flux:sidebar.header>
 
-        <flux:sidebar.toggle class="lg:hidden ml-3"
-                             icon="x-mark"
-        />
-    </div>
-
-    <flux:separator/>
-
-    {{--
-        <flux:input as="button"
-                    variant="filled"
-                    placeholder="Search..."
-                    icon="magnifying-glass"
-        />
-    --}}
-
-    <flux:navlist variant="outline">
-
-        <flux:navlist.item wire:navigate
-                           icon="home"
+    <flux:sidebar.nav>
+        <flux:sidebar.item icon="home"
                            href="{{ route('dashboard') }}"
                            :current="request()->is('dashboard')"
-        >{{ __('nav.dashboard') }}</flux:navlist.item>
+        >{{ __('nav.dashboard') }}
+        </flux:sidebar.item>
 
-
-
-            <flux:navlist.group heading="{{ __('nav.tools') }}"
-                                expandable
-            >
-                <flux:navlist.item wire:navigate
-                                   href="{{ route('minutes.index')  }}"
-                                   :current="request()->is('*minutes*')"
-                >{{ __('nav.minutes') }}</flux:navlist.item>
-                @can('create', \App\Models\Membership\Member::class)
-
-                <flux:navlist.item wire:navigate
-                                   href="{{ route('tools.index')  }}"
-                >{{ __('nav.mails') }}</flux:navlist.item>
-                @endcan
-
-                <flux:navlist.item wire:navigate
-                                   href="{{ route('shared-image.index')  }}"
-                >{{ __('nav.sharedImages') }}</flux:navlist.item>
-
-            </flux:navlist.group>
-
-
-
-
-        <flux:navlist.group heading="{{ __('nav.members') }}"
-                            expandable
+        <flux:sidebar.group expandable
+                            icon="wrench-screwdriver"
+                            heading="{{ __('nav.tools') }}"
+                            class="grid"
         >
-            <flux:navlist.item wire:navigate
-                               href="{{ route('backend.members.index')  }}"
-            >{{ __('nav.members.overview') }}</flux:navlist.item>
-            <flux:navlist.item wire:navigate
-                               href="{{ route('backend.members.roles')  }}"
-            >{{ __('nav.members.roles') }}</flux:navlist.item>
+            <flux:sidebar.item  wire:navigate
+                                icon="document-text"
+                                   href="{{ route('minutes.index')  }}"
+                                   :current="request()->is('*minutes*')">{{ __('nav.minutes') }}</flux:sidebar.item>
+            @can('create', \App\Models\Membership\Member::class)
+            <flux:sidebar.item  wire:navigate
+                                icon="envelope"
+                                href="{{ route('tools.index')  }}"
+                                   :current="request()->is('*minutes*')">{{ __('nav.mails') }}</flux:sidebar.item>
+            @endcan
+            <flux:sidebar.item  wire:navigate
+                                icon="photo"
+                                href="{{ route('shared-image.index')  }}"
+                                   :current="request()->is('*minutes*')">{{ __('nav.sharedImages') }}</flux:sidebar.item>
+        </flux:sidebar.group>
 
-        </flux:navlist.group>
+        <flux:sidebar.group expandable
+                            icon="user-group"
+                            heading="{{ __('nav.members') }}"
+                            class="grid"
+        >
 
+            <flux:sidebar.item  wire:navigate
+                                icon="users"
+                                href="{{ route('backend.members.index')  }}"
+                                :current="request()->is('*members*')">{{ __('nav.members.overview') }}</flux:sidebar.item>
 
-        <flux:navlist.item wire:navigate
+            <flux:sidebar.item  wire:navigate
+                                icon="identification"
+                                href="{{ route('backend.members.roles')  }}"
+                                :current="request()->is('*members*')">{{ __('nav.members.roles') }}</flux:sidebar.item>
+
+        </flux:sidebar.group>
+
+        <flux:sidebar.item wire:navigate
                            icon="newspaper"
                            href="{{ route('backend.posts.index')  }}"
                            :current="request()->is('*posts*')"
-        >{{ __('nav.blogs') }}</flux:navlist.item>
+        >{{ __('nav.blogs') }}
+        </flux:sidebar.item>
 
-        <flux:navlist.item wire:navigate
+        <flux:sidebar.item wire:navigate
                            icon="calendar-days"
                            href="{{ route('backend.events.index') }}"
                            :current="request()->is('*events*')"
-        >{{ __('nav.events') }}</flux:navlist.item>
+        >{{ __('nav.events') }}
+        </flux:sidebar.item>
 
 
-        <flux:navlist.group heading="{{ __('nav.kasse') }}"
-                            expandable
+        <flux:sidebar.group expandable
+                            icon="banknotes"
+                            heading="{{ __('nav.kasse') }}"
+                            class="grid"
         >
-            <flux:navlist.item wire:navigate
-                               href="{{ route('accounting.index') }}"
-            >{{ __('nav.account.index') }}
-            </flux:navlist.item>
-            <flux:navlist.item wire:navigate
-                               href="{{ route('transaction.index') }}"
-            >{{ __('nav.account.transactions') }}
-            </flux:navlist.item>
-            <flux:navlist.item wire:navigate
-                               href="{{ route('receipts.index') }}"
-            >{{ __('nav.account.receipts') }}
-            </flux:navlist.item>
-            <flux:navlist.item wire:navigate
-                               href="{{ route('accounts.report.index') }}"
-            >{{ __('nav.account.reports') }}
-            </flux:navlist.item>
-           @can('create',\App\Models\Accounting\Account::class)
-                <flux:navlist.item wire:navigate
-                                   href="{{ route('accounts.index') }}"
-                                   :current="request()->is('*accounts*')"
-                >{{ __('nav.account.details') }}
-                </flux:navlist.item>
-            @endcan
-        </flux:navlist.group>
 
-    </flux:navlist>
+            <flux:sidebar.item  wire:navigate
+                                icon="folder-open"
+                                href="{{ route('accounting.index') }}"
+                                :current="request()->is('*account*')">{{ __('nav.account.index') }}</flux:sidebar.item>
 
-    <flux:spacer/>
+            <flux:sidebar.item  wire:navigate
+                                icon="arrows-right-left"
+                                href="{{ route('transaction.index') }}"
+                                :current="request()->is('*account*')">{{ __('nav.account.transactions') }}</flux:sidebar.item>
+
+            <flux:sidebar.item  wire:navigate
+                                icon="document-currency-euro"
+                                href="{{ route('transaction.index') }}"
+                                :current="request()->is('*account*')">{{ __('nav.account.receipts') }}</flux:sidebar.item>
+
+            <flux:sidebar.item  wire:navigate
+                                icon="document-text"
+                                href="{{ route('accounts.report.index') }}"
+                                :current="request()->is('*account*')">{{ __('nav.account.reports') }}</flux:sidebar.item>
+
+            @can('create',\App\Models\Accounting\Account::class)
+                <flux:sidebar.item  wire:navigate
+                                    icon="currency-euro"
+                                    href="{{ route('accounts.index') }}"
+                                    :current="request()->is('*accounts*')">{{ __('nav.account.details') }}</flux:sidebar.item>
+                @endcan
+
+        </flux:sidebar.group>
 
 
+
+
+    </flux:sidebar.nav>
+
+    <flux:sidebar.spacer/>
+    <flux:sidebar.nav>
+
+        @if(Auth::user()->is_admin)
+        <flux:sidebar.item icon="information-circle"
+                           href="/log-viewer" target="_blank"
+        >Logs
+        </flux:sidebar.item>
+        @endif
+
+
+    </flux:sidebar.nav>
     <flux:dropdown position="top"
                    align="start"
                    class="max-lg:hidden"
     >
-        <flux:profile avatar="{{ Auth::user()->profile_photo_url }}"
-                      name="{{ Auth::user()->username }}"
+        <flux:sidebar.profile avatar="{{ Auth::user()->profile_photo_url }}"
+                              name="{{ Auth::user()->username }}"
         />
-
         <flux:menu>
-
             <flux:menu.item wire:navigate
                             icon="user"
                             href="{{ route('profile.show') }}"
@@ -197,67 +204,53 @@
                             href="{{ route('api-tokens.index') }}"
             >{{ __('nav.profile.api') }}</flux:menu.item>
             <livewire:app.global.notifications-menu/>
-            {{--           <flux:menu.separator/>
-                       <livewire:app.global.dark-mode-toggle />--}}
+
+
             <flux:menu.separator/>
             <livewire:app.global.language-switcher/>
-            @if(Auth::user()->is_admin)
-                <flux:menu.item href="/log-viewer" target="_blank"
-                >Logs</flux:menu.item>
-            @endif
-            <flux:menu.separator/>
+
+
             <form method="POST"
                   action="{{ route('logout') }}"
             >
                 @csrf
-
-                <flux:menu.item type="submit"
-                                icon="arrow-right-start-on-rectangle"
-                >{{ __('nav.logout') }}</flux:menu.item>
+            <flux:menu.item type="submit" icon="arrow-right-start-on-rectangle">{{ __('nav.logout') }}</flux:menu.item>
             </form>
         </flux:menu>
     </flux:dropdown>
 </flux:sidebar>
-
 <flux:header class="lg:hidden">
     <flux:sidebar.toggle class="lg:hidden"
                          icon="bars-2"
                          inset="left"
     />
-
     <flux:spacer/>
-
     <flux:dropdown position="top"
-                   alignt="start"
+                   align="start"
     >
-        <flux:profile avatar="{{ Auth::user()->profile_photo_url }}"
-                      name="{{ Auth::user()->username }}"
-        />
-
+        <flux:profile avatar="{{ Auth::user()->profile_photo_url }}"/>
         <flux:menu>
-            <livewire:app.global.notifications-menu/>
-            <livewire:app.global.language-switcher/>
-            <flux:menu.item icon="user"
+            <flux:menu.item wire:navigate
+                            icon="user"
                             href="{{ route('profile.show') }}"
             >{{ Auth::user()->first_name. ' '. Auth::user()->name }}</flux:menu.item>
-            <flux:menu.item icon="key"
+            <flux:menu.item wire:navigate
+                            icon="key"
                             href="{{ route('api-tokens.index') }}"
             >{{ __('nav.profile.api') }}</flux:menu.item>
+            <livewire:app.global.notifications-menu/>
 
 
             <flux:menu.separator/>
+            <livewire:app.global.language-switcher/>
+
 
             <form method="POST"
                   action="{{ route('logout') }}"
             >
                 @csrf
-
-                <flux:menu.item type="submit"
-                                icon="arrow-right-start-on-rectangle"
-                >{{ __('nav.logout') }}</flux:menu.item>
+                <flux:menu.item type="submit" icon="arrow-right-start-on-rectangle">{{ __('nav.logout') }}</flux:menu.item>
             </form>
-
-
         </flux:menu>
     </flux:dropdown>
 </flux:header>

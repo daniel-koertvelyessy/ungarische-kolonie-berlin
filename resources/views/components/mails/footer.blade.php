@@ -44,7 +44,7 @@
                                 <a href="https://magyar-kolonia-berlin.org" style="color: #000; text-decoration: none; font-size: 10px;">magyar-kolonia-berlin.org</a>
                             </li>
                             <li style="list-style: none; margin-bottom: 10px;">
-                                <a href="#" style="color: #000; text-decoration: none; font-size: 10px;">Facebook</a>
+                                <a href="https://facebook.com/groups/magyarkoloniaberlin/" target="_blank" style="color: #000; text-decoration: none; font-size: 10px;">Facebook</a>
                             </li><li style="list-style: none; margin-bottom: 10px;">
                                 <a href="https://magyar-kolonia-berlin.org/privacy" style="color: #000; text-decoration: none; font-size: 10px;">{{ __('privacy.title') }}</a>
                             </li>
