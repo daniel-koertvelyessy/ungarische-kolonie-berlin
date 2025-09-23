@@ -77,7 +77,7 @@
     <flux:sidebar.nav>
         <flux:sidebar.item icon="home"
                            href="{{ route('dashboard') }}"
-                           :current="request()->is('dashboard')"
+                           :current="request()->is('backend/dashboard')"
         >{{ __('nav.dashboard') }}
         </flux:sidebar.item>
 
@@ -89,17 +89,17 @@
             <flux:sidebar.item  wire:navigate
                                 icon="document-text"
                                    href="{{ route('minutes.index')  }}"
-                                   :current="request()->is('*minutes*')">{{ __('nav.minutes') }}</flux:sidebar.item>
+                                   :current="request()->is('backend/minutes')">{{ __('nav.minutes') }}</flux:sidebar.item>
             @can('create', \App\Models\Membership\Member::class)
             <flux:sidebar.item  wire:navigate
                                 icon="envelope"
                                 href="{{ route('tools.index')  }}"
-                                   :current="request()->is('*minutes*')">{{ __('nav.mails') }}</flux:sidebar.item>
+                                   :current="request()->is('backend/tools')">{{ __('nav.mails') }}</flux:sidebar.item>
             @endcan
             <flux:sidebar.item  wire:navigate
                                 icon="photo"
                                 href="{{ route('shared-image.index')  }}"
-                                   :current="request()->is('*minutes*')">{{ __('nav.sharedImages') }}</flux:sidebar.item>
+                                   :current="request()->is('backend/shared-images/index')">{{ __('nav.sharedImages') }}</flux:sidebar.item>
         </flux:sidebar.group>
 
         <flux:sidebar.group expandable
@@ -111,12 +111,12 @@
             <flux:sidebar.item  wire:navigate
                                 icon="users"
                                 href="{{ route('backend.members.index')  }}"
-                                :current="request()->is('*members*')">{{ __('nav.members.overview') }}</flux:sidebar.item>
+                                :current="request()->is('backend/members')">{{ __('nav.members.overview') }}</flux:sidebar.item>
 
             <flux:sidebar.item  wire:navigate
                                 icon="identification"
                                 href="{{ route('backend.members.roles')  }}"
-                                :current="request()->is('*members*')">{{ __('nav.members.roles') }}</flux:sidebar.item>
+                                :current="request()->is('backend/members/roles')">{{ __('nav.members.roles') }}</flux:sidebar.item>
 
         </flux:sidebar.group>
 
@@ -144,28 +144,28 @@
             <flux:sidebar.item  wire:navigate
                                 icon="folder-open"
                                 href="{{ route('accounting.index') }}"
-                                :current="request()->is('*account*')">{{ __('nav.account.index') }}</flux:sidebar.item>
+                                :current="request()->is('backend/accounting')">{{ __('nav.account.index') }}</flux:sidebar.item>
 
             <flux:sidebar.item  wire:navigate
                                 icon="arrows-right-left"
                                 href="{{ route('transaction.index') }}"
-                                :current="request()->is('*account*')">{{ __('nav.account.transactions') }}</flux:sidebar.item>
+                                :current="request()->is('backend/transactions')">{{ __('nav.account.transactions') }}</flux:sidebar.item>
 
             <flux:sidebar.item  wire:navigate
                                 icon="document-currency-euro"
-                                href="{{ route('transaction.index') }}"
-                                :current="request()->is('*account*')">{{ __('nav.account.receipts') }}</flux:sidebar.item>
+                                href="{{ route('receipts.index') }}"
+                                :current="request()->is('backend/receipts')">{{ __('nav.account.receipts') }}</flux:sidebar.item>
 
             <flux:sidebar.item  wire:navigate
                                 icon="document-text"
                                 href="{{ route('accounts.report.index') }}"
-                                :current="request()->is('*account*')">{{ __('nav.account.reports') }}</flux:sidebar.item>
+                                :current="request()->is('backend/account-report')">{{ __('nav.account.reports') }}</flux:sidebar.item>
 
             @can('create',\App\Models\Accounting\Account::class)
                 <flux:sidebar.item  wire:navigate
                                     icon="currency-euro"
                                     href="{{ route('accounts.index') }}"
-                                    :current="request()->is('*accounts*')">{{ __('nav.account.details') }}</flux:sidebar.item>
+                                    :current="request()->is('backend/accounts')">{{ __('nav.account.details') }}</flux:sidebar.item>
                 @endcan
 
         </flux:sidebar.group>

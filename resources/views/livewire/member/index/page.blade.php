@@ -83,10 +83,40 @@
 
         <flux:table.rows>
             @foreach ($this->members as $member)
+
+                @php
+                $fee_status = $member->feeStatus();
+            $color = $fee_status['status'] ? 'lime' : 'orange';
+            $paid = $member->fee_type === \App\Enums\MemberFeeType::FREE->value ? __('members.fee-type.free') :  $fee_status['paid'];
+            @endphp
                 <flux:table.row :key="$member->id">
                     <flux:table.cell class="flex items-center gap-3">
-                        {{ $member->first_name }}
-                        {{ $member->name }}
+
+                        <section class=" hidden sm:table-cell">
+                            {{ $member->first_name }}
+                            {{ $member->name }}
+                        </section>
+
+                        <section class="sm:hidden flex flex-col gap-2">
+                            <flux:heading size="lg">{{ $member->first_name }} {{ $member->name }}</flux:heading>
+                            <div class="flex justify-start items-center gap-2">
+                                <flux:badge size="sm"
+                                            :color="\App\Enums\MemberType::color($member->type)"
+                                            inset="top bottom"
+                                >{{ \App\Enums\MemberType::value($member->type) }}</flux:badge>
+
+                                <flux:badge size="sm"
+                                            color="{{ $color }}"
+                                            inset="top bottom"
+                                >{{ $paid }}</flux:badge>
+                            </div>
+                            @if(!empty($member->mobile))
+                            <p class="text-xs">
+                                <flux:button size="xs" href="tel:{{ $member->mobile }}" icon="phone" variant="filled">{{ $member->mobile }}</flux:button>
+                                </p>
+                            @endif
+
+                        </section>
                     </flux:table.cell>
 
                     <flux:table.cell class="whitespace-nowrap hidden sm:table-cell">{{ $member->mobile }}</flux:table.cell>
@@ -97,11 +127,7 @@
                         >{{ \App\Enums\MemberType::value($member->type) }}</flux:badge>
                     </flux:table.cell>
                     <flux:table.cell class=" hidden sm:table-cell">
-                        @php
-                            $fee_status = $member->feeStatus();
-                        $color = $fee_status['status'] ? 'lime' : 'orange';
-                        $paid = $member->fee_type === \App\Enums\MemberFeeType::FREE->value ? __('members.fee-type.free') :  $fee_status['paid'];
-                        @endphp
+
                         <flux:badge size="sm"
                                     color="{{ $color }}"
                                     inset="top bottom"
