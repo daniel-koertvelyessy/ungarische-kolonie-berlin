@@ -32,12 +32,12 @@ final class EventInvitationLetter extends BasePdfTemplate
         $hH1 = 16;
         $hH2 = 14;
         $h = 9;
-        $width = 30;
+        $width = 33;
         $zh = 5;
         foreach ($this->members as $member) {
             $locale = $member->locale;
             $this->AddPage();
-            $this->SetFont('helvetica', '', $h);
+            $this->SetFont($this->font, '', $h);
 
             $this->cell(0, $zh, $member->name.', '.$member->first_name, 0, 1);
             $this->cell(0, $zh, $member->address, 0, 1);
@@ -48,25 +48,27 @@ final class EventInvitationLetter extends BasePdfTemplate
             //        $this->writeHTML($this->content, true, false, true, false, '');
             $this->ln(10);
 
-            $this->SetFont('helvetica', 'B', $hH1);
+            $this->SetFont($this->font, 'B', $hH1);
             $this->Cell(0, 10, trans('event.notification_letter.title', [], $locale), 0, 1);
 
             $this->ln(10);
 
-            $this->SetFont('helvetica', '', $h);
+            $this->SetFont($this->font, '', $h);
             $this->cell(0, 10, trans('event.notification_letter.greeting', ['name' => $member->first_name], $locale), 0, 1);
 
             $this->MultiCell(0, 10, trans('event.notification_letter.text', ['datum' => $this->event->event_date->isoFormat('LL')], $locale), '', 'L', false, 1);
 
             $this->ln(2);
-            $this->MultiCell(0, 10, $this->event->description[$locale], '', 'L', false, 1);
+            $content = $this->event->description[$locale];
+            $content = preg_replace('/[\x{1F300}-\x{1FAFF}\x{2600}-\x{27BF}]/u', '', $content);
 
+            $this->writeHTML($content, true, false, false, false, false);
             $this->ln(2);
-            $this->SetFont('helvetica', '', $hH2);
+            $this->SetFont($this->font, '', $hH2);
             $this->cell(0, $zh, trans('event.notification_letter.overview', [], $locale), 0, 1);
             $this->ln(1);
 
-            $this->SetFont('helvetica', '', $h);
+            $this->SetFont($this->font, '', $h);
             $this->cell($width, $zh, trans('event.title.de', [], $locale), 0, 0);
             $this->cell(0, $zh, $this->event->title[$locale], 0, 1);
 

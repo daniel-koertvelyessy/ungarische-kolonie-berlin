@@ -10,6 +10,8 @@ abstract class BasePdfTemplate extends TCPDF
 {
     protected string $locale;
 
+    protected string $font;
+
     protected bool $showPageNumbers;
 
     protected string $pdfTitle;
@@ -21,6 +23,7 @@ abstract class BasePdfTemplate extends TCPDF
         $this->locale = $locale;
         $this->pdfTitle = $title;
         $this->showPageNumbers = $showPageNumbers;
+        $this->font ='dejavusans' ;//'helvetica'; //dejavusans
 
         // Set document properties
         $this->SetMargins(23, 30, 15);
@@ -33,9 +36,9 @@ abstract class BasePdfTemplate extends TCPDF
     public function Header(): void
     {
         $this->setY(10);
-        $this->SetFont('helvetica', '', 16);
+        $this->SetFont($this->font, '', 16);
         $this->Cell(0, 10, 'Magyar Kolónia Berlin e. V.', 0, 1, 'C');
-        $this->SetFont('helvetica', '', 10);
+        $this->SetFont($this->font, '', 10);
 
         $this->Cell(0, 5, $this->pdfTitle, 0, 1, 'C');
 
@@ -48,10 +51,10 @@ abstract class BasePdfTemplate extends TCPDF
         $this->SetY(-20);
 
         if ($this->getPage() > 1 && $this->showPageNumbers) {
-            $this->SetFont('helvetica', 'I', 8);
+            $this->SetFont($this->font, 'I', 8);
             $this->Cell(0, 5, 'Seite '.$this->getAliasNumPage().' - '.$this->getAliasNbPages(), 0, 1, 'C');
         }
-        $this->SetFont('helvetica', '', 7);
+        $this->SetFont($this->font, '', 7);
         $this->Cell(0, 4, 'Magyar-Kolónia Berlin (Ungarische-Kolonie-Berlin) e.V. | Registernummer 95 VR 1881 Nz', 0, 1, 'C');
         $this->Cell(0, 4, 'Vertreten durch: József Robotka, Präsident | Mátyás Temesi, Stellvertreter', 0, 1, 'C');
 
