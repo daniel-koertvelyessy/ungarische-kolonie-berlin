@@ -7,6 +7,7 @@ namespace App\Livewire\Forms\Event;
 use App\Actions\Event\CreateEvent;
 use App\Enums\EventStatus;
 use App\Enums\Locale;
+use App\Models\Accounting\Account;
 use App\Models\Event\Event;
 use App\Rules\UniqueJsonSlug;
 use Carbon\Carbon;
@@ -77,8 +78,8 @@ final class EventForm extends Form
         $this->slug = $this->event->slug;
         $this->payment_link = $this->event->payment_link;
         $this->description = $this->event->description;
-        $this->entry_fee = $this->event->entry_fee;
-        $this->entry_fee_discounted = $this->event->entry_fee_discounted;
+        $this->entry_fee = Account::formatedAmount($this->event->entry_fee);
+        $this->entry_fee_discounted = Account::formatedAmount($this->event->entry_fee_discounted);
         $this->venue_id = $this->event->venue_id;
         $this->notification_sent_at = $this->event->notification_sent_at;
     }
@@ -109,8 +110,8 @@ final class EventForm extends Form
             'image' => 'nullable',
             'payment_link' => 'nullable',
             'status' => ['nullable', Rule::enum(EventStatus::class)],
-            'entry_fee' => 'nullable|numeric',
-            'entry_fee_discounted' => 'nullable|numeric',
+            'entry_fee' => 'nullable',
+            'entry_fee_discounted' => 'nullable',
         ];
 
         if ($this->id === null) {
@@ -126,6 +127,8 @@ final class EventForm extends Form
             'name.required' => __('event.validation.name.required'),
             'event_date.after' => __('event.validation.event_date.after'),
             'title.*.required' => __('event.validation.title.required'),
+            'entry_fee.numeric' => __('event.validation.entry_fee.numeric'),
+            'entry_fee_discounted.numeric' => __('event.validation.entry_fee_discounted.numeric'),
         ];
     }
 
@@ -138,8 +141,8 @@ final class EventForm extends Form
         $this->event->excerpt = $this->excerpt;
         $this->event->slug = $this->slug;
         $this->event->description = $this->description;
-        $this->event->entry_fee = $this->entry_fee;
-        $this->event->entry_fee_discounted = $this->entry_fee_discounted;
+        $this->event->entry_fee = Account::makeCentInteger($this->entry_fee);
+        $this->event->entry_fee_discounted = Account::makeCentInteger($this->entry_fee_discounted);
         $this->event->venue_id = $this->venue_id;
         $this->event->payment_link = $this->payment_link;
         $this->event->status = $this->status;

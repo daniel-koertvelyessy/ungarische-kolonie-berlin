@@ -230,6 +230,6 @@ return [
     'program_letter.modal.radio.all.desc' => 'Alle vergangenen und künftigen veröffentlichten Veranstaltungen',
     'program_letter.modal.btn' => 'Liste erstellen',
 
-    '' => '',
+    'boxoffice.btn.openmodal' => 'Abendkasse',
 
 ];

@@ -98,7 +98,7 @@ final class Account extends Model
         return (int) $formattedValue;
     }
 
-    public static function formatedAmount(int $value): string
+    public static function formatedAmount(float $value): string
     {
         return number_format($value / 100, 2, ',', '.');
     }

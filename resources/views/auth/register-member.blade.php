@@ -1,4 +1,4 @@
-<x-guest-layout title="Register">
+<x-guest-layout title="{{ __('members.register.page_title') }}">
 
     <flux:card class="lg:w-1/2 mx-auto mt-3 lg:mt-20">
         <form method="POST"

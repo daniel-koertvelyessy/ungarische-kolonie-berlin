@@ -74,5 +74,15 @@ return [
     'mail.receipt.label' => 'Verwendungszwecks/Betreff',
     'mail.receipt.reference' => 'Referenz',
 
+    'event' => [
+        'boxoffice' => [
+            'heading' => 'Abendkasse',
+            'paymentsection' => 'Buchungsdaten',
+            'visitorsection' => 'Besucherdaten',
+            'visitorname' => 'Name',
+            'visitoremail' => 'E-Mail',
+            'submit' => 'Abendkasse erfassen',
+        ],
+    ],
     '' => '',
 ];

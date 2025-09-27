@@ -8,17 +8,20 @@ use App\Enums\Gender;
 use App\Enums\MemberFamilyStatus;
 use App\Enums\MemberType;
 use App\Livewire\Forms\Member\MemberForm;
+use App\Livewire\Traits\HasPrivileges;
 use App\Models\Membership\Member;
 use App\Notifications\ApplianceReceivedNotification;
 use App\Notifications\NewMemberApplied;
 use Carbon\Carbon;
+use Faker\Provider\de_DE\Address;
 use Flux\Flux;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Notification;
 use Livewire\Component;
 
 final class Form extends Component
 {
+    use HasPrivileges;
+
     public MemberForm $form;
 
     public $application;
@@ -69,9 +72,10 @@ final class Form extends Component
 
     public function store(): void
     {
+        $this->checkPrivilege(Member::class);
 
+        $this->form->validate();
         if ($this->application) {
-            $this->form->validate();
             $this->form->applied_at = Carbon::now('Europe/Berlin');
 
             $member = $this->form->create();
@@ -92,10 +96,6 @@ final class Form extends Component
 
         } else {
 
-            $this->checkUser();
-
-            $this->form->validate();
-
             $member = $this->form->create();
 
             Flux::toast(
@@ -109,18 +109,22 @@ final class Form extends Component
 
     }
 
-    protected function checkUser(): void
+    public function addDummyData()
     {
-        try {
-            $this->authorize('create', Member::class);
-        } catch (AuthorizationException $e) {
-            Flux::toast(
-                text: 'Sie haben keine Berechtigungen zur Erstellung von Mitgliedern'.$e->getMessage(),
-                heading: 'Forbidden',
-                variant: 'danger',
-            );
+        if (! app()->isProduction()) {
 
-            return;
+            $this->form->name = 'Doe';
+            $this->form->first_name = 'John';
+            $this->form->birth_date = Carbon::now('Europe/Berlin')->subYears(51);
+            $this->form->gender = 'male';
+            $this->form->birth_place = 'Frankfurt a. M.';
+            $this->form->zip = Address::postcode();
+            $this->form->address = 'Grünspowhczo 12';
+            $this->form->city = 'Hamburg';
+            $this->form->country = 'Deutschland';
+            $this->form->email = 'daniel@gmail.com';
+            $this->form->phone = '0123456789';
+
         }
     }
 

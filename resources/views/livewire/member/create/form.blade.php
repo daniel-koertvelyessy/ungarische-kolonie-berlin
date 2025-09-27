@@ -1,6 +1,7 @@
 <div>
     @if(! app()->isProduction())
         <x-debug />
+        @dump($application)
     @endif
     <form wire:submit="store">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
@@ -254,6 +255,12 @@
             <flux:button variant="primary"
                          type="submit"
             >Mitglied anlegen
+            </flux:button>
+        @endif
+
+        @if(! app()->isProduction())
+            <flux:button variant="ghost" wire:click="addDummyData"
+            >Dummy
             </flux:button>
         @endif
     </form>

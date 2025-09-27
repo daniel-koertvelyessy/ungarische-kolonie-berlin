@@ -65,6 +65,7 @@ return [
     'mailing_list.validation_error.terms_accepted' => 'Bitte akzeptieren Sie die Datenschutzerklärung',
 
     'mailing_list.show.confirmation_msg' => 'Sie haben Ihre E-Mail-Adresse erfolgreich verifiziert',
+    'mailing_list.show.update_msg' => 'Sie haben Ihre Einstellungen erfolgreich geändert',
     'mailing_list.confirmation_email_subject' => 'Bitte verifizieren Sie Ihre E-Mail-Adresse',
     'mailing_list.confirmation_email_msg' => 'Danke für Ihre Anmeldung zu unserer Mailingliste! Bitte bestätigen Sie Ihr Abonnement, indem Sie auf den Button unten klicken. So erhalten Sie Updates, die zu Ihren Interessen passen.',
 

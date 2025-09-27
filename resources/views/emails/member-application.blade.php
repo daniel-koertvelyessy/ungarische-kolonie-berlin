@@ -6,8 +6,8 @@
 <ul style="list-style: none;">
     <li>Vezetéknév: {{ $member->name }}</li>
     <li>Keresztnév: {{ $member->first_name }}</li>
-    <li>Születésnap: {{ $member->birth_date }}</li>
-    <li>E-Mail cím<: {{ $member->email }}/li>
+    <li>Születésnap: {{ $member->birth_date->isoFormat('LLL') }}</li>
+    <li>E-Mail cím: {{ $member->email }}</li>
     <li>Mobil: {{ $member->mobile }}</li>
     <li>Cím: {{ $member->address }}</li>
     <li>Iranitó: {{ $member->zip }}</li>
@@ -19,7 +19,6 @@
     <li>A mentesség oka: {{ $member->deduction_reason }}</li>
 </ul>
 
-<a href="{{route('dashboard')}}" class="btn btn-primary">Itt szerkesztheti a bejegyzést</a>
-
+<x-mails.link-button  href="{{route('dashboard')}}" >Itt szerkesztheti a bejegyzést</x-mails.link-button>
 
 <x-mails.footer/>

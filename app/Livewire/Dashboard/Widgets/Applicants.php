@@ -85,7 +85,7 @@ final class Applicants extends Component
             exit;
         }
 
-        return $this->redirect(route('members.show', $this->selectedApplicants[0]));
+        return $this->redirect(route('backend.members.show', $this->selectedApplicants[0]));
 
     }
 

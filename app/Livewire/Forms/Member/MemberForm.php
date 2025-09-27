@@ -72,7 +72,6 @@ final class MemberForm extends Form
 
     public function set(Member $member): void
     {
-
         $this->member = $member;
         $this->entered_at = optional($this->member->entered_at)->format('Y-m-d');
         $this->left_at = optional($this->member->left_at)->format('Y-m-d');
@@ -103,7 +102,8 @@ final class MemberForm extends Form
 
     public function setUser(): string
     {
-        $get_user = User::query()->find($this->user_id);
+        $get_user = User::query()
+            ->find($this->user_id);
 
         return $get_user
             ? $get_user->first_name.' '.$get_user->name
@@ -187,6 +187,13 @@ final class MemberForm extends Form
             'gender' => ['nullable', Rule::enum(Gender::class)],
             'type' => ['nullable', Rule::enum(MemberType::class)],
             'user_id' => ['nullable', 'exists:App\Models\User,id'],
+        ];
+    }
+
+    protected function messages(): array
+    {
+        return [
+            'name.required' => __('members.application.errors.name-reqipred'),
         ];
     }
 }

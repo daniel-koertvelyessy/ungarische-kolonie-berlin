@@ -97,6 +97,7 @@ return [
     'show.select_user' => 'Benutzer auswählen',
     'show.empty_user_list' => 'Keine Benutzer gefunden',
     'register.title' => 'Passwort für die Registrierung festlegen',
+    'register.page_title' => 'Registrierung abschließen',
     'register.password_requirements' => 'Das Passwort sollte folgende Kriterien erfüllen:',
     'register.password' => 'Passwort',
     'register.password_confirm' => 'Passwort bestätigen',
@@ -169,6 +170,11 @@ return [
     'apply.print.overview.person' => 'Über mich',
     'apply.print.overview.contact' => 'Meine Kontaktinformationen',
     'apply.print.filename' => 'Bewerbung_Mitgliedschaft_Ungarische_Kolonie_Berlin_mid-:id:tm.pdf',
+    'application' => [
+        'errors' => [
+            'name-reqipred' => 'Bitte den Nachnamen angeben',
+        ],
+    ],
     '' => '',
 
 ];

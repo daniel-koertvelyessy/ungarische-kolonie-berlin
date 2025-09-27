@@ -14,7 +14,8 @@ use Illuminate\Queue\SerializesModels;
 
 final class InvitationMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     public function __construct(public Invitation $invitation, public Member $member) {}
 

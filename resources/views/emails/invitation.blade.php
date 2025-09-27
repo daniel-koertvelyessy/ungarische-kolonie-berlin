@@ -19,10 +19,9 @@
 <h2>{{ __('mails.invitation.header') }}</h2>
 <h3>{{ __('mails.invitation.text') }}</h3>
 <p>
-    <a href="{{ $url?? config('app.url') }}"
-       class="btn btn-primary"
+    <x-mails.link-button href="{{ $url?? config('app.url') }}"
     >{{ __('mails.invitation.btn.label') }}
-    </a>
+    </x-mails.link-button>
 </p>
 <br><br>
 <x-mails.footer/>

@@ -175,7 +175,7 @@ final class Page extends Component
                 'email' => $this->memberForm->email,
                 'token' => Str::random(32),
             ]);
-
+            dump($this->memberForm->locale);
             Mail::to($this->memberForm->email)
                 ->locale($this->memberForm->locale)
                 ->send(new InvitationMail($invitation, $this->memberForm->member));

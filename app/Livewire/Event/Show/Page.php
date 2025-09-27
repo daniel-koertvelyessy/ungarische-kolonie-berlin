@@ -60,6 +60,8 @@ final class Page extends Component
 
     public string $selectedTab;
 
+    public string $searchVisitor = '';
+
     protected $listeners = [
         'updated-payments' => 'payments',
         'event-visitor-added' => 'visitors',
@@ -111,9 +113,11 @@ final class Page extends Component
     public function visitors(): LengthAwarePaginator
     {
         return EventVisitor::query()
+            ->with('transaction:id,amount_gross,status')
             ->with('member:id,name,first_name')
             ->where('event_id', '=', $this->event_id)
             ->tap(fn ($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
+            ->tap(fn ($query) => $this->searchVisitor ? $query->whereLike('name', '%'.$this->searchVisitor.'%')->orWhereLike('email', '%'.$this->searchVisitor.'%') : $query)
             ->paginate(10);
     }
 
@@ -191,14 +195,6 @@ final class Page extends Component
         Flux::modal('assignment-modal')->show();
     }
 
-    public function startNewTimelineItem(): void
-    {
-        $this->checkPrivilege(Event::class);
-
-        //        $this->reset('timelineForm');
-        Flux::modal('timeline-modal')->show();
-    }
-
     public function storeAssignment(): void
     {
         $this->checkPrivilege(Event::class);
@@ -234,6 +230,14 @@ final class Page extends Component
             );
 
         }
+    }
+
+    public function startNewTimelineItem(): void
+    {
+        $this->checkPrivilege(Event::class);
+
+        //        $this->reset('timelineForm');
+        Flux::modal('timeline-modal')->show();
     }
 
     public function storeTimeline(): void

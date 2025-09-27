@@ -27,10 +27,10 @@
 </p>
 
 <p>
-    <a href="{{ $url?? config('app.url') }}"
+    <x-mails.link-button href="{{ $url?? config('app.url') }}"
        class="btn btn-primary"
     >{{ __('mails.mailing_list.confirmation_email.btn.verify_now') }}
-    </a>
+    </x-mails.link-button>
 </p>
 <br><br>
 

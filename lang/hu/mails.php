@@ -64,6 +64,7 @@ return [
     'mailing_list.validation_error.terms_accepted' => 'Kérjük, fogadja el az adatvédelmi nyilatkozatot',
 
     'mailing_list.show.confirmation_msg' => 'Sikeresen megerősítette e-mail címét',
+    'mailing_list.show.update_msg' => 'Sikeresen megerősítette az adatokat',
     'mailing_list.confirmation_email_subject' => 'Kérjük, erősítse meg az e-mail címét',
     'mailing_list.confirmation_email_msg' => 'Köszönjük, hogy feliratkozott hírlevelünkre! Kérjük, erősítse meg feliratkozását az alábbi gombra kattintva, hogy az Ön érdeklődési körének megfelelő frissítéseket kaphassa.',
 

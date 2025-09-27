@@ -175,10 +175,9 @@
                         <flux:field>
                             <flux:label>{{__('event.form.entry_fee')}}</flux:label>
                             <flux:input.group>
-                                <flux:input type="number"
-                                            min="0"
-                                            wire:model="form.entry_fee"
-                                            placeholder="entry_fee"
+                                <flux:input wire:model="form.entry_fee"
+                                            placeholder="{{ __('event.form.entry_fee') }}"
+                                            x-mask:dynamic="$money($input, ',', '.')"
                                 />
                                 <flux:input.group.suffix>EUR</flux:input.group.suffix>
                             </flux:input.group>
@@ -187,9 +186,9 @@
                         <flux:field>
                             <flux:label>{{__('event.form.entry_fee_discounted')}}</flux:label>
                             <flux:input.group>
-                                <flux:input type="number"
-                                            wire:model="form.entry_fee_discounted"
-                                            placeholder="entry_fee_discounted"
+                                <flux:input wire:model="form.entry_fee_discounted"
+                                            placeholder="{{ __('event.form.entry_fee_discounted') }}"
+                                            x-mask:dynamic="$money($input, ',', '.')"
                                 />
                                 <flux:input.group.suffix>EUR</flux:input.group.suffix>
                             </flux:input.group>
@@ -463,12 +462,16 @@
                                  variant="primary"
                                  icon-trailing="user-plus"
                     >{{ __('event.visitor.btn.add.label') }}</flux:button>
+
+                    <flux:modal.trigger name="add-box-office-payment">
+                        <flux:button variant="primary" icon-trailing="banknotes">{{ __('event.boxoffice.btn.openmodal') }}</flux:button>
+                    </flux:modal.trigger>
                 @endcan
 
 
             </nav>
 
-
+            <flux:input icon="magnifying-glass" placeholder="Suche Besucher" wire:model.live.debounce="searchVisitor" clearable size="sm"/>
             <flux:table :paginate="$this->visitors">
                 <flux:table.columns>
                     <flux:table.column sortable
@@ -499,6 +502,7 @@
                                        class="hidden md:table-cell"
                     >{{ __('event.visitor-table.header.is_subscriber') }}
                     </flux:table.column>
+                    <flux:table.column>Bezahlt</flux:table.column>
                 </flux:table.columns>
                 <flux:table.rows>
                     @forelse ($this->visitors as $visitor)
@@ -519,8 +523,31 @@
                                 @if($visitor->event_subscription_id)
                                     <flux:icon.chat-bubble-left-ellipsis size="4"/>
                                 @endif
+
                             </flux:table.cell>
 
+                            <flux:table.cell>
+                                @if($visitor->transaction)
+                                    <flux:icon.check-circle class="text-green-700 size-6"/>
+                                @endif
+                            </flux:table.cell>
+                        @can('create',\App\Models\Accounting\Transaction::class)
+                            <flux:table.cell>
+                                <flux:dropdown>
+                                    <flux:button icon="ellipsis-vertical" size="xs" variant="ghost"></flux:button>
+
+                                    <flux:menu>
+                                        <flux:menu.submenu heading="Zuordnen">
+                                            <flux:menu.item icon="user">Mitglied</flux:menu.item>
+                                            <flux:menu.item icon="chat-bubble-left-ellipsis">Anmelder</flux:menu.item>
+                                        </flux:menu.submenu>
+                                        <flux:menu.separator />
+
+                                        <flux:menu.item variant="danger" icon="trash">Löschen</flux:menu.item>
+                                    </flux:menu>
+                                </flux:dropdown>
+                            </flux:table.cell>
+                            @endcan
                         </flux:table.row>
 
                     @empty
@@ -983,5 +1010,8 @@
 
     </flux:modal>
 
+    <flux:modal name="add-box-office-payment" variant="flyout">
+        <livewire:accounting.transaction.boxoffice.form :event="$event" />
+    </flux:modal>
   <x-history-entries :histories="$this->histories" />
 </div>

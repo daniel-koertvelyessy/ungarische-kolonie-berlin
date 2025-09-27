@@ -60,7 +60,7 @@ final class Show extends Component
             'verification_token' => Str::random(40), // Refresh token
         ]);
 
-        Flux::toast(__('mails.mailing_list.show.confirmation_msg'), __('mails.toast.header.success'), 7000, 'success');
+        Flux::toast(__('mails.mailing_list.show.update_msg'), __('mails.toast.header.success'), 7000, 'success');
 
     }
 

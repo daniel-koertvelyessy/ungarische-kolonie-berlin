@@ -14,6 +14,7 @@ final class CreateTransaction
     public static function handle(TransactionForm $form): Transaction
     {
         return DB::transaction(function () use ($form) {
+
             return Transaction::create([
                 'date' => $form->date,
                 'label' => $form->label,

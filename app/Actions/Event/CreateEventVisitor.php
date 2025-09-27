@@ -22,7 +22,6 @@ final class CreateEventVisitor
                 'transaction_id' => $visitor->transaction_id,
                 'member_id' => $visitor->member_id,
                 'event_subscription_id' => $visitor->event_subscription_id,
-
             ]);
         });
     }
