@@ -82,6 +82,8 @@ return [
     'subscription.amountGuests' => 'Anzahl zusätzlicher Gäste',
     'subscription.bringFriends' => 'Ich bringe Gäste mit',
     'subscription.optional_section' => 'Weitere Angaben',
+    'subscription.email.confirmation.heading' => 'Erfolg',
+    'subscription.email.confirmation.text' => 'Vielen Dank! Ihre Teilnahme ist gesichert – wir freuen uns, Sie bald bei der Veranstaltung zu sehen.',
 
     'backend.subscription.title' => 'Besucherregistrierung',
     'backend.subscription.sendNotification.label' => 'Bestätigungs-E-Mail an Besucher senden',

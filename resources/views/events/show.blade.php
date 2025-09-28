@@ -1,4 +1,6 @@
-<x-guest-layout :title="$event->title[$locale]" :$event>
+<x-guest-layout :title="$event->title[$locale]"
+                :$event
+>
     <x-slot name="head">
         <!-- Canonical URL -->
         <link rel="canonical"
@@ -80,17 +82,34 @@
         </script>
     </x-slot>
 
+
+    @if(session('status'))
+        <flux:callout
+                      variant="success"
+                      inline
+                      x-data="{ visible: true }"
+                      x-show="visible"
+                      class="my-12"
+        >
+            <flux:callout.heading  icon="check-badge" class="flex gap-2 @max-md:flex-col items-start">{{ __('event.subscription.email.confirmation.heading') }}
+            </flux:callout.heading>
+            <flux:callout.text>{{ __('event.subscription.email.confirmation.text') }}
+            </flux:callout.text>
+            <x-slot name="controls">
+                <flux:button icon="x-mark"
+                             variant="ghost"
+                             x-on:click="visible = false"
+                />
+            </x-slot>
+        </flux:callout>
+    @endif
+
     <flux:subheading>{{ __('event.show.title') }}:</flux:subheading>
     <h1 class="text-xl mb-3"> {{ $event->title[$locale??'de'] }}</h1>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-6">
-
         <article>
             <flux:text class="my-3 prose prose-emerald dark:prose-invert">{!! $event->description[$locale??'de']  !!}</flux:text>
-
-
-
-
         </article>
 
         <aside class="space-y-6">
@@ -197,7 +216,7 @@
                                         href="{{ $event->getPoster($locale, 'pdf') }}"
                                         download="{{ basename($event->getPoster($locale, 'pdf')) }}"
                                     >
-                                      {{ __('event.show.posts.poster.download') }}  ( {{ $event->getPosterSize($locale, 'pdf') }}kB)
+                                        {{ __('event.show.posts.poster.download') }} ( {{ $event->getPosterSize($locale, 'pdf') }}kB)
                                     </flux:button>
                                 </dd>
                             </div>

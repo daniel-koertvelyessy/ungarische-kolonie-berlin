@@ -61,6 +61,9 @@ return [
     'subscription.mail.ignore' => 'Ha nem te jelentkeztél, kérlek, hagyd figyelmen kívül ezt az e-mailt.',
     'subscription.optional_section' => 'További adatok',
 
+    'subscription.email.confirmation.heading' => 'Siker',
+    'subscription.email.confirmation.text' => 'A jelentkezésedet sikeresen visszaigazoltuk. Már nagyon várjuk, hogy találkozzunk az eseményen!',
+
     'subscription.title' => 'Részt veszek az eseményen',
     'subscription.name' => 'Teljes neved',
     'subscription.email' => 'E-mail címed',
