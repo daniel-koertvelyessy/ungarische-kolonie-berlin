@@ -105,15 +105,14 @@
     @endif
 
     <flux:subheading>{{ __('event.show.title') }}:</flux:subheading>
-    <h1 class="text-xl mb-3"> {{ $event->title[$locale??'de'] }}</h1>
+    <h1 class="text-xl lg:text-3xl mb-3"> {{ $event->title[$locale??'de'] }}</h1>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-6">
-        <article>
-            <flux:text class="my-3 prose prose-emerald dark:prose-invert">{!! $event->description[$locale??'de']  !!}</flux:text>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-9">
+        <article class="my-3 prose prose-emerald dark:prose-invert">
+            {!! $event->description[$locale??'de']  !!}
         </article>
 
         <aside class="space-y-6">
-
             @if($event->image)
                 <img src="{{ asset('storage/images/'.$event->image) }}"
                      alt=""
