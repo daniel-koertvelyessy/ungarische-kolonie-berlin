@@ -59,6 +59,15 @@ final class Page extends Component
         Flux::modal('initiate-report-audit')->show();
     }
 
+    public function deletAudit(AccountReport $accountReport): void
+    {
+
+        if (! $this->checkPrivilege(AccountReport::class)) {
+            return; // Stop execution if unauthorized
+        }
+
+    }
+
     public function addAuditor(): void
     {
         if (! $this->checkPrivilege(AccountReport::class)) {
@@ -136,6 +145,6 @@ final class Page extends Component
 
     public function render(): \Illuminate\View\View
     {
-        return view('livewire.accounting.report.index.page');
+        return view('livewire.accounting.report.index.page')->title(__('reports.index.title'));
     }
 }

@@ -20,5 +20,8 @@ return [
     'initiate-report-audit-modal.content' => 'Bitte die Mitglieder auswählen, welche die Prüfung vornehmen sollen.',
     'initiate-report-audit-modal.btn.submit' => 'Einladungen verschicken',
     'initiate-report-audit-modal.select_member_id' => 'Mitglied',
+    'index' => [
+        'title' => 'Monatsberichte',
+    ],
     '' => '',
 ];

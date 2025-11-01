@@ -62,7 +62,7 @@ final class EventInvitationLetter extends BasePdfTemplate
             $content = $this->event->description[$locale];
             $content = preg_replace('/[\x{1F300}-\x{1FAFF}\x{2600}-\x{27BF}]/u', '', $content);
 
-            $this->writeHTML($content, true, false, false, false, false);
+            $this->writeHTML($content);
             $this->ln(2);
             $this->SetFont($this->font, '', $hH2);
             $this->cell(0, $zh, trans('event.notification_letter.overview', [], $locale), 0, 1);
