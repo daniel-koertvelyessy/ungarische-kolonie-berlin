@@ -116,7 +116,7 @@
             @if($event->image)
                 <img src="{{ asset('storage/images/'.$event->image) }}"
                      alt=""
-                     class="my-3 lg:my-9 rounded-md shadow-sm"
+                     class="my-3 lg:my-9 rounded-md shadow-sm object-cover"
                 >
             @endif
             <flux:card>

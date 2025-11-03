@@ -18,7 +18,7 @@ return [
     'blog' => 'Artikel',
     'about-us' => 'Über uns',
     'become-member' => 'Mitglied werden',
-
+    'magyarcim' => 'Ungarisches Wappen',
     'dashboard' => 'Dashboard',
     'gotologin' => 'Zur Anmeldung',
     'login.title' => 'Mitglieder-Login',

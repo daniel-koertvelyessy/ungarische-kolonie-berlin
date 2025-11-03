@@ -10,7 +10,7 @@
             @csrf
 
             <div class="space-y-6">
-                <flux:input name="email" label="{{ __('app.login.email.label') }}" type="email" required/>
+                <flux:input name="email" label="{{ __('app.login.email.label') }}" type="email" required autocomplete="email"/>
 
                 <flux:field>
                     <div class="mb-3 flex justify-between">

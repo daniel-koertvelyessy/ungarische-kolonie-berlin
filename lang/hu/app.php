@@ -18,6 +18,7 @@ return [
     'blog' => 'Cikkek',
     'about-us' => 'Rólunk',
     'become-member' => 'Csatlakozz hozzánk',
+    'magyarcim' => 'Magyar Cím',
 
     'dashboard' => 'Vezérlőpult',
     'gotologin' => 'Bejelentkezés',
