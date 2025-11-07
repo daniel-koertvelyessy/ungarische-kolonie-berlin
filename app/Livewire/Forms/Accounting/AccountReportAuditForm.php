@@ -50,9 +50,9 @@ final class AccountReportAuditForm extends Form
         $this->checkPrivilege(AccountReportAudit::class);
         $this->validate();
         if (UpdateAccountReportAudit::handle($this)) {
-            Flux::toast('Das Prüfergebis wurde erfasst. Vielen Dank!', 'success');
+            Flux::toast(text:'Das Prüfergebis wurde erfasst. Vielen Dank!', variant:'success', duration: 10000);
         } else {
-            Flux::toast('Fehler beim Speichern der Prüfung!', 'error');
+            Flux::toast(text:'Fehler beim Speichern der Prüfung!', variant:'error', duration: 10000);
         }
     }
 

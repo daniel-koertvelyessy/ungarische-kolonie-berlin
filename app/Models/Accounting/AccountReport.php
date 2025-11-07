@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @property int $id
@@ -76,6 +77,7 @@ final class AccountReport extends Model
             'total_expenditure' => 'integer',
             'period_start' => 'date',
             'period_end' => 'date',
+            'status' => ReportStatus::class,
         ];
     }
 
@@ -101,23 +103,39 @@ final class AccountReport extends Model
 
     public function getReportAudits(): \Illuminate\Database\Eloquent\Collection
     {
-        return AccountReportAudit::query()->where('account_report_id', '=', $this->account_id)->get();
+        return AccountReportAudit::query()->where('account_report_id', '=', $this->id)->get();
     }
 
-    public static function setReportStatus(int $accountReportId): void
+    public static function setReportStatus(int $accountReportAuditId): void
     {
-        $audits = AccountReportAudit::query()->where('id', $accountReportId)->get();
+        $audit = AccountReportAudit::find($accountReportAuditId);
+
+        $audits = AccountReportAudit::query()->where('account_report_id', $audit->account_report_id)->get();
+
         $audited_status = new Collection;
 
         if ($audits->count()) {
             foreach ($audits as $audit) {
-                if ($audit->approved_at) {
+                if ($audit->is_approved) {
                     $audited_status->push(true);
                 }
             }
         }
+
+        Log::debug('status', [
+            'selectedAudit' => $audit,
+            'audits'=> $audits,
+            'audits_count' => $audits->count(),
+            'accountReportId' => $accountReportAuditId,
+            'audit_status' => $audited_status,
+            'audited_status_count' => $audited_status->count(),
+
+        ]);
+
         if ($audited_status->count() === $audits->count()) {
-            AccountReportAudit::query()->find($accountReportId)->report()->update(['status' => ReportStatus::audited->value]);
+            AccountReportAudit::query()->find($accountReportAuditId)->report()->update(['status' => ReportStatus::audited->value]);
+        } else {
+            AccountReportAudit::query()->find($accountReportAuditId)->report()->update(['status' => ReportStatus::submitted->value]);
         }
 
     }

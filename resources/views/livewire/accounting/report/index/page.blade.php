@@ -60,7 +60,7 @@
                     <flux:table.cell variant="strong"
                                      class="hidden md:table-cell"
                     >
-                        {{ $item->status }}
+                        {{ \App\Enums\ReportStatus::value($item->status->value) }}
                     </flux:table.cell>
                     <flux:table.cell class="hidden lg:table-cell">
                         {{ $item->period_start->format('Y') }} //
@@ -98,6 +98,11 @@
                                                     wire:click="initiateAudit({{ $item->id }})"
                                     >{{ __('prüfen') }}
                                     </flux:menu.item>
+                                    <flux:menu.item icon="trash"
+                                                    variant="danger"
+                                                    wire:click="deleteAudit({{ $item->id }})"
+                                    >{{ __('löschen') }}
+                                    </flux:menu.item>
                                 </flux:menu>
                             </flux:dropdown>
                         </flux:table.cell>
@@ -106,6 +111,26 @@
             @endforeach
         </flux:table.rows>
     </flux:table>
+
+
+    <flux:modal name="delete-report-found-audits">
+        <div class="space-y-6">
+            <div>
+                <flux:heading size="lg">Prüfungen gefunden</flux:heading>
+                <flux:text class="mt-2">Der zu löschende Bericht hat verknnüpfte Prüfungen. Diese gehen mit der Löschung des Berichtes verloren.</flux:text>
+            </div>
+            <div class="flex gap-2">
+                <flux:spacer/>
+                <flux:modal.close>
+                    <flux:button variant="ghost">Abbruch</flux:button>
+                </flux:modal.close>
+                <flux:button wire:click="deleteSelectedReport"
+                             variant="danger"
+                >Alles löschen
+                </flux:button>
+            </div>
+        </div>
+    </flux:modal>
 
 
     <flux:modal name="initiate-report-audit"

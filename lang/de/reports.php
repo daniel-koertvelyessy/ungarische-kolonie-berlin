@@ -23,5 +23,10 @@ return [
     'index' => [
         'title' => 'Monatsberichte',
     ],
+    'status' => [
+        'eingereicht' => 'in Prüfung',
+        'entwurf' => 'eingereicht',
+        'geprueft' => 'geprüft',
+    ],
     '' => '',
 ];

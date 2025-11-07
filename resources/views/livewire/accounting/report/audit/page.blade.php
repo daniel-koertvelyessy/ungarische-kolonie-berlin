@@ -66,10 +66,10 @@
                             <flux:table.cell>{{ $transaction->date->isoFormat('Do MMMM') }}</flux:table.cell>
                             <flux:table.cell class="hidden md:table-cell text-wrap hyphens-auto">{{ $transaction->label }}</flux:table.cell>
                             <flux:table.cell class="hidden lg:table-cell text-wrap hyphens-auto">{{ $transaction->reference }}</flux:table.cell>
-                            <flux:table.cell align="end"><span class="{{ \App\Enums\TransactionType::color($transaction->type) }}">{{ Account::formatedAmount($in) }}</span></flux:table.cell>
-                            <flux:table.cell align="end"><span class="{{ \App\Enums\TransactionType::color($transaction->type) }}">{{ Account::formatedAmount($out) }}</span></flux:table.cell>
+                            <flux:table.cell align="end"><span class="{{ \App\Enums\TransactionType::color($transaction->type) }}">{{  \App\Models\Accounting\Account::formatedAmount($in) }}</span></flux:table.cell>
+                            <flux:table.cell align="end"><span class="{{ \App\Enums\TransactionType::color($transaction->type) }}">{{  \App\Models\Accounting\Account::formatedAmount($out) }}</span></flux:table.cell>
                             <flux:table.cell class="hidden md:table-cell">{{ $transaction->type }}</flux:table.cell>
-                            <flux:table.cell align="end">{{ \App\Models\Accounting\AccountAccount::formatedAmount($sub) }}</flux:table.cell>
+                            <flux:table.cell align="end">{{ \App\Models\Accounting\Account::formatedAmount($sub) }}</flux:table.cell>
                         </flux:table.row>
                     @endforeach
                 </flux:table.rows>
@@ -108,8 +108,3 @@
 
     </section>
 </div>
-<!--
-{"id":1,"created_at":"2025-03-03T14:45:42.000000Z","updated_at":"2025-03-03T14:45:42.000000Z","account_id":1,"starting_amount":15840,"end_amount":82965,"created_by":1,"period_start":"2025-03-01T00:00:00.000000Z","period_end":"2025-03-31T00:00:00.000000Z","total_income":113925,"total_expenditure":46800,"status":"entwurf","notes":null,"account":{"id":1,"name":"Vereinskasse","number":"VK1","type":"Barkasse","institute":"","iban":"","bic":"","starting_amount":15840,"created_at":"2025-03-03T14:35:52.000000Z","updated_at":"2025-03-03T14:35:52.000000Z"}}
-
-{"id":64,"date":"2025-03-01T00:00:00.000000Z","label":"voluptatem-voluptas-quia-quibusdam-est-rerum-sint-nulla","reference":null,"description":null,"amount_gross":97825,"vat":19,"tax":null,"amount_net":7857,"account_id":1,"booking_account_id":null,"type":"Einzahlung","status":"gebucht","created_at":"2025-03-03T14:36:49.000000Z","updated_at":"2025-03-03T14:36:49.000000Z"}
--->

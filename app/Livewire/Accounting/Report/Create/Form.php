@@ -68,9 +68,10 @@ final class Form extends Component
             ->get();
 
         $this->setLastReportItems();
-
+        $this->formInit(false);
         if ($this->transactions->count() > 0) {
-            $this->formInit();
+
+
             $this->form->end_amount = $this->form->starting_amount;
 
             foreach ($this->transactions as $transaction) {
@@ -91,6 +92,8 @@ final class Form extends Component
             }
 
             $this->msg = $this->transactions->count().' Buchungen gefunden';
+        } else {
+            $this->msg = "Keine Buchungen in dem Zeitraum gefunden!";
         }
         $this->form->starting_amount = $this->numfor($this->form->starting_amount);
         $this->form->end_amount = $this->numfor($this->form->end_amount);
@@ -107,7 +110,7 @@ final class Form extends Component
         if ($report) {
             $this->form->starting_amount = $report->end_amount;
         } else {
-            $this->form->starting_amount = $this->account->starting_amount;
+            $this->form->starting_amount = $this->account->starting_amount??0;
             $this->form->end_amount = $this->account->starting_amount;
         }
     }
@@ -121,18 +124,21 @@ final class Form extends Component
         return number_format((int) $value / 100, 2, ',');
     }
 
-    protected function formInit(): void
+    protected function formInit(bool $resetDates = true): void
     {
         $this->form->account_id = $this->account->id;
-        $this->form->period_start = Carbon::create(date('Y'), (int) date('m'))
-            ->format('Y-m-d');
-        $this->form->period_end = Carbon::create(date('Y'), (int) date('m'))
-            ->endOfMonth()
-            ->format('Y-m-d');
+        if($resetDates) {
+            $this->form->period_start = Carbon::create(date('Y'), (int) date('m'))
+                ->format('Y-m-d');
+            $this->form->period_end = Carbon::create(date('Y'), (int) date('m'))
+                ->endOfMonth()
+                ->format('Y-m-d');
+        }
         $this->msg = 'Buchungen holen';
         $this->form->total_income = 0;
         $this->form->total_expenditure = 0;
         $this->form->end_amount = 0;
+        $this->form->starting_amount =0;
     }
 
     public function render(): \Illuminate\View\View

@@ -48,18 +48,18 @@ final class Page extends Component
 
     public function approveAuditReport(): void
     {
-        $this->checkPrivilege(AccountReportAudit::class);
         $this->form->is_approved = true;
         $this->form->approved_at = Carbon::now('Europe/Berlin');
         $this->form->update();
+
+        AccountReport::setReportStatus($this->accountReportAuditId);
+
+        $this->redirect(\App\Livewire\Accounting\Report\Index\Page::class);
 
     }
 
     public function rejectAuditReport(): void
     {
-
-        //  Gate::authorize('audit', $this->report);
-
         $this->validate([
             'form.reason' => 'required',
         ], [
