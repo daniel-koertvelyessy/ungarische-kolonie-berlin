@@ -41,8 +41,7 @@ final class Form extends Component
 
     public function mount($accountId): void
     {
-        $this->account = Account::query()
-            ->findOrFail($accountId);
+        $this->account = Account::query()->findOrFail($accountId);
         $this->setRange = Carbon::today('Europe/Berlin')->month;
         $this->formInit();
     }
@@ -67,10 +66,12 @@ final class Form extends Component
             ->whereBetween('date', [$this->form->period_start, $this->form->period_end])
             ->get();
 
-        $this->setLastReportItems();
         $this->formInit(false);
-        if ($this->transactions->count() > 0) {
 
+        $this->setLastReportItems();
+
+
+        if ($this->transactions->count() > 0) {
 
             $this->form->end_amount = $this->form->starting_amount;
 
@@ -103,8 +104,9 @@ final class Form extends Component
 
     protected function setLastReportItems(): void
     {
+
         $report = AccountReport::where('account_id', '=', $this->account->id)
-            ->latest()
+            ->where('period_start', '<', $this->form->period_start)
             ->first();
 
         if ($report) {
@@ -121,7 +123,7 @@ final class Form extends Component
             return '0';
         }
 
-        return number_format((int) $value / 100, 2, ',');
+        return number_format((int) $value / 100, 2, ',','');
     }
 
     protected function formInit(bool $resetDates = true): void
@@ -138,7 +140,7 @@ final class Form extends Component
         $this->form->total_income = 0;
         $this->form->total_expenditure = 0;
         $this->form->end_amount = 0;
-        $this->form->starting_amount =0;
+        $this->form->starting_amount = 0;
     }
 
     public function render(): \Illuminate\View\View

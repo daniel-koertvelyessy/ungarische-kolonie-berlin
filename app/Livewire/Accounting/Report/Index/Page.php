@@ -7,9 +7,11 @@ namespace App\Livewire\Accounting\Report\Index;
 use App\Actions\Report\CreateAccountReportAudit;
 use App\Enums\ReportStatus;
 use App\Livewire\Forms\Accounting\AccountReportAuditForm;
+use App\Livewire\Forms\Accounting\AccountReportForm;
 use App\Livewire\Traits\HasPrivileges;
 use App\Livewire\Traits\Sortable;
 use App\Mail\InviteAccountAuditMemberMail;
+use App\Models\Accounting\Account;
 use App\Models\Accounting\AccountReport;
 use App\Models\Accounting\AccountReportAudit;
 use App\Models\Membership\Member;
@@ -36,6 +38,8 @@ final class Page extends Component
 
     public AccountReport $selectedReport;
 
+    public AccountReportForm $report;
+
     #[Computed]
     public function reports(): LengthAwarePaginator
     {
@@ -47,6 +51,7 @@ final class Page extends Component
 
     public function mount(): void
     {
+        $this->sortBy = 'range';
         $this->auditorList = collect(); // Initialisiere eine leere Collection
     }
 
@@ -197,6 +202,56 @@ final class Page extends Component
         $accountAudit = AccountReportAudit::query()
             ->findOrfail($auditId);
         // dd($accountAudit);
+    }
+
+    public function editReport(int $reportId): void
+    {
+
+        $this->report->set(AccountReport::query()->findOrFail($reportId));
+
+        Flux::modal('edit-account-report')->show();
+
+    }
+
+    public function updateReport(): void
+    {
+        if (!$this->checkPrivilege(AccountReport::class)) {
+            return; // Stop execution if unauthorized
+        }
+
+       if($this->report->update($this->report)){
+           Flux::toast(text:'Berichtsdaten aktualisiert',variant: 'success');
+           Flux::modal('edit-account-report')->close();
+       } else{
+           Flux::toast('Etwas ist schief gelaufen', variant: 'danger');
+       }
+
+    }
+
+    public function updatedReportStartingAmount()
+    {
+        $this->calculateEndAmount();
+    }
+
+    public function updatedReportTotalIncome()
+    {
+        $this->calculateEndAmount();
+    }
+
+    public function updatedReportTotalExpenditure()
+    {
+        $this->calculateEndAmount();
+    }
+
+    private function calculateEndAmount(): void
+    {
+        $start = Account::makeCentInteger($this->report->starting_amount);
+        $income = Account::makeCentInteger($this->report->total_income);
+        $expenditure = Account::makeCentInteger($this->report->total_expenditure);
+
+        $end = $start + $income - $expenditure;
+
+        $this->report->end_amount = Account::formatedAmount($end);
     }
 
     public function render(): \Illuminate\View\View

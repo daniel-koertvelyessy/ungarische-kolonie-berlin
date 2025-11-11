@@ -9,9 +9,9 @@
                                wire:click="sort('account')"
             >{{ __('reports.table.header.name') }}</flux:table.column>
             <flux:table.column sortable
-                               :sorted="$sortBy === 'created_at'"
+                               :sorted="$sortBy === 'created'"
                                :direction="$sortDirection"
-                               wire:click="sort('created')"
+                               wire:click="sort('created_at')"
                                class="hidden md:table-cell"
             >{{ __('reports.table.header.date') }}</flux:table.column>
             <flux:table.column sortable
@@ -21,9 +21,9 @@
                                class="hidden md:table-cell"
             >{{ __('reports.table.header.status') }}</flux:table.column>
             <flux:table.column sortable
-                               :sorted="$sortBy === 'period_start'"
+                               :sorted="$sortBy === 'range'"
                                :direction="$sortDirection"
-                               wire:click="sort('range')"
+                               wire:click="sort('period_start')"
                                class="hidden lg:table-cell"
             >{{ __('reports.table.header.range') }}</flux:table.column>
             <flux:table.column sortable
@@ -55,7 +55,7 @@
                         </aside>
                     </flux:table.cell>
                     <flux:table.cell class="hidden md:table-cell">
-                        {{ $item->created_at }}
+                        {{ $item->created_at->isoFormat('MMMM Y') }}
                     </flux:table.cell>
                     <flux:table.cell variant="strong"
                                      class="hidden md:table-cell"
@@ -98,11 +98,18 @@
                                                     wire:click="initiateAudit({{ $item->id }})"
                                     >{{ __('prüfen') }}
                                     </flux:menu.item>
-                                    <flux:menu.item icon="trash"
-                                                    variant="danger"
-                                                    wire:click="deleteAudit({{ $item->id }})"
-                                    >{{ __('löschen') }}
-                                    </flux:menu.item>
+                                    @if(!$item->checkAuditStatus())
+                                        <flux:menu.separator/>
+                                        <flux:menu.item icon="pencil-square"
+                                                        wire:click="editReport({{ $item->id }})"
+                                        >{{ __('bearbeiten') }}
+                                        </flux:menu.item>
+                                        <flux:menu.item icon="trash"
+                                                        variant="danger"
+                                                        wire:click="deleteAudit({{ $item->id }})"
+                                        >{{ __('löschen') }}
+                                        </flux:menu.item>
+                                    @endif
                                 </flux:menu>
                             </flux:dropdown>
                         </flux:table.cell>
@@ -191,4 +198,42 @@
         </form>
         <x-debug/>
     </flux:modal>
+
+
+    <flux:modal name="edit-account-report"
+                variant="flyout"
+                position="right"
+    >
+        <h3 class="my-6">{{ __('reports.account.edit.heading') }}</h3>
+        @if($report)
+            <form class="space-y-6" wire:submit="updateReport">
+
+                <flux:input wire:model.live.debounce="report.starting_amount"
+                            x-mask:dynamic="$money($input, ',', '.')"
+                            label="{{ __('reports.account.starting_amount') }}"
+                />
+                <flux:input wire:model.live.debounce="report.total_income"
+                            x-mask:dynamic="$money($input, ',', '.')"
+                            label="{{ __('reports.account.total_income') }}"
+                />
+                <flux:input wire:model.live.debounce="report.total_expenditure"
+                            x-mask:dynamic="$money($input, ',', '.')"
+                            label="{{ __('reports.account.total_expenditure') }}"
+                />
+                <flux:input wire:model.live.debounce="report.end_amount"
+                            x-mask:dynamic="$money($input, ',', '.')"
+                            label="{{ __('reports.account.end_amount') }}"
+                />
+
+                <flux:textarea label="{{ __('reports.account.notes') }}" rows="auto"  wire:model="report.notes" />
+
+                <flux:button type="submit" variant="primary">{{ __('reports.account.btn.store_data') }}</flux:button>
+
+            </form>
+
+        @endif
+
+    </flux:modal>
+
+
 </div>

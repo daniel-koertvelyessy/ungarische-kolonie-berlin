@@ -7,10 +7,32 @@ return [
     'event.subject' => 'Auswertung der Veranstaltung :name',
     'event.visitor.name' => 'Besucher',
 
-    'account.title' => 'Kassenbericht',
-    'account.timespan' => 'Zeitraum',
-    'account.heading' => 'Kopfdaten',
-    'table.header.date' => 'Datum',
+
+
+    'account' => [
+        'title' => 'Kassenbericht',
+        'timespan' => 'Zeitraum',
+        'heading' => 'Kopfdaten',
+        'start' => 'Beginn',
+        'end' => 'Ende',
+        'starting_amount' => 'Startbetrag',
+        'end_amount' => 'Endbetrag',
+        'total_income' => 'Gesamteinnahmen',
+        'total_expenditure' => 'Gesamtausgaben',
+        'notes' => 'Notizen',
+        'new' => [
+            'header' => 'Neuen Bericht erstellen',
+        ],
+        'edit' => [
+            'heading' => 'Bearbeiten',
+        ],
+        'btn' => [
+            'get_transactions' => 'Hole Buchungen für Zeitraum',
+            'store_data' => 'Daten speichern',
+        ],
+    ],
+
+    'table.header.date' => 'Erstellt am',
     'table.header.name' => 'Finanzkonto',
     'table.header.status' => 'Status',
     'table.header.range' => 'Zeitraum',

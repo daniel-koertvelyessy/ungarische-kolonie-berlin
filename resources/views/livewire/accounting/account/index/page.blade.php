@@ -1,7 +1,7 @@
 <div>
 
     <header class="flex flex-col sm:flex-row items-end mb-6 space-y-3">
-        <flux:heading size="xl">Kontenübersicht</flux:heading>
+        <flux:heading size="xl">{{ __('account.index.title') }}</flux:heading>
         <flux:spacer />
         <aside class="flex gap-3">
             <flux:select wire:model="selectedAccount" variant="listbox" searchable placeholder="Konto auswählen ..." class="w-52">
@@ -11,7 +11,7 @@
                 @endforeach
 
             </flux:select>
-            <flux:button variant="primary" wire:click="editAccount">Hole Daten</flux:button>
+            <flux:button variant="primary" wire:click="editAccount">{{ __('account.index.btn.fetch_data') }}</flux:button>
 
 
         </aside>
@@ -63,9 +63,8 @@
             @endif
 
             <aside class="mt-16 flex gap-3">
-                <flux:spacer/>
-                <flux:button wire:show="account_is_set" wire:click="createReport">Bericht erstellen</flux:button>
-                <flux:button wire:show="is_cash_account" wire:click="createCashCountReport">Zählung erstellen</flux:button>
+                <flux:button wire:show="account_is_set" wire:click="createReport">{{ __('account.index.btn.create_report') }}</flux:button>
+                <flux:button wire:show="is_cash_account" wire:click="createCashCountReport">{{ __('account.index.btn.create_vcashcount') }}</flux:button>
             </aside>
         </flux:card>
 
@@ -73,16 +72,14 @@
 
     @if($selectedAccount)
     <flux:modal name="create-monthly-report" class="w-full">
-        Bericht erstellen
-
+        <flux:heading size="lg" class="mb-3 lg:mb-6">{{ __('reports.account.new.header') }}</flux:heading>
         <livewire:accounting.report.create.form :account-id="$selectedAccount" />
     </flux:modal>
    @endif
 
     @if($is_cash_account)
         <flux:modal name="create-cash-count" class="w-full">
-           Kasse zählen
-
+            <flux:heading size="lg" class="mb-3 lg:mb-6">{{ __('account.cashcount.create.heading') }}</flux:heading>
             <livewire:accounting.report.cash-count.create.form :account-id="$selectedAccount" />
         </flux:modal>
     @endif

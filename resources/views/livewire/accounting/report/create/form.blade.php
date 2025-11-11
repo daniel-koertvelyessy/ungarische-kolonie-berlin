@@ -2,7 +2,7 @@
     <form wire:submit="storeReportData">
         <section class="space-y-6">
             <flux:radio.group wire:model.live="setRange"
-                              label="Zeitraum"
+                              label="{{ __('reports.account.timespan') }}"
                               variant="segmented"
             >
                 <flux:radio value="{{ \Carbon\Carbon::today('Europe/Berlin')->subMonths(2)->month }}"
@@ -19,14 +19,14 @@
             </flux:radio.group>
             <section class="grid gap-3 grid-cols-2">
                 <flux:date-picker wire:model="form.period_start"
-                                  label="Start"
+                                  label="{{ __('reports.account.start') }}"
                 />
                 <flux:date-picker wire:model="form.period_end"
-                                  label="Ende"
+                                  label="{{ __('reports.account.end') }}"
                 />
 
             </section>
-            <flux:button wire:click="getTransactions">Hole Buchungen für Zeitraum</flux:button>
+            <flux:button wire:click="getTransactions">{{ __('reports.account.btn.get_transactions') }}</flux:button>
             <flux:accordion transition>
                 <flux:accordion.item>
                     <flux:accordion.heading>{{ $msg }}</flux:accordion.heading>
@@ -49,27 +49,27 @@
             </flux:accordion>
             <section class="grid gap-3 grid-cols-2">
                 <flux:input wire:model="form.starting_amount"
-                            label="starting_amount"
+                            label="{{ __('reports.account.starting_amount') }}"
                 />
                 <flux:input wire:model="form.end_amount"
-                            label="end_amount"
+                            label="{{ __('reports.account.end_amount') }}"
                 />
             </section>
             <section class="grid gap-3 grid-cols-2">
                 <flux:input wire:model="form.total_income"
-                            label="total_income"
+                            label="{{ __('reports.account.total_income') }}"
                 />
                 <flux:input wire:model="form.total_expenditure"
-                            label="total_expenditure"
+                            label="{{ __('reports.account.total_expenditure') }}"
                 />
             </section>
 
             <flux:textarea wire:model="form.notes"
                            rows="auto"
-                           label="Notizen"
+                           label="{{ __('reports.account.notes') }}"
             />
 
-            <flux:button type="submit">Daten speichern</flux:button>
+            <flux:button type="submit">{{ __('reports.account.btn.store_data') }}</flux:button>
         </section>
 
 
