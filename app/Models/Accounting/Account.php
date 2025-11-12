@@ -79,8 +79,10 @@ final class Account extends Model
 
         $current = $this->starting_amount ?? 0;
 
-        foreach (Transaction::where('account_id', $this->id)->where('status','=',TransactionStatus::booked)->get() as $transaction) {
-            $current += $transaction->status === TransactionStatus::booked->value ? $transaction->amount_gross * TransactionType::calc($transaction->type) : 0;
+        $transactions = Transaction::query()->select('amount_gross', 'type')->where('account_id', $this->id)->where('status', '=', TransactionStatus::booked)->get();
+
+        foreach ($transactions as $transaction) {
+            $current += $transaction->amount_gross * TransactionType::calc($transaction->type);
         }
 
         return $current;
