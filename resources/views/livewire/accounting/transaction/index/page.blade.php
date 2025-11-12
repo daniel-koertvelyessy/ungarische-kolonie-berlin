@@ -12,7 +12,7 @@
          x-show="showFilter"
     >
         <livewire:accounting.fiscal-year-switcher.form/>
-        <flux:separator vertical/>
+
 
         <flux:input wire:model.live="search"
                     clearable
@@ -33,18 +33,15 @@
         </flux:select>
         <flux:separator vertical/>
 
-        <flux:checkbox.group wire:model.live="filter_type"
-                             class="flex space-x-4"
-        >
+        <flux:checkbox.group wire:model.live="filter_type" variant="pills">
             @foreach(App\Enums\TransactionType::cases() as $type)
-                <flux:checkbox value="{{ $type->value }}"
-                               label="{{ $type->value }}"
-                />
+                <flux:checkbox value="{{ $type->value }}" label="{{ $type->value }}" />
             @endforeach
         </flux:checkbox.group>
+
         <flux:separator vertical/>
         <flux:checkbox.group wire:model.live="filter_status"
-                             class="flex space-x-4"
+                             variant="pills"
         >
             @foreach(App\Enums\TransactionStatus::cases() as $status)
                 <flux:checkbox value="{{ $status->value }}"
@@ -191,9 +188,10 @@
                         </span>
                     </flux:table.cell>
 
-                    <flux:table.cell class="hidden md:table-cell">{{ $item->date->diffForHumans() }}</flux:table.cell>
-
-                    <flux:table.cell class="hidden md:table-cell">{{ $item->created_at->diffForHumans() }}</flux:table.cell>
+                    <flux:table.cell class="hidden md:table-cell">
+                        {{ $item->date->isoFormat('Do MMM YY') }}
+                    </flux:table.cell>
+                    <flux:table.cell class="hidden md:table-cell">{{ $item->created_at->isoFormat('Do MMM YY') }}</flux:table.cell>
 
                     <flux:table.cell class="hidden md:table-cell">
                         <flux:badge size="sm"

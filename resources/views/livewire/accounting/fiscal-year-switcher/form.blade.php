@@ -11,5 +11,8 @@
             </flux:menu.group>
         </flux:menu>
     </flux:dropdown>
+
+        <flux:separator vertical/>
+
     @endif
 </div>
