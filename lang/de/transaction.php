@@ -40,7 +40,9 @@ return [
     'index.menu-item.print_invoice' => 'Ausdrucken',
 
     'create' => [
-        'page.title' => 'Buchung erstelllen',
+        'page' => [
+            'title' => 'Erstellle Buchung',
+        ],
     ],
 
     'account-transfer-modal.btn.submit' => 'durchführen',

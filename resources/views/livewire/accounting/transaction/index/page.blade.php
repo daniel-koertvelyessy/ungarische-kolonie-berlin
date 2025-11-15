@@ -13,6 +13,7 @@
     >
         <livewire:accounting.fiscal-year-switcher.form/>
 
+        <flux:separator vertical/>
 
         <flux:input wire:model.live="search"
                     clearable
@@ -125,6 +126,7 @@
                                :sorted="$sortBy === 'amount'"
                                :direction="$sortDirection"
                                wire:click="sort('amount_gross')"
+                               class="hidden sm:table-cell"
             >Betrag [EUR]
             </flux:table.column>
             <flux:table.column sortable
@@ -202,6 +204,7 @@
                     <flux:table.cell class="hidden sm:table-cell">{{ $item->account->name . ' - ' . $item->account->number }}</flux:table.cell>
                     <flux:table.cell variant="strong"
                                      align="end"
+                                     class="hidden sm:table-cell"
                     ><span class="{{ $item->grossColor() }}">{{ $item->grossForHumans() }}</span></flux:table.cell>
                     <flux:table.cell class="hidden sm:table-cell">
                         <flux:badge size="sm"

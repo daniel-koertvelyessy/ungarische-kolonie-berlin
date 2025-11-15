@@ -7,8 +7,11 @@ namespace App\Livewire\Accounting\Account\Index;
 use App\Enums\AccountType;
 use App\Enums\TransactionStatus;
 use App\Livewire\Traits\HasPrivileges;
+use App\Livewire\Traits\PersistsTabs;
 use App\Livewire\Traits\Sortable;
 use App\Models\Accounting\Account;
+use App\Models\Accounting\AccountReport;
+use App\Models\Accounting\CashCount;
 use App\Models\Accounting\Transaction;
 use Flux\Flux;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -18,13 +21,20 @@ use Livewire\WithPagination;
 
 final class Page extends Component
 {
-    use HasPrivileges,Sortable, WithPagination;
+    use HasPrivileges;
+    use PersistsTabs;
+    use Sortable;
+    use WithPagination;
 
     public Account $account;
 
     public $selectedAccount;
 
     public bool $is_cash_account;
+
+    public $defaultTab = 'account-index-details';
+
+    public string $selectedTab;
 
     public bool $account_is_set = false;
 
@@ -47,6 +57,24 @@ final class Page extends Component
         return Transaction::query()
             ->where('account_id', $this->account->id)
             ->where('status', '=', TransactionStatus::booked->value)
+            ->tap(fn ($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
+            ->paginate(10);
+    }
+
+    #[Computed]
+    public function reports(): LengthAwarePaginator
+    {
+        return AccountReport::query()
+            ->where('account_id', $this->account->id)
+            ->tap(fn ($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
+            ->paginate(10);
+    }
+
+    #[Computed]
+    public function cascounts(): LengthAwarePaginator
+    {
+        return CashCount::query()
+            ->where('account_id', $this->account->id)
             ->tap(fn ($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
             ->paginate(10);
     }

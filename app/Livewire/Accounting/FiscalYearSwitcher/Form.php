@@ -13,7 +13,7 @@ final class Form extends Component
 {
     public array $fiscalYears = [];
 
-    public string $current_fiscal_year;
+    public string $currentFiscalYear;
 
     public function mount(): void
     {
@@ -21,7 +21,7 @@ final class Form extends Component
         //        $fy = (string) session('financialYear');
         //
         //        $this->current_fiscal_year = $fy ?? Carbon::now()->format('Y');
-        $this->current_fiscal_year = session('current_fiscal_year') ?? Carbon::now()->format('Y');
+        $this->currentFiscalYear = session('current_fiscal_year') ?? Carbon::now()->format('Y');
         $this->fiscalYears = DB::table('transactions')
             ->selectRaw('DISTINCT strftime("%Y", date) as year')
             ->orderBy('year', 'asc')
