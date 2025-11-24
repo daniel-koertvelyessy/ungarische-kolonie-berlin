@@ -234,11 +234,12 @@
 
         </div>
 
-        @if(app()->isProduction())
-            <x-turnstile/>
-        @endif
+
 
         @if($application)
+
+            <x-turnstile/>
+
             <flux:button type="submit"
                          variant="primary"
                          icon="printer"
@@ -250,12 +251,14 @@
                          icon="paper-airplane"
                          x-show="! $wire.nomail"
             >{{ __('members.apply.checkAndSubmit') }}</flux:button>
+
         @else
 
             <flux:button variant="primary"
                          type="submit"
             >Mitglied anlegen
             </flux:button>
+            
         @endif
 
         @if(! app()->isProduction())
