@@ -2,6 +2,7 @@
     @if(! app()->isProduction())
         <x-debug />
         @dump($application)
+        @dump($turnstile)
     @endif
     <form wire:submit="store">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
@@ -238,14 +239,13 @@
 
         @if($application)
 
-            @if(app()->isProduction())
+
                 @section('head')
                     <x-turnstile.scripts />
                 @endsection
 
-                <x-turnstile/>
-            @endif
-        
+                <x-turnstile wire:model="turnstile"/>
+
             <flux:button type="submit"
                          variant="primary"
                          icon="printer"

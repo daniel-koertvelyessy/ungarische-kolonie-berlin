@@ -27,7 +27,7 @@
     />
 
     <!-- Styles / Scripts -->
-     @turnstileScripts()
+{{--     @turnstileScripts()--}}
     @fluxAppearance
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 

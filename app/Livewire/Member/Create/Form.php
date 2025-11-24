@@ -15,8 +15,11 @@ use App\Notifications\NewMemberApplied;
 use Carbon\Carbon;
 use Faker\Provider\de_DE\Address;
 use Flux\Flux;
+
+use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Notification;
 use Livewire\Component;
+use RyanChandler\LaravelCloudflareTurnstile\Rules\Turnstile;
 
 final class Form extends Component
 {
@@ -25,6 +28,8 @@ final class Form extends Component
     public MemberForm $form;
 
     public $application;
+
+    public $turnstile;
 
     public $nomail;
 
@@ -75,6 +80,10 @@ final class Form extends Component
         $this->checkPrivilege(Member::class);
 
         $this->form->validate();
+        $this->validate([
+            'turnstile' => ['required', new Turnstile],
+        ]);
+
         if ($this->application) {
             $this->form->applied_at = Carbon::now('Europe/Berlin');
 
