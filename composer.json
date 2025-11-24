@@ -11,6 +11,7 @@
     "require": {
         "php": "^8.2",
         "ext-fileinfo": "*",
+        "ext-gd": "*",
         "ext-imagick": "*",
         "guzzlehttp/guzzle": "^7.9",
         "intervention/image": "^3.11",
@@ -22,11 +23,10 @@
         "livewire/flux-pro": "^2.1.2",
         "livewire/livewire": "^v3.6.2",
         "opcodesio/log-viewer": "^3.15",
-        "ryangjchandler/laravel-cloudflare-turnstile": "^v2.0.1",
+        "ryangjchandler/laravel-cloudflare-turnstile": "^3.0",
         "spatie/browsershot": "^5.0",
         "spatie/image": "^3.8",
-        "tecnickcom/tcpdf": "^6.9.1",
-        "ext-gd": "*"
+        "tecnickcom/tcpdf": "^6.9.1"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.5",

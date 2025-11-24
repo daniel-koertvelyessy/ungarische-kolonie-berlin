@@ -238,8 +238,14 @@
 
         @if($application)
 
-            <x-turnstile/>
+            @if(app()->isProduction())
+                @section('head')
+                    <x-turnstile.scripts />
+                @endsection
 
+                <x-turnstile/>
+            @endif
+        
             <flux:button type="submit"
                          variant="primary"
                          icon="printer"
@@ -258,7 +264,7 @@
                          type="submit"
             >Mitglied anlegen
             </flux:button>
-            
+
         @endif
 
         @if(! app()->isProduction())

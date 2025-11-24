@@ -49,6 +49,8 @@
           rel="stylesheet"
     />
 
+    @yield('head')
+
     @isset($head)
         {{ $head }}
     @endisset
