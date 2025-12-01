@@ -228,4 +228,7 @@ return [
     'index' => [
         'search-placeholder' => 'Keresés',
     ],
-];
+    'backend.create.heading'     => 'Új tag felvétele',
+    'backend.create.btn.submit'  => 'Tag rögzítése',
+
+    ];

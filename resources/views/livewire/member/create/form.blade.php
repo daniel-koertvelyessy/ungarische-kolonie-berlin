@@ -1,8 +1,8 @@
 <div>
     @if(! app()->isProduction())
         <x-debug/>
-        @dump($isExternalMemberApplication)
-        @dump($turnstile)
+{{--        @dump($isExternalMemberApplication)--}}
+{{--        @dump($turnstile)--}}
     @endif
     <form wire:submit="store">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
@@ -286,7 +286,7 @@
 
             <flux:button variant="primary"
                          type="submit"
-            >Mitglied anlegen
+            >{{ __('members.backend.create.btn.submit') }}
             </flux:button>
 
         @endif

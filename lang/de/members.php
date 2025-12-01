@@ -198,6 +198,7 @@ return [
         ],
     ],
 
-    '' => '',
+    'backend.create.heading' => 'Neues Mitglied anlegen',
+    'backend.create.btn.submit' => 'Mitglied erfassen',
 
 ];
