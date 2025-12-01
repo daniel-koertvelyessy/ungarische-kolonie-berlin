@@ -195,7 +195,7 @@ final class EventForm extends Form
 
             if (isset($this->description[$locale->value])) {
                 $this->excerpt[$locale->value] = Str::of($this->description[$locale->value])
-                    ->stripTags(['<p>', '<strong>', '<br>']);
+                    ->stripTags(['<p>', '<strong>', '<br>'])->toString();
                 $this->excerpt[$locale->value] = str_replace('.', '. ', $this->excerpt[$locale->value]);
                 $this->excerpt[$locale->value] = Str::of($this->excerpt[$locale->value])
                     ->limit(200, ' ..', true);

@@ -305,6 +305,6 @@ final class Page extends Component
 
     public function render(): \Illuminate\View\View
     {
-        return view('livewire.member.show.page');
+        return view('livewire.member.show.page')->title(__('members.show.heading'));
     }
 }

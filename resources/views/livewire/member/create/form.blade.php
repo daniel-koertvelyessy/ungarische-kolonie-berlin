@@ -1,7 +1,7 @@
 <div>
     @if(! app()->isProduction())
-        <x-debug />
-        @dump($application)
+        <x-debug/>
+        @dump($isExternalMemberApplication)
         @dump($turnstile)
     @endif
     <form wire:submit="store">
@@ -147,13 +147,40 @@
                             autocomplete="tel"
                 />
 
-                <flux:separator text="{{ __('members.section.fees') }}"/>
+                @if($isExternalMemberApplication)
+                    <flux:separator text="{{ __('members.section.fees') }}"/>
 
-                <flux:text>{{ __('members.apply.full_fee.label', ['sum' => \App\Enums\MembershipFee::FULL->value/100 ]) }}</flux:text>
+                    <flux:text>{{ __('members.apply.full_fee.label', ['sum' => \App\Enums\MembershipFee::FULL->value/100 ]) }}</flux:text>
+                    <flux:text>{{ __('members.apply.free_fee.label', ['sum' => \App\Enums\MembershipFee::FREE->value/100 , 'age' =>  App\Models\Membership\Member::$age_free]) }}</flux:text>
+                    <flux:separator text="{{ __('members.section.payments') }}"/>
 
-                <flux:text>{{ __('members.apply.discounted_fee.label', ['sum' => \App\Enums\MembershipFee::DISCOUNTED->value/100 , 'age' =>  App\Models\Membership\Member::$age_discounted]) }}</flux:text>
+                    @if($bankAccounts->count() >1)
+                        <flux:text>{{ __('members.apply.fee.payment.banktts') }} <br/>
+                            @foreach($bankAccounts as $account)
+                                {{ $account->iban }}
+                            @endforeach
+                        </flux:text>
+                    @elseif($bankAccounts->count() === 1)
+                        <flux:text>{{ __('members.apply.fee.payment.banktt') }}</flux:text>
+                        <flux:text>Konto: Magyar Kolónia Berlin (Ungarische Kolonie Berlin) e. V.<br>
+                            IBAN: {{ $bankAccounts->first()->iban }}<br>
+                            BIC/SWIF:T {{ $bankAccounts->first()->bic }}</flux:text>
+                    @endif
 
-                <flux:text>{{ __('members.apply.free_fee.label', ['sum' => \App\Enums\MembershipFee::FREE->value/100 , 'age' =>  App\Models\Membership\Member::$age_free]) }}</flux:text>
+                    @if($payPalAccounts->count() >1)
+                        <flux:text>{{ __('members.apply.fee.payment.paypals') }}</flux:text>
+                        <ul class="list-none">
+                            @foreach($payPalAccounts as $account)
+                                <li>{{ $account->iban }}</li>
+                            @endforeach
+                        </ul>
+                    @elseif($payPalAccounts->count() === 1)
+                        <flux:text>{{ __('members.apply.fee.payment.paypal', ['iban' => $payPalAccounts->first()->iban]) }}</flux:text>
+                    @endif
+                @endif
+
+                <flux:separator text="{{ __('members.section.deduction') }}"/>
+                <flux:text>{{ __('members.apply.discounted_fee.label', ['sum' => \App\Enums\MembershipFee::DISCOUNTED->value/100]) }}</flux:text>
 
                 <flux:checkbox wire:model="form.is_deducted"
                                label="{{ __('members.apply.discount.label') }}"
@@ -236,15 +263,12 @@
         </div>
 
 
+        @if($isExternalMemberApplication)
+            @section('head')
+                <x-turnstile.scripts/>
+            @endsection
 
-        @if($application)
-
-
-                @section('head')
-                    <x-turnstile.scripts />
-                @endsection
-
-                <x-turnstile wire:model="turnstile"/>
+            <x-turnstile wire:model="turnstile"/>
 
             <flux:button type="submit"
                          variant="primary"
@@ -268,7 +292,8 @@
         @endif
 
         @if(! app()->isProduction())
-            <flux:button variant="ghost" wire:click="addDummyData"
+            <flux:button variant="ghost"
+                         wire:click="addDummyData"
             >Dummy
             </flux:button>
         @endif

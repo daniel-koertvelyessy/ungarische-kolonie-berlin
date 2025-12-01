@@ -80,3 +80,10 @@ function assertTranslationsRendered($componentClass, $langFile, $prefix): void
         }
     }
 }*/
+
+use RyanChandler\LaravelCloudflareTurnstile\Facades\Turnstile;
+
+beforeEach(function () {
+    // This forces a success response for *all* validations in tests
+    Turnstile::fake();
+});

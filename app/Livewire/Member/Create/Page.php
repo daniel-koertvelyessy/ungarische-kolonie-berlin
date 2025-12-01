@@ -8,8 +8,10 @@ use Livewire\Component;
 
 final class Page extends Component
 {
+    public bool $isExternalMemberApplication = false;
+
     public function render(): \Illuminate\View\View
     {
-        return view('livewire.member.create.page');
+        return view('livewire.member.create.page', ['isExternalMemberApplication' => $this->isExternalMemberApplication])->title(__('members.create.title'));
     }
 }

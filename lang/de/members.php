@@ -25,9 +25,12 @@ return [
     'apply.fee.text' => 'Ich wurde über den monatlichen Mitgliedsbeitrag von :sum EUR informiert und verpflichte mich zur Zahlung.',
     'apply.discount.reason.label' => 'Grund für die Ermäßigung',
     'apply.full_fee.label' => 'Bezahlende Mitglieder müssen monatlich einen Betrag von :sum EUR zahlen.',
-    'apply.discounted_fee.label' => 'Für Mitglieder ab :age Jahren beträgt der monatliche Beitrag :sum EUR.',
-    'apply.free_fee.label' => 'Mitglieder über einem bestimmten Alter sind von der Beitragspflicht befreit.',
+    'apply.discounted_fee.label' => 'Mitglieder können einen reduzierten monatlichen Beitrag von :sum EUR beantragen.',
+    'apply.free_fee.label' => 'Mitglieder über :age Jahren sind von der Beitragspflicht befreit.',
     'apply.fee.label' => 'Bezahlende Mitglieder müssen monatlich einen Betrag von :sum EUR zahlen. Mitglieder über 75 Jahre sind von der Beitragspflicht befreit.',
+    'apply.fee.payment.banktt' => 'Der fällige Beitrag ist auf das angegebene Konto zu zahlen.',
+    'apply.fee.payment.paypals' => 'Der Beitrag kann auf ein der PayPal-Konten gesendet werden. Bitte als Methode "Freunde Geld senden" wählen, da sonst 1.8% als Gebühr seitens PayPal abgezogen werden.',
+    'apply.fee.payment.paypal' => 'Der Beitrag kann auf das PayPal-Konto :iban gesendet werden. Bitte als Methode "Freunde Geld senden" wählen, da sonst 1.8% als Gebühr seitens abgezogen werden.',
     'apply.email.none' => 'Ich habe keine E-Mail-Adresse!',
     'apply.email.without.text' => 'Wenn Sie keine E-Mail-Adresse haben, können Sie dieses Formular ausdrucken, unterschreiben und an die folgende Adresse per Post senden:',
     'apply.email.benefits' => 'Mitglieder mit einer E-Mail-Adresse erhalten automatisch Benachrichtigungen über Veranstaltungen und haben Zugang zum Schwarzen Brett.',
@@ -110,6 +113,8 @@ return [
     'section.address' => 'Anschrift',
     'section.phone' => 'Telefon',
     'section.fees' => 'Beitrag',
+    'section.payments' => 'Zahlungen',
+    'section.deduction' => 'Ermäßigung',
     'section.email' => 'E-Mail Adresse',
     'widgets.applicants.title' => 'Neue Mitgliedsanträge',
     'widgets.applicants.empty_search' => 'Kein passender Eintrag',
@@ -123,14 +128,20 @@ return [
     'widgets.applicants.tab.header.from' => 'Datum',
     'widgets.applicants.tab.header.name' => 'Name',
     // Vom ungarischen Array übersetzt und hinzugefügt
-    'show.heading' => '',
-    'show.attached.success.head' => 'Erfolg!',
-    'show.attached.success.msg' => 'Die Verknüpfung des Benutzers :name wurde erfolgreich durchgeführt.',
-    'show.detached.success.head' => 'Erfolg!',
-    'show.detached.success.msg' => 'Die Verknüpfung des Benutzers :name wurde erfolgreich entfernt.',
-    'show.attached.placeholder' => 'Benutzer auswählen',
-    'show.attached.failed.head' => 'Fehler!',
-    'show.attached.failed.msg' => 'Der Benutzer konnte nicht verknüpft werden.',
+    'show' => [
+        'heading' => 'Mitglied Daten zeigen',
+        'attached' => [
+            'success.head' => 'Erfolg!',
+            'success.msg' => 'Die Verknüpfung des Benutzers :name wurde erfolgreich durchgeführt.',
+            'placeholder' => 'Benutzer auswählen',
+            'failed.head' => 'Fehler!',
+            'failed.msg' => 'Der Benutzer konnte nicht verknüpft werden.',
+        ],
+        'detached' => [
+            'success.head' => 'Erfolg!',
+            'success.msg' => 'Die Verknüpfung des Benutzers :name wurde erfolgreich entfernt.',
+        ],
+    ],
     'apply.title' => 'Antrag auf Mitgliedschaft bei der Ungarischen Kolonie Berlin e. V.',
     'apply.text' => 'Wir freuen uns, dass Sie Mitglied der Ungarischen Kolonie Berlin e. V. werden möchten.',
     'apply.process' => 'Die Aufnahme erfolgt nach folgendem Verfahren:',
@@ -175,6 +186,14 @@ return [
             'name-reqipred' => 'Bitte den Nachnamen angeben',
         ],
     ],
+    'create' => [
+        'title' => 'Mitglied anlegen',
+        'message' => [
+            'success' => 'Mitglied erfolgreich angelegt',
+            'fail' => 'Mitglied konnte nicht angelegt werden. Admin nach Log Einträgen fragen!',
+        ],
+    ],
+
     '' => '',
 
 ];

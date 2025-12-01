@@ -15,8 +15,7 @@ use App\Notifications\NewMemberApplied;
 use Carbon\Carbon;
 use Faker\Provider\de_DE\Address;
 use Flux\Flux;
-
-use Illuminate\Http\Client\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Notification;
 use Livewire\Component;
 use RyanChandler\LaravelCloudflareTurnstile\Rules\Turnstile;
@@ -27,13 +26,17 @@ final class Form extends Component
 
     public MemberForm $form;
 
-    public $application;
+    public ?bool $isExternalMemberApplication = null;
 
     public $turnstile;
 
+    public Collection $bankAccounts;
+
+    public Collection $payPalAccounts;
+
     public $nomail;
 
-    public function mount(): void
+    public function mount(bool $isExternalMemberApplication = false): void
     {
         $this->form->locale = app()->getLocale();
         $this->form->gender = Gender::ma->value;
@@ -41,6 +44,12 @@ final class Form extends Component
         $this->form->family_status = MemberFamilyStatus::NN->value;
         $this->form->type = MemberType::AP->value;
         $this->form->country = 'Deutschland';
+
+        if (! $isExternalMemberApplication) {
+            $this->checkPrivilege(Member::class);
+        }
+        $this->bankAccounts = \App\Models\Accounting\Account::whereType(\App\Enums\AccountType::bank->value)->get();
+        $this->payPalAccounts = \App\Models\Accounting\Account::whereType(\App\Enums\AccountType::paypal->value)->get();
     }
 
     public function checkEmail(): void
@@ -66,7 +75,7 @@ final class Form extends Component
     protected function printApplication(Member $member): \Illuminate\Http\RedirectResponse
     {
 
-        return redirect(route('members.print_application', ['member' => $member]));
+        return redirect(route('members.print_isExternalMemberApplication', ['member' => $member]));
 
     }
 
@@ -77,14 +86,23 @@ final class Form extends Component
 
     public function store(): void
     {
-        $this->checkPrivilege(Member::class);
-
         $this->form->validate();
-        $this->validate([
-            'turnstile' => ['required', new Turnstile],
-        ]);
 
-        if ($this->application) {
+        /**
+         *  If the store method is called from the external member isExternalMemberApplication
+         *  page then $this->isExternalMemberApplication is set true
+         *
+         * TODO: fake Turstile pass test in testing enviornment
+         */
+        if ($this->isExternalMemberApplication && app()->environment() !== 'testing') {
+            $this->validate([
+                'turnstile' => ['required', new Turnstile],
+            ]);
+        } else {
+            $this->checkPrivilege(Member::class);
+        }
+
+        if ($this->isExternalMemberApplication) {
             $this->form->applied_at = Carbon::now('Europe/Berlin');
 
             $member = $this->form->create();
@@ -108,7 +126,7 @@ final class Form extends Component
             $member = $this->form->create();
 
             Flux::toast(
-                text: __('members.apply.submission.success.msg'),
+                text: __('members.create.message.success'),
                 heading: __('members.apply.submission.success.head'),
                 variant: 'success',
             );

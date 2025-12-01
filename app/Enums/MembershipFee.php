@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+use App\Models\Membership\Member;
+
 enum MembershipFee: int
 {
     /**
@@ -17,8 +19,12 @@ enum MembershipFee: int
     {
         return match (true) {
             $age >= 80 => self::FREE->value,
-            $age >= 65 => self::DISCOUNTED->value,
             default => self::FULL->value,
         };
+    }
+
+    public static function getFeeFromMember(Member $member): int
+    {
+        return ($member->is_deducted) ? self::DISCOUNTED->value : self::FULL->value;
     }
 }

@@ -9,9 +9,11 @@ use Livewire\Component;
 
 final class Page extends Component
 {
+    public bool $isExternalMemberApplication = true;
+
     #[Layout('layouts.guest')]
     public function render(): \Illuminate\View\View
     {
-        return view('livewire.member.apply.page')->title(__('welcome.members.apply.header'));
+        return view('livewire.member.apply.page', ['isExternalMemberApplication' => $this->isExternalMemberApplication])->title(__('welcome.members.apply.header'));
     }
 }

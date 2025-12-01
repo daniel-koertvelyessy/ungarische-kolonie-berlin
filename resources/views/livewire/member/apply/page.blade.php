@@ -44,5 +44,5 @@
     </flux:accordion>
 
 
-    <livewire:member.create.form application/>
+    <livewire:member.create.form :isExternalMemberApplication="(bool) $isExternalMemberApplication"/>
 </div>

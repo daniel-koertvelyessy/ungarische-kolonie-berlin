@@ -143,7 +143,18 @@
                 <form wire:submit="updateMemberData">
 
                     <flux:card class="space-y-6">
-
+                        @can('create',\App\Models\Membership\Member::class)
+                            <flux:date-picker wire:model="memberForm.applied_at" label="{{ __('members.date.applied_at') }}" with-today />
+                            <flux:button variant="primary"
+                                         type="submit"
+                            >{{ __('members.show.store') }}
+                            </flux:button>
+                        @else
+                            <flux:field>
+                                <flux:text>{{ __('members.date.applied_at') }} {{ $member->applied_at }}</flux:text>
+                                <flux:heading size="lg">{{ $member->applied_at->diffForHumans() }}</flux:heading>
+                            </flux:field>
+                        @endcan
                         @can('update', $member)
                             <flux:radio.group wire:model="memberForm.type"
                                               label="{{ __('members.type') }}"
@@ -225,10 +236,9 @@
                         @endif
                     </flux:field>
 
-                    <flux:field>
-                        <flux:text>{{ __('members.date.applied_at') }} {{ $member->applied_at }}</flux:text>
-                        <flux:heading size="lg">{{ $member->applied_at->diffForHumans() }}</flux:heading>
-                    </flux:field>
+
+
+
                     <flux:field>
                         @if($member->verified_at)
 

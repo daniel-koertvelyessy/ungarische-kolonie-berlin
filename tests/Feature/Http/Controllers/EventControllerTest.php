@@ -9,7 +9,7 @@ test('external event can generate ics', function (): void {
 
     $response = $this->get('/events/ics/'.$event->slug['de']);
     $response->assertStatus(200)
-        ->assertHeader('Content-Type', 'text/calendar; charset=UTF-8');
+        ->assertHeader('Content-Type', 'text/calendar; charset=utf-8');
 
 });
 
