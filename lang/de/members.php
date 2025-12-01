@@ -61,6 +61,7 @@ return [
     'date.entered_at' => 'Mitgliedschaft bestätigt am',
     'date.left_at' => 'Ausgetreten am',
     'btn.sendVerificationMail.label' => 'Verifizierungs-Erinnerung senden',
+    'btn.addMember' => 'neu anlegen',
 
     'btn.sendAcceptanceMail.label' => 'Antrag annehmen und E-Mail senden',
     'btn.sendAcceptance.label' => 'Antrag annehmen',
@@ -185,6 +186,9 @@ return [
         'errors' => [
             'name-reqipred' => 'Bitte den Nachnamen angeben',
         ],
+    ],
+    'index' => [
+        'search-placeholder' => 'Suche',
     ],
     'create' => [
         'title' => 'Mitglied anlegen',

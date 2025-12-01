@@ -3,41 +3,21 @@
     <flux:heading size="xl">{{ __('members.title') }}</flux:heading>
     <flux:text>{{ __('members.header') }}</flux:text>
 
-    <nav class="flex gap-2 items-center ">
+    <nav class="flex flex-col lg:flex-row gap-2 items-start lg:items-center ">
 
         <flux:input size="sm"
                     wire:model.live.debounce="search"
                     clearable
                     icon="magnifying-glass"
-                    placeholder="Suche ..."
+                    placeholder="{{ __('members.index.search-placeholder') }}"
         />
         <flux:separator vertical/>
 
-        <flux:checkbox.group wire:model.live="filteredBy"
-                             class="hidden lg:flex lg:flex-row space-x-2"
-        >
+        <flux:checkbox.group wire:model.live="filteredBy" size="sm" variant="pills">
             @foreach(\App\Enums\MemberType::cases() as $type)
-                <flux:checkbox label="{{ \App\Enums\MemberType::value($type->value) }}"
-                               value="{{ $type->value }}"
-                />
+                <flux:checkbox value="{{ $type->value }}" label="{{ \App\Enums\MemberType::value($type->value) }}" />
             @endforeach
         </flux:checkbox.group>
-
-
-        <flux:select wire:model.live="filteredBy"
-                     variant="listbox"
-                     size="sm"
-                     indicator="checkbox"
-                     selected-suffix="Filter"
-                     multiple
-                     placeholder="Filter ..."
-                     class=" lg:hidden"
-        >
-            @foreach(\App\Enums\MemberType::cases() as $type)
-                <flux:select.option value="{{ $type->value }}">{{ \App\Enums\MemberType::value($type->value) }}</flux:select.option>
-            @endforeach
-
-        </flux:select>
 
         @can('create',App\Models\Membership\Member::class)
             <flux:separator vertical/>
@@ -46,7 +26,7 @@
                          variant="primary"
             >
                 <flux:icon.user-plus class="size-4"/>
-                <span class="hidden lg:flex">Neu anlegen</span>
+                <span>{{ __('members.btn.addMember') }}</span>
             </flux:button>
 
         @endcan

@@ -47,6 +47,6 @@ final class Page extends Component
 
     public function render(): \Illuminate\View\View
     {
-        return view('livewire.member.index.page');
+        return view('livewire.member.index.page')->title(__('members.title'));
     }
 }

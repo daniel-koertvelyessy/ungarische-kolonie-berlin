@@ -4,20 +4,28 @@ declare(strict_types=1);
 
 return [
     'dashboard' => 'Irányítópult',
-    'tools' => 'Adatok',
+    'tools' => 'Eszközök',
+    'minutes' => 'Jegyzőkönyvek',
+    'mails' => 'Körlevelek',
+    'sharedImages' => 'Képek',
     'members' => 'Tagok',
+    'members.overview' => 'Áttekintés',
+    'members.roles' => 'Szerepek',
+
     'events' => 'Események',
+    'event.overview' => 'Áttekintés',
+    'event.timeline' => 'Idővonal',
+    'event.planing' => 'Tervezés',
     'blogs' => 'Blog',
-    'kasse' => 'Kasse',
-    'profile.api' => 'API kulcs',
-    'profile.show' => 'Fiókom',
-    'logout' => 'Kijelentkezés',
+    'kasse' => 'Pénztár',
     'account' => [
         'index' => 'Áttekintés',
-        'transactions' => 'Könyvelések',
-        'receipts' => 'Bizonylatok',
-        'reports' => 'Jelentések',
-        'details' => 'Számlák',
+        'transactions' => 'Könyvelés',
+        'receipts' => 'Bizonylat',
+        'reports' => 'Jelentés',
+        'details' => 'Számla',
     ],
-
+    'profile.api' => 'API-kulcs',
+    'profile.show' => 'Fiók',
+    'logout' => 'Kijelentkezés',
 ];
