@@ -187,6 +187,12 @@ return [
             'name-reqipred' => 'Bitte den Nachnamen angeben',
         ],
     ],
+    'status' => [
+        'label' => 'Status',
+        'active' => 'Aktiv',
+        'inactive' => 'Ausgetreten',
+        'showInactive' => 'mit ausgetreten',
+    ],
     'index' => [
         'search-placeholder' => 'Suche',
     ],
