@@ -170,9 +170,6 @@
 
         </flux:sidebar.group>
 
-
-
-
     </flux:sidebar.nav>
 
     <flux:sidebar.spacer/>
