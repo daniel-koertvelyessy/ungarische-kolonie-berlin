@@ -246,6 +246,6 @@ final class Page extends Component
 
     public function render(): \Illuminate\View\View
     {
-        return view('livewire.app.tool.index.page');
+        return view('livewire.app.tool.index.page')->title('Mailing List');
     }
 }

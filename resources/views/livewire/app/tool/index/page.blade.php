@@ -8,7 +8,7 @@
             <flux:text>{{ __('mails.members.content') }}</flux:text>
 
             @if($this->mailingList->count() >0)
-                <flux:separator text="{{ __('mails.member.separator.options') }}"
+                <flux:separator text="{{ __('mails.members.separator.options') }}"
                                 class="my-6"
                 />
                 <div class="grid gap-3 lg:grid-cols-2">
@@ -128,7 +128,7 @@
                     </flux:field>
                 </div>
 
-                <flux:separator text="{{ __('mails.member.separator.options') }}" class="my-6" />
+                <flux:separator text="Optionen" class="my-6" />
 
                 <flux:checkbox.group label="Optionen zum E-Mail Versand">
                     <flux:checkbox wire:model="setLink"

@@ -34,6 +34,7 @@ return [
     'members.content' => 'Die E-Mail wird in der Sprache erstellt, die der jeweilige Nutzer in seinem Profil angegeben hat.',
     'member.separator.text' => 'Texte',
     'member.separator.links' => 'Links',
+    'members.separator.options' => 'Optionen',
     'member.separator.attachments' => 'Anhänge (nur pdf|jpg|jpeg|png|tif)',
     'members.btn.preview' => 'Vorschau (Ohne Anhänge)',
     'members.btn.test_mail' => 'Testmail an mich (Ohne Anhänge)',

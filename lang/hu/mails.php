@@ -34,6 +34,7 @@ return [
     'member.separator.text' => 'Szövegek',
     'member.separator.links' => 'Linkek',
     'member.separator.attachments' => 'Mellékletek (csak pdf|jpg|jpeg|png|tif)',
+    'members.separator.options' => 'Optcsók',
     'members.btn.preview' => 'Előnézet (Mellékletek nélkül)',
     'members.btn.test_mail' => 'Teszt e-mail küldése magamnak (Mellékletek nélkül)',
     'members.btn.submit' => 'Küldés',
