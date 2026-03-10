@@ -26,6 +26,8 @@ final class Page extends Component
 
     public $totalSteps = 3;
 
+    protected $listeners = ['image-uploaded' => 'handleImageUploaded'];
+
     #[Computed]
     public function venues(): Collection
     {
@@ -110,5 +112,10 @@ final class Page extends Component
             $this->form->demoData();
 
         }
+    }
+
+    public function handleImageUploaded(string $file): void
+    {
+        $this->form->image = $file;
     }
 }

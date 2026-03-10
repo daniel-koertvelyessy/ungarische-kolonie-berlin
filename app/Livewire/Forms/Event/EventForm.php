@@ -87,7 +87,7 @@ final class EventForm extends Form
     public function create(): Event
     {
         $this->validate();
-        $this->setEventTimes();
+//        $this->setEventTimes();
 
         return CreateEvent::handle($this);
     }
@@ -135,7 +135,8 @@ final class EventForm extends Form
     public function update(): void
     {
         $this->validate();
-        $this->setEventTimes();
+        $this->event->start_time = $this->start_time;
+        $this->event->end_time = $this->end_time;
         $this->event->event_date = $this->event_date;
         $this->event->title = $this->title;
         $this->event->excerpt = $this->excerpt;
@@ -217,9 +218,10 @@ final class EventForm extends Form
     private function setEventTimes(): void
     {
         $date = $this->event_date;
-        $start = $this->start_time; // e.g. 14:00
-        $end = $this->end_time;     // e.g. 16:00
-        $this->event->start_time = Carbon::createFromTimeString("{$date} {$start}:00"); // => 2025-08-10 14:00:00
-        $this->event->end_time = Carbon::createFromTimeString("{$date} {$end}:00");
+        $start = $this->start_time;
+        $end = $this->end_time;
+
+        $this->start_time = Carbon::createFromTimeString("{$date} {$start}:00");
+        $this->end_time = Carbon::createFromTimeString("{$date} {$end}:00");
     }
 }

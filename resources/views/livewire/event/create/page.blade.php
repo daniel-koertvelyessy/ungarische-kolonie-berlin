@@ -53,6 +53,7 @@
                                               with-today
                                               selectable-header
                                               fixed-weeks
+                                              start-day="1"
                                               label="{{__('event.form.event_date')}}"
                             />
 
